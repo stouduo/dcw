@@ -1,11 +1,11 @@
 create database dcw;
 
-use datebase dcw;
+use dcw;
 
 create table form(
 id varchar(36) not null primary key ,
 creattime datetime not null,
-lastmodifytime datatime ,
+lastmodifytime datetime ,
 browser varchar(50) ,
 author varchar(36) not null,
 submitprivilege int default 0,
