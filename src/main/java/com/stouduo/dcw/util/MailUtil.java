@@ -22,7 +22,7 @@ public class MailUtil {
     private static String Sender; //读取配置文件中的参数
 
     @Autowired
-    private FreeMarkerConfigurer freeMarkerConfigurer;  //自动注入
+    private static FreeMarkerConfigurer freeMarkerConfigurer;  //自动注入
 
     public static void sendSimpleMail(String from, String to, String subject, String content) throws Exception {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -37,7 +37,7 @@ public class MailUtil {
         sendSimpleMail(Sender, to, subject, content);
     }
 
-    public void sendHtmlMail(String from, String to, String subject, String html) {
+    public static void sendHtmlMail(String from, String to, String subject, String html) {
         MimeMessage message = null;
         try {
             message = mailSender.createMimeMessage();
@@ -52,20 +52,20 @@ public class MailUtil {
         mailSender.send(message);
     }
 
-    public void sendHtmlMail(String to, String subject, String html) {
+    public static void sendHtmlMail(String to, String subject, String html) {
         sendHtmlMail(Sender, to, subject, html);
     }
 
-    public void sendTemplateMail(String from, String to, String tplPath, Map<String, Object> model) throws Exception {
+    public static void sendTemplateMail(String from, String to, String tplPath, Map<String, Object> model) throws Exception {
         Template template = freeMarkerConfigurer.getConfiguration().getTemplate(tplPath);
         sendHtmlMail(from, to, (String) model.get("subject"), FreeMarkerTemplateUtils.processTemplateIntoString(template, model));
     }
 
-    public void sendTemplateMail(String to, String tplPath, Map<String, Object> model) throws Exception {
+    public static void sendTemplateMail(String to, String tplPath, Map<String, Object> model) throws Exception {
         sendTemplateMail(Sender, to, tplPath, model);
     }
 
-    public void sendAttachmentsMail(String from, String to, String subject, String content, String filePath, String fileName) {
+    public static void sendAttachmentsMail(String from, String to, String subject, String content, String filePath, String fileName) {
         MimeMessage message = null;
         try {
             message = mailSender.createMimeMessage();
@@ -84,7 +84,7 @@ public class MailUtil {
         mailSender.send(message);
     }
 
-    public void sendAttachmentsMail(String to, String subject, String content, String filePath, String fileName) {
+    public static void sendAttachmentsMail(String to, String subject, String content, String filePath, String fileName) {
         sendAttachmentsMail(Sender, subject, content, filePath, fileName);
     }
 }

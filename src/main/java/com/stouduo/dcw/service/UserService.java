@@ -4,4 +4,6 @@ import com.stouduo.dcw.domain.User;
 
 public interface UserService {
     User register(User user);
+
+    User save(User user);
 }

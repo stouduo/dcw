@@ -1,13 +1,22 @@
 package com.stouduo.dcw.util;
 
 import java.security.MessageDigest;
+import java.util.Date;
 
 public class MD5Util {
 
-    private static final String SALT = "stuoduo_dcw";
-
+    private static final String SALT = "STOUDUO_DCW";
+    private static final String TOKEN_SALT = "STOUDUO_DCW_EMAIL_TOKEN";
     public static String encode(String password) {
-        password = password + SALT;
+        return encode(password,SALT);
+    }
+
+    public static String getToken(String email){
+       return  encode(email+new Date().toString(),TOKEN_SALT);
+    }
+
+    public static String encode(String password,String salt) {
+        password = password + salt;
         MessageDigest md5 = null;
         try {
             md5 = MessageDigest.getInstance("MD5");

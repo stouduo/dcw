@@ -18,7 +18,7 @@ public class User implements UserDetails {
     private String password;
     private String tel;
     private String email;
-
+    @ManyToMany(cascade={CascadeType.PERSIST})
     private List<Role> roles;
 
     @Id
