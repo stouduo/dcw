@@ -1,5 +1,6 @@
 package com.stouduo.dcw.domain;
 
+import org.hibernate.annotations.Columns;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -16,6 +17,46 @@ public class Form implements Serializable {
     private int submitPrivilege;
     private int submitCountLimited;
     private boolean collectFlag;
+    private int viewCount;
+    private int resultViewCount;
+    private String resultShow;
+    private String labels;
+
+    @Column(name = "labels")
+    public String getLabels() {
+        return labels;
+    }
+
+    public void setLabels(String labels) {
+        this.labels = labels;
+    }
+
+    @Column(name = "resultshow")
+    public String getResultShow() {
+        return resultShow;
+    }
+
+    public void setResultShow(String resultShow) {
+        this.resultShow = resultShow;
+    }
+
+    @Column(name = "viewcount")
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
+    }
+
+    @Column(name = "resultviewcount")
+    public int getResultViewCount() {
+        return resultViewCount;
+    }
+
+    public void setResultViewCount(int resultViewCount) {
+        this.resultViewCount = resultViewCount;
+    }
 
     @Column(name = "iscollect", nullable = false)
     public boolean getCollectFlag() {

@@ -12,7 +12,16 @@ public class FormProperty implements Serializable {
     private String type;
     private String value;
     private String form;
+    private boolean reultShow;
 
+    @Column(name = "resultshow")
+    public boolean getReultShow() {
+        return reultShow;
+    }
+
+    public void setReultShow(boolean reultShow) {
+        this.reultShow = reultShow;
+    }
 
     @Id
     @Column(name = "id", unique = true, nullable = false, length = 36)

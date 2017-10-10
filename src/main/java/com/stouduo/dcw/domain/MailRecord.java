@@ -13,7 +13,7 @@ public class MailRecord implements Serializable {
     private Date createTime;
     private String email;
     private String token;
-    private boolean invalida;
+    private boolean invalid;
 
     @Id
     @Column(name = "id", unique = true, nullable = false, length = 36)
@@ -54,11 +54,11 @@ public class MailRecord implements Serializable {
         this.token = token;
     }
 
-    public boolean isInvalida() {
-        return invalida;
+    public boolean getInvalid() {
+        return invalid;
     }
 
-    public void setInvalida(boolean invalida) {
-        this.invalida = invalida;
+    public void setInvalid(boolean invalid) {
+        this.invalid = invalid;
     }
 }

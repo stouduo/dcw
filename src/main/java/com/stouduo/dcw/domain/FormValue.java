@@ -18,7 +18,16 @@ public class FormValue implements Serializable {
     private String browser;
     private String os;
     private String lastModifyPerson;
+    private String form;
 
+    @Column(name = "form")
+    public String getForm() {
+        return form;
+    }
+
+    public void setForm(String form) {
+        this.form = form;
+    }
 
     @Id
     @Column(name = "id", unique = true, nullable = false, length = 36)

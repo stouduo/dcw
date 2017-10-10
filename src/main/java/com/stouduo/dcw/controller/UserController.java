@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-@Controller
+@Controller("/user")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -59,7 +59,10 @@ public class UserController {
         user.setEmail(email);
         user.setPassword(MD5Util.encode(password));
         user.setUsername(username);
-        userService.save(user);
+        if (!userService.save(user)) {
+            new ModelAndView().addObject("usernameError", "用户已存在");
+            return "/signup";
+        }
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
         token.setDetails(new WebAuthenticationDetails(request));
         Authentication authenticatedUser = authenticationManager.authenticate(token);

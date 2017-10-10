@@ -24,7 +24,7 @@ public class MailRecordServiceImpl implements MailRecordService {
         mailRecord.setCreateTime(new Date());
         mailRecord.setEmail(email);
         mailRecord.setToken(MD5Util.getToken(email));
-        mailRecord.setInvalida(false);
+        mailRecord.setInvalid(false);
         Map<String, Object> model = new HashMap<>();
         model.put("email", "email");
         model.put("token", mailRecord.getToken());
@@ -33,10 +33,14 @@ public class MailRecordServiceImpl implements MailRecordService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean verify(String token) {
         MailRecord record = mailRecordRepository.findByToken(token);
+        boolean invalid = record.getInvalid();
         GregorianCalendar gc = new GregorianCalendar();
         gc.add(5, -1);
-        return record != null && gc.before(record.getCreateTime());
+        record.setInvalid(true);
+        mailRecordRepository.save(record);
+        return record != null && !invalid && gc.before(record.getCreateTime());
     }
 }

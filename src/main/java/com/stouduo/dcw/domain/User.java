@@ -18,8 +18,7 @@ public class User implements UserDetails {
     private String password;
     private String tel;
     private String email;
-    @ManyToMany(cascade={CascadeType.PERSIST})
-    private List<Role> roles;
+    private String role;
 
     @Id
     @Column(name = "id", unique = true, nullable = false, length = 36)
@@ -65,9 +64,7 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> auths = new ArrayList<>();
-        for (Role role : this.roles) {
-            auths.add(new SimpleGrantedAuthority(role.getName()));
-        }
+        auths.add(new SimpleGrantedAuthority(role));
         return auths;
     }
 
@@ -98,11 +95,11 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public String getRoles() {
+        return role;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setRoles(String role) {
+        this.role = role;
     }
 }

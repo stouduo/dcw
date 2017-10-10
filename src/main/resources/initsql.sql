@@ -1,65 +1,64 @@
-create database dcw;
+CREATE DATABASE dcw;
 
-use dcw;
+USE dcw;
 
-create table form(
-id varchar(36) not null primary key ,
-creattime datetime not null,
-lastmodifytime datetime ,
-browser varchar(50) ,
-author varchar(36) not null,
-submitprivilege int default 0,
-submitcountlimited int default 5,
-iscollect bit(1) default 0
+CREATE TABLE form (
+  id                 VARCHAR(36) NOT NULL PRIMARY KEY,
+  creattime          DATETIME    NOT NULL,
+  lastmodifytime     DATETIME,
+  browser            VARCHAR(50),
+  author             VARCHAR(36) NOT NULL,
+  submitprivilege    INT         DEFAULT 0,
+  submitcountlimited INT         DEFAULT 5,
+  iscollect          BIT(1)      DEFAULT 0,
+  viewcount          INT         DEFAULT 0,
+  resultviewcount    INT         DEFAULT 0,
+  resultshow         VARCHAR(20) DEFAULT 'SHOW_ALL',
+  labels             VARCHAR(64)
 );
 
-create table formproperty(
-id varchar(36) not null primary key,
-type varchar(30) not null,
-value varchar(256),
-form varchar(36)
-
+CREATE TABLE formproperty (
+  id         VARCHAR(36) NOT NULL PRIMARY KEY,
+  type       VARCHAR(30) NOT NULL,
+  value      VARCHAR(256),
+  form       VARCHAR(36),
+  resultshow BIT(1) DEFAULT 1
 );
 
 
-create table formvalue(
-	id varchar(36) not null primary key,
-	value varchar(65535),
-	author varchar(36) not null,
-	creattime datetime not null,
-	lastmodifytime datetime,
-	submitip varchar(64) ,
-	browser varchar(36),
-	os varchar(36),
-	lastmodifyperson varchar(36)
-
-);
-
-create table user(
-	id varchar(36) not null primary key,
-	username varchar(36) not null,
-	password varchar(36) not null,
-	tel varchar(11),
-	email varchar(64)
+CREATE TABLE formvalue (
+  id               VARCHAR(36) NOT NULL PRIMARY KEY,
+  value            VARCHAR(65535),
+  author           VARCHAR(36) NOT NULL,
+  creattime        DATETIME    NOT NULL,
+  lastmodifytime   DATETIME,
+  submitip         VARCHAR(64),
+  browser          VARCHAR(36),
+  os               VARCHAR(36),
+  lastmodifyperson VARCHAR(36),
+  form             VARCHAR(36) NOT NULL
 
 );
 
-create table role(
-	id varchar(36) not null primary key,
-	name varchar(36) not null,
-	des varchar(64)
+CREATE TABLE user (
+  id       VARCHAR(36) NOT NULL PRIMARY KEY,
+  username VARCHAR(36) NOT NULL,
+  password VARCHAR(36) NOT NULL,
+  tel      VARCHAR(11),
+  email    VARCHAR(64),
+  role     VARCHAR(36) NOT NULL DEFAULT 'ROLE_USER'
 );
 
-create table user_role(
-	rid varchar(36) not null,
-	uid varchar(36) not null,
-	primary key(rid,uid)
+CREATE TABLE user_role (
+  rid VARCHAR(36) NOT NULL,
+  uid VARCHAR(36) NOT NULL,
+  PRIMARY KEY (rid, uid)
 );
 
-create table mailrecord(
-	id varchar(36) not null primary key,
-	createtime datetime not null,
-	email varchar(64) not null,
-	token varchar(64) not null,
-	invalida bit(1) default 0
+CREATE TABLE mailrecord (
+  id         VARCHAR(36) NOT NULL PRIMARY KEY,
+  createtime DATETIME    NOT NULL,
+  email      VARCHAR(64) NOT NULL,
+  token      VARCHAR(64) NOT NULL,
+  invalid   BIT(1) DEFAULT 0
 );
