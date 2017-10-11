@@ -2,6 +2,7 @@ package com.stouduo.dcw.controller;
 
 import com.stouduo.dcw.domain.Form;
 import com.stouduo.dcw.service.FormService;
+import com.stouduo.dcw.util.Log;
 import com.stouduo.dcw.util.RestResult;
 import com.stouduo.dcw.util.SecurityUtil;
 import com.stouduo.dcw.vo.FormDetailVO;
@@ -47,7 +48,7 @@ public class FormController {
         }
         return "GetForm";
     }
-
+    @Log("修改表单")
     @PostMapping("/edit")
     public String edit(FormDetailVO formDetailVO) {
         formService.edit(formDetailVO);

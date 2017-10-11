@@ -26,4 +26,7 @@ public interface FormValueRepository extends PagingAndSortingRepository<FormValu
 
     @Query("select fv from FormValue fv where form=:form and fv.value like %?2%")
     List<FormValue> findByContent(@Param("form") String formId, @Param("value") String content, Sort sort);
+
+    @Query("select count(fv.id) from FormValue fv where form=:form")
+    long findCountByForm(@Param("form") String formId);
 }
