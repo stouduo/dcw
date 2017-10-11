@@ -5,6 +5,7 @@ import com.stouduo.dcw.service.FormService;
 import com.stouduo.dcw.util.RestResult;
 import com.stouduo.dcw.util.SecurityUtil;
 import com.stouduo.dcw.vo.FormDetailVO;
+import com.stouduo.dcw.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,9 +56,17 @@ public class FormController {
 
     @GetMapping("/view/{id}")
     public String view(@PathVariable("id") String formId) {
-        new ModelAndView().addObject("form", formService.getForm(formId));
+        FormDetailVO formDetailVO = formService.getForm(formId);
+        if (formDetailVO == null) return "404";
+        new ModelAndView().addObject("form", formDetailVO);
         return "view";
     }
 
-
+    @GetMapping("/result/{id}")
+    public String result(@PathVariable("id") String formId, int curPage, int pageSize) {
+        ResultVO resultVO = formService.getResult(formId, curPage, pageSize);
+        if (resultVO == null) return "404";
+        new ModelAndView().addObject("form", resultVO);
+        return "result";
+    }
 }

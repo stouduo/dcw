@@ -1,21 +1,28 @@
 package com.stouduo.dcw.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.stouduo.dcw.domain.Const;
 import com.stouduo.dcw.domain.Form;
 import com.stouduo.dcw.domain.FormProperty;
+import com.stouduo.dcw.domain.FormValue;
 import com.stouduo.dcw.repository.FormPropertyRepository;
 import com.stouduo.dcw.repository.FormRepository;
 import com.stouduo.dcw.repository.FormValueRepository;
 import com.stouduo.dcw.service.FormService;
 import com.stouduo.dcw.util.SecurityUtil;
 import com.stouduo.dcw.vo.FormDetailVO;
+import com.stouduo.dcw.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.Date;
-import java.util.List;
+import java.io.File;
+import java.util.*;
 
 @Service
 @Transactional
@@ -65,6 +72,7 @@ public class FormServiceImpl implements FormService {
         FormDetailVO formDetailVO = new FormDetailVO();
         formDetailVO.setForm(form);
         formDetailVO.setFormProperties(formPropertyRepository.findAllByForm(formId));
+        formRepository.updateViewCount(formId);
         return formDetailVO;
     }
 
@@ -92,6 +100,40 @@ public class FormServiceImpl implements FormService {
             formRepository.save(form);
         }
         formPropertyRepository.save(formProperties);
+    }
+
+    @Override
+    public ResultVO getResult(String formId, int curPage, int pageSize) {
+        Form form = formRepository.findOne(formId);
+        if (form == null) return null;
+        ResultVO resultVO = new ResultVO();
+        List<FormProperty> formProperties = formPropertyRepository.findAllByForm(formId);
+        String showProperties = "";
+        for (FormProperty formproperty : formProperties) {
+            if (formproperty.getReultShow()) showProperties += formproperty.getName() + ",";
+        }
+        Page<FormValue> page = formValueRepository.findByContent(formId, "", new Sort(Sort.Direction.DESC, "creattime"), new PageRequest(curPage, pageSize));
+        List<FormValue> formValues = page.getContent();
+        Map<String, String> value;
+        if (!StringUtils.isEmpty(showProperties)) {
+            showProperties = showProperties.substring(0, showProperties.length() - 1);
+            for (FormValue formValue : formValues) {
+                value = (Map<String, String>) JSON.parse(formValue.getValue());
+                Iterator<Map.Entry<String, String>> iterator = value.entrySet().iterator();
+                while (iterator.hasNext()) {
+                    Map.Entry<String, String> entry = iterator.next();
+                    if (showProperties.contains(entry.getKey())) {
+                        iterator.remove();
+                    }
+                }
+                formValue.setValue(JSON.toJSONString(value));
+            }
+            page = new PageImpl<FormValue>(formValues, new PageRequest(curPage, pageSize), page.getTotalElements());
+        }
+        formRepository.updateResultViewCount(formId);
+        resultVO.setForm(form);
+        resultVO.setFormValues(page);
+        return resultVO;
     }
 
 }

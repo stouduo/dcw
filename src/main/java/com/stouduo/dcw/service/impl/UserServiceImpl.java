@@ -1,29 +1,30 @@
 package com.stouduo.dcw.service.impl;
 
 import com.stouduo.dcw.domain.User;
+import com.stouduo.dcw.repository.MailRecordRepository;
 import com.stouduo.dcw.repository.UserRepository;
+import com.stouduo.dcw.service.MailRecordService;
 import com.stouduo.dcw.service.UserService;
+import com.stouduo.dcw.util.MD5Util;
+import com.stouduo.dcw.util.MailUtil;
+import com.stouduo.dcw.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    MailRecordService mailRecordService;
 
-    @Override
-    public User register(User user) {
-        user = userRepository.findByUsername(user.getUsername());
-        if (StringUtils.isEmpty(user.getId())) {
-            user = userRepository.save(user);
-        }
-        return user;
-    }
 
     @Override
     @Transactional
@@ -34,5 +35,34 @@ public class UserServiceImpl implements UserService {
         roles.add("ROLE_USER");
         userRepository.save(user);
         return true;
+    }
+
+    @Override
+    public User userInfo() {
+        return userRepository.findByUsername(SecurityUtil.getUsername());
+    }
+
+    @Override
+    public void bindInfo(User user) throws Exception {
+        Map<String, Object> model = new HashMap<>();
+        model.put("username", SecurityUtil.getUsername());
+        model.put("token", MD5Util.getToken(user.getEmail()));
+        if (!StringUtils.isEmpty(user.getEmail())) {
+            mailRecordService.sendEmail(user.getEmail(), model, "/templates/email/activeEmail");
+        }
+    }
+
+    @Override
+    public void editUser(User user, String oldPwd, String confirmPwd) {
+        User temp = userRepository.findByUsername(SecurityUtil.getUsername());
+        if (!StringUtils.isEmpty(temp.getUsername())) {
+            temp.setUsername(user.getUsername());
+        }
+        if (!StringUtils.isEmpty(oldPwd)) {
+            if (temp.getPassword().equals(MD5Util.encode(oldPwd)) && user.getPassword().equals(confirmPwd)) {
+                temp.setPassword(MD5Util.encode(temp.getPassword()));
+            }
+        }
+        userRepository.save(temp);
     }
 }

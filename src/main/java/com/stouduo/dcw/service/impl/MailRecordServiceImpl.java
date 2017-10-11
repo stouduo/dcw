@@ -20,15 +20,21 @@ public class MailRecordServiceImpl implements MailRecordService {
     @Override
     @Transactional
     public MailRecord sendEmail(String email) throws Exception {
+        Map<String, Object> model = new HashMap<>();
+        model.put("email", email);
+        model.put("token", MD5Util.getToken(email));
+        return sendEmail(email, model, "/templates/email/signup.tpl");
+    }
+
+    @Override
+    @Transactional
+    public MailRecord sendEmail(String email, Map<String, Object> model, String tplPath) throws Exception {
         MailRecord mailRecord = new MailRecord();
         mailRecord.setCreateTime(new Date());
         mailRecord.setEmail(email);
-        mailRecord.setToken(MD5Util.getToken(email));
+        mailRecord.setToken(model.get("token").toString());
         mailRecord.setInvalid(false);
-        Map<String, Object> model = new HashMap<>();
-        model.put("email", "email");
-        model.put("token", mailRecord.getToken());
-        MailUtil.sendTemplateMail(email, "/resource/templates/fmtpls/signup.tpl", model);
+        MailUtil.sendTemplateMail(email, tplPath, model);
         return mailRecordRepository.save(mailRecord);
     }
 

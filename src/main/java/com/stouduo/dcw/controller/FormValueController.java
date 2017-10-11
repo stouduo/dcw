@@ -2,20 +2,18 @@ package com.stouduo.dcw.controller;
 
 import com.stouduo.dcw.domain.FormValue;
 import com.stouduo.dcw.service.FormValueService;
-import com.stouduo.dcw.util.ControllerUtil;
+import com.stouduo.dcw.util.ExcelException;
 import com.stouduo.dcw.util.RestResult;
-import com.stouduo.dcw.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.util.ResourceUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import java.text.SimpleDateFormat;
 
 @Controller("/formValue")
 public class FormValueController {
@@ -38,18 +36,39 @@ public class FormValueController {
 
     @PostMapping("/submit")
     public String submit(FormValue formValue, HttpServletRequest request) {
-        String[] clientMsg = ControllerUtil.getUserAgent(request);
-        formValue.setBrowser(clientMsg[0]);
-        formValue.setOs(clientMsg[1]);
-        formValue.setSubmitIP(ControllerUtil.getIpAddress(request));
+
         formValueService.save(formValue);
         return "submitMsg";
     }
 
     @GetMapping("/formDatas")
+    @ResponseBody
     public RestResult<Page<FormValue>> formDatas(String content, String formId, int asc, int pageSize, int curPage) {
         return new RestResult<>().setData(formValueService.formDatas(formId, content, asc, new PageRequest(curPage, pageSize)));
     }
 
+    @GetMapping("/outport")
+    @ResponseBody
+    public RestResult<Page<FormValue>> outport(String content, String formId, int asc, int pageSize, int curPage) {
+        try {
+            formValueService.outport(formId, content, asc, pageSize, curPage);
+            return new RestResult<>().setCode(1).setMsg("导出成功");
+        } catch (ExcelException e) {
+            return new RestResult<>().setCode(0).setMsg(e.getMessage());
+        }
+    }
+
+    @PostMapping("/import")
+    @ResponseBody
+    public RestResult<Page<FormValue>> importExcel(@RequestParam("excel") MultipartFile file, String formId) {
+        try {
+            String filePath = "/tempFiles/" + new SimpleDateFormat("yyMMddHHmmss") + "_" + file.getOriginalFilename();
+            file.transferTo(ResourceUtils.getFile("classpath:" + filePath));
+            formValueService.importExcel(filePath, formId);
+        } catch (Exception e) {
+            return new RestResult<>().setCode(0).setMsg(e.getMessage());
+        }
+        return new RestResult<>().setCode(1).setMsg("导入成功");
+    }
 
 }

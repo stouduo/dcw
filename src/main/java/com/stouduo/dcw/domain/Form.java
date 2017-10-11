@@ -21,6 +21,26 @@ public class Form implements Serializable {
     private int resultViewCount;
     private String resultShow;
     private String labels;
+    private String title;
+    private String des;
+
+    @Column(name = "des")
+    public String getDes() {
+        return des;
+    }
+
+    public void setDes(String des) {
+        this.des = des;
+    }
+
+    @Column(name = "title")
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     @Column(name = "labels")
     public String getLabels() {

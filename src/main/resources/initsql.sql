@@ -3,18 +3,20 @@ CREATE DATABASE dcw;
 USE dcw;
 
 CREATE TABLE form (
-  id                 VARCHAR(36) NOT NULL PRIMARY KEY,
-  creattime          DATETIME    NOT NULL,
+  id                 VARCHAR(36)  NOT NULL PRIMARY KEY,
+  creattime          DATETIME     NOT NULL,
   lastmodifytime     DATETIME,
   browser            VARCHAR(50),
-  author             VARCHAR(36) NOT NULL,
+  author             VARCHAR(36)  NOT NULL,
   submitprivilege    INT         DEFAULT 0,
   submitcountlimited INT         DEFAULT 5,
   iscollect          BIT(1)      DEFAULT 0,
   viewcount          INT         DEFAULT 0,
   resultviewcount    INT         DEFAULT 0,
   resultshow         VARCHAR(20) DEFAULT 'SHOW_ALL',
-  labels             VARCHAR(64)
+  labels             VARCHAR(64),
+  title              VARCHAR(256) NOT NULL,
+  des                VARCHAR(256) NOT NULL
 );
 
 CREATE TABLE formproperty (
@@ -22,7 +24,9 @@ CREATE TABLE formproperty (
   type       VARCHAR(30) NOT NULL,
   value      VARCHAR(256),
   form       VARCHAR(36),
-  resultshow BIT(1) DEFAULT 1
+  resultshow BIT(1) DEFAULT 1,
+  name       VARCHAR(64) NOT NULL,
+  des        VARCHAR(256)
 );
 
 
@@ -60,5 +64,5 @@ CREATE TABLE mailrecord (
   createtime DATETIME    NOT NULL,
   email      VARCHAR(64) NOT NULL,
   token      VARCHAR(64) NOT NULL,
-  invalid   BIT(1) DEFAULT 0
+  invalid    BIT(1) DEFAULT 0
 );

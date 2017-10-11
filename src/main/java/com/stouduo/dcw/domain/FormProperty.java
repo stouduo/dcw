@@ -12,7 +12,27 @@ public class FormProperty implements Serializable {
     private String type;
     private String value;
     private String form;
+    private String name;
+    private String des;
     private boolean reultShow;
+
+    @Column(name = "name")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Column(name = "des")
+    public String getDes() {
+        return des;
+    }
+
+    public void setDes(String des) {
+        this.des = des;
+    }
 
     @Column(name = "resultshow")
     public boolean getReultShow() {

@@ -5,6 +5,7 @@ import com.stouduo.dcw.service.MailRecordService;
 import com.stouduo.dcw.service.UserService;
 import com.stouduo.dcw.util.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,7 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -70,4 +73,45 @@ public class UserController {
         request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
         return "/index";
     }
+
+    @GetMapping("/userInfo")
+    public String userInfo() {
+        new ModelAndView().addObject("user", userService.userInfo());
+        return "/userInfo";
+    }
+
+    @PostMapping("/bindInfo")
+    public String bindInfo(User user, HttpSession session) {
+        try {
+            if (StringUtils.isEmpty(user.getEmail())) {
+                session.setAttribute("email", user.getEmail());
+            }
+            userService.bindInfo(user);
+        } catch (Exception e) {
+            return "error";
+        }
+        return "/userInfo";
+    }
+
+    @GetMapping("/active")
+    public String active(String token, HttpSession session) {
+        if (mailRecordService.verify(token)) {
+            new ModelAndView().addObject("error", "激活失败");
+            return "/verifyError";
+        } else {
+            User user = userService.userInfo();
+            user.setEmail((String) session.getAttribute("email"));
+            session.removeAttribute("email");
+            userService.save(user);
+            return "/userInfo";
+        }
+    }
+
+    @PostMapping("/editUser")
+    public String editUser(User user, String oldPwd, String confirmPwd) {
+        userService.editUser(user, oldPwd, confirmPwd);
+        return "/userInfo";
+    }
+
+
 }
