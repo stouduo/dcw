@@ -58,7 +58,8 @@ public class MailUtil {
 
     public static void sendTemplateMail(String from, String to, String tplPath, Map<String, Object> model) throws Exception {
         Template template = freeMarkerConfigurer.getConfiguration().getTemplate(tplPath);
-        sendHtmlMail(from, to, (String) model.get("subject"), FreeMarkerTemplateUtils.processTemplateIntoString(template, model));
+        sendHtmlMail(from, to, (String) model.get("subj" +
+                "ect"), FreeMarkerTemplateUtils.processTemplateIntoString(template, model));
     }
 
     public static void sendTemplateMail(String to, String tplPath, Map<String, Object> model) throws Exception {
