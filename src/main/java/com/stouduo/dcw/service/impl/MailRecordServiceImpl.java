@@ -23,7 +23,8 @@ public class MailRecordServiceImpl implements MailRecordService {
         Map<String, Object> model = new HashMap<>();
         model.put("email", email);
         model.put("token", MD5Util.getToken(email));
-        return sendEmail(email, model, "/templates/email/signup.tpl");
+        model.put("subject", "感谢使用DCW，请验证您的邮箱");
+        return sendEmail(email, model, "/signupVerify.ftl");
     }
 
     @Override

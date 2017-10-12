@@ -56,8 +56,8 @@ public class FormValueServiceImpl implements FormValueService {
         formValueRepository.delete(formValueId);
     }
 
-    public Page<FormValue> formDatas(String content, String formId, int asc, PageRequest page) {
-        return formValueRepository.findByContent(formId, content, new Sort(asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createtime"), page);
+    public Page<FormValue> formDatas(String content, String formId, int asc, int pageSize, int curPage) {
+        return formValueRepository.findByContent(formId, content, new PageRequest(curPage, pageSize, asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createtime"));
     }
 
     @Override
@@ -65,7 +65,7 @@ public class FormValueServiceImpl implements FormValueService {
         Form form = formRepository.findOne(formId);
         List<FormValue> formValues;
         if (pageSize != 0 || curPage != 0) {
-            formValues = formValueRepository.findByContent(formId, content, new Sort(asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createtime"), new PageRequest(curPage, pageSize)).getContent();
+            formValues = formValueRepository.findByContent(formId, content, new PageRequest(curPage, pageSize, asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createtime")).getContent();
         } else {
             formValues = formValueRepository.findByContent(formId, content, new Sort(asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createtime"));
         }

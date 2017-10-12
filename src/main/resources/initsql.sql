@@ -32,7 +32,7 @@ CREATE TABLE formproperty (
 
 CREATE TABLE formvalue (
   id               VARCHAR(36) NOT NULL PRIMARY KEY,
-  value            VARCHAR(65535),
+  value            TEXT,
   author           VARCHAR(36) NOT NULL,
   creattime        DATETIME    NOT NULL,
   lastmodifytime   DATETIME,
@@ -53,11 +53,6 @@ CREATE TABLE user (
   role     VARCHAR(36) NOT NULL DEFAULT 'ROLE_USER'
 );
 
-CREATE TABLE user_role (
-  rid VARCHAR(36) NOT NULL,
-  uid VARCHAR(36) NOT NULL,
-  PRIMARY KEY (rid, uid)
-);
 
 CREATE TABLE mailrecord (
   id         VARCHAR(36) NOT NULL PRIMARY KEY,
@@ -65,4 +60,12 @@ CREATE TABLE mailrecord (
   email      VARCHAR(64) NOT NULL,
   token      VARCHAR(64) NOT NULL,
   invalid    BIT(1) DEFAULT 0
+);
+
+CREATE TABLE formlog (
+  id        VARCHAR(36) NOT NULL PRIMARY KEY,
+  form      VARCHAR(36) NOT NULL,
+  user      VARCHAR(64) NOT NULL,
+  opttime   DATETIME,
+  operation VARCHAR(256)
 );

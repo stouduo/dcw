@@ -2,12 +2,11 @@ package com.stouduo.dcw.domain;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
-
+@Entity
+@Table(name="mailrecord")
 public class MailRecord implements Serializable {
     private String id;
     private Date createTime;

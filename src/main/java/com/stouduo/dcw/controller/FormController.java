@@ -9,18 +9,16 @@ import com.stouduo.dcw.vo.FormDetailVO;
 import com.stouduo.dcw.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller("/form")
+@Controller
+@RequestMapping("/form")
 public class FormController {
     @Autowired
     private FormService formService;
 
-    @GetMapping("/index")
+    @GetMapping("/desktop")
     public String myforms() {
         new ModelAndView().addObject("forms", formService.getAllForms(SecurityUtil.getUsername()));
         return "desktop";
@@ -48,6 +46,7 @@ public class FormController {
         }
         return "GetForm";
     }
+
     @Log("修改表单")
     @PostMapping("/edit")
     public String edit(FormDetailVO formDetailVO) {

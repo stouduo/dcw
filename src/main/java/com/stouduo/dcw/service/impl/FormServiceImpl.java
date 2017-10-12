@@ -112,7 +112,7 @@ public class FormServiceImpl implements FormService {
         for (FormProperty formproperty : formProperties) {
             if (formproperty.getReultShow()) showProperties += formproperty.getName() + ",";
         }
-        Page<FormValue> page = formValueRepository.findByContent(formId, "", new Sort(Sort.Direction.DESC, "creattime"), new PageRequest(curPage, pageSize));
+        Page<FormValue> page = formValueRepository.findByContent(formId, "", new PageRequest(curPage, pageSize, Sort.Direction.DESC, "creattime"));
         List<FormValue> formValues = page.getContent();
         Map<String, String> value;
         if (!StringUtils.isEmpty(showProperties)) {

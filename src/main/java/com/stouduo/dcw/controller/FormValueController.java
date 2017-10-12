@@ -17,7 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 
-@Controller("/formValue")
+@Controller
+@RequestMapping("/formValue")
 public class FormValueController {
     @Autowired
     FormValueService formValueService;
@@ -50,7 +51,7 @@ public class FormValueController {
     @GetMapping("/formDatas")
     @ResponseBody
     public RestResult<Page<FormValue>> formDatas(String content, String formId, int asc, int pageSize, int curPage) {
-        return new RestResult<>().setData(formValueService.formDatas(formId, content, asc, new PageRequest(curPage, pageSize)));
+        return new RestResult<>().setData(formValueService.formDatas(formId, content, asc, pageSize, curPage));
     }
 
     @GetMapping("/outport")

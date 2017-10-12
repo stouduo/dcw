@@ -18,7 +18,7 @@ public class User implements UserDetails {
     private String password;
     private String tel;
     private String email;
-    private String role;
+    private String roles;
 
     @Id
     @Column(name = "id", unique = true, nullable = false, length = 36)
@@ -37,21 +37,25 @@ public class User implements UserDetails {
         return username;
     }
 
+    @Transient
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @Transient
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @Transient
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    @Transient
     @Override
     public boolean isEnabled() {
         return true;
@@ -62,9 +66,10 @@ public class User implements UserDetails {
     }
 
     @Override
+    @Transient
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> auths = new ArrayList<>();
-        auths.add(new SimpleGrantedAuthority(role));
+        auths.add(new SimpleGrantedAuthority(roles));
         return auths;
     }
 
@@ -95,11 +100,12 @@ public class User implements UserDetails {
         this.email = email;
     }
 
+    @Column(name = "roles", length = 36)
     public String getRoles() {
-        return role;
+        return roles;
     }
 
-    public void setRoles(String role) {
-        this.role = role;
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 }

@@ -1,5 +1,6 @@
 package com.stouduo.dcw.service.impl;
 
+import com.stouduo.dcw.domain.Const;
 import com.stouduo.dcw.domain.User;
 import com.stouduo.dcw.repository.MailRecordRepository;
 import com.stouduo.dcw.repository.UserRepository;
@@ -31,8 +32,8 @@ public class UserServiceImpl implements UserService {
     public boolean save(User user) {
         if (userRepository.findByUsername(user.getUsername()) != null)
             return false;
-        List<String> roles = new ArrayList<>();
-        roles.add("ROLE_USER");
+        if (StringUtils.isEmpty(user.getRoles()))
+            user.setRoles(Const.ROLE_USER);
         userRepository.save(user);
         return true;
     }
@@ -47,8 +48,9 @@ public class UserServiceImpl implements UserService {
         Map<String, Object> model = new HashMap<>();
         model.put("username", SecurityUtil.getUsername());
         model.put("token", MD5Util.getToken(user.getEmail()));
+        model.put("subject", "您的邮箱有变更，请及时确认");
         if (!StringUtils.isEmpty(user.getEmail())) {
-            mailRecordService.sendEmail(user.getEmail(), model, "/templates/email/activeEmail");
+            mailRecordService.sendEmail(user.getEmail(), model, "/activeEmail.ftl");
         }
     }
 

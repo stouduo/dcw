@@ -15,13 +15,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-@Controller("/user")
+@Controller
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -31,15 +33,23 @@ public class UserController {
     protected AuthenticationManager authenticationManager;
 
     @PostMapping("/getEmail")
-    public String getEmail(HttpSession session, @RequestParam(name = "email") String email) {
+    public String getEmail(HttpSession session, String email) {
         try {
             mailRecordService.sendEmail(email);
             session.setAttribute("email", email);
         } catch (Exception e) {
             e.printStackTrace();
-            return "/error";
         }
-        return "/verifyEmail";
+        return "verifyEmail";
+    }
+
+    @GetMapping("/reSend")
+    public void reSend(String email) {
+        try {
+            mailRecordService.sendEmail(email);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @GetMapping("/verify")
