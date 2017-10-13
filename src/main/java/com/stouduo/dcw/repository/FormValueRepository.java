@@ -21,10 +21,10 @@ public interface FormValueRepository extends PagingAndSortingRepository<FormValu
     @Query("select count(fv) from FormValue fv  where form=:form and to_days(fv.createTime) = to_days(now())")
     long findTodayFormValueCount(@Param("form") String formId);
 
-    @Query("select fv from FormValue fv where form=:form and fv.value like %:content%")
+    @Query("select fv from FormValue fv where form=:form and fv.value like CONCAT('%',:content,'%')")
     Page<FormValue> findByContent(@Param("form") String formId, @Param("content") String content, Pageable page);
 
-    @Query("select fv from FormValue fv where form=:form and fv.value like %:content%")
+    @Query("select fv from FormValue fv where form=:form and fv.value like CONCAT('%',:content,'%')")
     List<FormValue> findByContent(@Param("form") String formId, @Param("content") String content, Sort sort);
 
     @Query("select count(fv.id) from FormValue fv where form=:form")

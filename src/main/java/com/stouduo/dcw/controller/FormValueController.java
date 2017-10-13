@@ -13,16 +13,20 @@ import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.WebUtils;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/formValue")
 public class FormValueController {
     @Autowired
     FormValueService formValueService;
-    @Value("${file.suffix:.xls(x)?}")
+    @Value("${file.suffix:xls(x)?}")
     private String fileSuffix;
     @Value("${file.suffix.error:请上传.xls或.xlsx的文件}")
     private String suffixErrorMsg;
@@ -72,9 +76,7 @@ public class FormValueController {
             String suffix = file.getOriginalFilename().split("\\.")[1];
             if (!suffix.matches(fileSuffix))
                 return new RestResult<>().setCode(0).setMsg(suffixErrorMsg);
-            String filePath = "/tempFiles/" + new SimpleDateFormat("yyMMddHHmmss") + "_" + file.getOriginalFilename();
-            file.transferTo(ResourceUtils.getFile("classpath:" + filePath));
-            formValueService.importExcel(filePath, formId);
+            formValueService.importExcel(file, formId);
         } catch (Exception e) {
             return new RestResult<>().setCode(0).setMsg(e.getMessage());
         }

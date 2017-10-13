@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
 
 import java.io.File;
@@ -67,7 +68,7 @@ public class FormValueServiceImpl implements FormValueService {
         if (pageSize != 0 || curPage != 0) {
             formValues = formValueRepository.findByContent(formId, content, new PageRequest(curPage, pageSize, asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createtime")).getContent();
         } else {
-            formValues = formValueRepository.findByContent(formId, content, new Sort(asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createtime"));
+            formValues = formValueRepository.findByContent(formId, content, new Sort(asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createTime"));
         }
         List<String> fieldNames = formPropertyRepository.findByForm(formId);
         fieldNames.add("表单创建人");
@@ -76,15 +77,13 @@ public class FormValueServiceImpl implements FormValueService {
         fieldNames.add("表单最后修改时间");
         fieldNames.add("浏览器");
         fieldNames.add("操作系统");
-        fieldNames.add("操作");
+        fieldNames.add("操作IP");
         ExcelUtil.listToExcel(formValues, "Sheet1", fieldNames, form.getTitle());
     }
 
     @Override
-    public void importExcel(String filePath, String formId) throws Exception {
-        List<FormValue> results = ExcelUtil.excelToList(filePath, "Sheet1", formPropertyRepository.findByForm(formId), null, formId);
-        File file = ResourceUtils.getFile(filePath);
-        if (file.exists()) file.delete();
+    public void importExcel(MultipartFile file, String formId) throws Exception {
+        List<FormValue> results = ExcelUtil.excelToList(file.getInputStream(), "Sheet1", formPropertyRepository.findByForm(formId), null, formId);
         formValueRepository.save(results);
     }
 }

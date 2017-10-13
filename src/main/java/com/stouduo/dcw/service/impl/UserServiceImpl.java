@@ -2,21 +2,17 @@ package com.stouduo.dcw.service.impl;
 
 import com.stouduo.dcw.domain.Const;
 import com.stouduo.dcw.domain.User;
-import com.stouduo.dcw.repository.MailRecordRepository;
 import com.stouduo.dcw.repository.UserRepository;
 import com.stouduo.dcw.service.MailRecordService;
 import com.stouduo.dcw.service.UserService;
 import com.stouduo.dcw.util.MD5Util;
-import com.stouduo.dcw.util.MailUtil;
 import com.stouduo.dcw.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -50,7 +46,7 @@ public class UserServiceImpl implements UserService {
         model.put("token", MD5Util.getToken(user.getEmail()));
         model.put("subject", "您的邮箱有变更，请及时确认");
         if (!StringUtils.isEmpty(user.getEmail())) {
-            mailRecordService.sendEmail(user.getEmail(), model, "/activeEmail.ftl");
+            mailRecordService.sendEmail(user.getEmail(), model, "activeEmail");
         }
     }
 

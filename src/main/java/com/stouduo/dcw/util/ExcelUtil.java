@@ -12,6 +12,8 @@ import org.springframework.util.ResourceUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
@@ -189,7 +191,11 @@ public class ExcelUtil {
             List<String> fieldNames,
             String[] uniqueFields,
             String formId
-    ) throws ExcelException {
+    ) throws ExcelException, FileNotFoundException {
+        return excelToList(new FileInputStream(ResourceUtils.getFile("classpath:" + excelPath)), sheetName, fieldNames, uniqueFields, formId);
+    }
+
+    public static List<FormValue> excelToList(InputStream in, String sheetName, List<String> fieldNames, String[] uniqueFields, String formId) throws ExcelException {
 
         //定义要返回的list
         List<FormValue> resultList = new ArrayList<>();
@@ -197,7 +203,7 @@ public class ExcelUtil {
         try {
 
             //根据Excel数据源创建WorkBook
-            Workbook wb = Workbook.getWorkbook(new FileInputStream(ResourceUtils.getFile("classpath:" + excelPath)));
+            Workbook wb = Workbook.getWorkbook(in);
             //获取工作表
             Sheet sheet = wb.getSheet(sheetName);
 
@@ -304,7 +310,6 @@ public class ExcelUtil {
                     //根据中文字段名获取列号
                     //获取当前单元格中的内容
                     fieldValue = sheet.getCell(colMap.get(fieldName), i).getContents().toString().trim();
-                    if(fieldName.equals("地理位置"))
                     values.put(fieldName, fieldValue);
                     //给对象赋值
                     // setFieldValueByName(enNormalName, content, entity);
@@ -334,8 +339,6 @@ public class ExcelUtil {
         }
         return resultList;
     }
-
-
 
 
 
@@ -523,8 +526,8 @@ public class ExcelUtil {
             }
             sheet.addCell(new Label(c++, rowNo, item.getAuthor()));
             sheet.addCell(new Label(c++, rowNo, item.getLastModifyPerson()));
-            sheet.addCell(new Label(c++, rowNo, sdf.format(item.getCreateTime())));
-            sheet.addCell(new Label(c++, rowNo, sdf.format(item.getLastModifyTime())));
+            sheet.addCell(new Label(c++, rowNo, item.getCreateTime() == null ? "" : sdf.format(item.getCreateTime())));
+            sheet.addCell(new Label(c++, rowNo, item.getLastModifyTime() == null ? "" : sdf.format(item.getLastModifyTime())));
             sheet.addCell(new Label(c++, rowNo, item.getBrowser()));
             sheet.addCell(new Label(c++, rowNo, item.getOs()));
             sheet.addCell(new Label(c, rowNo++, item.getSubmitIP()));
