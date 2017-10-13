@@ -12,7 +12,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
-import org.springframework.web.servlet.ModelAndView;
 
 @Component
 @Aspect
@@ -23,7 +22,7 @@ public class SubmitLimitAspect {
     @Autowired
     private FormRepository formRepository;
 
-    @Pointcut("execution(* com.stouduo.dcw.controller.FormValueController.submit(com.stouduo.dcw.domain.FormValue))")
+    @Pointcut("execution(public String com.stouduo.dcw.controller.FormValueController.submit(com.stouduo.dcw.domain.FormValue))")
     public void submit() {
     }
 

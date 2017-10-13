@@ -19,7 +19,7 @@ public class ViewPrivilegeAspect {
     @Autowired
     private FormRepository formRepository;
 
-    @Pointcut("execution(* com.stouduo.dcw.controller.FormController.view*(..))")
+    @Pointcut("execution(public String com.stouduo.dcw.controller.FormController.view*(..))")
     public void viewPrivilege() {
     }
 

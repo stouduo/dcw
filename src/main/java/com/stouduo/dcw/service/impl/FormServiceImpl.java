@@ -84,9 +84,9 @@ public class FormServiceImpl implements FormService {
         if (form == null || StringUtils.isEmpty(form.getId())) {
             form = new Form();
             form.setSubmitCountLimited(1);
-            form.setSubmitPrivilege(Const.PEOPLE_OF_ALL);
+            form.setSubmitPrivilege(Const.PEOPLE_OF_NONE);
             form.setCollectFlag(true);
-            form.setResultShow(Const.SHOW_NONE);
+            form.setResultShow(Const.PEOPLE_OF_NONE);
             form.setAuthor(SecurityUtil.getUsername());
             form.setCreateTime(now);
             form = formRepository.save(form);
