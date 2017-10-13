@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.ServletContext;
@@ -23,7 +25,7 @@ import java.util.Date;
 
 @Controller
 @RequestMapping("/formValue")
-public class FormValueController {
+public class FormValueController extends BaseController {
     @Autowired
     FormValueService formValueService;
     @Value("${file.suffix:xls(x)?}")
@@ -35,21 +37,21 @@ public class FormValueController {
     @ResponseBody
     public RestResult<FormValue> delFormValue(@PathVariable("id") String formValueId) {
         formValueService.delete(formValueId);
-        return new RestResult<FormValue>().setCode(1).setMsg("删除成功");
+        return restSuccess("删除成功");
     }
 
     @PostMapping("/save")
     @ResponseBody
     public RestResult<FormValue> saveFormValue(FormValue formValue) {
         formValueService.save(formValue);
-        return new RestResult<FormValue>().setCode(1).setMsg("编辑成功");
+        return restSuccess("编辑成功");
     }
 
     @PostMapping("/submit")
-    public String submit(FormValue formValue, HttpServletRequest request) {
+    public String submit(FormValue formValue, Model model) {
 
         formValueService.save(formValue);
-        return "submitMsg";
+        return success("感谢您的提交！", model);
     }
 
     @GetMapping("/formDatas")
@@ -63,9 +65,9 @@ public class FormValueController {
     public RestResult<Page<FormValue>> outport(String content, String formId, int asc, int pageSize, int curPage) {
         try {
             formValueService.outport(formId, content, asc, pageSize, curPage);
-            return new RestResult<>().setCode(1).setMsg("导出成功");
+            return restSuccess("导出成功");
         } catch (ExcelException e) {
-            return new RestResult<>().setCode(0).setMsg(e.getMessage());
+            return restError("导出失败");
         }
     }
 
@@ -75,12 +77,12 @@ public class FormValueController {
         try {
             String suffix = file.getOriginalFilename().split("\\.")[1];
             if (!suffix.matches(fileSuffix))
-                return new RestResult<>().setCode(0).setMsg(suffixErrorMsg);
+                return restError(suffixErrorMsg);
             formValueService.importExcel(file, formId);
         } catch (Exception e) {
-            return new RestResult<>().setCode(0).setMsg(e.getMessage());
+            return restError("导入失败");
         }
-        return new RestResult<>().setCode(1).setMsg("导入成功");
+        return restSuccess("导入成功");
     }
 
 }

@@ -9,24 +9,25 @@ import com.stouduo.dcw.vo.FormDetailVO;
 import com.stouduo.dcw.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/form")
-public class FormController {
+public class FormController extends BaseController {
     @Autowired
     private FormService formService;
 
     @GetMapping("/desktop")
-    public String myforms() {
-        new ModelAndView().addObject("forms", formService.getAllForms(SecurityUtil.getUsername()));
+    public String myforms(Model model) {
+        model.addAttribute("forms", formService.getAllForms(SecurityUtil.getUsername()));
         return "desktop";
     }
 
     @GetMapping("/myform/{id}")
-    public String formDetail(@PathVariable("id") String id) {
-        new ModelAndView().addObject("formDetail", formService.formDetail(id));
+    public String formDetail(@PathVariable("id") String id, Model model) {
+        model.addAttribute("formDetail", formService.formDetail(id));
         return "detail";
     }
 
@@ -34,15 +35,15 @@ public class FormController {
     @ResponseBody
     public RestResult<Form> editDetail(Form form) {
         formService.editDetail(form);
-        return new RestResult<>().setCode(1).setMsg("编辑成功");
+        return restSuccess("编辑成功");
     }
 
     @PostMapping("/edit/{id}")
-    public String toEdit(@PathVariable("id") String formId) {
+    public String toEdit(@PathVariable("id") String formId, Model model) {
         if (!"new".equals(formId)) {
             FormDetailVO formDetailVO = formService.getForm(formId);
             if (formDetailVO != null)
-                new ModelAndView().addObject("form", formDetailVO);
+                model.addAttribute("form", formDetailVO);
         }
         return "GetForm";
     }
@@ -55,17 +56,19 @@ public class FormController {
     }
 
     @GetMapping("/view/{id}")
-    public String view(@PathVariable("id") String formId) {
+    public String viewForm(@PathVariable("id") String formId, Model model) {
         FormDetailVO formDetailVO = formService.getForm(formId);
-        if (formDetailVO == null) return "404";
-        new ModelAndView().addObject("form", formDetailVO);
+        if (formDetailVO == null) {
+            return error("找不到资源！", model);
+        }
+        model.addAttribute("form", formDetailVO);
         return "view";
     }
 
     @GetMapping("/result/{id}")
-    public String result(@PathVariable("id") String formId, int curPage, int pageSize) {
+    public String viewResult(@PathVariable("id") String formId, Model model, int curPage, int pageSize) {
         ResultVO resultVO = formService.getResult(formId, curPage, pageSize);
-        if (resultVO == null) return "404";
+        if (resultVO == null) return error("找不到资源！", model);
         new ModelAndView().addObject("form", resultVO);
         return "result";
     }

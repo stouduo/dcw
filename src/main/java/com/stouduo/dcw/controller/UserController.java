@@ -4,6 +4,7 @@ import com.stouduo.dcw.domain.User;
 import com.stouduo.dcw.service.MailRecordService;
 import com.stouduo.dcw.service.UserService;
 import com.stouduo.dcw.util.MD5Util;
+import com.stouduo.dcw.util.RestResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,11 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +23,7 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController {
     @Autowired
     private UserService userService;
     @Autowired
@@ -33,37 +32,38 @@ public class UserController {
     protected AuthenticationManager authenticationManager;
 
     @PostMapping("/getEmail")
-    public String getEmail(HttpSession session, String email) {
+    public String getEmail(HttpSession session, String email, Model model) {
         try {
             mailRecordService.sendEmail(email);
             session.setAttribute("email", email);
         } catch (Exception e) {
-            e.printStackTrace();
+            return error("发送失败！", model);
         }
         return "verifyEmail";
     }
 
     @GetMapping("/reSend")
-    public void reSend(String email) {
+    @ResponseBody
+    public RestResult<User> reSend(String email) {
         try {
             mailRecordService.sendEmail(email);
         } catch (Exception e) {
-            e.printStackTrace();
+            return restError("发送失败！");
         }
+        return restSuccess("发送成功");
     }
 
     @GetMapping("/verify")
-    public String verify(@RequestParam(name = "token") String token) {
+    public String verify(Model model, @RequestParam(name = "token") String token) {
         if (mailRecordService.verify(token)) {
-            new ModelAndView().addObject("error", "验证失败");
-            return "/verifyError";
+            return error("验证失败", model);
         } else {
             return "/signup";
         }
     }
 
     @PostMapping("/signup")
-    public String signup(HttpSession session, String username, String password, HttpServletRequest request) {
+    public String signup(HttpSession session, String username, String password, HttpServletRequest request, Model model) {
         String email = (String) session.getAttribute("email");
         session.removeAttribute("email");
         User user = new User();
@@ -71,7 +71,7 @@ public class UserController {
         user.setPassword(MD5Util.encode(password));
         user.setUsername(username);
         if (!userService.save(user)) {
-            new ModelAndView().addObject("usernameError", "用户已存在");
+            model.addAttribute("error", "用户已存在");
             return "/signup";
         }
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password);
@@ -89,23 +89,22 @@ public class UserController {
     }
 
     @PostMapping("/bindInfo")
-    public String bindInfo(User user, HttpSession session) {
+    public String bindInfo(User user, HttpSession session, Model model) {
         try {
             if (StringUtils.isEmpty(user.getEmail())) {
                 session.setAttribute("email", user.getEmail());
             }
             userService.bindInfo(user);
         } catch (Exception e) {
-            return "error";
+            return error("发送邮件失败！", model);
         }
         return "/userInfo";
     }
 
     @GetMapping("/active")
-    public String active(String token, HttpSession session) {
+    public String active(String token, Model model, HttpSession session) {
         if (mailRecordService.verify(token)) {
-            new ModelAndView().addObject("error", "激活失败");
-            return "/verifyError";
+            return error("激活失败", model);
         } else {
             User user = userService.userInfo();
             user.setEmail((String) session.getAttribute("email"));

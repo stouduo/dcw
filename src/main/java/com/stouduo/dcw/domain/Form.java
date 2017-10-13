@@ -14,7 +14,7 @@ public class Form implements Serializable {
     private String author;
     private Date createTime;
     private Date lastModifyTime;
-    private int submitPrivilege;
+    private String submitPrivilege;
     private int submitCountLimited;
     private boolean collectFlag;
     private int viewCount;
@@ -128,11 +128,11 @@ public class Form implements Serializable {
     }
 
     @Column(name = "submitprivilege")
-    public int getSubmitPrivilege() {
+    public String getSubmitPrivilege() {
         return submitPrivilege;
     }
 
-    public void setSubmitPrivilege(int submitPrivilege) {
+    public void setSubmitPrivilege(String submitPrivilege) {
         this.submitPrivilege = submitPrivilege;
     }
 

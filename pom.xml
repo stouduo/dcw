@@ -119,6 +119,11 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional> <!-- 这个需要为 true 热部署才有效 -->
         </dependency>
+        <dependency>
+            <groupId>com.googlecode.log4jdbc</groupId>
+            <artifactId>log4jdbc</artifactId>
+            <version>1.2</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -4,6 +4,7 @@ import com.stouduo.dcw.domain.User;
 import nl.bitwalker.useragentutils.UserAgent;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.condition.RequestConditionHolder;
 
 import javax.servlet.ServletRequest;
@@ -48,5 +49,6 @@ public class ControllerUtil {
     public static HttpServletResponse getCurrentResponse() {
         return ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
     }
+
 
 }
