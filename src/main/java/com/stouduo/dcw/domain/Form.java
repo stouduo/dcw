@@ -23,6 +23,16 @@ public class Form implements Serializable {
     private String labels;
     private String title;
     private String des;
+    private boolean del;
+
+    @Column(name = "del")
+    public boolean getDel() {
+        return del;
+    }
+
+    public void setDel(boolean del) {
+        this.del = del;
+    }
 
     @Column(name = "des")
     public String getDes() {

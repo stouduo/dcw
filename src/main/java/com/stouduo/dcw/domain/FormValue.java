@@ -19,6 +19,16 @@ public class FormValue implements Serializable {
     private String os;
     private String lastModifyPerson;
     private String form;
+    private boolean del;
+
+    @Column(name = "del")
+    public boolean getDel() {
+        return del;
+    }
+
+    public void setDel(boolean del) {
+        this.del = del;
+    }
 
     @Column(name = "form")
     public String getForm() {

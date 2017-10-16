@@ -11,4 +11,6 @@ public interface UserService {
     void bindInfo(User user) throws Exception;
 
     void editUser(User user, String oldPwd, String confirmPwd);
+
+    User validInfo(String accessUsername);
 }

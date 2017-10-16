@@ -15,7 +15,7 @@ public class BaseController {
 
     protected String sendMsg(String name, String msg, Model model) {
         model.addAttribute(name, msg);
-        return msg;
+        return "msg";
     }
 
     protected RestResult restSuccess(String msg) {

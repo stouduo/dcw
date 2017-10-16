@@ -1,12 +1,14 @@
 package com.stouduo.dcw.util;
 
-        import org.springframework.security.core.context.SecurityContextHolder;
+import com.stouduo.dcw.domain.User;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 public class SecurityUtil {
 
 
     public static String getUsername() {
-        return (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return principal instanceof User ? ((User) principal).getUsername() : ((String) principal);
     }
 
 }

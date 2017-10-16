@@ -44,14 +44,16 @@ public class MailRecordServiceImpl implements MailRecordService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public boolean verify(String token) {
         MailRecord record = mailRecordRepository.findByToken(token);
         boolean invalid = record.getInvalid();
+        if (invalid) return false;
         GregorianCalendar gc = new GregorianCalendar();
+        gc.setTime(new Date());
         gc.add(5, -1);
         record.setInvalid(true);
         mailRecordRepository.save(record);
-        return record != null && !invalid && gc.before(record.getCreateTime());
+        return record != null && !invalid && gc.getTime().before(record.getCreateTime());
     }
 }

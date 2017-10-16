@@ -4,6 +4,7 @@ import com.stouduo.dcw.domain.FormValue;
 import com.stouduo.dcw.service.FormValueService;
 import com.stouduo.dcw.util.ExcelException;
 import com.stouduo.dcw.util.RestResult;
+import com.stouduo.dcw.vo.FormValueRestVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -56,8 +57,14 @@ public class FormValueController extends BaseController {
 
     @GetMapping("/formDatas")
     @ResponseBody
-    public RestResult<Page<FormValue>> formDatas(String content, String formId, int asc, int pageSize, int curPage) {
-        return new RestResult<>().setData(formValueService.formDatas(formId, content, asc, pageSize, curPage));
+    public FormValueRestVO formDatas(String content, String formId, int asc, int pageSize, int curPage) {
+        return formValueService.formDatas(formId, content, asc, pageSize, curPage);
+    }
+
+    @GetMapping("/myFormData/{id}")
+    public String myFormData(@PathVariable("id") String formId, Model model) {
+        model.addAttribute("formDetailVO", formValueService.myFormData(formId));
+        return "pages/editor";
     }
 
     @GetMapping("/outport")

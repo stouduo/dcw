@@ -1,5 +1,6 @@
 package com.stouduo.dcw.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.stouduo.dcw.domain.Form;
 import com.stouduo.dcw.domain.FormValue;
 import com.stouduo.dcw.repository.FormPropertyRepository;
@@ -10,19 +11,19 @@ import com.stouduo.dcw.util.ControllerUtil;
 import com.stouduo.dcw.util.ExcelException;
 import com.stouduo.dcw.util.ExcelUtil;
 import com.stouduo.dcw.util.SecurityUtil;
+import com.stouduo.dcw.vo.FormDetailVO;
+import com.stouduo.dcw.vo.FormValueRestVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
 
-import java.io.File;
-import java.util.Date;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import static com.stouduo.dcw.util.ExcelUtil.excelToList;
 
@@ -54,11 +55,34 @@ public class FormValueServiceImpl implements FormValueService {
 
     @Override
     public void delete(String formValueId) {
-        formValueRepository.delete(formValueId);
+        formValueRepository.delFormValues(formValueId);
     }
 
-    public Page<FormValue> formDatas(String content, String formId, int asc, int pageSize, int curPage) {
-        return formValueRepository.findByContent(formId, content, new PageRequest(curPage, pageSize, asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createtime"));
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    public FormValueRestVO formDatas(String content, String formId, int asc, int pageSize, int curPage) {
+        Page<FormValue> page = formValueRepository.findByContent(formId, content, new PageRequest(curPage, pageSize, asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createtime"));
+        FormValueRestVO restVO = new FormValueRestVO();
+        List<FormValue> formValues = page.getContent();
+        List<Map<String, String>> formValuesMap = new ArrayList<>();
+        Map<String, String> formValueMap;
+        for (FormValue formValue : formValues) {
+            formValueMap = new HashMap<>();
+            formValueMap.put("author", formValue.getAuthor());
+            formValueMap.put("createTime", sdf.format(formValue.getCreateTime()));
+            formValueMap.put("lastModifyTime", sdf.format(formValue.getLastModifyTime()));
+            formValueMap.put("lastModifyPerson", formValue.getLastModifyPerson());
+            formValueMap.put("browser", formValue.getBrowser());
+            formValueMap.put("os", formValue.getOs());
+            formValueMap.put("submitIP", formValue.getSubmitIP());
+            formValueMap.putAll((Map<String, String>) JSON.parse(formValue.getValue()));
+            formValuesMap.add(formValueMap);
+        }
+        restVO.setCode(200);
+        restVO.setCount(page.getTotalElements());
+        restVO.setMsg("");
+        restVO.setData(formValuesMap);
+        return restVO;
     }
 
     @Override
@@ -85,5 +109,13 @@ public class FormValueServiceImpl implements FormValueService {
     public void importExcel(MultipartFile file, String formId) throws Exception {
         List<FormValue> results = ExcelUtil.excelToList(file.getInputStream(), "Sheet1", formPropertyRepository.findByForm(formId), null, formId);
         formValueRepository.save(results);
+    }
+
+    @Override
+    public FormDetailVO myFormData(String formId) {
+        FormDetailVO formDetailVO = new FormDetailVO();
+        formDetailVO.setForm(formRepository.findOne(formId));
+        formDetailVO.setFormProperties(formPropertyRepository.findAllByForm(formId));
+        return formDetailVO;
     }
 }

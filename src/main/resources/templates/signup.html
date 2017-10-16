@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link rel="icon" href="" type="img/x-ico"><!-- >href可以放title左边的图标<-->
+    <link th:href="@{/css/main.css}" type="text/css" rel="stylesheet">
+    <link media="all" rel="stylesheet" th:href="@{/layui/css/layui.css}"/>
+    <script type="application/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+    <script type="application/javascript" th:src="@{/layui/layui.js}"></script>
+</head>
+<body>
+<div class="nav">
+    <div id="login-box">
+        <form class="layui-form" th:action="@{/user/signup}" method="post">
+            <div class="login">
+                <div class="title">注册</div>
+                <div class="content">
+                    <div class="login-text item">
+                        <label class="name">用户名</label>
+                        <input class="value phone-email" placeholder="请输入用户名"
+                               autocomplete="off" lay-verify="required|username" name="username" type="text">
+                    </div>
+                    <div class="login-text item">
+                        <label class="name">请输入密码</label>
+                        <input class="value password" lay-verify="required|password" placeholder="请输入密码"
+                               autocomplete="off"
+                               name="password" type="password">
+                    </div>
+                    <div class="err item">
+                        <p class="err-pe" th:if="${user}" th:errors="${user.username}"></p>
+
+                        <p class="err-pe" th:if="${user}" th:errors="${user.password}"></p>
+
+                        <p class="err-pe" th:if="${error}">用户名已存在</p>
+                    </div>
+                    <input class="btn register-btn" type="submit" lay-submit="" value="开启账号"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script th:inline="javascript">
+    $(function () {
+        var error = [[${error}]], user = [[${user}]];
+        if (error || user) {
+            $('.err').show();
+        }
+        layui.use('form', function () {
+            var form = layui.form;
+            form.verify({
+                username: function (value, item) { //value：表单的值、item：表单的DOM对象
+                    if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
+                        return '用户名不能有特殊字符';
+                    }
+                    if (/(^\_)|(\__)|(\_+$)/.test(value)) {
+                        return '用户名首尾不能出现下划线\'_\'';
+                    }
+                    if (/^\d+\d+\d$/.test(value)) {
+                        return '用户名不能全为数字';
+                    }
+                }
+
+                //我们既支持上述函数式的方式，也支持下述数组的形式
+                //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
+                , password: [
+                    /^[\S]{6,12}$/
+                    , '密码必须6到12位，且不能出现空格'
+                ]
+            });
+        });
+    });
+</script>
+</body>
+</html>

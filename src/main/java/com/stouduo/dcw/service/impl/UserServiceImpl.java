@@ -30,6 +30,7 @@ public class UserServiceImpl implements UserService {
             return false;
         if (StringUtils.isEmpty(user.getRoles()))
             user.setRoles(Const.ROLE_USER);
+        user.setPassword(MD5Util.encode(user.getPassword()));
         userRepository.save(user);
         return true;
     }
@@ -62,5 +63,10 @@ public class UserServiceImpl implements UserService {
             }
         }
         userRepository.save(temp);
+    }
+
+    @Override
+    public User validInfo(String accessUsername) {
+        return userRepository.findByTelOrEmail(accessUsername);
     }
 }

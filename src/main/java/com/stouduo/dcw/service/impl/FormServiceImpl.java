@@ -10,7 +10,9 @@ import com.stouduo.dcw.repository.FormRepository;
 import com.stouduo.dcw.repository.FormValueRepository;
 import com.stouduo.dcw.service.FormService;
 import com.stouduo.dcw.util.SecurityUtil;
+import com.stouduo.dcw.vo.DesktopVO;
 import com.stouduo.dcw.vo.FormDetailVO;
+import com.stouduo.dcw.vo.FormVO;
 import com.stouduo.dcw.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,9 +21,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
-import java.io.File;
+import java.lang.reflect.Field;
 import java.util.*;
 
 @Service
@@ -36,8 +39,11 @@ public class FormServiceImpl implements FormService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Form> getAllForms(String username) {
-        return formRepository.findAllByAuthor(username);
+    public DesktopVO getAllForms(String username, int curPage, int pageSize) {
+        DesktopVO desktopVO = new DesktopVO();
+        desktopVO.setTotalFormCount(formRepository.findFormCountByAuthor(username));
+        desktopVO.setLabelNullCount(formRepository.findByLabelIsNull(username));
+        return desktopVO;
     }
 
     @Override
@@ -72,7 +78,8 @@ public class FormServiceImpl implements FormService {
         FormDetailVO formDetailVO = new FormDetailVO();
         formDetailVO.setForm(form);
         formDetailVO.setFormProperties(formPropertyRepository.findAllByForm(formId));
-        formRepository.updateViewCount(formId);
+        if (form.getAuthor() != SecurityUtil.getUsername())
+            formRepository.updateViewCount(formId);
         return formDetailVO;
     }
 
@@ -134,6 +141,48 @@ public class FormServiceImpl implements FormService {
         resultVO.setForm(form);
         resultVO.setFormValues(page);
         return resultVO;
+    }
+
+    @Override
+    public void editForm(Form form) throws Exception {
+        Form temp = formRepository.findOne(form.getId());
+        Field[] fields = Form.class.getDeclaredFields();
+        Object value;
+        for (Field field : fields) {
+            field.setAccessible(true);
+            value = field.get(form);
+            if (!ObjectUtils.isEmpty(value)) {
+                field.set(temp, value);
+            }
+        }
+        formRepository.save(temp);
+    }
+
+    @Override
+    public FormVO myForms(String username, int curPage, int pageSize) {
+        FormVO formVO = new FormVO();
+        Page<Form> page = formRepository.findAllByAuthorAndDel(username, false, new PageRequest(curPage - 1, pageSize));
+        List<Form> forms = page.getContent();
+        List<Map<String, Object>> formList = new ArrayList<>();
+        Map<String, Object> formMap;
+        for (Form form : forms) {
+            formMap = new HashMap<>();
+            formMap.put("formValueCount", formValueRepository.findFormValueCount(form.getId()));
+            formMap.put("form", form);
+            formList.add(formMap);
+        }
+        formVO.setFormList(formList);
+        formVO.setTotalPages(page.getTotalPages());
+        return formVO;
+    }
+
+    @Override
+    public void delForm(String id, String type) {
+        if (type.equals("delFormValues")) {
+            formValueRepository.delFormValues(id);
+        } else {
+            formRepository.delForm(id);
+        }
     }
 
 }

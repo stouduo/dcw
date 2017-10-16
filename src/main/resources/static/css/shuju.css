@@ -1,0 +1,21 @@
+@charset "utf-8";
+/*数据*/
+.shuju{
+	position: absolute;
+	left: 0;
+	right: 0;
+	width: 100%;
+}
+#tab-search{
+	border-radius: 4px;
+	border: 1px solid #EEEEEE;
+}
+.shu-menu{
+	border: 1px solid #EEEEEE;
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+}
+.shu-menu div{
+	border-right: 1px solid #EEEEEE;
+}

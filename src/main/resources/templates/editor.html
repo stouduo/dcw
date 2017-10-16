@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>金数据</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/gaishu.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/shuju.css}"/>
+    <style type="text/css">
+        .clearfix:after {
+            content: '';
+            clear: both;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .text-left {
+            text-align: left;
+        }
+
+        .field-name {
+            height: 35px;
+            line-height: 35px;
+            font-size: larger;
+            overflow: auto;
+        }
+
+        .field-desc {
+            height: 25px;
+            line-height: 25px;
+            font-weight: lighter;
+            font-size: x-small;
+            overflow: hidden;
+        }
+
+        header {
+            background-color: #393D49;
+        }
+
+        .msg {
+            width: 60px;
+            height: 35px;
+            border-radius: 3px;
+            background-color: #333745;
+            position: absolute;
+            top: 23px;
+            right: 5px;
+            display: none;
+        }
+
+        .msg p {
+            width: 100%;
+            line-height: 35px;
+            text-align: center;
+            color: #fff;
+            border-radius: 5px;
+            position: relative;
+            top: 0;
+            left: 0;
+        }
+
+        .msg .up-trangle {
+            display: block;
+            width: 0;
+            height: 0;
+            border: 8px solid #333745;
+            transform: rotateZ(45deg);
+            position: absolute;
+            top: -4px;
+            right: 15px;
+        }
+
+        .container {
+            box-sizing: border-box;
+            width: 960px;
+            padding: 0 7px;
+            margin: auto;
+        }
+
+        nav .container {
+            margin: 10px auto;
+            margin-bottom: 0;
+        }
+
+        .formEditorView {
+            height: 600px;
+            overflow: auto;
+            text-align: center;
+        }
+
+        form .banner {
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+        }
+
+        form .layui-form-item {
+            width: 85%;
+            margin: auto;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+        }
+
+        form .layui-input {
+            border: 1px solid #5FB878;
+        }
+
+        .add-field .fied-item div {
+            padding-left: 20px;
+            text-align: left;
+            height: 35px;
+            line-height: 35px;
+            overflow: hidden;
+            color: #000000;
+            transition: all 0.2s;
+        }
+
+        .add-field .fied-item div:hover {
+            cursor: pointer;
+            color: #009AFF !important;
+        }
+
+        .form-container {
+            width: 90%;
+            padding-bottom: 50px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+        }
+
+        form .layui-form-item {
+            border: none !important;
+        }
+
+        .add-field .layui-this {
+            background-color: #009AFF !important;
+            color: #fff !important;
+        }
+
+        form .new-line:hover {
+            cursor: pointer;
+        }
+
+        .formEditorView .active-line {
+            background-color: #F2FAFF;
+            border: 1px dashed #1E9FFF;
+            border-left: none;
+            border-right: none;
+            border-radius: 5px;
+        }
+
+        form .new-line {
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            position: relative;
+            top: 0;
+            left: 0;
+        }
+
+        .fn-area {
+            position: absolute;
+            bottom: -10px;
+            right: 100px;
+            background-color: #fff;
+            display: none;
+        }
+
+        .fn-area .ele-copy,
+        .fn-area .ele-del {
+            width: 30px;
+            height: 30px;
+            border-radius: 2px;
+        }
+
+        .fn-area .ele-copy:hover,
+        .fn-area .ele-del:hover {
+            background-color: #D84C29;
+            cursor: pointer;
+        }
+
+        .formEditorView .active-line .fn-area {
+            display: block;
+        }
+
+        .active-line .layui-form-item input,
+        .active-line .layui-form-item textarea,
+        .active-line .layui-form-item select {
+            border-color: #9F9F9F;
+        }
+
+        ..setting-row .pull-left {
+            line-height: 30px !important;
+        }
+
+        .setting-row input {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <div class="container">
+        <ul class="layui-nav">
+            <li class="layui-nav-item">
+                <a href="desktop.html">桌面<span class="layui-badge">1</span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="">联系人<span class="layui-badge-dot"></span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href=""><img src="http://t.cn/RCzsdCq" class="layui-nav-img">个人中心</a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a href="javascript:">退出</a>
+                    </dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</header>
+<nav>
+    <div class="layui-tab container">
+        <ul class="layui-tab-title">
+            <!--概述编辑规则设置发布数据报表-->
+            <li>概述</li>
+            <li class="layui-this">编辑</li>
+            <li>数据</li>
+        </ul>
+        <div class="layui-tab-content">
+            <!--概述内容-->
+            <div class="layui-tab-item">
+                <!--概述页面写在这里-->
+                <!--3/12-->
+                <div class="layui-row  gaishu">
+                    <div class="layui-col-md3">
+                        <div class="grid-demo grid-demo-bg1">
+                            <span class="number">0</span>
+
+                            <p>表单总数据<i class="layui-icon">&#xe60b;</i></p>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="grid-demo">
+                            <span class="number">1</span>
+
+                            <p>今日提交<i class="layui-icon">&#xe60b;</i></p>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="grid-demo grid-demo-bg1">
+                            <span class="number">100</span>
+
+                            <p>表单被浏览<i class="layui-icon">&#xe60b;</i></p>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="grid-demo">
+                            <span class="number">20</span>
+
+                            <p>结果被浏览<i class="layui-icon">&#xe60b;</i></p>
+                        </div>
+                    </div>
+                </div>
+                <!--6/12-->
+                <div class="layui-row gtwo">
+                    <form class="layui-form" action="">
+                        <div class="layui-col-xs6 setpad">
+                            <div class="grid-demo grid-demo-bg1">
+                                <!--4条数据-->
+                                <div class="layui-row">
+                                    <div class="layui-col-md4">表单创建时间</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">2017-10-14 15:56:17</div>
+                                </div>
+                                <div class="layui-row">
+                                    <div class="layui-col-md4">填写者权限</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">
+                                        <div class="gselect">
+                                            <select name="city" lay-verify="required">
+                                                <option value="0">北京</option>
+                                                <option value="1">上海</option>
+                                                <option value="2">广州</option>
+                                                <option value="3">深圳</option>
+                                                <option value="4">杭州</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-row gcheck">
+                                    <div class="layui-col-md4">表单开启/停止</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">已开启,正在收集</label>
+
+                                            <div class="layui-input-block">
+                                                <input type="checkbox" name="switch" lay-skin="switch">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-row">
+                                    <div class="layui-col-md4">结果分享</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">私密：不向任何人公开</div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!--右侧-->
+                    <form class="layui-form" action="">
+                        <div class="layui-col-xs6 setpad gtwo-right">
+                            <div class="grid-demo ">
+                                <div class="layui-row">
+                                    <div class="layui-col-md4">表单标签</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">
+                                        <a href="javascript:void(0)" class="gma"><i class="layui-icon">&#xe642;</i> </a>
+                                    </div>
+                                </div>
+                                <div class="layui-row">
+                                    <div class="layui-col-md4">邮件推送提醒</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">
+                                        <a href="javascript:void(0)" class="gdashed">未开启</a>
+                                    </div>
+                                </div>
+                                <div class="layui-row">
+                                    <div class="layui-col-md4">短信推送提醒</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">
+                                        <a href="javascript:void(0)" class="gdashed">未开启</a>
+                                    </div>
+                                </div>
+                                <div class="layui-row">
+                                    <div class="layui-col-md4">团队协作</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">
+                                        <a href="javascript:void(0)" class="gma"><img src="http://t.cn/RCzsdCq"
+                                                                                      class="layui-nav-img"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!--表格数据-->
+                <div class="layui-row gthree">
+                    <div class="layui-col-md10">
+                        <div class="grid-demo grid-demo-bg1">
+                            <span>最近提交表单数据</span>
+                            <a href="#" style="color: #007DDB;">查看更多</a>
+                        </div>
+                    </div>
+                    <div class="layui-col-md2 g-right">
+                        <div class="grid-demo">
+                            <a class="layui-btn layui-btn-primary layui-btn-mini" href="javascript:void(0)">添加数据</a>
+                            <a class="" href="javascript:">
+                                <i class="layui-icon">&#xe62a;</i>
+                            </a>
+                        </div>
+                    </div>
+                    <!--表格 有数据or 没有数据-->
+                    <div class="row layui-form">
+                        <table id="q-table-recent-submit"></table>
+                    </div>
+                    <!--复制 删除表单-->
+                    <div class="foot-btn">
+                        <button class="layui-btn layui-btn-normal layui-btn-small">复制</button>
+                        <button class="layui-btn layui-btn-warm layui-btn-small">清空数据</button>
+                        <button class="layui-btn layui-btn-danger layui-btn-small">删除表单</button>
+                    </div>
+                </div>
+            </div>
+            <!--编辑内容-->
+            <div class="layui-tab-item ">
+                <div class="layui-container">
+                    <div class="layui-row">
+                        <div class="layui-col-md8">
+                            <section class="formEditorView">
+                                <div class="form-container">
+                                    <form action="" method="post" class="layui-form">
+                                        <div class="banner">
+                                            <img src="../images/20160703224347_e39266@hixlarge.png"
+                                                 style="width: 100%;"/>
+                                        </div>
+                                        <div class="new-line">
+                                            <div class="layui-form-item">
+                                                <!--<div class="layui-input-block">-->
+                                                <input type="text" name="title" required lay-verify="required"
+                                                       placeholder="姓名" autocomplete="off" class="layui-input">
+                                                <!--</div>-->
+                                            </div>
+                                            <div class="fn-area">
+                                                <i class="layui-icon ele-copy">&#xe60a;</i>
+                                                <i class="layui-icon ele-del">&#xe640;</i>
+                                            </div>
+                                        </div>
+                                        <div class="new-line">
+                                            <div class="layui-form-item">
+                                                <textarea name="" rows="" cols="" id="briefText"></textarea>
+                                            </div>
+                                            <div class="fn-area">
+                                                <i class="layui-icon ele-copy">&#xe60a;</i>
+                                                <i class="layui-icon ele-del">&#xe640;</i>
+                                            </div>
+                                        </div>
+                                        <div class="new-line">
+                                            <!--单行文字-->
+                                            <div class="layui-form-item">
+                                                <div class="layui-row layui-col-md12 text-left field-name">
+                                                    未命名
+                                                </div>
+                                                <div class="layui-row layui-col-md12 text-left field-desc">
+                                                    描述
+                                                </div>
+                                                <div class="layui-row layui-col-md6">
+                                                    <input type="text" class="layui-input"/>
+                                                </div>
+                                            </div>
+                                            <div class="fn-area">
+                                                <i class="layui-icon ele-copy">&#xe60a;</i>
+                                                <i class="layui-icon ele-del">&#xe640;</i>
+
+                                                <div class="msg ele-copy-msg">
+                                                    <p>
+                                                        <span class="up-trangle"></span>
+                                                        <span class="content">复制</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="new-line">
+                                            <!--多行文字-->
+                                            <div class="layui-form-item">
+                                                <div class="layui-row layui-col-md12 text-left field-name">
+                                                    未命名
+                                                </div>
+                                                <div class="layui-row layui-col-md12 text-left field-desc">
+                                                    描述
+                                                </div>
+                                                <div class="layui-row layui-col-md12">
+                                                    <textarea class="layui-textarea"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="fn-area">
+                                                <i class="layui-icon ele-copy">&#xe60a;</i>
+                                                <i class="layui-icon ele-del">&#xe640;</i>
+                                            </div>
+                                        </div>
+                                        <div class="new-line">
+                                            <!--单项选择-->
+                                            <div class="layui-form-item">
+                                                <div class="layui-row layui-col-md12 text-left field-name">
+                                                    未命名
+                                                </div>
+                                                <div class="layui-row layui-col-md12 text-left field-desc">
+                                                    描述
+                                                </div>
+                                                <div class="layui-row layui-col-md12 text-left">
+                                                    <input type="radio" name="item" value="1" title="选项1"
+                                                           checked="checked">
+                                                    <br/>
+                                                    <input type="radio" name="item" value="2" title="选项2">
+                                                    <br/>
+                                                    <input type="radio" name="item" value="3" title="选项3">
+                                                </div>
+                                            </div>
+                                            <div class="fn-area">
+                                                <i class="layui-icon ele-copy">&#xe60a;</i>
+                                                <i class="layui-icon ele-del">&#xe640;</i>
+                                            </div>
+                                        </div>
+
+                                        <div class="new-line">
+                                            <!--多项选择-->
+                                            <div class="layui-form-item">
+                                                <div class="layui-row layui-col-md12 text-left field-name">
+                                                    未命名
+                                                </div>
+                                                <div class="layui-row layui-col-md12 text-left field-desc">
+                                                    描述
+                                                </div>
+                                                <div class="layui-row layui-col-md12 text-left">
+                                                    <input type="checkbox" name="item" value="1" title="选项1"
+                                                           checked="checked">
+                                                    <br/>
+                                                    <input type="checkbox" name="item" value="2" title="选项2">
+                                                    <br/>
+                                                    <input type="checkbox" name="item" value="3" title="选项3">
+                                                    <br/>
+                                                    <input type="checkbox" name="item" value="4" title="选项4">
+                                                </div>
+                                            </div>
+                                            <div class="fn-area">
+                                                <i class="layui-icon ele-copy">&#xe60a;</i>
+                                                <i class="layui-icon ele-del">&#xe640;</i>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </section>
+                        </div>
+                        <div class="layui-col-md4">
+                            <section class="add-field">
+                                <div class="layui-tab layui-tab-card">
+                                    <ul class="layui-tab-title">
+                                        <li class="layui-this">添加字段</li>
+                                        <li>编辑字段</li>
+                                        <li>表单样式</li>
+                                    </ul>
+                                    <div class="layui-tab-content">
+                                        <div class="layui-tab-item layui-show">
+
+                                            <div class="layui-row layui-col-space10">
+                                                <div class="layui-col-md6 fied-item">
+                                                    <div class="grid-demo layui-bg-gray" id="q-single-text">
+                                                        <i class="layui-icon">&#xe642;</i>&nbsp;&nbsp;单行文字
+                                                    </div>
+                                                </div>
+                                                <div class="layui-col-md6 fied-item">
+                                                    <div class="grid-demo layui-bg-gray" id="q-multi-text">
+                                                        <i class="layui-icon">&#xe63c;</i>&nbsp;&nbsp;多行文字
+                                                    </div>
+                                                </div>
+
+                                                <div class="layui-col-md6 fied-item">
+                                                    <div class="grid-demo layui-bg-gray" id="q-single-select">
+                                                        <i class="layui-icon">&#xe643;</i>&nbsp;&nbsp;单项选择
+                                                    </div>
+                                                </div>
+                                                <div class="layui-col-md6 fied-item">
+                                                    <div class="grid-demo layui-bg-gray" id="q-multi-select">
+                                                        <i class="layui-icon">&#xe618;</i>&nbsp;&nbsp;多项选择
+                                                    </div>
+                                                </div>
+
+                                                <div class="layui-col-md6 fied-item">
+                                                    <div class="grid-demo layui-bg-gray" id="q-single-pic">
+                                                        <i class="layui-icon">&#xe64a;</i>&nbsp;&nbsp; 图片单选
+                                                    </div>
+                                                </div>
+                                                <div class="layui-col-md6 fied-item">
+                                                    <div class="grid-demo layui-bg-gray" id="q-multi-pic">
+                                                        <i class="layui-icon">&#xe634;</i>&nbsp;&nbsp;图片多选
+                                                    </div>
+                                                </div>
+
+                                                <div class="layui-col-md6 fied-item">
+                                                    <div class="grid-demo layui-bg-gray" id="q-single-mat">
+                                                        <i class="layui-icon">&#xe62d;</i>&nbsp;&nbsp;矩阵单选
+                                                    </div>
+                                                </div>
+                                                <div class="layui-col-md6 fied-item">
+                                                    <div class="grid-demo layui-bg-gray" id="q-mat-text">
+                                                        <i class="layui-icon">&#xe62a;</i>&nbsp;&nbsp; 矩阵填空
+                                                    </div>
+                                                </div>
+
+                                                <div class="layui-col-md6 fied-item">
+                                                    <div class="grid-demo layui-bg-gray" id="q-number-field">
+                                                        <i class="layui-icon" style="font-size: xx-small;">123</i>&nbsp;&nbsp;数字
+                                                    </div>
+                                                </div>
+                                                <div class="layui-col-md6 fied-item">
+                                                    <div class="grid-demo layui-bg-gray" id="q-time-picker">
+                                                        <i class="layui-icon">&#xe60e;</i>&nbsp;&nbsp;时间
+                                                    </div>
+                                                </div>
+
+                                                <div class="layui-col-md6 fied-item">
+                                                    <div class="grid-demo layui-bg-gray" id="q-date-picker">
+                                                        <i class="layui-icon">&#xe637;</i>&nbsp;&nbsp;日期
+                                                    </div>
+                                                </div>
+                                                <div class="layui-col-md6 fied-item">
+                                                    <div class="grid-demo layui-bg-gray" id="q-drop-select">
+                                                        <i class="layui-icon">&#xe61a;</i>&nbsp;&nbsp;下拉框
+                                                    </div>
+                                                </div>
+
+                                                <div class="layui-col-md6 fied-item">
+                                                    <div class="grid-demo layui-bg-gray" id="q-desc-field">
+                                                        <i class="layui-icon">&#xe6b2;</i>&nbsp;&nbsp;描述
+                                                    </div>
+                                                </div>
+                                                <div class="layui-col-md6 fied-item">
+                                                    <div class="grid-demo layui-bg-gray" id="q-pagination-fn">
+                                                        <i class="layui-icon">&#xe705;</i>&nbsp;&nbsp;分页
+                                                    </div>
+                                                </div>
+
+                                                <div class="layui-col-md6 fied-item">
+                                                    <div class="grid-demo layui-bg-gray" id="q-url-field">
+                                                        <i class="layui-icon">&#xe64c;</i>&nbsp;&nbsp;网址
+                                                    </div>
+                                                </div>
+                                                <div class="layui-col-md6 fied-item">
+                                                    <div class="grid-demo layui-bg-gray" id="q-mark-field">
+                                                        <i class="layui-icon">&#xe606;</i>&nbsp;&nbsp;评分
+                                                    </div>
+                                                </div>
+
+                                                <div class="layui-col-md6 fied-item">
+                                                    <div class="grid-demo layui-bg-gray" id="q-multi-select">
+                                                        <i class="layui-icon">&#xe65a;</i>&nbsp;&nbsp;两级下拉框
+                                                    </div>
+                                                </div>
+                                                <div class="layui-col-md6 fied-item">
+                                                    <div class="grid-demo layui-bg-gray" id="q-upload-file-filed">
+                                                        <i class="layui-icon">&#xe624;</i>&nbsp;&nbsp;上传文件
+                                                    </div>
+                                                </div>
+
+                                                <div class="layui-col-md6 fied-item">
+                                                    <div class="grid-demo layui-bg-gray" id="q-association-form">
+                                                        <i class="layui-icon">&#xe630;</i>&nbsp;&nbsp;表单关联
+                                                    </div>
+                                                </div>
+
+                                                <!--单行文字 多行文字 单项选择 多项选择 图片单选 图片多选 矩阵单选 矩阵填空 数字 时间 日期 下拉框 描述 分页 网址 评分 两级下拉框 上传文件 表单管理-->
+
+                                            </div>
+
+                                        </div>
+                                        <div class="layui-tab-item">内容2</div>
+                                        <div class="layui-tab-item">内容3</div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--数据内容-->
+            <div class="layui-tab-item">
+                <div class="shuju">
+                    <!--表格头部菜单-->
+                    <div class="layui-row shu-menu layui-col-md12">
+                        <div class="layui-col-md1">
+                            <div class="grid-demo grid-demo-bg1"><i class="layui-icon">&#x1002;</i></div>
+                        </div>
+                        <div class="layui-col-md4">
+                            <div class="grid-demo grid-demo-bg1">
+                                </span><i class="layui-icon">&#xe654;</i>
+                                <a href="javascript:">添加</a>
+                                </span>
+                                <span><i class="layui-icon">&#xe63c;</i><a href="">从excel添加</a></span>
+                                <span><i class="layui-icon">&#xe654;</i><a href="">删除</a></span>
+                                <span><i class="layui-icon">&#xe63c;</i><a href="">批量编辑</a></span>
+                            </div>
+                        </div>
+                        <div class="layui-col-md1">
+                            <div class="grid-demo grid-demo-bg1">
+                                <a href="#">发送短信&amp;邮件</a>
+                            </div>
+                        </div>
+                        <div class="layui-col-md2">
+                            <div class="grid-demo grid-demo-bg1">
+                                <input type="text" name="" id="tab-search" value=""/>
+                                <button class="layui-btn layui-btn-mini"><i class="layui-icon">&#xe615;</i></button>
+                            </div>
+                        </div>
+                        <div class="layui-col-md1">
+                            <div class="grid-demo grid-demo-bg1">
+                                <i class="layui-icon" title="按提交日期筛选">&#xe60e;</i>
+                                <i class="layui-icon" title="筛选数据">&#xe639;</i>
+                                <i class="layui-icon" title="查看数据变更记录">&#xe628;</i>
+                                <i class="layui-icon" title="显示或隐藏各列数据">&#xe647;</i>
+                            </div>
+                        </div>
+                        <div class="layui-col-md1">
+                            <div class="grid-demo grid-demo-bg1">
+                                <select name="" lay-verify="">
+                                    <option value="">数据分享</option>
+                                    <option value="">结果分享</option>
+                                    <option value="">对外查询</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-col-md1">
+                            <div class="grid-demo grid-demo-bg1">
+                                <select name="" lay-verify="">
+                                    <option value="">导出所有列</option>
+                                    <option value="">仅导出显示列</option>
+                                    <option value="">批量打印<span class="layui-badge-rim">付费功能</span></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!--表格数据-->
+                    <div class="layui-col-md12 layui-border-box layui-table-view" lay-filter="LAY-table-1">
+                        <table id="q-data-table">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+</body>
+<script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    layui.use('table', function () {
+        var table = layui.table;
+
+        //展示已知数据
+        table.render({
+            elem: '#q-data-table',
+            data: [{
+                "id": "10001",
+                "username": "杜甫",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "116",
+                "ip": "192.168.0.8",
+                "logins": "108",
+                "joinTime": "2016-10-14"
+            }, {
+                "id": "10002",
+                "username": "李白",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "12",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14",
+                "LAY_CHECKED": true
+            }, {
+                "id": "10003",
+                "username": "王勃",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "65",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            }, {
+                "id": "10004",
+                "username": "贤心",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "666",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            }, {
+                "id": "10005",
+                "username": "贤心",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "86",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            }, {
+                "id": "10006",
+                "username": "贤心",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "12",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            }, {
+                "id": "10007",
+                "username": "贤心",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "16",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            }, {
+                "id": "10008",
+                "username": "贤心",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "106",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            }],
+            //				height: 272,
+            cols: [
+                [ //标题栏
+                    {
+                        checkbox: true,
+                        LAY_CHECKED: true
+                    } //默认全选
+                    , {
+                    field: 'id',
+                    title: 'ID',
+                    width: 80,
+                    sort: true
+                }, {
+                    field: 'username',
+                    title: '用户名',
+                    width: 120,
+                    sort: true
+                }, {
+                    field: 'email',
+                    title: '邮箱',
+                    width: 150,
+                    sort: true
+                }, {
+                    field: 'sign',
+                    title: '签名',
+                    width: 150,
+                    sort: true
+                }, {
+                    field: 'sex',
+                    title: '性别',
+                    width: 80,
+                    sort: true
+                }, {
+                    field: 'city',
+                    title: '城市',
+                    width: 100,
+                    sort: true
+                }, {
+                    field: 'experience',
+                    title: '积分',
+                    width: 80,
+                    sort: true
+                }
+                ]
+            ],
+            skin: 'row', //表格风格
+            even: true,
+            page: true, //是否显示分页
+            limits: [5, 7, 10],
+            limit: 5 //每页默认显示的数量
+        });
+    });
+</script>
+<script type="text/javascript">
+    layui.use('table', function () {
+        var table = layui.table;
+        //展示已知数据
+        table.render({
+            elem: '#q-table-recent-submit',
+            data: [{
+                "id": "10001",
+                "username": "杜甫",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "116",
+                "ip": "192.168.0.8",
+                "logins": "108",
+                "joinTime": "2016-10-14"
+            }, {
+                "id": "10002",
+                "username": "李白",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "12",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14",
+                "LAY_CHECKED": true
+            }, {
+                "id": "10003",
+                "username": "王勃",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "65",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            }, {
+                "id": "10004",
+                "username": "贤心",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "666",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            }, {
+                "id": "10005",
+                "username": "贤心",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "86",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            }, {
+                "id": "10006",
+                "username": "贤心",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "12",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            }, {
+                "id": "10007",
+                "username": "贤心",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "16",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            }, {
+                "id": "10008",
+                "username": "贤心",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "106",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            }],
+            //				height: 272,
+            cols: [
+                [ //标题栏
+                    {
+                        checkbox: true,
+                        LAY_CHECKED: true
+                    } //默认全选
+                    , {
+                    field: 'id',
+                    title: 'ID',
+                    width: 80,
+                    sort: true
+                }, {
+                    field: 'username',
+                    title: '用户名',
+                    width: 120,
+                    sort: true
+                }, {
+                    field: 'email',
+                    title: '邮箱',
+                    width: 150,
+                    sort: true
+                }, {
+                    field: 'sign',
+                    title: '签名',
+                    width: 150,
+                    sort: true
+                }, {
+                    field: 'sex',
+                    title: '性别',
+                    width: 80,
+                    sort: true
+                }, {
+                    field: 'city',
+                    title: '城市',
+                    width: 100,
+                    sort: true
+                }, {
+                    field: 'experience',
+                    title: '积分',
+                    width: 80,
+                    sort: true
+                }
+                ]
+            ],
+            skin: 'row', //表格风格
+            even: true,
+            page: true, //是否显示分页
+            limits: [5, 7, 10],
+            limit: 5 //每页默认显示的数量
+        });
+    });
+</script>
+<script type="text/javascript">
+    var $form = $('.formEditorView>div>form');
+    $form.on('click', '.new-line', function () {
+        $('.new-line').removeClass('active-line');
+        $(this).addClass('active-line');
+    });
+    $form.on('click', '.ele-copy', copySelf);
+    $form.on('click', '.ele-del', delSelf);
+    layui.use(['element', 'layedit', 'form'], function () {
+        var element = layui.element;
+        var layedit = layui.layedit;
+        window.form = layui.form;
+        layedit.set({
+            height: 150
+        });
+        layedit.build('briefText'); //建立编辑器
+    });
+    var creator = new FormCreator();
+
+    function parseId(id) {
+        try {
+            var _id = id.split('-');
+            _id[1] = _id[1][0].toUpperCase() + _id[1].substr(1);
+            _id[2] = _id[2][0].toUpperCase() + _id[2].substr(1);
+            return _id[1] + _id[2];
+        } catch (e) {
+            console.error('请检查当前点击元素的id值是否传入');
+        }
+    }
+
+    function FormCreator() {
+        this.elementStack = [];
+    }
+    FormCreator.prototype.createSingleText = function () {
+        var htmlString = '<div class="new-line">' +
+                '<!--单行文字-->' +
+                '<div class="layui-form-item">' +
+                '<div class="layui-row layui-col-md12 text-left field-name">' +
+                '未命名' +
+                '</div>' +
+                '<div class="layui-row layui-col-md12 text-left field-desc">' +
+                '描述' +
+                '</div>' +
+                '<div class="layui-row layui-col-md6">' +
+                '<input type="text" class="layui-input"/>' +
+                '</div>' +
+                '</div>' +
+                '<div class="fn-area">' +
+                '<i class="layui-icon ele-copy">&#xe60a;</i>' +
+                '<i class="layui-icon ele-del">&#xe640;</i>' +
+                '<div class="msg ele-copy-msg">' +
+                '<p>' +
+                '<span class="up-trangle"></span>' +
+                '<span class="content">复制</span>' +
+                '</p>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+        return $(htmlString);
+    };
+    FormCreator.prototype.createMultiText = function () {
+        var htmlString = '<div class="new-line">' +
+                '<!--多行文字-->' +
+                '<div class="layui-form-item">' +
+                '<div class="layui-row layui-col-md12 text-left field-name">' +
+                '未命名' +
+                '</div>' +
+                '<div class="layui-row layui-col-md12 text-left field-desc">' +
+                '描述' +
+                '</div>' +
+                '<div class="layui-row layui-col-md12">' +
+                '<textarea class="layui-textarea"></textarea>' +
+                '</div>' +
+                '</div>' +
+                '<div class="fn-area">' +
+                '<i class="layui-icon ele-copy">&#xe60a;</i>' +
+                '<i class="layui-icon ele-del">&#xe640;</i>' +
+                '</div>' +
+                '</div>';
+        return $(htmlString);
+    };
+    FormCreator.prototype.createSingleSelect = function () {
+        //生成单项选择
+        var htmlString = '		<div class="new-line">' +
+                '													<!--单项选择-->' +
+                '													<div class="layui-form-item">' +
+                '														<div class="layui-row layui-col-md12 text-left field-name">' +
+                '															未命名' +
+                '														</div>' +
+                '														<div class="layui-row layui-col-md12 text-left field-desc">' +
+                '															描述' +
+                '														</div>' +
+                '														<div class="layui-row layui-col-md12 text-left">' +
+                '															<input type="radio" name="item" value="1" title="选项1" checked="checked">' +
+                '															<br />' +
+                '															<input type="radio" name="item" value="2" title="选项2">' +
+                '															<br />' +
+                '															<input type="radio" name="item" value="3" title="选项3">' +
+                '														</div>' +
+                '													</div>' +
+                '													<div class="fn-area">' +
+                '														<i class="layui-icon ele-copy">&#xe60a;</i>' +
+                '														<i class="layui-icon ele-del">&#xe640;</i>' +
+                '													</div>' +
+                '												</div>';
+        return $(htmlString);
+    };
+    FormCreator.prototype.createMultiSelect = function () {
+        var htmlString = '<div class="new-line">' +
+                '													<!--多项选择-->' +
+                '													<div class="layui-form-item">' +
+                '														<div class="layui-row layui-col-md12 text-left field-name">' +
+                '															未命名' +
+                '														</div>' +
+                '														<div class="layui-row layui-col-md12 text-left field-desc">' +
+                '															描述' +
+                '														</div>' +
+                '														<div class="layui-row layui-col-md12 text-left">' +
+                '															<input type="checkbox" name="item" value="1" title="选项1" checked="checked">' +
+                '															<br />' +
+                '															<input type="checkbox" name="item" value="2" title="选项2">' +
+                '															<br />' +
+                '															<input type="checkbox" name="item" value="3" title="选项3">' +
+                '															<br />' +
+                '															<input type="checkbox" name="item" value="4" title="选项4">' +
+                '														</div>' +
+                '													</div>' +
+                '													<div class="fn-area">' +
+                '														<i class="layui-icon ele-copy">&#xe60a;</i>' +
+                '														<i class="layui-icon ele-del">&#xe640;</i>' +
+                '													</div>' +
+                '												</div>';
+        return $(htmlString);
+    };
+    FormCreator.prototype.createSinglePic = function () {
+    };
+    FormCreator.prototype.createMultiPic = function () {
+    };
+    FormCreator.prototype.createSingleMat = function () {
+    };
+    FormCreator.prototype.createMatText = function () {
+    };
+    FormCreator.prototype.createNumberField = function () {
+    };
+    FormCreator.prototype.createTimePicker = function () {
+    };
+    FormCreator.prototype.createDatePicker = function () {
+    };
+    FormCreator.prototype.createDropSelect = function () {
+    };
+    FormCreator.prototype.createDescField = function () {
+    };
+    FormCreator.prototype.createPaginationFn = function () {
+    };
+    FormCreator.prototype.createUrlField = function () {
+    };
+    FormCreator.prototype.createMarkField = function () {
+    };
+    //		FormCreator.prototype.createMultiSelect = function() {};
+    FormCreator.prototype.createUploadFile = function () {
+    };
+    FormCreator.prototype.createAssociationForm = function () {
+    };
+
+    $('.add-field .grid-demo').click(function () {
+        var fnName = 'create' + parseId(this.id),
+                $ele = creator[fnName](),
+                $activeLine = $form.find('.active-line');
+        $activeLine.length ? $activeLine.after($ele) : $form.append($ele);
+        form.render();
+    });
+
+    function delSelf() {
+        (this.parentNode && this.parentNode.parentNode && this.parentNode.parentNode.remove());
+    }
+
+    function copySelf() {
+        var ele = (this.parentNode && this.parentNode.parentNode && this.parentNode.parentNode.cloneNode(true));
+        if (!ele) {
+            alert('发生错误');
+        } else {
+            $('.formEditorView .active-line').after($(ele));
+        }
+    }
+</script>
+
+</html>

@@ -1,8 +1,7 @@
 package com.stouduo.dcw.config;
 
-import com.stouduo.dcw.service.CustomUserDetailService;
 import com.stouduo.dcw.util.MD5Util;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,18 +13,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Bean
-    UserDetailsService customUserService() {
-        return new CustomUserDetailService();
-    }
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserService()).passwordEncoder(new PasswordEncoder() {
+        auth.userDetailsService(userDetailsService).passwordEncoder(new PasswordEncoder() {
 
             @Override
             public String encode(CharSequence rawPassword) {
-                return MD5Util.encode((String) rawPassword);
+                return null;
             }
 
             @Override
@@ -39,11 +36,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/**").permitAll()
-                .antMatchers("/", "/index", "/form/view/**", "/form/result/**", "/user/getEmail", "/user/reSend", "/user/signup", "/user/active", "/user/verify").permitAll()
+//                .antMatchers("/**").permitAll()
+                .antMatchers("/css/**", "/js/**").permitAll()
+                .antMatchers("/form/view/**", "/form/result/**", "/user/signup/**", "/user/active").permitAll()
                 .anyRequest().authenticated()
-                .and().formLogin().loginPage("/login").failureUrl("/login?error").permitAll()
-                .and().rememberMe().tokenValiditySeconds(60 * 60 * 24 * 7).rememberMeParameter("rememberMe").rememberMeCookieName("dcw")
+                .and().formLogin().loginPage("/login").successForwardUrl("/user/loginSuccess").failureUrl("/login?error").permitAll()
+                .and().rememberMe().rememberMeParameter("rememberMe").tokenValiditySeconds(60 * 60 * 24 * 7).rememberMeCookieName("dcw")
                 .and().logout().permitAll();
 
     }

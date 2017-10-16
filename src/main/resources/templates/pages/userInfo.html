@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <link rel="icon" href="" type="img/x-ico"><!-- >th:href可以放title左边的图标<-->
+    <link th:href="@{/css/main.css}" type="text/css" rel="stylesheet">
+    <script type="application/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
+    <script type="application/javascript" th:src="@{/js/layer/layer.js}"></script>
+</head>
+<body>
+<div class="top">
+    <div class="nav">
+        <div class="top-box">
+            <div class="search">
+                <input type="text">
+                <label class="search-icon"></label>
+            </div>
+            <div class="top-right">
+                <div class="head">
+                    <img th:src="@{/images/head.png}"/>
+                </div>
+                <div class="more">
+                    <div class="account" th:text="${user.username}"></div>
+                    <div class="center item">
+                        <label class="icon"></label>
+                        <span>个人中心</span>
+                    </div>
+                    <div class="exit item">
+                        <label class="icon"></label>
+                        <span><a th:href="@{/logout}">退出</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page">
+    <div class="nav">
+        <span>个人中心</span>
+    </div>
+</div>
+<div class="nav">
+    <div class="page-center">
+        <div class="left">
+            <div class="head">
+                <img th:src="@{/images/account.png}"/>
+
+                <p class="nickname" th:text="${user.username}"></p>
+            </div>
+            <ul>
+                <li class="item on">账户概览</li>
+                <li class="item">账户设置</li>
+                <li class="item">日志</li>
+            </ul>
+        </div>
+        <div class="right">
+            <div class="basic">
+                123
+            </div>
+            <div class="setting">
+                <div class="content">
+                    <div class="title">账户设置</div>
+                    <div class="box">
+                        <ul>
+                            <li class="item">
+                                <span class="item-left">邮箱</span>
+
+                                <div th:if="${not #strings.isEmpty(user.email)}">
+                                    <label class="nickname"
+                                           th:text="${user.email}"></label>
+                                    &nbsp;&nbsp;
+                                </div>
+                                <div th:unless="${#strings.isEmpty(user.email)}">
+                                    <label class="nickname"><a th:href=""></a></label>
+                                    &nbsp;&nbsp;
+                                </div>
+                                <label class="email">这里是邮箱</label>
+                            </li>
+                            <li class="item">
+                                <span class="item-left">密码</span>
+                                <label class="password change">修改登录密码</label>
+                            </li>
+                            <li class="item">
+                                <span class="item-left">手机号</span>
+                                <label class="nickname" th:if="${not #strings.isEmpty(user.tel)}"
+                                       th:text="${user.tel}"></label>
+                                <label class="phone">这里是手机号</label>
+                            </li>
+                            <li class="item">
+                                <span class="item-left">用户名</span>
+                                <label class="nickname" th:text="${user.username}"></label>
+                                <label class="new-name change">更改用户名</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="log">
+                <div class="content">
+                    <div class="log-check">
+                        <ul>
+                            <li class="item on">表单操作日志</li>
+                            <li class="item">短信邮件日志</li>
+                        </ul>
+                    </div>
+                    <div class="log-box">
+                        <div class="log-sheets">
+                            <div class="select">
+                                <select class="select1">
+                                    <option>全部表单</option>
+                                    <option>已删除表单</option>
+                                </select>
+                                <select class="select2">
+                                    <option>所有操作记录</option>
+                                </select>
+                            </div>
+                            <div class="table">
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th>表单名</th>
+                                        <th>执行什么操作</th>
+                                        <th>操作时间</th>
+                                        <th>操作人</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td class="no-record" colspan="4">暂无记录</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="log-mail">
+                            <div class="mail-items">
+                                <ul>
+                                    <li class="on">短信推送记录</li>
+                                    <li>短信验证记录</li>
+                                    <li>邮件推送记录</li>
+                                    <li>API短信记录</li>
+                                </ul>
+                            </div>
+                            <div class="mail-box">
+                                <div class="mail-table1">
+                                    <div class="select">
+                                        <select>
+                                            <option>按手机号</option>
+                                            <option>按表单名</option>
+                                            <option>按发送时间</option>
+                                        </select>
+
+                                        <div class="search">
+                                            <input class="table1" type="text">
+                                            <label class="icon"></label>
+                                        </div>
+                                    </div>
+                                    <div class="table">
+                                        <table>
+                                            <thead>
+                                            <tr>
+                                                <th>手机号</th>
+                                                <th>内容</th>
+                                                <th>表单名</th>
+                                                <th>发送时间</th>
+                                                <th>耗费短信</th>
+                                                <th>状态</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td class="no-record" colspan="6">暂无记录</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="mail-table2">
+                                    <div class="select">
+                                        <select>
+                                            <option>按手机号</option>
+                                            <option>按表单名</option>
+                                            <option>按发送时间</option>
+                                        </select>
+
+                                        <div class="search">
+                                            <input class="table2" type="text">
+                                            <label class="icon"></label>
+                                        </div>
+                                    </div>
+                                    <div class="table">
+                                        <table>
+                                            <thead>
+                                            <tr>
+                                                <th>手机号</th>
+                                                <th>表单名</th>
+                                                <th>验证码</th>
+                                                <th>发送时间</th>
+                                                <th>状态</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td class="no-record" colspan="5">暂无记录</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="mail-table3">
+                                    <div class="select">
+                                        <select>
+                                            <option>按邮箱</option>
+                                            <option>按表单名</option>
+                                            <option>按发送时间</option>
+                                        </select>
+
+                                        <div class="search">
+                                            <input class="table3" type="text">
+                                            <label class="icon"></label>
+                                        </div>
+                                    </div>
+                                    <div class="table">
+                                        <table>
+                                            <thead>
+                                            <tr>
+                                                <th>收件人邮箱</th>
+                                                <th>标题</th>
+                                                <th>表单名</th>
+                                                <th>发送时间</th>
+                                                <th>状态</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td class="no-record" colspan="5">暂无记录</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="mail-table4">
+                                    <div class="select">
+                                        <select>
+                                            <option>按手机号</option>
+                                            <option>按应用名</option>
+                                            <option>按发送时间</option>
+                                        </select>
+
+                                        <div class="search">
+                                            <input class="table4" type="text">
+                                            <label class="icon"></label>
+                                        </div>
+                                    </div>
+                                    <div class="table">
+                                        <table>
+                                            <thead>
+                                            <tr>
+                                                <th>手机号</th>
+                                                <th>内容</th>
+                                                <th>发送时间</th>
+                                                <th>应用</th>
+                                                <th>耗费短信</th>
+                                                <th>状态</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td class="no-record" colspan="6">暂无记录</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="change-nickname change-box">
+    <span>新的用户名</span>
+    <input type="text">
+</div>
+<div class="change-email change-box">
+    <span>新的邮箱</span>
+    <input type="text">
+</div>
+<div class="change-password change-box">
+    <ul>
+        <li>
+            <span>原密码</span>
+            <input class="password" type="password">
+        </li>
+        <li>
+            <span>新密码</span>
+            <input class="new-psw" type="password">
+        </li>
+        <li>
+            <span>新密码确认</span>
+            <input class="re-psw" type="password">
+        </li>
+    </ul>
+</div>
+<script type="application/javascript" th:src="@{/js/main.js}"></script>
+<script type="application/javascript" th:src="@{/js/center.js}"></script>
+</body>
+</html>

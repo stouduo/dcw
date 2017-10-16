@@ -1,0 +1,434 @@
+html, body, p, h1, h2, h3, h4, h5, h6, span, div, ul, li, label, input, a {
+    padding: 0;
+    margin: 0;
+    color: #333;
+    font-size: 14px;
+}
+
+ul, li {
+    list-style: none;
+}
+
+input, select {
+    outline: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+body {
+    background-color: #F5F7FA;
+}
+
+.nav {
+    width: 1000px;
+    margin: 0 auto;
+}
+
+/* 注册登陆 */
+#login-box {
+    width: 500px;
+    margin: 7% auto 0;
+    box-shadow: 0 0 5px #888;
+    border-radius: 3px;
+    background-color: #FFFFFF;
+}
+#had-id {
+    display: none;
+}
+#no-id, #had-id {
+    width: 500px;
+    margin: 20px auto;
+    text-align: center;
+}
+#no-id a, #had-id a {
+    color: #009AFF;
+}
+#login-box .title {
+    line-height: 16px;
+    font-size: 16px;
+    color: #545454;
+    text-align: center;
+    padding: 20px 30px;
+    border-bottom: 1px solid #E6E9ED;
+}
+#login-box .content {
+    padding: 30px;
+}
+#login-box .item {
+    margin-bottom: 20px;
+    position: relative;
+}
+#login-box .login-text .name {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+#login-box .login-text .value {
+    width: 418px;
+    height: 30px;
+    line-height: 40px;
+    font-size: 14px;
+    border: 1px solid #E6E9ED;
+    border-radius: 2px;
+    padding: 0 10px;
+}
+.login-btn, .register-btn, .resetPsw-btn {
+    width: 440px;
+    height: 40px;
+    line-height: 40px;
+    color: #FFFFFF;
+    background-color: #009AFF;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 300;
+    cursor: pointer;
+}
+#login-box .btn:hover {
+    background-color: #008BE6;
+}
+#login-box .forget {
+    line-height: 14px;
+    font-size: 14px;
+}
+.forget-psw {
+    float: right;
+    color: #009AFF;
+}
+#login-box .err {
+    display: none;
+    width: 418px;
+    border: 1px solid #FF7466;
+    background-color: rgba(255, 235, 233, 0.5);
+    padding: 10px;
+    border-radius: 2px;
+}
+#login-box .err p {
+    font-size: 14px;
+    color: #FF7466;
+}
+#login-box .register {
+    display: none;
+}
+.register .switch {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+/* 上边框 */
+.top {
+    width: 100%;
+    height: 48px;
+    background-color: #333745;
+}
+.top-box {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 11px;
+}
+.top .search {
+    position: relative;
+}
+.top .search input {
+    width: 220px;
+    height: 25px;
+    line-height: 25px;
+    padding: 0 12px 0 28px;
+    border: 0px;
+    border-radius: 5px;
+}
+.top .search-icon {
+    width: 25px;
+    height: 25px;
+    background: url("../images/search.png") no-repeat;
+    background-size: 25px 25px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
+}
+.top-right {
+    position: relative;
+}
+.top-right img {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #FFFFFF;
+}
+.top-right .more {
+    display: none;
+    width: 130px;
+    background-color: #FFFFFF;
+    position: absolute;
+    right: 0;
+    top: 37px;
+    box-shadow: 0 0 5px #888;
+    border-radius: 5px;
+}
+.top-right .more .item {
+    padding: 10px;
+    border-top: 1px solid #E0E0E0;
+    font-size: 14px;
+}
+.top-right .account {
+    font-size: 14px;
+    padding: 10px;
+    color: #D0D0D0;
+}
+.top-right .item {
+    display: flex;
+    align-items: center;
+}
+.top-right .more .icon {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-right: 5px;
+}
+.top-right .center .icon {
+    background: url("../images/account.png") no-repeat;
+    background-size: 14px 14px;
+}
+.top-right .exit .icon {
+    background: url("../images/exit.png") no-repeat;
+    background-size: 14px 14px;
+}
+.page {
+    width: 100%;
+    height: 48px;
+    line-height: 48px;
+    text-align: left;
+    border-bottom: 1px solid #E0E0E0;
+    background-color: #FFFFFF;
+    margin-bottom: 20px;
+}
+
+/* 个人中心 */
+.page-center {
+    display: flex;
+    justify-content: space-between;
+}
+.page-center .left {
+    width: 235px;
+    border: 1px solid #D0D0D0;
+    background-color: #FFFFFF;
+}
+.page-center .left .head {
+    text-align: center;
+    padding: 10px 0;
+    line-height: 14px;
+}
+.page-center .left .head img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+.page-center .left .nickname {
+    padding: 10px 0;
+}
+.page-center .left .item {
+    padding: 10px 15px;
+    font-size: 14px;
+    border-top: 1px solid #D0D0D0;
+    cursor: pointer;
+}
+.page-center .left .item.on {
+    background-color: #F1F1F1;
+}
+.page-center .left .item:hover {
+    background-color: #F1F1F1;
+}
+.page-center .setting, .page-center .basic, .page-center .log {
+    width: 745px;
+    background-color: #FFFFFF;
+}
+.page-center .right .content {
+    border: 1px solid #D0D0D0;
+}
+.page-center .right .title {
+    padding: 15px 25px;
+    border-bottom: 1px solid #D0D0D0;
+}
+.page-center .right .box {
+    padding: 10px 25px;
+}
+.page-center .right .content {
+    border: 1px solid #D0D0D0;
+}
+.page-center .setting, .page-center .log {
+    display: none;
+}
+.page-center .setting .item {
+    display: flex;
+    line-height: 25px;
+    margin: 5px 0;
+}
+.page-center .setting .item-left {
+    width: 110px;
+}
+.page-center .setting .change {
+    color: #009AFF;
+    cursor: pointer;
+}
+.page-center .setting .new-name {
+    margin-left: 10px;
+}
+.layui-layer .layui-layer-btn {
+    text-align: left;
+}
+.layui-layer .layui-layer-btn .layui-layer-btn0 {
+    background-color: #FFFFFF;
+    border-color: #009AFF;
+    padding: 0 25px;
+    color: #009AFF;
+}
+.layui-layer .layui-layer-btn .layui-layer-btn0:hover {
+    background-color: #009AFF;
+    color: #FFFFFF;
+}
+.layui-layer .layui-layer-btn .layui-layer-btn1 {
+    padding: 0 25px;
+}
+.layui-layer .layui-layer-btn .layui-layer-btn1:hover {
+    background-color: #eeeeee;
+}
+.layui-layer .layui-layer-content {
+    padding: 30px;
+    border-bottom: 1px solid #D0D0D0;
+}
+.change-box {
+    display: none;
+}
+.change-box input {
+    width: 210px;
+    height: 28px;
+    line-height: 28px;
+    padding: 0 5px;
+    border: 1px solid #D0D0D0;
+    border-radius: 3px;
+}
+.change-box .err-change {
+    font-size: 12px;
+    color: #FF2851;
+    margin-left: 59px;
+}
+.change-box.change-password .err-change {
+    margin-left: 84px;
+}
+.change-password ul li {
+    margin: 10px 0;
+}
+.change-password ul span {
+    display: inline-block;
+    width: 80px;
+    text-align: right;
+}
+.page-center .log .log-check ul {
+    display: flex;
+    background-color: #E6E9ED;
+}
+.page-center .log .log-check .item {
+    width: 134px;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+    cursor: pointer;
+}
+.page-center .log .log-check .item.on {
+    background-color: #FFFFFF;
+}
+.page-center .log-box {
+    padding: 20px;
+}
+.page-center .log-box select {
+    width: 216px;
+    height: 30px;
+    background-color: #FFFFFF;
+    border: 1px solid #D0D0D0;
+}
+.page-center .log-box table {
+    width: 100%;
+    margin-top: 20px;
+    border: 1px solid #D0D0D0;
+}
+.page-center .log-box table tbody tr:hover {
+    background-color: #E6F5FF;
+}
+.page-center .log-box table tr {
+    height: 34px;
+}
+.page-center .log-box table th {
+    background-color: #E0E0E0;
+    border: 1px solid #D0D0D0;
+}
+.page-center .log-box table td {
+    text-align: center;
+}
+.page-center .log-box .log-mail {
+    display: none;
+}
+.page-center .log-box .mail-items ul {
+    display: flex;
+    border-left: 1px solid #D0D0D0;
+}
+.page-center .log-box .mail-items ul li {
+    width: 104px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    cursor: pointer;
+    border-right: 1px solid #D0D0D0;
+    border-bottom: 1px solid #D0D0D0;
+    border-top: 1px solid #D0D0D0;
+}
+.page-center .log-box .mail-items ul li.on {
+    background-color: #009AFF;
+    color: #FFFFFF;
+}
+.page-center .log-box .mail-items ul li.on:hover {
+    color: #FFFFFF;
+}
+.page-center .log-box .mail-items ul li:hover {
+    color: #009AFF;
+}
+.page-center .log-box .mail-table2,
+.page-center .log-box .mail-table3,
+.page-center .log-box .mail-table4 {
+    display: none;
+}
+.page-center .log-box .mail-box {
+    margin-top: 20px;
+}
+.page-center .mail-box .select {
+    display: flex;
+}
+.page-center .mail-box .search {
+    position: relative;
+}
+.page-center .mail-box .search input {
+    width: 216px;
+    height: 28px;
+    line-height: 28px;
+    padding: 0 10px 0 28px;
+    border: 1px solid #D0D0D0;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+.page-center .mail-box .search label {
+    display: block;
+    width: 25px;
+    height: 25px;
+    background: url("../images/search.png") no-repeat;
+    background-size: 25px 25px;
+    position: absolute;
+    left: 10px;
+    top: 2px;
+}

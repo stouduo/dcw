@@ -1,12 +1,44 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Security入门</title>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="icon" href="" type="img/x-ico"><!-- >href可以放title左边的图标<-->
+    <link th:href="@{/css/main.css}" type="text/css" rel="stylesheet">
+    <script type="application/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
 </head>
 <body>
-<h1>欢迎使用Spring Security!</h1>
-
-<p>点击 <a href="/">这里</a> 打个招呼吧</p>
+<div class="top">
+    <div class="nav">
+        <div class="top-box">
+            <div class="search">
+                <input type="text">
+                <label class="search-icon"></label>
+            </div>
+            <div class="top-right">
+                <div class="head">
+                    <img th:src="@{/static/images/head.png}">
+                </div>
+                <div class="more">
+                    <div class="account">账号</div>
+                    <div class="center item">
+                        <label class="icon"></label>
+                        <span>个人中心</span>
+                    </div>
+                    <div class="exit item">
+                        <label class="icon"></label>
+                        <span>退出</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page">
+    <div class="nav">
+        <span>桌面</span>
+    </div>
+</div>
+<script type="application/javascript" th:src="@{/js/main.js}"></script>
 </body>
 </html>
