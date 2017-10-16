@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>DCW</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/gaishu.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/shuju.css}"/>
+    <style type="text/css">
+        .clearfix:after {
+            content: '';
+            clear: both;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .text-left {
+            text-align: left;
+        }
+
+        .field-name {
+            height: 35px;
+            line-height: 35px;
+            font-size: larger;
+            overflow: auto;
+        }
+
+        .field-desc {
+            height: 25px;
+            line-height: 25px;
+            font-weight: lighter;
+            font-size: x-small;
+            overflow: hidden;
+        }
+
+        header {
+            background-color: #393D49;
+        }
+
+        .msg {
+            width: 60px;
+            height: 35px;
+            border-radius: 3px;
+            background-color: #333745;
+            position: absolute;
+            top: 23px;
+            right: 5px;
+            display: none;
+        }
+
+        .msg p {
+            width: 100%;
+            line-height: 35px;
+            text-align: center;
+            color: #fff;
+            border-radius: 5px;
+            position: relative;
+            top: 0;
+            left: 0;
+        }
+
+        .msg .up-trangle {
+            display: block;
+            width: 0;
+            height: 0;
+            border: 8px solid #333745;
+            transform: rotateZ(45deg);
+            position: absolute;
+            top: -4px;
+            right: 15px;
+        }
+
+        .container {
+            box-sizing: border-box;
+            width: 960px;
+            padding: 0 7px;
+            margin: auto;
+        }
+
+        nav .container {
+            margin: 10px auto;
+            margin-bottom: 0;
+        }
+
+        .formEditorView {
+            height: 600px;
+            overflow: auto;
+            text-align: center;
+        }
+
+        form .banner {
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+        }
+
+        form .layui-form-item {
+            width: 85%;
+            margin: auto;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+        }
+
+        form .layui-input {
+            border-color: 1px solid #5FB878;
+        }
+
+        .add-field .fied-item div {
+            padding-left: 20px;
+            text-align: left;
+            height: 35px;
+            line-height: 35px;
+            overflow: hidden;
+            color: #000000;
+            transition: all 0.2s;
+        }
+
+        .add-field .fied-item div:hover {
+            cursor: pointer;
+            color: #009AFF !important;
+        }
+
+        .form-container {
+            width: 90%;
+            padding-bottom: 50px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+        }
+
+        form .layui-form-item {
+            border: none !important;
+        }
+
+        .add-field .layui-this {
+            background-color: #009AFF !important;
+            color: #fff !important;
+        }
+
+        form .new-line:hover {
+            cursor: pointer;
+        }
+
+        .formEditorView .active-line {
+            background-color: #F2FAFF;
+            border: 1px dashed #1E9FFF;
+            border-left: none;
+            border-right: none;
+            border-radius: 5px;
+        }
+
+        form .new-line {
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            position: relative;
+            top: 0;
+            left: 0;
+        }
+
+        .fn-area {
+            position: absolute;
+            bottom: -10px;
+            right: 100px;
+            background-color: #fff;
+            display: none;
+        }
+
+        .fn-area .ele-copy,
+        .fn-area .ele-del {
+            width: 30px;
+            height: 30px;
+            border-radius: 2px;
+        }
+
+        .fn-area .ele-copy:hover,
+        .fn-area .ele-del:hover {
+            background-color: #D84C29;
+            cursor: pointer;
+        }
+
+        .formEditorView .active-line .fn-area {
+            display: block;
+        }
+
+        .active-line .layui-form-item input,
+        .active-line .layui-form-item textarea,
+        .active-line .layui-form-item select {
+            border-color: #9F9F9F;
+        }
+
+        .setting-row .pull-left {
+            line-height: 30px !important;
+        }
+
+        .setting-row input {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <div class="container">
+        <ul class="layui-nav">
+            <li class="layui-nav-item">
+                <a href="desktop.html">桌面<span class="layui-badge">1</span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="">联系人<span class="layui-badge-dot"></span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href=""><img src="http://t.cn/RCzsdCq" class="layui-nav-img">个人中心</a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a href="javascript:">退出</a>
+                    </dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</header>
+<nav>
+    <div class="layui-tab container">
+        <ul class="layui-tab-title">
+            <!--概述编辑规则设置发布数据报表-->
+            <li class="layui-this">概述</li>
+            <li>编辑</li>
+            <li>数据</li>
+        </ul>
+        <div class="layui-tab-content">
+            <!--概述内容-->
+            <div class="layui-tab-item layui-show">
+                <!--概述页面写在这里-->
+                <!--3/12-->
+                <div class="layui-row  gaishu">
+                    <div class="layui-col-md3">
+                        <div class="grid-demo grid-demo-bg1">
+                            <span class="number" th:text="${formDetail.formValueCount}">0</span>
+
+                            <p>表单总数据</spam><i
+                                    class="layui-icon">&#xe60b;</i></p>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="grid-demo">
+                            <span class="number" th:text="${formDetail.todaySubmitCount}">1</span>
+
+                            <p>今日提交<i class="layui-icon">
+                                &#xe60b;</i></p>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="grid-demo grid-demo-bg1">
+                            <span class="number" th:text="${formDetail.form.viewCount}">100</span>
+
+                            <p>表单被浏览<i class="layui-icon">
+                                &#xe60b;</i></p>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="grid-demo">
+                            <span class="number" th:text="${formDetail.form.resultViewCount}">20</span>
+
+                            <p>结果被浏览<i class="layui-icon">
+                                &#xe60b;</i></p>
+                        </div>
+                    </div>
+                </div>
+                <!--6/12-->
+                <div class="layui-row gtwo">
+                    <form class="layui-form" id="editForm" th:action="@{/form/editForm}">
+                        <input type="hidden" name="id" id="id" th:text="${formDetail.form.id}"/>
+
+                        <div class="layui-col-xs6 setpad">
+                            <div class="grid-demo grid-demo-bg1">
+                                <!--4条数据-->
+                                <div class="layui-row">
+                                    <div class="layui-col-md4">表单创建时间</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4"
+                                         th:text="${#dates.format(formDetail.form.createTime,'yyyy-MM-dd HH:mm:ss')}">
+                                    </div>
+                                </div>
+                                <div class="layui-row">
+                                    <div class="layui-col-md4">填写者权限</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">
+                                        <div class="select">
+                                            <select name="submitPrivilege" lay-verify="required" class="edit">
+                                                <option th:selected="${formDetail.form.submitPrivilege=='PEOPER_OF_ALL'}"
+                                                        value="PEOPER_OF_ALL">所有人
+                                                </option>
+                                                <option th:selected="${formDetail.form.submitPrivilege=='PEOPER_OF_NONE'}"
+                                                        value="PEOPER_OF_NONE">不公开
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-row gcheck">
+                                    <div class="layui-col-md4">表单开启/停止</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">
+                                        <div class="layui-form-item">
+                                            <div class="layui-input-block">
+                                                <input type="checkbox" name="collectFlag" class="edit"
+                                                       th:checked="${formDetail.form.collectFlag}"
+                                                       lay-skin="switch"
+                                                       lay-text="开启|关闭">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-row">
+                                    <div class="layui-col-md4">结果分享</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">
+                                        <div class="select">
+                                            <select name="resultShow" lay-verify="required" class="edit">
+                                                <option th:selected="${formDetail.form.submitPrivilege=='PEOPER_OF_ALL'}"
+                                                        value="PEOPER_OF_ALL">公开
+                                                </option>
+                                                <option th:selected="${formDetail.form.submitPrivilege=='PEOPER_OF_NONE'}"
+                                                        value="PEOPER_OF_NONE">私密
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!--右侧-->
+                    <form class="layui-form">
+                        <div class="layui-col-xs6 setpad gtwo-right">
+                            <div class="grid-demo ">
+                                <div class="layui-row">
+                                    <div class="layui-col-md4">表单标签</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">
+                                        <span th:text="${formDetail.form.labels}"></span>
+                                        <a href="javascript:void(0)" class="gma"><i name="labels"
+                                                                                    class="layui-icon tips">&#xe642;</i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="layui-row">
+                                    <div class="layui-col-md4">表单提交次数限制</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">
+                                <span th:text="${formDetail.form.submitCountLimited}"
+                                ></span>
+                                        <a href="javascript:void(0)" class="gma"><i name="submitCountLimited"
+                                                                                    class="layui-icon tips">&#xe642;</i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="layui-row">
+                                    <div class="layui-col-md4">邮件推送提醒</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">
+                                        <a href="javascript:void(0)" class="gdashed">未开启</a>
+                                    </div>
+                                </div>
+                                <div class="layui-row">
+                                    <div class="layui-col-md4">短信推送提醒</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">
+                                        <a href="javascript:void(0)" class="gdashed">未开启</a>
+                                    </div>
+                                </div>
+                                <!--<div class="layui-row">-->
+                                <!--<div class="layui-col-md4">团队协作</div>-->
+                                <!--<div class="layui-col-md4 layui-col-md-offset4">-->
+                                <!--<a href="javascript:void(0)" class="gma"><img src="http://t.cn/RCzsdCq"-->
+                                <!--class="layui-nav-img"></a>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!--表格数据-->
+                <div class="layui-row gthree">
+                    <div class="layui-col-md10">
+                        <div class="grid-demo grid-demo-bg1">
+                            <span>最近提交表单数据</span>
+                            <a href="#" style="color: #007DDB;">查看更多</a>
+                        </div>
+                    </div>
+                    <div class="layui-col-md2 g-right">
+                        <div class="grid-demo">
+                            <a class="layui-btn layui-btn-primary layui-btn-mini" href="javascript:void(0)">添加数据</a>
+                            <a class="" href="javascript:">
+                                <i class="layui-icon">&#xe62a;</i>
+                            </a>
+                        </div>
+                    </div>
+                    <!--表格 有数据or 没有数据-->
+                    <div class="row layui-form">
+                        <table id="q-table-recent-submit"></table>
+                    </div>
+                    <!--复制 删除表单--><!--onclick="del('delFormValue');"--><!--onclick="del('delForm');"-->
+                    <div class="foot-btn">
+                        <button class="layui-btn layui-btn-warm layui-btn-small">清空数据
+                        </button>
+                        <button class="layui-btn layui-btn-danger layui-btn-small">删除表单
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+</body>
+<script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
+<script th:inline="javascript">
+    var data = [[${formDetail.formValues}]], formData = [];
+    var props = [[${formDetail.formProperties}]], formProp = [], cols = [];
+    var value, tempform;
+    for (var i = 0; i < data.length; i++) {
+        value = JSON.parse(data[i].value);
+        delete data[i].value;
+        tempform = {};
+        $.extend(true, tempform, value, data[i]);
+        formData.push(tempform);
+    }
+    //    field: 'username',
+    //            title: '用户名',
+    //            width: 120,
+    //            sort: true
+    var prop;
+    for (var i = 0; i < props.length; i++) {
+        prop = {};
+        prop.field = props[i].name;
+        prop.title = props[i].name;
+        prop.sort = true;
+        formProp.push(prop);
+    }
+    formProp.push({field: 'author', title: '创建人'});
+    formProp.push({field: 'createTime', title: '创建时间'});
+    formProp.push({field: 'lastModifyTime', title: '最后修改时间'});
+    formProp.push({field: 'lastModifyPerson', title: '最后修改人'});
+    formProp.push({field: 'browser', title: '浏览器'});
+    formProp.push({field: 'os', title: '操作系统'});
+    formProp.push({field: 'submitIP', title: 'IP'});
+
+    cols.push(formProp);
+</script>
+<script type="text/javascript">
+    var del;
+    layui.use(['table', 'layer', 'element', 'form'], function () {
+        var table = layui.table;
+        var element = layui.element;
+        var layer = layui.layer;
+        window.form = layui.form;
+        $('.tips').bind('click', function () {
+            var _this = this;
+            var name = $(this).attr('name');
+            var tip = layer.tips('<input id="' + id + '"  type="text" />',
+                    _this,
+                    {
+                        time: 0,
+                        closeBtn: 2,
+                    }
+            );
+            $('#' + name).val($(this).text());
+            $('#' + name).focus();
+            $('#' + name).on('blur', function () {
+                layer.close(tip);
+            });
+            $('#' + name).on('keydown', function (event) {
+                if (event.keyCode == "13") {
+                    var newValue = $(this).val();
+                    var form = {};
+                    form.id = $('#id').val();
+                    form[name] = newValue;
+                    $.post('/form/editForm', form, function (data) {
+                        layer.close(tip);
+                        if (data.code == 1) {
+                            $(_this).text(newValue)
+                            layer.msg(data.msg, {time: 3000});
+                        }
+                    }, 'json');
+                }
+            });
+            $('.edit').on('change', function () {
+                $('#editForm').submit();
+                layer.msg('修改成功', {time: 3000});
+            });
+            del = function (type) {
+                $.get('/form/delForm', {id: $('#id'), type: type}).done(function (data) {
+                    if (data.code == 1)
+                        layer.msg(data.msg, {time: 3000});
+                });
+            }
+        });
+        //展示已知数据
+        table.render({
+            elem: '#q-table-recent-submit',
+            data: [{
+                "id": "10001",
+                "username": "杜甫",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "116",
+                "ip": "192.168.0.8",
+                "logins": "108",
+                "joinTime": "2016-10-14"
+            }, {
+                "id": "10002",
+                "username": "李白",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "12",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14",
+                "LAY_CHECKED": true
+            }, {
+                "id": "10003",
+                "username": "王勃",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "65",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            }, {
+                "id": "10004",
+                "username": "贤心",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "666",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            }, {
+                "id": "10005",
+                "username": "贤心",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "86",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            }, {
+                "id": "10006",
+                "username": "贤心",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "12",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            }, {
+                "id": "10007",
+                "username": "贤心",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "16",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            }, {
+                "id": "10008",
+                "username": "贤心",
+                "email": "xianxin@layui.com",
+                "sex": "男",
+                "city": "浙江杭州",
+                "sign": "人生恰似一场修行",
+                "experience": "106",
+                "ip": "192.168.0.8",
+                "logins": "106",
+                "joinTime": "2016-10-14"
+            }],
+            //				height: 272,
+            cols: [
+                [ //标题栏
+                    {
+                        checkbox: true,
+                        LAY_CHECKED: true
+                    } //默认全选
+                    , {
+                    field: 'id',
+                    title: 'ID',
+                    width: 80,
+                    sort: true
+                }, {
+                    field: 'username',
+                    title: '用户名',
+                    width: 120,
+                    sort: true
+                }, {
+                    field: 'email',
+                    title: '邮箱',
+                    width: 150,
+                    sort: true
+                }, {
+                    field: 'sign',
+                    title: '签名',
+                    width: 150,
+                    sort: true
+                }, {
+                    field: 'sex',
+                    title: '性别',
+                    width: 80,
+                    sort: true
+                }, {
+                    field: 'city',
+                    title: '城市',
+                    width: 100,
+                    sort: true
+                }, {
+                    field: 'experience',
+                    title: '积分',
+                    width: 80,
+                    sort: true
+                }
+                ]
+            ],
+            skin: 'row', //表格风格
+            even: true,
+            page: true, //是否显示分页
+            limits: [5, 7, 10],
+            limit: 5 //每页默认显示的数量
+        });
+    });
+    form.render();
+</script>
+</html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>我的桌面</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}"/>
+    <style type="text/css">
+        .clearfix:after {
+            content: '';
+            clear: both;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #009aff;
+        }
+
+        .text-left {
+            text-align: left;
+        }
+
+        .field-name {
+            height: 35px;
+            line-height: 35px;
+            font-size: larger;
+            overflow: auto;
+        }
+
+        .field-desc {
+            height: 25px;
+            line-height: 25px;
+            font-weight: lighter;
+            font-size: x-small;
+            overflow: hidden;
+        }
+
+        header {
+            background-color: #393D49;
+        }
+
+        .msg {
+            width: 60px;
+            height: 35px;
+            border-radius: 3px;
+            background-color: #333745;
+            position: absolute;
+            top: 23px;
+            right: 5px;
+            display: none;
+        }
+
+        .msg p {
+            width: 100%;
+            line-height: 35px;
+            text-align: center;
+            color: #fff;
+            border-radius: 5px;
+            position: relative;
+            top: 0;
+            left: 0;
+        }
+
+        .msg .up-trangle {
+            display: block;
+            width: 0;
+            height: 0;
+            border: 8px solid #333745;
+            transform: rotateZ(45deg);
+            position: absolute;
+            top: -4px;
+            right: 15px;
+        }
+
+        .container {
+            box-sizing: border-box;
+            width: 960px;
+            padding: 0 7px;
+            margin: auto;
+        }
+
+        nav .container {
+            margin: 10px auto;
+            margin-bottom: 0;
+        }
+
+        /*桌面*/
+        .desk-head {
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px solid #EEEEEE;
+        }
+
+        .desk-data .databox {
+            border: 1px solid #C3C9D0;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            width: 158px;
+            height: 216px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+
+        .desk-data .databox:nth-child(2n) {
+            margin: 10px 20px;
+        }
+
+        /*虚线盒子*/
+        .desk-data .deshedbox {
+            border: 1px dashed #C3C9D0;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .deskleft .dleft-head {
+            border-bottom: 1px solid #EEEEEE;
+            height: 26px;
+            line-height: 26px;
+        }
+
+        .deshedbox .deskadd {
+            margin-top: 20px;
+        }
+
+        .deskadd {
+            font-size: 50px;
+            color: #C3C9D0;
+        }
+
+        .addicon {
+            display: flex;
+            justify-content: center;
+            align-items: Center;
+            margin-top: 42%;
+        }
+
+        .dred {
+            color: #D84C29;
+        }
+
+        .dfoot {
+            margin-top: 30px;
+        }
+
+        .dfoot b {
+            font-size: 20px;
+            padding: 4px;
+        }
+
+        .dfoot .denum {
+            display: block;
+            float: left;
+        }
+
+        .deshezhi i {
+            font-size: 20px;
+            color: #4db8ff;
+            display: none;
+            float: right;
+        }
+
+        /*设置按钮显示*/
+        .databox:hover .deshezhi i {
+            display: block;
+        }
+
+        /*虚线box*/
+        .dfoot-head {
+            height: 40px;
+            text-align: center;
+            background-color: #fff;
+            padding: 0;
+            margin: 0;
+            color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: Center;
+            display: none;
+        }
+
+        .dfoot-color {
+            height: 30px;
+            text-align: center;
+            background-color: #fff;
+            padding: 0;
+            margin: 0;
+            color: #FFFFFF;
+            display: flex;
+            justify-content: center;
+            align-items: Center;
+            display: none;
+        }
+
+        .deshedbox:hover .dfoot-head {
+            display: block;
+            color: #009AFF;
+        }
+
+        /*右侧的栏目*/
+        .left-list {
+            border-bottom: 1px dashed #C3C9D0;
+        }
+
+        .leftnum {
+            display: inline-block;
+            height: 24px;
+            line-height: 24px;
+        }
+
+        .leftnum p {
+            display: inline-block;
+            float: left;
+            width: 130px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        /**/
+        .left-list2 {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <ul class="layui-nav">
+            <li class="layui-nav-item">
+                <a href="">桌面<span class="layui-badge">1</span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="">联系人<span class="layui-badge-dot"></span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="#"><img src="http://t.cn/RCzsdCq" class="layui-nav-img">个人中心</a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a href="javascript:">退出</a>
+                    </dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</header>
+<!--桌面-->
+<div class="layui-tab container">
+    <div class="desk-head">
+        <h2 class="">桌面</h2>
+    </div>
+    <!--数据 文件夹-->
+    <div class="layui-tab-content desk-data">
+        <div class="layui-row">
+            <!--10/12-->
+            <div class="layui-col-md10">
+                <div class="layui-row grid-demo" id="formFlow">
+                    <!--1-->
+                    <div class="layui-col-md2 databox deshedbox">
+                        <div class="grid-demo grid-demo-bg1 ">
+                            <div class="addicon">
+                                <i class="layui-icon deskadd">&#xe654;</i>
+                            </div>
+                            <div class="dfoot-head">
+			          		<span>
+			          			<i class="layui-icon">&#xe63c;</i> 创建表单
+			          		</span>
+                            </div>
+                            <!--<div class="dfoot-color">
+                                <span >
+                                    <i class="layui-icon">&#xe7a0;</i> 创建文件夹
+                                </span>
+                            </div>-->
+                        </div>
+                    </div>
+                    <!--2-->
+
+                    <!--<div th:each="form,formStat :${formVO.page.content}" class="layui-col-md2 databox">-->
+                    <!--<div class="grid-demo grid-demo-bg2">-->
+                    <!--<p th:text="${form.title}"></p>-->
+
+                    <!--<div class="addicon">-->
+                    <!--<i class="layui-icon deskadd dred">&#xe62e;</i>-->
+                    <!--</div>-->
+                    <!--<div class="dfoot clearfix">-->
+                    <!--<span id="">-->
+                    <!--<b th:text="${formVO.formValueCounts[formStat.index]}"></b>数据-->
+                    <!--</span>-->
+                    <!--<span class="deshezhi"-->
+                    <!--th:attr="form=${form.id},label=${form.labels}">-->
+                    <!--<i class="layui-icon">&#xe614;</i>-->
+                    <!--</span>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--3-->
+                    <!--<div class="layui-col-md2 databox">-->
+                    <!--<div class="grid-demo grid-demo-bg3">-->
+                    <!--<p>在线考试</p>-->
+
+                    <!--<div class="addicon">-->
+                    <!--<i class="layui-icon deskadd dred">&#xe62e;</i>-->
+                    <!--</div>-->
+                    <!--<div class="dfoot clearfix">-->
+                    <!--<span class="denum">-->
+                    <!--<b>0</b>数据-->
+                    <!--</span>-->
+                    <!--<span class="deshezhi" label="333">-->
+                    <!--<i class="layui-icon">&#xe614;</i>-->
+                    <!--</span>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash;4&ndash;&gt;-->
+                    <!--<div class="layui-col-md2 databox">-->
+                    <!--<div class="grid-demo grid-demo-bg3">-->
+                    <!--<div class="addicon">-->
+                    <!--<i class="layui-icon deskadd dred">&#xe62e;</i>-->
+
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash;5&ndash;&gt;-->
+                    <!--<div class="layui-col-md2 databox">-->
+                    <!--<div class="grid-demo grid-demo-bg2">-->
+                    <!--<p>在线考试</p>-->
+
+                    <!--<div class="addicon">-->
+                    <!--<i class="layui-icon deskadd dred">&#xe62e;</i>-->
+                    <!--</div>-->
+                    <!--<div class="dfoot clearfix">-->
+                    <!--<span id="">-->
+                    <!--<b>0</b>数据-->
+                    <!--</span>-->
+                    <!--<span class="deshezhi" label="555">-->
+                    <!--<i class="layui-icon">&#xe614;</i>-->
+                    <!--</span>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                </div>
+            </div>
+            <!--2/12-->
+            <div class="layui-col-md2 deskleft">
+                <div class="layui-row grid-demo grid-demo-bg1">
+                    <div class="layui-col-md12 dleft-head">
+                        <div class="grid-demo layui-col-md11"><b>标签</b></div>
+                        <div class="grid-demo layui-col-md1"><a href="javascript:void(0)"><i class="layui-icon">
+                            &#xe6b2;</i></a></div>
+                    </div>
+                    <div class="layui-col-md12">
+                        <div class="grid-demo grid-demo-bg2">
+                            <ul class="left-list">
+                                <li>
+                                    <a href="#">
+                                        <div class="leftnum">
+                                            <p>桌面</p>
+                                            <span id="desktopFormCount">0</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <!--<li>-->
+                                <!--<a href="#">-->
+                                <!--<div class="leftnum">-->
+                                <!--<p>桌面超出隐藏</p>-->
+                                <!--<span class="layui-laypage-limits"><select lay-ignore="" name="pageSize">-->
+                                <!--<option value="10" selected="">10 条</option>-->
+                                <!--<option value="20">20 条</option>-->
+                                <!--<option value="30">30 条</option>-->
+                                <!--<option value="40">40 条</option>-->
+                                <!--<option value="50">50 条</option>-->
+                                <!--</select></span>-->
+                                <!--</div>-->
+                                <!--</a>-->
+                                <!--</li>-->
+                                <li>
+                                    <a href="#">
+                                        <div class="leftnum">
+                                            <p>总表单数</p>
+                                            <span th:text="${desktopVO.totalFormCount}"></span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <div class="leftnum">
+                                            <p>未设置标签表单</p>
+                                            <span th:text="${desktopVO.labelNullCount}"></span>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="layui-col-md12">
+                        <div class="grid-demo grid-demo-bg3">
+                            <ul class="left-list2">
+                                <li>
+                                    <a href="#">
+                                        <div class="leftnum">
+                                            <p>我为别人填的表单</p>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script id="formFlowTpl" type="text/html">
+    <div class="layui-col-md2 databox">
+        <div class="grid-demo grid-demo-bg2">
+            <p>{{d.form.title}}</p>
+
+            <div class="addicon">
+                <i class="layui-icon deskadd dred">&#xe62e;</i>
+            </div>
+            <div class="dfoot clearfix">
+			          		<span id="">
+			          			<b>{{d.formValueCount}}</b>数据
+			          		</span>
+                <span class="deshezhi">
+                <i class="layui-icon tips" form='{{d.form.id}}' label='{{d.form.labels}}'>&#xe614;</i>
+                </span>
+            </div>
+        </div>
+    </div>
+</script>
+<script th:src="@{/layui/layui.js}"></script>
+<script>
+    layui.use(['layer', 'laypage', 'laytpl', 'flow'], function () { //独立版的layer无需执行这一句
+        var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+        var laypage = layui.laypage;
+        var laytpl = layui.laytpl;
+        var flow = layui.flow;
+        flow.load({
+            elem: '#formFlow' //流加载容器
+//            , scrollElem: '#formFlow' //滚动条所在元素，一般不用填，此处只是演示需要。
+            , done: function (page, next) { //执行下一页的回调
+                $.get('/form/myForms', {curPage: page}).done(function (data) {
+                    var lis = [];
+                    var flowTpl = formFlowTpl.innerHTML;
+                    layui.each(data.data.formList, function (index, item) {
+                        laytpl(flowTpl).render(item, function (html) {
+                            lis.push(html);
+                        });
+                    });
+                    $('#desktopFormCount').text(parseInt($('#desktopFormCount').text()) + lis.length);
+                    next(lis.join(''), page < data.data.totalPages); //假设总页数为 10
+                    $(".layui-flow-more").attr("class", 'layui-col-md10 layui-flow-more');
+                    $('.tips').unbind('click');
+                    $('.tips').bind('click', function () {
+                        var _this = this;
+                        var formId = $(this).attr('form');
+                        var tip = layer.tips('<input id="label"  type="text" />',
+                                _this,
+                                {
+                                    time: 0,
+                                    closeBtn: 2,
+                                }
+                        );
+                        $('#label').val($(this).attr('label'));
+                        $('#label').focus();
+                        $('#label').on('blur', function () {
+                            layer.close(tip);
+                        });
+                        $('#label').on('keydown', function (event) {
+                            if (event.keyCode == "13") {
+                                var newLabel = $(this).val();
+                                $.post('/form/editForm', {id: formId, labels: newLabel}, function (data) {
+                                    layer.close(tip);
+                                    if (data.code == 1) {
+                                        $(_this).attr('label', newLabel);
+                                        layer.msg(data.msg, {time: 3000});
+                                    }
+                                }, 'json');
+                            }
+                        });
+                    });
+                });
+            }
+        });
+
+//        laypage.render({
+//            elem: 'page'
+//            , count: total
+//            , limits: 11
+//            , layout: ['prev', 'next']
+//            , curr: curr
+//            , jump: function (obj, first) {
+//                console.log(obj.curr + "-=---" + obj.limits);
+//                if (!first) {
+//                    layer.msg('第 ' + obj.curr + ' 页');
+//                }
+//            }
+//        });
+    });
+</script>
+</body>
+</html>
