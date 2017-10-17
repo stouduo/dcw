@@ -1,12 +1,204 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
 
 <head>
     <meta charset="UTF-8">
     <title>金数据</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/gaishu.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/shuju.css}"/>
+    <link rel="stylesheet" type="text/css" href="../layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/gaishu.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/shuju.css"/>
+    <style type="text/css">
+        .clearfix:after {
+            content: '';
+            clear: both;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .text-left {
+            text-align: left;
+        }
+
+        .field-name {
+            height: 35px;
+            line-height: 35px;
+            font-size: larger;
+            overflow: auto;
+        }
+
+        .field-desc {
+            height: 25px;
+            line-height: 25px;
+            font-weight: lighter;
+            font-size: x-small;
+            overflow: hidden;
+        }
+
+        header {
+            background-color: #393D49;
+        }
+
+        .msg {
+            width: 60px;
+            height: 35px;
+            border-radius: 3px;
+            background-color: #333745;
+            position: absolute;
+            top: 23px;
+            right: 5px;
+            display: none;
+        }
+
+        .msg p {
+            width: 100%;
+            line-height: 35px;
+            text-align: center;
+            color: #fff;
+            border-radius: 5px;
+            position: relative;
+            top: 0;
+            left: 0;
+        }
+
+        .msg .up-trangle {
+            display: block;
+            width: 0;
+            height: 0;
+            border: 8px solid #333745;
+            transform: rotateZ(45deg);
+            position: absolute;
+            top: -4px;
+            right: 15px;
+        }
+
+        .container {
+            box-sizing: border-box;
+            width: 960px;
+            padding: 0 7px;
+            margin: auto;
+        }
+
+        nav .container {
+            margin: 10px auto;
+            margin-bottom: 0;
+        }
+
+        .formEditorView {
+            height: 600px;
+            overflow: auto;
+            text-align: center;
+        }
+
+        form .banner {
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+        }
+
+        form .layui-form-item {
+            width: 85%;
+            margin: auto;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+        }
+
+        form .layui-input {
+            border-color: 1px solid #5FB878;
+        }
+
+        .add-field .fied-item div {
+            padding-left: 20px;
+            text-align: left;
+            height: 35px;
+            line-height: 35px;
+            overflow: hidden;
+            color: #000000;
+            transition: all 0.2s;
+        }
+
+        .add-field .fied-item div:hover {
+            cursor: pointer;
+            color: #009AFF !important;
+        }
+
+        .form-container {
+            width: 90%;
+            padding-bottom: 50px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+        }
+
+        form .layui-form-item {
+            border: none !important;
+        }
+
+        .add-field .layui-this {
+            background-color: #009AFF !important;
+            color: #fff !important;
+        }
+
+        form .new-line:hover {
+            cursor: pointer;
+        }
+
+        .formEditorView .active-line {
+            background-color: #F2FAFF;
+            border: 1px dashed #1E9FFF;
+            border-left: none;
+            border-right: none;
+            border-radius: 5px;
+        }
+
+        form .new-line {
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            position: relative;
+            top: 0;
+            left: 0;
+        }
+
+        .fn-area {
+            position: absolute;
+            bottom: -10px;
+            right: 100px;
+            background-color: #fff;
+            display: none;
+        }
+
+        .fn-area .ele-copy,
+        .fn-area .ele-del {
+            width: 30px;
+            height: 30px;
+            border-radius: 2px;
+        }
+
+        .fn-area .ele-copy:hover,
+        .fn-area .ele-del:hover {
+            background-color: #D84C29;
+            cursor: pointer;
+        }
+
+        .formEditorView .active-line .fn-area {
+            display: block;
+        }
+
+        .active-line .layui-form-item input,
+        .active-line .layui-form-item textarea,
+        .active-line .layui-form-item select {
+            border-color: #9F9F9F;
+        }
+
+        ..setting-row .pull-left {
+            line-height: 30px !important;
+        }
+
+        .setting-row input {
+            margin-bottom: 0;
+        }
+    </style>
 </head>
 
 <body>
@@ -34,12 +226,151 @@
     <div class="layui-tab container">
         <ul class="layui-tab-title">
             <!--概述编辑规则设置发布数据报表-->
-            <li><a th:href="@{/formValue/myform/${formDetail.form.id}}">概述</a></li>
+            <li>概述</li>
             <li class="layui-this">编辑</li>
-            <li><a th:href="@{/formValue/myFormData/${formDetail.form.id}}">数据</a></li>
+            <li>数据</li>
         </ul>
         <div class="layui-tab-content">
-            <div class="layui-tab-item layui-show">
+            <!--概述内容-->
+            <div class="layui-tab-item">
+                <!--概述页面写在这里-->
+                <!--3/12-->
+                <div class="layui-row  gaishu">
+                    <div class="layui-col-md3">
+                        <div class="grid-demo grid-demo-bg1">
+                            <span class="number">0</span>
+
+                            <p>表单总数据<i class="layui-icon">&#xe60b;</i></p>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="grid-demo">
+                            <span class="number">1</span>
+
+                            <p>今日提交<i class="layui-icon">&#xe60b;</i></p>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="grid-demo grid-demo-bg1">
+                            <span class="number">100</span>
+
+                            <p>表单被浏览<i class="layui-icon">&#xe60b;</i></p>
+                        </div>
+                    </div>
+                    <div class="layui-col-md3">
+                        <div class="grid-demo">
+                            <span class="number">20</span>
+
+                            <p>结果被浏览<i class="layui-icon">&#xe60b;</i></p>
+                        </div>
+                    </div>
+                </div>
+                <!--6/12-->
+                <div class="layui-row gtwo">
+                    <form class="layui-form" action="">
+                        <div class="layui-col-xs6 setpad">
+                            <div class="grid-demo grid-demo-bg1">
+                                <!--4条数据-->
+                                <div class="layui-row">
+                                    <div class="layui-col-md4">表单创建时间</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">2017-10-14 15:56:17</div>
+                                </div>
+                                <div class="layui-row">
+                                    <div class="layui-col-md4">填写者权限</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">
+                                        <div class="gselect">
+                                            <select name="city" lay-verify="required">
+                                                <option value="0">北京</option>
+                                                <option value="1">上海</option>
+                                                <option value="2">广州</option>
+                                                <option value="3">深圳</option>
+                                                <option value="4">杭州</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-row gcheck">
+                                    <div class="layui-col-md4">表单开启/停止</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">
+                                        <div class="layui-form-item">
+                                            <label class="layui-form-label">已开启,正在收集</label>
+
+                                            <div class="layui-input-block">
+                                                <input type="checkbox" name="switch" lay-skin="switch">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-row">
+                                    <div class="layui-col-md4">结果分享</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">私密：不向任何人公开</div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!--右侧-->
+                    <form class="layui-form" action="">
+                        <div class="layui-col-xs6 setpad gtwo-right">
+                            <div class="grid-demo ">
+                                <div class="layui-row">
+                                    <div class="layui-col-md4">表单标签</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">
+                                        <a href="javascript:void(0)" class="gma"><i class="layui-icon">&#xe642;</i> </a>
+                                    </div>
+                                </div>
+                                <div class="layui-row">
+                                    <div class="layui-col-md4">邮件推送提醒</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">
+                                        <a href="javascript:void(0)" class="gdashed">未开启</a>
+                                    </div>
+                                </div>
+                                <div class="layui-row">
+                                    <div class="layui-col-md4">短信推送提醒</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">
+                                        <a href="javascript:void(0)" class="gdashed">未开启</a>
+                                    </div>
+                                </div>
+                                <div class="layui-row">
+                                    <div class="layui-col-md4">团队协作</div>
+                                    <div class="layui-col-md4 layui-col-md-offset4">
+                                        <a href="javascript:void(0)" class="gma"><img src="http://t.cn/RCzsdCq"
+                                                                                      class="layui-nav-img"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!--表格数据-->
+                <div class="layui-row gthree">
+                    <div class="layui-col-md10">
+                        <div class="grid-demo grid-demo-bg1">
+                            <span>最近提交表单数据</span>
+                            <a href="#" style="color: #007DDB;">查看更多</a>
+                        </div>
+                    </div>
+                    <div class="layui-col-md2 g-right">
+                        <div class="grid-demo">
+                            <a class="layui-btn layui-btn-primary layui-btn-mini" id="sjadd" href="javascript:void(0)">添加数据</a>
+                            <a class="" href="javascript:">
+                                <i class="layui-icon" id="sjedit">&#xe62a;</i>
+                            </a>
+                        </div>
+                    </div>
+                    <!--表格 有数据or 没有数据-->
+                    <div class="row layui-form">
+                        <table id="q-table-recent-submit"></table>
+                    </div>
+                    <!--复制 删除表单-->
+                    <div class="foot-btn">
+                        <button class="layui-btn layui-btn-normal layui-btn-small">复制</button>
+                        <button class="layui-btn layui-btn-warm layui-btn-small">清空数据</button>
+                        <button class="layui-btn layui-btn-danger layui-btn-small">删除表单</button>
+                    </div>
+                </div>
+            </div>
+            <!--编辑内容-->
+            <div class="layui-tab-item ">
                 <div class="layui-container">
                     <div class="layui-row">
                         <div class="layui-col-md8">
@@ -760,12 +1091,74 @@
                     </div>
                 </div>
             </div>
+
+            <!--数据内容-->
+            <div class="layui-tab-item">
+                <div class="shuju">
+                    <!--表格头部菜单-->
+                    <div class="layui-row shu-menu layui-col-md12">
+                        <div class="layui-col-md3">
+                            <div class="grid-demo grid-demo-bg1">
+                                <a href="javascript:void(0)"><i class="layui-icon" title="刷新">&#x1002;</i></a>
+                            </div>
+                        </div>
+                        <div class="layui-col-md4">
+                            <div class="grid-demo grid-demo-bg1">
+                                <span><i class="layui-icon">&#xe654;</i><a href="javascript:void(0)">添加</a></span>
+                                <span><i class="layui-icon">&#xe640;</i><a href="javascript:void(0)">删除</a></span>
+                                <span><i class="layui-icon">&#xe63c;</i><a href="javascript:void(0)">批量编辑</a></span>
+                            </div>
+                        </div>
+
+                        <div class="layui-col-md2">
+                            <div class="grid-demo grid-demo-bg1">
+                                <input type="text" name="" id="tab-search" value=""/>
+                                <button class="layui-btn layui-btn-mini"><i class="layui-icon">&#xe615;</i></button>
+                            </div>
+                        </div>
+                        <div class="layui-col-md1">
+                            <div class="grid-demo grid-demo-bg1">
+                                <i class="layui-icon" title="按提交日期筛选">&#xe60e;</i>
+                                <i class="layui-icon" title="筛选数据">&#xe639;</i>
+                                <i class="layui-icon" title="查看数据变更记录">&#xe628;</i>
+                                <i class="layui-icon" title="显示或隐藏各列数据">&#xe647;</i>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--表格数据-->
+                    <div class="layui-col-md12 layui-border-box layui-table-view" lay-filter="LAY-table-1">
+                        <table id="q-data-table">
+                        </table>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </nav>
+
+<!--弹出层 model -->
+<div class="lay-hide layui-form layui-form-item" id="lay-sjedit">
+    <div class="layui-form-item" pane="">
+        <ul class="layui-input-block showtips">
+            <li><input type="checkbox" name="like1[write]" lay-skin="primary" title="写作" checked=""></li>
+            <li><input type="checkbox" name="like1[read]" lay-skin="primary" title="阅读"></li>
+            <li><input type="checkbox" name="like1[read]" lay-skin="primary" title="阅读"></li>
+            <li><input type="checkbox" name="like1[write]" lay-skin="primary" title="写作" checked=""></li>
+            <li><input type="checkbox" name="like1[write]" lay-skin="primary" title="写作" checked=""></li>
+            <li><input type="checkbox" name="like1[write]" lay-skin="primary" title="写作" checked=""></li>
+            <li><input type="checkbox" name="like1[read]" lay-skin="primary" title="阅读"></li>
+            <li><input type="checkbox" name="like1[read]" lay-skin="primary" title="阅读阅读阅读阅读阅读阅读阅读阅读"></li>
+            <li><input type="checkbox" name="like1[game]" lay-skin="primary" title="游戏" disabled=""></li>
+            <li><input type="checkbox" name="like1[game]" lay-skin="primary" title="游戏" disabled=""></li>
+        </ul>
+    </div>
+</div>
+<!--弹出层2-->
 </body>
-<script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
-<script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../layui/layui.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
     layui.use('table', function () {
         var table = layui.table;
@@ -1098,7 +1491,6 @@
     function FormCreator() {
         this.elementStack = [];
     }
-
     FormCreator.prototype.createSingleText = function () {
         var htmlString = '<div class="new-line">' +
                 '<!--单行文字-->' +
@@ -1252,4 +1644,47 @@
     }
 </script>
 
+<script type="text/javascript">
+    //添加数据
+    $('#sjadd').on('click', function () {
+        layer.open({
+            type: 2,
+            title: '弹出一个页面',
+            maxmin: true,
+            shadeClose: true, //点击遮罩关闭层
+            area: ['800px', '520px'],
+            content: 'desktop.html',
+            btn: ['确定', '取消', '提交并再填一份'],
+            btnAlign: 'l', //按钮排列 左对齐
+            yes: function (index, layero) { //或者使用btn1
+                //按钮【按钮一】的回调
+            },
+            cancel: function (index) { //或者使用btn2
+                //按钮【按钮二】的回调
+            },
+            btn3: function (index, layero) {
+                //按钮【按钮三】的回调
+            }
+        });
+    });
+    //编辑数据 显示or不显示
+    $('#sjedit').on('click', function () {
+        layer.open({
+            type: 1,
+            title: '编辑显示的内容（取消为不显示）',
+            area: ['600px', '360px'],
+            shadeClose: true, //点击遮罩关闭
+            btn: ['确定', '取消'],
+            btnAlign: 'l', //按钮排列 左对齐
+            content: $('#lay-sjedit'),
+            yes: function (index, layero) {
+                //按钮【按钮一】的回调
+                alert("按钮【按钮一】的回调");
+            },
+            btn2: function (index, layero) {
+                //按钮【按钮二】的回调
+            },
+        });
+    })
+</script>
 </html>

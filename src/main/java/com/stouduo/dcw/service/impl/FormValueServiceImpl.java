@@ -55,7 +55,8 @@ public class FormValueServiceImpl implements FormValueService {
 
     @Override
     public void delete(String formValueId) {
-        formValueRepository.delFormValues(formValueId);
+        for (String id : formValueId.split(","))
+            formValueRepository.delFormValues(id);
     }
 
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -34,10 +34,10 @@ public class FormValueController extends BaseController {
     @Value("${file.suffix.error:请上传.xls或.xlsx的文件}")
     private String suffixErrorMsg;
 
-    @GetMapping("/del/{id}")
+    @GetMapping("/del")
     @ResponseBody
-    public RestResult<FormValue> delFormValue(@PathVariable("id") String formValueId) {
-        formValueService.delete(formValueId);
+    public RestResult<FormValue> delFormValue(String formValueIds) {
+        formValueService.delete(formValueIds);
         return restSuccess("删除成功");
     }
 
@@ -64,7 +64,7 @@ public class FormValueController extends BaseController {
     @GetMapping("/myFormData/{id}")
     public String myFormData(@PathVariable("id") String formId, Model model) {
         model.addAttribute("formDetail", formValueService.myFormData(formId));
-        return "pages/editor";
+        return "pages/formEditor";
     }
 
     @GetMapping("/outport")
