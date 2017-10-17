@@ -26,6 +26,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -120,7 +121,7 @@ public class FormServiceImpl implements FormService {
         for (FormProperty formproperty : formProperties) {
             if (formproperty.getReultShow()) showProperties += formproperty.getName() + ",";
         }
-        Page<FormValue> page = formValueRepository.findByContent(formId, "", new PageRequest(curPage, pageSize, Sort.Direction.DESC, "creattime"));
+        Page<FormValue> page = formValueRepository.findByContent(formId, "", "1970-01-01 00:00:00", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()), new PageRequest(curPage, pageSize, Sort.Direction.DESC, "creatTime"));
         List<FormValue> formValues = page.getContent();
         Map<String, String> value;
         if (!StringUtils.isEmpty(showProperties)) {
