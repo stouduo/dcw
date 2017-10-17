@@ -57,21 +57,21 @@ public class FormValueController extends BaseController {
 
     @GetMapping("/formDatas")
     @ResponseBody
-    public FormValueRestVO formDatas(String content, String formId, int asc, int pageSize, int curPage) {
-        return formValueService.formDatas(formId, content, asc, pageSize, curPage);
+    public FormValueRestVO formDatas(@RequestParam(defaultValue = "") String content, String formId, @RequestParam(defaultValue = "1970-01-01 00:00:00") String startTime, String endTime, @RequestParam(defaultValue = "0") int asc, @RequestParam(defaultValue = "15") int pageSize, @RequestParam(defaultValue = "1") int curPage) {
+        return formValueService.formDatas(formId, content, startTime, StringUtils.isEmpty(endTime) ? new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) : endTime, asc, pageSize, curPage);
     }
 
     @GetMapping("/myFormData/{id}")
     public String myFormData(@PathVariable("id") String formId, Model model) {
-        model.addAttribute("formDetailVO", formValueService.myFormData(formId));
+        model.addAttribute("formDetail", formValueService.myFormData(formId));
         return "pages/editor";
     }
 
     @GetMapping("/outport")
     @ResponseBody
-    public RestResult<Page<FormValue>> outport(String content, String formId, int asc, int pageSize, int curPage) {
+    public RestResult<Page<FormValue>> outport(@RequestParam(defaultValue = "") String content, String formId, @RequestParam(defaultValue = "1970-01-01 00:00:00") String startTime, String endTime, @RequestParam(defaultValue = "0") int asc, @RequestParam(defaultValue = "0") int pageSize, @RequestParam(defaultValue = "0") int curPage) {
         try {
-            formValueService.outport(formId, content, asc, pageSize, curPage);
+            formValueService.outport(formId, content, startTime, StringUtils.isEmpty(endTime) ? new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) : endTime, asc, pageSize, curPage);
             return restSuccess("导出成功");
         } catch (ExcelException e) {
             return restError("导出失败");

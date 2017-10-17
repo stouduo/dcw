@@ -21,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.NumberUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
@@ -53,7 +54,7 @@ public class FormServiceImpl implements FormService {
         formDetailVO.setForm(formRepository.findOne(formId));
         formDetailVO.setFormProperties(formPropertyRepository.findAllByForm(formId));
         formDetailVO.setFormValueCount(formValueRepository.findFormValueCount(formId));
-        formDetailVO.setFormValues(formValueRepository.findAllByForm(formId));
+        formDetailVO.setFormValues(formValueRepository.findRecentByForm(formId));
         formDetailVO.setTodaySubmitCount(formValueRepository.findTodayFormValueCount(formId));
         return formDetailVO;
     }
@@ -135,7 +136,7 @@ public class FormServiceImpl implements FormService {
                 }
                 formValue.setValue(JSON.toJSONString(value));
             }
-            page = new PageImpl<FormValue>(formValues, new PageRequest(curPage, pageSize), page.getTotalElements());
+            page = new PageImpl<>(formValues, new PageRequest(curPage, pageSize), page.getTotalElements());
         }
         formRepository.updateResultViewCount(formId);
         resultVO.setForm(form);
@@ -152,7 +153,12 @@ public class FormServiceImpl implements FormService {
             field.setAccessible(true);
             value = field.get(form);
             if (!ObjectUtils.isEmpty(value)) {
-                field.set(temp, value);
+                if (value instanceof Integer) {
+                    if (((int) value) != 0)
+                        field.set(temp, value);
+                } else {
+                    field.set(temp, value);
+                }
             }
         }
         formRepository.save(temp);
@@ -178,7 +184,7 @@ public class FormServiceImpl implements FormService {
 
     @Override
     public void delForm(String id, String type) {
-        if (type.equals("delFormValues")) {
+        if (type.equals("delFormValue")) {
             formValueRepository.delFormValues(id);
         } else {
             formRepository.delForm(id);

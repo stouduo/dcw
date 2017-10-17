@@ -30,6 +30,6 @@ public interface FormRepository extends PagingAndSortingRepository<Form, String>
     long findFormCountByAuthor(@Param("author") String username);
 
     @Modifying
-    @Query("update Form f set f.del=false where f.id=:id")
+    @Query("update Form f set f.del=true where f.id=:id")
     void delForm(@Param("id") String id);
 }

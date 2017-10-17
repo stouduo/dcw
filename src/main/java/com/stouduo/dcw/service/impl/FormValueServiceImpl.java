@@ -60,8 +60,8 @@ public class FormValueServiceImpl implements FormValueService {
 
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    public FormValueRestVO formDatas(String content, String formId, int asc, int pageSize, int curPage) {
-        Page<FormValue> page = formValueRepository.findByContent(formId, content, new PageRequest(curPage, pageSize, asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createtime"));
+    public FormValueRestVO formDatas(String formId, String content, String startTime, String endTime, int asc, int pageSize, int curPage) {
+        Page<FormValue> page = formValueRepository.findByContent(formId, content, startTime, endTime, new PageRequest(curPage, pageSize, asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createtime"));
         FormValueRestVO restVO = new FormValueRestVO();
         List<FormValue> formValues = page.getContent();
         List<Map<String, String>> formValuesMap = new ArrayList<>();
@@ -86,13 +86,13 @@ public class FormValueServiceImpl implements FormValueService {
     }
 
     @Override
-    public void outport(String formId, String content, int asc, int pageSize, int curPage) throws ExcelException {
+    public void outport(String formId, String content, String startTime, String endTime, int asc, int pageSize, int curPage) throws ExcelException {
         Form form = formRepository.findOne(formId);
         List<FormValue> formValues;
         if (pageSize != 0 || curPage != 0) {
-            formValues = formValueRepository.findByContent(formId, content, new PageRequest(curPage, pageSize, asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createtime")).getContent();
+            formValues = formValueRepository.findByContent(formId, content, startTime, endTime, new PageRequest(curPage, pageSize, asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createtime")).getContent();
         } else {
-            formValues = formValueRepository.findByContent(formId, content, new Sort(asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createTime"));
+            formValues = formValueRepository.findByContent(formId, content, startTime, endTime, new Sort(asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createTime"));
         }
         List<String> fieldNames = formPropertyRepository.findByForm(formId);
         fieldNames.add("表单创建人");

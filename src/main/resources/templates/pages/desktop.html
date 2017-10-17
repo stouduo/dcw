@@ -414,21 +414,25 @@
 </div>
 <script id="formFlowTpl" type="text/html">
     <div class="layui-col-md2 databox">
-        <div class="grid-demo grid-demo-bg2">
-            <p>{{d.form.title}}</p>
 
-            <div class="addicon">
-                <i class="layui-icon deskadd dred">&#xe62e;</i>
-            </div>
+        <div class="grid-demo grid-demo-bg2">
+            <a href="/form/myform/{{d.form.id}}">
+                <p>{{d.form.title}}</p>
+
+                <div class="addicon">
+                    <i class="layui-icon deskadd dred">&#xe62e;</i>
+                </div>
+            </a>
             <div class="dfoot clearfix">
 			          		<span id="">
 			          			<b>{{d.formValueCount}}</b>数据
 			          		</span>
                 <span class="deshezhi">
-                <i class="layui-icon tips" form='{{d.form.id}}' label='{{d.form.labels}}'>&#xe614;</i>
+                <i class="layui-icon tips" form='{{d.form.id}}' collect="{{d.form.collectFlag}}" label='{{d.form.labels}}'>&#xe614;</i>
                 </span>
             </div>
         </div>
+
     </div>
 </script>
 <script th:src="@{/layui/layui.js}"></script>
@@ -458,11 +462,11 @@
                         var _this = this;
                         var formId = $(this).attr('form');
                         var tip = layer.tips('<input id="label"  type="text" />',
-                                _this,
-                                {
-                                    time: 0,
-                                    closeBtn: 2,
-                                }
+                            _this,
+                            {
+                                time: 0,
+                                closeBtn: 2,
+                            }
                         );
                         $('#label').val($(this).attr('label'));
                         $('#label').focus();
@@ -472,7 +476,11 @@
                         $('#label').on('keydown', function (event) {
                             if (event.keyCode == "13") {
                                 var newLabel = $(this).val();
-                                $.post('/form/editForm', {id: formId, labels: newLabel}, function (data) {
+                                $.post('/form/editForm', {
+                                    id: formId,
+                                    labels: newLabel,
+                                    collectFlag: $(_this).attr("collect")
+                                }, function (data) {
                                     layer.close(tip);
                                     if (data.code == 1) {
                                         $(_this).attr('label', newLabel);

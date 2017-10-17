@@ -7,198 +7,6 @@
     <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/gaishu.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/shuju.css}"/>
-    <style type="text/css">
-        .clearfix:after {
-            content: '';
-            clear: both;
-            display: block;
-        }
-
-        a {
-            text-decoration: none;
-        }
-
-        .text-left {
-            text-align: left;
-        }
-
-        .field-name {
-            height: 35px;
-            line-height: 35px;
-            font-size: larger;
-            overflow: auto;
-        }
-
-        .field-desc {
-            height: 25px;
-            line-height: 25px;
-            font-weight: lighter;
-            font-size: x-small;
-            overflow: hidden;
-        }
-
-        header {
-            background-color: #393D49;
-        }
-
-        .msg {
-            width: 60px;
-            height: 35px;
-            border-radius: 3px;
-            background-color: #333745;
-            position: absolute;
-            top: 23px;
-            right: 5px;
-            display: none;
-        }
-
-        .msg p {
-            width: 100%;
-            line-height: 35px;
-            text-align: center;
-            color: #fff;
-            border-radius: 5px;
-            position: relative;
-            top: 0;
-            left: 0;
-        }
-
-        .msg .up-trangle {
-            display: block;
-            width: 0;
-            height: 0;
-            border: 8px solid #333745;
-            transform: rotateZ(45deg);
-            position: absolute;
-            top: -4px;
-            right: 15px;
-        }
-
-        .container {
-            box-sizing: border-box;
-            width: 960px;
-            padding: 0 7px;
-            margin: auto;
-        }
-
-        nav .container {
-            margin: 10px auto;
-            margin-bottom: 0;
-        }
-
-        .formEditorView {
-            height: 600px;
-            overflow: auto;
-            text-align: center;
-        }
-
-        form .banner {
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-        }
-
-        form .layui-form-item {
-            width: 85%;
-            margin: auto;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-        }
-
-        form .layui-input {
-            border: 1px solid #5FB878;
-        }
-
-        .add-field .fied-item div {
-            padding-left: 20px;
-            text-align: left;
-            height: 35px;
-            line-height: 35px;
-            overflow: hidden;
-            color: #000000;
-            transition: all 0.2s;
-        }
-
-        .add-field .fied-item div:hover {
-            cursor: pointer;
-            color: #009AFF !important;
-        }
-
-        .form-container {
-            width: 90%;
-            padding-bottom: 50px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-        }
-
-        form .layui-form-item {
-            border: none !important;
-        }
-
-        .add-field .layui-this {
-            background-color: #009AFF !important;
-            color: #fff !important;
-        }
-
-        form .new-line:hover {
-            cursor: pointer;
-        }
-
-        .formEditorView .active-line {
-            background-color: #F2FAFF;
-            border: 1px dashed #1E9FFF;
-            border-left: none;
-            border-right: none;
-            border-radius: 5px;
-        }
-
-        form .new-line {
-            box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-            position: relative;
-            top: 0;
-            left: 0;
-        }
-
-        .fn-area {
-            position: absolute;
-            bottom: -10px;
-            right: 100px;
-            background-color: #fff;
-            display: none;
-        }
-
-        .fn-area .ele-copy,
-        .fn-area .ele-del {
-            width: 30px;
-            height: 30px;
-            border-radius: 2px;
-        }
-
-        .fn-area .ele-copy:hover,
-        .fn-area .ele-del:hover {
-            background-color: #D84C29;
-            cursor: pointer;
-        }
-
-        .formEditorView .active-line .fn-area {
-            display: block;
-        }
-
-        .active-line .layui-form-item input,
-        .active-line .layui-form-item textarea,
-        .active-line .layui-form-item select {
-            border-color: #9F9F9F;
-        }
-
-        ..setting-row .pull-left {
-            line-height: 30px !important;
-        }
-
-        .setting-row input {
-            margin-bottom: 0;
-        }
-    </style>
 </head>
 
 <body>
@@ -212,7 +20,7 @@
                 <a href="">联系人<span class="layui-badge-dot"></span></a>
             </li>
             <li class="layui-nav-item">
-                <a href=""><img src="http://t.cn/RCzsdCq" class="layui-nav-img">个人中心</a>
+                <a href="userinfo.html"><img src="http://t.cn/RCzsdCq" class="layui-nav-img">个人中心</a>
                 <dl class="layui-nav-child">
                     <dd>
                         <a href="javascript:">退出</a>
@@ -239,28 +47,24 @@
                     <div class="layui-col-md3">
                         <div class="grid-demo grid-demo-bg1">
                             <span class="number">0</span>
-
                             <p>表单总数据<i class="layui-icon">&#xe60b;</i></p>
                         </div>
                     </div>
                     <div class="layui-col-md3">
                         <div class="grid-demo">
                             <span class="number">1</span>
-
                             <p>今日提交<i class="layui-icon">&#xe60b;</i></p>
                         </div>
                     </div>
                     <div class="layui-col-md3">
                         <div class="grid-demo grid-demo-bg1">
                             <span class="number">100</span>
-
                             <p>表单被浏览<i class="layui-icon">&#xe60b;</i></p>
                         </div>
                     </div>
                     <div class="layui-col-md3">
                         <div class="grid-demo">
                             <span class="number">20</span>
-
                             <p>结果被浏览<i class="layui-icon">&#xe60b;</i></p>
                         </div>
                     </div>
@@ -294,7 +98,6 @@
                                     <div class="layui-col-md4 layui-col-md-offset4">
                                         <div class="layui-form-item">
                                             <label class="layui-form-label">已开启,正在收集</label>
-
                                             <div class="layui-input-block">
                                                 <input type="checkbox" name="switch" lay-skin="switch">
                                             </div>
@@ -418,7 +221,6 @@
                                             <div class="fn-area">
                                                 <i class="layui-icon ele-copy">&#xe60a;</i>
                                                 <i class="layui-icon ele-del">&#xe640;</i>
-
                                                 <div class="msg ele-copy-msg">
                                                     <p>
                                                         <span class="up-trangle"></span>
@@ -493,6 +295,10 @@
                                                 <i class="layui-icon ele-copy">&#xe60a;</i>
                                                 <i class="layui-icon ele-del">&#xe640;</i>
                                             </div>
+                                        </div>
+
+                                        <div class="new-line">
+                                            <!--图片单选-->
                                         </div>
 
                                     </form>
@@ -1032,105 +838,106 @@
     function FormCreator() {
         this.elementStack = [];
     }
+
     FormCreator.prototype.createSingleText = function () {
         var htmlString = '<div class="new-line">' +
-                '<!--单行文字-->' +
-                '<div class="layui-form-item">' +
-                '<div class="layui-row layui-col-md12 text-left field-name">' +
-                '未命名' +
-                '</div>' +
-                '<div class="layui-row layui-col-md12 text-left field-desc">' +
-                '描述' +
-                '</div>' +
-                '<div class="layui-row layui-col-md6">' +
-                '<input type="text" class="layui-input"/>' +
-                '</div>' +
-                '</div>' +
-                '<div class="fn-area">' +
-                '<i class="layui-icon ele-copy">&#xe60a;</i>' +
-                '<i class="layui-icon ele-del">&#xe640;</i>' +
-                '<div class="msg ele-copy-msg">' +
-                '<p>' +
-                '<span class="up-trangle"></span>' +
-                '<span class="content">复制</span>' +
-                '</p>' +
-                '</div>' +
-                '</div>' +
-                '</div>';
+            '<!--单行文字-->' +
+            '<div class="layui-form-item">' +
+            '<div class="layui-row layui-col-md12 text-left field-name">' +
+            '未命名' +
+            '</div>' +
+            '<div class="layui-row layui-col-md12 text-left field-desc">' +
+            '描述' +
+            '</div>' +
+            '<div class="layui-row layui-col-md6">' +
+            '<input type="text" class="layui-input"/>' +
+            '</div>' +
+            '</div>' +
+            '<div class="fn-area">' +
+            '<i class="layui-icon ele-copy">&#xe60a;</i>' +
+            '<i class="layui-icon ele-del">&#xe640;</i>' +
+            '<div class="msg ele-copy-msg">' +
+            '<p>' +
+            '<span class="up-trangle"></span>' +
+            '<span class="content">复制</span>' +
+            '</p>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
         return $(htmlString);
     };
     FormCreator.prototype.createMultiText = function () {
         var htmlString = '<div class="new-line">' +
-                '<!--多行文字-->' +
-                '<div class="layui-form-item">' +
-                '<div class="layui-row layui-col-md12 text-left field-name">' +
-                '未命名' +
-                '</div>' +
-                '<div class="layui-row layui-col-md12 text-left field-desc">' +
-                '描述' +
-                '</div>' +
-                '<div class="layui-row layui-col-md12">' +
-                '<textarea class="layui-textarea"></textarea>' +
-                '</div>' +
-                '</div>' +
-                '<div class="fn-area">' +
-                '<i class="layui-icon ele-copy">&#xe60a;</i>' +
-                '<i class="layui-icon ele-del">&#xe640;</i>' +
-                '</div>' +
-                '</div>';
+            '<!--多行文字-->' +
+            '<div class="layui-form-item">' +
+            '<div class="layui-row layui-col-md12 text-left field-name">' +
+            '未命名' +
+            '</div>' +
+            '<div class="layui-row layui-col-md12 text-left field-desc">' +
+            '描述' +
+            '</div>' +
+            '<div class="layui-row layui-col-md12">' +
+            '<textarea class="layui-textarea"></textarea>' +
+            '</div>' +
+            '</div>' +
+            '<div class="fn-area">' +
+            '<i class="layui-icon ele-copy">&#xe60a;</i>' +
+            '<i class="layui-icon ele-del">&#xe640;</i>' +
+            '</div>' +
+            '</div>';
         return $(htmlString);
     };
     FormCreator.prototype.createSingleSelect = function () {
         //生成单项选择
         var htmlString = '		<div class="new-line">' +
-                '													<!--单项选择-->' +
-                '													<div class="layui-form-item">' +
-                '														<div class="layui-row layui-col-md12 text-left field-name">' +
-                '															未命名' +
-                '														</div>' +
-                '														<div class="layui-row layui-col-md12 text-left field-desc">' +
-                '															描述' +
-                '														</div>' +
-                '														<div class="layui-row layui-col-md12 text-left">' +
-                '															<input type="radio" name="item" value="1" title="选项1" checked="checked">' +
-                '															<br />' +
-                '															<input type="radio" name="item" value="2" title="选项2">' +
-                '															<br />' +
-                '															<input type="radio" name="item" value="3" title="选项3">' +
-                '														</div>' +
-                '													</div>' +
-                '													<div class="fn-area">' +
-                '														<i class="layui-icon ele-copy">&#xe60a;</i>' +
-                '														<i class="layui-icon ele-del">&#xe640;</i>' +
-                '													</div>' +
-                '												</div>';
+            '													<!--单项选择-->' +
+            '													<div class="layui-form-item">' +
+            '														<div class="layui-row layui-col-md12 text-left field-name">' +
+            '															未命名' +
+            '														</div>' +
+            '														<div class="layui-row layui-col-md12 text-left field-desc">' +
+            '															描述' +
+            '														</div>' +
+            '														<div class="layui-row layui-col-md12 text-left">' +
+            '															<input type="radio" name="item" value="1" title="选项1" checked="checked">' +
+            '															<br />' +
+            '															<input type="radio" name="item" value="2" title="选项2">' +
+            '															<br />' +
+            '															<input type="radio" name="item" value="3" title="选项3">' +
+            '														</div>' +
+            '													</div>' +
+            '													<div class="fn-area">' +
+            '														<i class="layui-icon ele-copy">&#xe60a;</i>' +
+            '														<i class="layui-icon ele-del">&#xe640;</i>' +
+            '													</div>' +
+            '												</div>';
         return $(htmlString);
     };
     FormCreator.prototype.createMultiSelect = function () {
         var htmlString = '<div class="new-line">' +
-                '													<!--多项选择-->' +
-                '													<div class="layui-form-item">' +
-                '														<div class="layui-row layui-col-md12 text-left field-name">' +
-                '															未命名' +
-                '														</div>' +
-                '														<div class="layui-row layui-col-md12 text-left field-desc">' +
-                '															描述' +
-                '														</div>' +
-                '														<div class="layui-row layui-col-md12 text-left">' +
-                '															<input type="checkbox" name="item" value="1" title="选项1" checked="checked">' +
-                '															<br />' +
-                '															<input type="checkbox" name="item" value="2" title="选项2">' +
-                '															<br />' +
-                '															<input type="checkbox" name="item" value="3" title="选项3">' +
-                '															<br />' +
-                '															<input type="checkbox" name="item" value="4" title="选项4">' +
-                '														</div>' +
-                '													</div>' +
-                '													<div class="fn-area">' +
-                '														<i class="layui-icon ele-copy">&#xe60a;</i>' +
-                '														<i class="layui-icon ele-del">&#xe640;</i>' +
-                '													</div>' +
-                '												</div>';
+            '													<!--多项选择-->' +
+            '													<div class="layui-form-item">' +
+            '														<div class="layui-row layui-col-md12 text-left field-name">' +
+            '															未命名' +
+            '														</div>' +
+            '														<div class="layui-row layui-col-md12 text-left field-desc">' +
+            '															描述' +
+            '														</div>' +
+            '														<div class="layui-row layui-col-md12 text-left">' +
+            '															<input type="checkbox" name="item" value="1" title="选项1" checked="checked">' +
+            '															<br />' +
+            '															<input type="checkbox" name="item" value="2" title="选项2">' +
+            '															<br />' +
+            '															<input type="checkbox" name="item" value="3" title="选项3">' +
+            '															<br />' +
+            '															<input type="checkbox" name="item" value="4" title="选项4">' +
+            '														</div>' +
+            '													</div>' +
+            '													<div class="fn-area">' +
+            '														<i class="layui-icon ele-copy">&#xe60a;</i>' +
+            '														<i class="layui-icon ele-del">&#xe640;</i>' +
+            '													</div>' +
+            '												</div>';
         return $(htmlString);
     };
     FormCreator.prototype.createSinglePic = function () {
@@ -1165,8 +972,8 @@
 
     $('.add-field .grid-demo').click(function () {
         var fnName = 'create' + parseId(this.id),
-                $ele = creator[fnName](),
-                $activeLine = $form.find('.active-line');
+            $ele = creator[fnName](),
+            $activeLine = $form.find('.active-line');
         $activeLine.length ? $activeLine.after($ele) : $form.append($ele);
         form.render();
     });

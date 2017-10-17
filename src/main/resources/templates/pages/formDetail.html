@@ -227,8 +227,8 @@
         <ul class="layui-tab-title">
             <!--概述编辑规则设置发布数据报表-->
             <li class="layui-this">概述</li>
-            <li>编辑</li>
-            <li>数据</li>
+            <li><a th:href="@{/formValue/edit/${formDetail.form.id}}">编辑</a></li>
+            <li><a th:href="@{/formValue/myFormData/${formDetail.form.id}}">数据</a></li>
         </ul>
         <div class="layui-tab-content">
             <!--概述内容-->
@@ -271,8 +271,8 @@
                 </div>
                 <!--6/12-->
                 <div class="layui-row gtwo">
-                    <form class="layui-form" id="editForm" th:action="@{/form/editForm}">
-                        <input type="hidden" name="id" id="id" th:text="${formDetail.form.id}"/>
+                    <form class="layui-form" id="editForm" th:action="@{/form/editForm}" method="post">
+                        <input type="hidden" name="id" id="id" th:value="${formDetail.form.id}"/>
 
                         <div class="layui-col-xs6 setpad">
                             <div class="grid-demo grid-demo-bg1">
@@ -287,7 +287,7 @@
                                     <div class="layui-col-md4">填写者权限</div>
                                     <div class="layui-col-md4 layui-col-md-offset4">
                                         <div class="select">
-                                            <select name="submitPrivilege" lay-verify="required" class="edit">
+                                            <select name="submitPrivilege" class="edit">
                                                 <option th:selected="${formDetail.form.submitPrivilege=='PEOPER_OF_ALL'}"
                                                         value="PEOPER_OF_ALL">所有人
                                                 </option>
@@ -315,7 +315,7 @@
                                     <div class="layui-col-md4">结果分享</div>
                                     <div class="layui-col-md4 layui-col-md-offset4">
                                         <div class="select">
-                                            <select name="resultShow" lay-verify="required" class="edit">
+                                            <select name="resultShow" class="edit">
                                                 <option th:selected="${formDetail.form.submitPrivilege=='PEOPER_OF_ALL'}"
                                                         value="PEOPER_OF_ALL">公开
                                                 </option>
@@ -336,19 +336,20 @@
                                 <div class="layui-row">
                                     <div class="layui-col-md4">表单标签</div>
                                     <div class="layui-col-md4 layui-col-md-offset4">
-                                        <span th:text="${formDetail.form.labels}"></span>
-                                        <a href="javascript:void(0)" class="gma"><i name="labels"
-                                                                                    class="layui-icon tips">&#xe642;</i>
+                                        <a href="javascript:void(0)" class="gma"><span id="labels"
+                                                                                       th:text="${formDetail.form.labels}"></span><i
+                                                name="labels"
+                                                class="layui-icon tips">&#xe642;</i>
                                         </a>
                                     </div>
                                 </div>
                                 <div class="layui-row">
                                     <div class="layui-col-md4">表单提交次数限制</div>
                                     <div class="layui-col-md4 layui-col-md-offset4">
-                                <span th:text="${formDetail.form.submitCountLimited}"
-                                ></span>
-                                        <a href="javascript:void(0)" class="gma"><i name="submitCountLimited"
-                                                                                    class="layui-icon tips">&#xe642;</i>
+                                        <a href="javascript:void(0)" class="gma"><span id="submitCountLimited"
+                                                                                       th:text="${formDetail.form.submitCountLimited}"
+                                        ></span><i name="submitCountLimited"
+                                                   class="layui-icon tips">&#xe642;</i>
                                         </a>
                                     </div>
                                 </div>
@@ -395,11 +396,11 @@
                     <div class="row layui-form">
                         <table id="q-table-recent-submit"></table>
                     </div>
-                    <!--复制 删除表单--><!--onclick="del('delFormValue');"--><!--onclick="del('delForm');"-->
+                    <!--复制 删除表单--><!----><!---->
                     <div class="foot-btn">
-                        <button class="layui-btn layui-btn-warm layui-btn-small">清空数据
+                        <button class="layui-btn layui-btn-warm layui-btn-small" onclick="del('delFormValue');">清空数据
                         </button>
-                        <button class="layui-btn layui-btn-danger layui-btn-small">删除表单
+                        <button class="layui-btn layui-btn-danger layui-btn-small" onclick="del('delForm');">删除表单
                         </button>
                     </div>
                 </div>
@@ -409,7 +410,9 @@
 </nav>
 </body>
 <script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/js/FormatDate.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
+
 <script th:inline="javascript">
     var data = [[${formDetail.formValues}]], formData = [];
     var props = [[${formDetail.formProperties}]], formProp = [], cols = [];
@@ -418,7 +421,9 @@
         value = JSON.parse(data[i].value);
         delete data[i].value;
         tempform = {};
-        $.extend(true, tempform, value, data[i]);
+        $.extend(tempform, value, data[i]);
+        tempform.createTime = new Date(tempform.createTime).Format('yyyy-MM-dd HH:mm:ss');
+        tempform.lastModifyTime = new Date(tempform.lastModifyTime).Format('yyyy-MM-dd HH:mm:ss');
         formData.push(tempform);
     }
     //    field: 'username',
@@ -431,15 +436,16 @@
         prop.field = props[i].name;
         prop.title = props[i].name;
         prop.sort = true;
+        prop.width = 'auto';
         formProp.push(prop);
     }
-    formProp.push({field: 'author', title: '创建人'});
-    formProp.push({field: 'createTime', title: '创建时间'});
-    formProp.push({field: 'lastModifyTime', title: '最后修改时间'});
-    formProp.push({field: 'lastModifyPerson', title: '最后修改人'});
-    formProp.push({field: 'browser', title: '浏览器'});
-    formProp.push({field: 'os', title: '操作系统'});
-    formProp.push({field: 'submitIP', title: 'IP'});
+    formProp.push({field: 'author', title: '创建人', width: 'auto'});
+    formProp.push({field: 'createTime', title: '创建时间', width: 'auto', sort: true});
+    formProp.push({field: 'lastModifyTime', title: '最后修改时间', width: 'auto', sort: true});
+    formProp.push({field: 'lastModifyPerson', title: '最后修改人', width: 'auto'});
+    formProp.push({field: 'browser', title: '浏览器', width: 'auto'});
+    formProp.push({field: 'os', title: '操作系统', width: 'auto'});
+    formProp.push({field: 'submitIP', title: 'IP', width: 'auto'});
 
     cols.push(formProp);
 </script>
@@ -449,193 +455,70 @@
         var table = layui.table;
         var element = layui.element;
         var layer = layui.layer;
-        window.form = layui.form;
+        var form = layui.form;
         $('.tips').bind('click', function () {
             var _this = this;
             var name = $(this).attr('name');
-            var tip = layer.tips('<input id="' + id + '"  type="text" />',
-                    _this,
-                    {
-                        time: 0,
-                        closeBtn: 2,
-                    }
+            var tip = layer.tips('<input id="content"  type="text" />',
+                _this,
+                {
+                    time: 0,
+                    closeBtn: 2,
+                }
             );
-            $('#' + name).val($(this).text());
-            $('#' + name).focus();
-            $('#' + name).on('blur', function () {
+            $('#content').val($('#' + name).text());
+            $('#content').focus();
+            $('#content').on('blur', function () {
                 layer.close(tip);
             });
-            $('#' + name).on('keydown', function (event) {
+            $('#content').on('keydown', function (event) {
                 if (event.keyCode == "13") {
                     var newValue = $(this).val();
-                    var form = {};
-                    form.id = $('#id').val();
-                    form[name] = newValue;
-                    $.post('/form/editForm', form, function (data) {
+                    $.post('/form/editForm', name + '=' + newValue + "&" + $('#editForm').serialize(), function (data) {
                         layer.close(tip);
                         if (data.code == 1) {
-                            $(_this).text(newValue)
-                            layer.msg(data.msg, {time: 3000});
+                            $('#' + name).text(newValue)
                         }
+                        layer.msg(data.msg, {time: 3000});
                     }, 'json');
                 }
             });
-            $('.edit').on('change', function () {
-                $('#editForm').submit();
-                layer.msg('修改成功', {time: 3000});
-            });
-            del = function (type) {
-                $.get('/form/delForm', {id: $('#id'), type: type}).done(function (data) {
-                    if (data.code == 1)
-                        layer.msg(data.msg, {time: 3000});
-                });
-            }
+
         });
+        form.on('select', function (data) {
+            $.post('/form/editForm', $('#editForm').serialize(), function (data) {
+                layer.msg(data.msg, {time: 3000});
+            })
+
+        });
+        form.on('switch', function (data) {
+            $.post('/form/editForm', $('#editForm').serialize(), function (data) {
+                layer.msg(data.msg, {time: 3000});
+            })
+        });
+        //        $('.edit').change(function () {
+        //            $('#editForm').submit();
+        //            layer.msg('修改成功', {time: 3000});
+        //        });
+        del = function (type) {
+            $.get('/form/delForm', {id: $('#id').val(), type: type}).done(function (data) {
+                if (data.code == 1) {
+                    layer.msg(data.msg, {time: 3000});
+                    window.location.href = type == 'delForm' ? '/form/desktop' : ('/form/myform/' + $('#id').val());
+                }
+            });
+        }
         //展示已知数据
         table.render({
             elem: '#q-table-recent-submit',
-            data: [{
-                "id": "10001",
-                "username": "杜甫",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "116",
-                "ip": "192.168.0.8",
-                "logins": "108",
-                "joinTime": "2016-10-14"
-            }, {
-                "id": "10002",
-                "username": "李白",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "12",
-                "ip": "192.168.0.8",
-                "logins": "106",
-                "joinTime": "2016-10-14",
-                "LAY_CHECKED": true
-            }, {
-                "id": "10003",
-                "username": "王勃",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "65",
-                "ip": "192.168.0.8",
-                "logins": "106",
-                "joinTime": "2016-10-14"
-            }, {
-                "id": "10004",
-                "username": "贤心",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "666",
-                "ip": "192.168.0.8",
-                "logins": "106",
-                "joinTime": "2016-10-14"
-            }, {
-                "id": "10005",
-                "username": "贤心",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "86",
-                "ip": "192.168.0.8",
-                "logins": "106",
-                "joinTime": "2016-10-14"
-            }, {
-                "id": "10006",
-                "username": "贤心",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "12",
-                "ip": "192.168.0.8",
-                "logins": "106",
-                "joinTime": "2016-10-14"
-            }, {
-                "id": "10007",
-                "username": "贤心",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "16",
-                "ip": "192.168.0.8",
-                "logins": "106",
-                "joinTime": "2016-10-14"
-            }, {
-                "id": "10008",
-                "username": "贤心",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "106",
-                "ip": "192.168.0.8",
-                "logins": "106",
-                "joinTime": "2016-10-14"
-            }],
+            data: formData,
             //				height: 272,
-            cols: [
-                [ //标题栏
-                    {
-                        checkbox: true,
-                        LAY_CHECKED: true
-                    } //默认全选
-                    , {
-                    field: 'id',
-                    title: 'ID',
-                    width: 80,
-                    sort: true
-                }, {
-                    field: 'username',
-                    title: '用户名',
-                    width: 120,
-                    sort: true
-                }, {
-                    field: 'email',
-                    title: '邮箱',
-                    width: 150,
-                    sort: true
-                }, {
-                    field: 'sign',
-                    title: '签名',
-                    width: 150,
-                    sort: true
-                }, {
-                    field: 'sex',
-                    title: '性别',
-                    width: 80,
-                    sort: true
-                }, {
-                    field: 'city',
-                    title: '城市',
-                    width: 100,
-                    sort: true
-                }, {
-                    field: 'experience',
-                    title: '积分',
-                    width: 80,
-                    sort: true
-                }
-                ]
-            ],
+            cols: cols,
             skin: 'row', //表格风格
             even: true,
-            page: true, //是否显示分页
-            limits: [5, 7, 10],
-            limit: 5 //每页默认显示的数量
+            height: 290
         });
-    });
-    form.render();
+    })
+    ;
 </script>
 </html>

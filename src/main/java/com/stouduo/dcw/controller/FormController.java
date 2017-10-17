@@ -58,7 +58,7 @@ public class FormController extends BaseController {
             if (formDetailVO != null)
                 model.addAttribute("form", formDetailVO);
         }
-        return "GetForm";
+        return "pages/formEditor";
     }
 
     @GetMapping("/delForm")
@@ -70,7 +70,6 @@ public class FormController extends BaseController {
 
     @PostMapping("/editForm")
     @ResponseBody
-
     public RestResult<Form> editForm(Form form) {
         try {
             formService.editForm(form);

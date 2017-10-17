@@ -12,9 +12,9 @@ public interface FormValueService {
     void delete(String formValueId);
 
 
-    FormValueRestVO formDatas(String formId, String content, int asc, int pageSize, int curPage);
+    FormValueRestVO formDatas(String formId, String content, String startTime, String endTime, int asc, int pageSize, int curPage);
 
-    void outport(String formId, String content, int asc, int pageSize, int curPage) throws ExcelException;
+    void outport(String formId, String content, String startTime, String endTime, int asc, int pageSize, int curPage) throws ExcelException;
 
     void importExcel(MultipartFile file, String formId) throws Exception;
 
