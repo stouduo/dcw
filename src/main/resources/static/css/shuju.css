@@ -19,3 +19,49 @@
 .shu-menu div{
 	border-right: 1px solid #EEEEEE;
 }
+/*新增加*/
+.showtips ul{
+	width: 200%;
+	top: 0;
+	left: 0;
+	overflow-x: auto;
+	overflow-y: auto;
+	white-space : normal nowrap ;
+	padding: 15px;
+}
+.showtips ul li{
+	cursor:pointer;
+	height: 20px;
+	line-height: 20px;
+}
+.showtips{
+	margin-left:30px;
+}
+/*弹出层公共样式*/
+.lay-hide{
+	display: none;
+}
+.layui-layer-btn2{
+	border: none!important;
+	margin-left: 55%!important;
+	color: #007bcc!important;
+	cursor: pointer;
+}
+/*右侧表单*/
+
+.gform input{
+	width: 120px;
+	height: 24px;
+	line-height: 24px;
+	border-radius: 4px;
+	border: 1px solid #EEEEEE;
+	padding-top: 5px;
+	display: inline-block;
+}
+.gform{
+	width: 300px;
+	position: absolute;
+	top: 70px;
+	left: 65%;
+	
+}
