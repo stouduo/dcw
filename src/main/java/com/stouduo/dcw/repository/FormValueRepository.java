@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface FormValueRepository extends PagingAndSortingRepository<FormValue, String> {
@@ -22,12 +23,12 @@ public interface FormValueRepository extends PagingAndSortingRepository<FormValu
     long findTodayFormValueCount(@Param("form") String formId);
 
     //  @Query("select fv from FormValue fv where form=:form and fv.value like CONCAT('%',:content,'%')")
-    @Query("select fv from FormValue fv where form=:form and del=false and fv.value like %:content% and fv.createTime bettwen :startTime and :endTime")
-    Page<FormValue> findByContent(@Param("form") String formId, @Param("content") String content, @Param("startTime") String startTime, @Param("endTime") String endTime, Pageable page);
+    @Query("select fv from FormValue fv where form=:form and del=false and fv.value like %:content% and fv.createTime >= :startTime and fv.createTime<=:endTime")
+    Page<FormValue> findByContent(@Param("form") String formId, @Param("content") String content, @Param("startTime") Date startTime, @Param("endTime") Date endTime, Pageable page);
 
     //@Query("select fv from FormValue fv where form=:form and fv.value like CONCAT('%',:content,'%')")
-    @Query("select fv from FormValue fv where form=:form and del=false and fv.value like %:content% and fv.createTime bettwen :startTime and :endTime")
-    List<FormValue> findByContent(@Param("form") String formId, @Param("content") String content, @Param("startTime") String startTime, @Param("endTime") String endTime, Sort sort);
+    @Query("select fv from FormValue fv where form=:form and del=false and fv.value like %:content% and fv.createTime >= :startTime and fv.createTime<=:endTime")
+    List<FormValue> findByContent(@Param("form") String formId, @Param("content") String content, @Param("startTime") Date startTime, @Param("endTime") Date endTime, Sort sort);
 
     @Query("select count(fv) from FormValue fv where form=:form and del=false")
     long findCountByForm(@Param("form") String formId);
@@ -36,6 +37,6 @@ public interface FormValueRepository extends PagingAndSortingRepository<FormValu
     long findSubmitCount(@Param("author") String username, @Param("submitIP") String ipAddress);
 
     @Modifying
-    @Query("update FormValue f set f.del=true where f.form=:form")
-    void delFormValues(@Param("form") String id);
+    @Query("update FormValue f set f.del=true where f.id=:id")
+    void delFormValues(@Param("id") String id);
 }

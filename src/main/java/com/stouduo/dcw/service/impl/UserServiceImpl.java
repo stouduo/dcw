@@ -4,7 +4,9 @@ import com.stouduo.dcw.domain.Const;
 import com.stouduo.dcw.domain.User;
 import com.stouduo.dcw.repository.UserRepository;
 import com.stouduo.dcw.service.MailRecordService;
+import com.stouduo.dcw.service.SMSService;
 import com.stouduo.dcw.service.UserService;
+import com.stouduo.dcw.util.CommonUtil;
 import com.stouduo.dcw.util.MD5Util;
 import com.stouduo.dcw.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
     @Autowired
     MailRecordService mailRecordService;
+    @Autowired
+    SMSService smsService;
 
 
     @Override
@@ -31,24 +35,32 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.isEmpty(user.getRoles()))
             user.setRoles(Const.ROLE_USER);
         user.setPassword(MD5Util.encode(user.getPassword()));
+        user.setNickname(user.getUsername());
         userRepository.save(user);
         return true;
     }
 
     @Override
     public User userInfo() {
-        return userRepository.findByUsername(SecurityUtil.getUsername());
+        User user = userRepository.findByUsername(SecurityUtil.getUsername());
+        String tel = user.getTel();
+        user.setTel(tel.substring(0, 2) + "****" + tel.substring(7, 10));
+        return user;
     }
 
     @Override
-    public void bindInfo(User user) throws Exception {
-        Map<String, Object> model = new HashMap<>();
-        model.put("username", SecurityUtil.getUsername());
-        model.put("token", MD5Util.getToken(user.getEmail()));
-        model.put("subject", "您的邮箱有变更，请及时确认");
+    public int bindInfo(User user) throws Exception {
+        int code = CommonUtil.getSMSCode();
         if (!StringUtils.isEmpty(user.getEmail())) {
+            Map<String, Object> model = new HashMap<>();
+            model.put("username", SecurityUtil.getUsername());
+            model.put("code", code);
+            model.put("subject", "您的邮箱有变更，请及时确认");
             mailRecordService.sendEmail(user.getEmail(), model, "activeEmail");
+        } else {
+            code = smsService.sendSMS(user.getTel());
         }
+        return code;
     }
 
     @Override

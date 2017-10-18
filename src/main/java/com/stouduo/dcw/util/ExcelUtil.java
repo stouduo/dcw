@@ -135,15 +135,16 @@ public class ExcelUtil {
 
         //设置response头信息
         response.reset();
-        response.setContentType("application/vnd.ms-excel");        //改成输出excel文件
+        response.setContentType("application/octet-stream");        //改成输出excel文件
         response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xls");
-
+        response.setHeader("content-type", "application/octet-stream");
         //创建工作簿并发送到浏览器
         try {
 
             OutputStream out = response.getOutputStream();
             listToExcel(list, sheetName, fieldNames, sheetSize, out);
-
+            out.flush();
+            out.close();
         } catch (Exception e) {
             e.printStackTrace();
 

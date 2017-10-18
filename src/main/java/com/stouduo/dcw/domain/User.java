@@ -29,6 +29,16 @@ public class User implements UserDetails {
     @Email(message = "邮箱格式错误")
     private String email;
     private String roles;
+    private String nickname;
+
+    @Column(name = "nickname", length = 64)
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
     @Id
     @Column(name = "id", unique = true, nullable = false, length = 36)

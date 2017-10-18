@@ -230,16 +230,13 @@
     <div class="container">
         <ul class="layui-nav">
             <li class="layui-nav-item">
-                <a href="">桌面<span class="layui-badge">1</span></a>
+                <a th:href="@{/form/desktop}">桌面</a>
             </li>
             <li class="layui-nav-item">
-                <a href="">联系人<span class="layui-badge-dot"></span></a>
-            </li>
-            <li class="layui-nav-item">
-                <a href="#"><img src="http://t.cn/RCzsdCq" class="layui-nav-img">个人中心</a>
+                <a th:href="@{/user/userInfo}"><img src="http://t.cn/RCzsdCq" class="layui-nav-img">个人中心</a>
                 <dl class="layui-nav-child">
                     <dd>
-                        <a href="javascript:">退出</a>
+                        <a th:href="@{/logout}">退出</a>
                     </dd>
                 </dl>
             </li>

@@ -112,7 +112,7 @@ public class FormServiceImpl implements FormService {
     }
 
     @Override
-    public ResultVO getResult(String formId, int curPage, int pageSize) {
+    public ResultVO getResult(String formId, int curPage, int pageSize) throws Exception {
         Form form = formRepository.findOne(formId);
         if (form == null) return null;
         ResultVO resultVO = new ResultVO();
@@ -121,7 +121,7 @@ public class FormServiceImpl implements FormService {
         for (FormProperty formproperty : formProperties) {
             if (formproperty.getReultShow()) showProperties += formproperty.getName() + ",";
         }
-        Page<FormValue> page = formValueRepository.findByContent(formId, "", "1970-01-01 00:00:00", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()), new PageRequest(curPage, pageSize, Sort.Direction.DESC, "creatTime"));
+        Page<FormValue> page = formValueRepository.findByContent(formId, "", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("1970-01-01 00:00:00"), new Date(), new PageRequest(curPage, pageSize, Sort.Direction.DESC, "creatTime"));
         List<FormValue> formValues = page.getContent();
         Map<String, String> value;
         if (!StringUtils.isEmpty(showProperties)) {

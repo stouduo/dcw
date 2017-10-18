@@ -6,15 +6,18 @@ import com.stouduo.dcw.vo.FormDetailVO;
 import com.stouduo.dcw.vo.FormValueRestVO;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.ParseException;
+import java.util.Date;
+
 public interface FormValueService {
     void save(FormValue formValue);
 
     void delete(String formValueId);
 
 
-    FormValueRestVO formDatas(String formId, String content, String startTime, String endTime, int asc, int pageSize, int curPage);
+    void outport(String formId, String content, String startTime, Date endTime, int asc, int pageSize, int curPage) throws Exception;
 
-    void outport(String formId, String content, String startTime, String endTime, int asc, int pageSize, int curPage) throws ExcelException;
+    FormValueRestVO formDatas(String formId, String content, String startTime, Date endTime, int asc, int pageSize, int curPage) throws Exception;
 
     void importExcel(MultipartFile file, String formId) throws Exception;
 

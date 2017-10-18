@@ -85,3 +85,116 @@
 .foot-btn{
 	margin-top: 20px;
 }
+
+/*2017-10 新写*/
+/*新加的样式  图片*/
+.redioimg .layui-form-radio *{
+	display: inline;
+}
+.redioimg .layui-form-radio  span{
+	word-break:break-all;
+}
+.redioimg{
+	width: 22%;
+	border: 1px solid #C3C9D0;
+	margin: 0 15px 15px 0;
+	padding: 4px;
+}
+.redioimg:hover{
+	border: 1px solid #009aff;
+}
+.redioimg img{
+	width: 100%;
+}
+.gtable tr th{
+	text-align: center;
+}
+.labelwidth{
+	width: 40px;
+}
+.upbox{
+	padding: 4px 20px;
+	border:1px dashed #D2D2D2;
+}
+/*概述右侧组件*/
+.tabicon{
+	text-align: right;
+}
+.checkmar .layui-form-checkbox{
+	margin-top: 4px;
+	
+}
+.pcheck p{
+	margin:4px 10px;
+}
+.pcheck .pinput{
+	width: 30px;
+}
+.pcheck .pinput-m{
+	margin-left: 20px;
+	margin-top: 4px;
+}
+.leftfoot-btn{
+	position: relative;
+	top: 10px;
+	left: 0;
+	width: 100%;
+	margin-top: 80px;
+}
+.leftfoot-btn .layui-input-block{
+	margin-left: 60px;
+}
+.right-up{
+	border: 1px dashed #C3C9D0;
+	margin: 10px 2px;
+}
+.right-up:hover{
+	border: 1px solid #009688;
+}
+.right-up .layui-upload-drag{
+	padding-left: 76px;padding-top: 0px;padding-bottom: 0px;
+}
+
+/*2017-1017*/
+.checkcolor{
+	color: red;
+	margin-left: 5px;
+	line-height: 20px;
+}
+.line-right .atitle{
+	background: #fff;
+}
+.bgtitle{
+	background: #f2f2f2;
+	padding: 5px 4px;
+}
+.bgtip{
+	padding: 5px;
+}
+.line-right .layui-icon{
+	cursor: pointer;
+}
+.line-right p{
+	margin-top: 5px;
+}
+
+/*菜单栏右侧定位*/
+.gform input{
+	width: 120px;
+	height: 24px;
+	line-height: 24px;
+	border-radius: 4px;
+	border: 1px solid #EEEEEE;
+	padding-top: 5px;
+	display: inline-block;
+}
+.gform{
+	width: 300px;
+	position: absolute;
+	top: 70px;
+	left: 65%;
+	
+}
+.gform .layui-icon:hover{
+	cursor: pointer;
+}

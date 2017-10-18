@@ -19,7 +19,7 @@ public interface FormService {
 
     void edit(FormDetailVO formDetailVO);
 
-    ResultVO getResult(String formId, int curPage, int pageSize);
+    ResultVO getResult(String formId, int curPage, int pageSize) throws Exception;
 
     void editForm(Form form) throws IllegalAccessException, Exception;
 

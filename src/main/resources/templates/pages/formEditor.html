@@ -8,22 +8,210 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/gaishu.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/shuju.css}"/>
 </head>
+<style type="text/css">
+    .clearfix:after {
+        content: '';
+        clear: both;
+        display: block;
+    }
 
+    a {
+        text-decoration: none;
+    }
+
+    .text-left {
+        text-align: left;
+    }
+
+    .field-name {
+        height: 35px;
+        line-height: 35px;
+        font-size: larger;
+        overflow: auto;
+    }
+
+    .field-desc {
+        height: 25px;
+        line-height: 25px;
+        font-weight: lighter;
+        font-size: x-small;
+        overflow: hidden;
+    }
+
+    header {
+        background-color: #393D49;
+    }
+
+    .msg {
+        width: 60px;
+        height: 35px;
+        border-radius: 3px;
+        background-color: #333745;
+        position: absolute;
+        top: 23px;
+        right: 5px;
+        display: none;
+    }
+
+    .msg p {
+        width: 100%;
+        line-height: 35px;
+        text-align: center;
+        color: #fff;
+        border-radius: 5px;
+        position: relative;
+        top: 0;
+        left: 0;
+    }
+
+    .msg .up-trangle {
+        display: block;
+        width: 0;
+        height: 0;
+        border: 8px solid #333745;
+        transform: rotateZ(45deg);
+        position: absolute;
+        top: -4px;
+        right: 15px;
+    }
+
+    .container {
+        box-sizing: border-box;
+        width: 960px;
+        padding: 0 7px;
+        margin: auto;
+    }
+
+    nav .container {
+        margin: 10px auto;
+        margin-bottom: 0;
+    }
+
+    .formEditorView {
+        height: 600px;
+        overflow: auto;
+        text-align: center;
+    }
+
+    form .banner {
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+    }
+
+    form .layui-form-item {
+        width: 85%;
+        margin: auto;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+    }
+
+    form .layui-input {
+        border: 1px solid #5FB878;
+    }
+
+    .add-field .fied-item div {
+        padding-left: 20px;
+        text-align: left;
+        height: 35px;
+        line-height: 35px;
+        overflow: hidden;
+        color: #000000;
+        transition: all 0.2s;
+    }
+
+    .add-field .fied-item div:hover {
+        cursor: pointer;
+        color: #009AFF !important;
+    }
+
+    .form-container {
+        width: 90%;
+        padding-bottom: 50px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+    }
+
+    form .layui-form-item {
+        border: none !important;
+    }
+
+    .add-field .layui-this {
+        background-color: #009AFF !important;
+        color: #fff !important;
+    }
+
+    form .new-line:hover {
+        cursor: pointer;
+    }
+
+    .formEditorView .active-line {
+        background-color: #F2FAFF;
+        border: 1px dashed #1E9FFF;
+        border-left: none;
+        border-right: none;
+        border-radius: 5px;
+    }
+
+    form .new-line {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        position: relative;
+        top: 0;
+        left: 0;
+    }
+
+    .fn-area {
+        position: absolute;
+        bottom: -10px;
+        right: 100px;
+        background-color: #fff;
+        display: none;
+    }
+
+    .fn-area .ele-copy,
+    .fn-area .ele-del {
+        width: 30px;
+        height: 30px;
+        border-radius: 2px;
+    }
+
+    .fn-area .ele-copy:hover,
+    .fn-area .ele-del:hover {
+        background-color: #D84C29;
+        cursor: pointer;
+    }
+
+    .formEditorView .active-line .fn-area {
+        display: block;
+    }
+
+    .active-line .layui-form-item input,
+    .active-line .layui-form-item textarea,
+    .active-line .layui-form-item select {
+        border-color: #9F9F9F;
+    }
+
+    .setting-row .pull-left {
+        line-height: 30px !important;
+    }
+
+    .setting-row input {
+        margin-bottom: 0;
+    }
+</style>
 <body>
 <header>
     <div class="container">
         <ul class="layui-nav">
             <li class="layui-nav-item">
-                <a href="desktop.html">桌面<span class="layui-badge">1</span></a>
+                <a th:href="@{/form/desktop}">桌面</a>
             </li>
             <li class="layui-nav-item">
-                <a href="">联系人<span class="layui-badge-dot"></span></a>
-            </li>
-            <li class="layui-nav-item">
-                <a href="userinfo.html"><img src="http://t.cn/RCzsdCq" class="layui-nav-img">个人中心</a>
+                <a th:href="@{/user/userInfo}"><img src="http://t.cn/RCzsdCq" class="layui-nav-img">个人中心</a>
                 <dl class="layui-nav-child">
                     <dd>
-                        <a href="javascript:">退出</a>
+                        <a th:href="@{/logout}">退出</a>
                     </dd>
                 </dl>
             </li>
@@ -34,9 +222,9 @@
     <div class="layui-tab container">
         <ul class="layui-tab-title">
             <!--概述编辑规则设置发布数据报表-->
-            <li><a th:href="@{/formValue/myform/${formDetail.form.id}}">概述</a></li>
+            <li><a th:href="@{'/form/myform/'+${formDetail.form.id}}">概述</a></li>
             <li class="layui-this">编辑</li>
-            <li><a th:href="@{/formValue/myFormData/${formDetail.form.id}}">数据</a></li>
+            <li><a th:href="@{'/formValue/myFormData/'+${formDetail.form.id}}">数据</a></li>
         </ul>
         <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
@@ -47,14 +235,12 @@
                                 <div class="form-container">
                                     <form action="" method="post" class="layui-form">
                                         <div class="banner">
-                                            <img src="../images/20160703224347_e39266@hixlarge.png"
-                                                 style="width: 100%;"/>
+                                            <img th:src="@{/images/20160703224347_e39266@hixlarge.png}" style="width: 100%;" />
                                         </div>
                                         <div class="new-line">
                                             <div class="layui-form-item">
                                                 <!--<div class="layui-input-block">-->
-                                                <input type="text" name="title" required lay-verify="required"
-                                                       placeholder="姓名" autocomplete="off" class="layui-input">
+                                                <input type="text" name="title" required lay-verify="required" placeholder="姓名" autocomplete="off" class="layui-input">
                                                 <!--</div>-->
                                             </div>
                                             <div class="fn-area">
@@ -81,13 +267,12 @@
                                                     描述
                                                 </div>
                                                 <div class="layui-row layui-col-md6">
-                                                    <input type="text" class="layui-input"/>
+                                                    <input type="text" class="layui-input" />
                                                 </div>
                                             </div>
                                             <div class="fn-area">
                                                 <i class="layui-icon ele-copy">&#xe60a;</i>
                                                 <i class="layui-icon ele-del">&#xe640;</i>
-
                                                 <div class="msg ele-copy-msg">
                                                     <p>
                                                         <span class="up-trangle"></span>
@@ -124,11 +309,10 @@
                                                     描述
                                                 </div>
                                                 <div class="layui-row layui-col-md12 text-left">
-                                                    <input type="radio" name="item" value="1" title="选项1"
-                                                           checked="checked">
-                                                    <br/>
+                                                    <input type="radio" name="item" value="1" title="选项1" checked="checked">
+                                                    <br />
                                                     <input type="radio" name="item" value="2" title="选项2">
-                                                    <br/>
+                                                    <br />
                                                     <input type="radio" name="item" value="3" title="选项3">
                                                 </div>
                                             </div>
@@ -148,13 +332,12 @@
                                                     描述
                                                 </div>
                                                 <div class="layui-row layui-col-md12 text-left">
-                                                    <input type="checkbox" name="item" value="1" title="选项1"
-                                                           checked="checked">
-                                                    <br/>
+                                                    <input type="checkbox" name="item" value="1" title="选项1" checked="checked">
+                                                    <br />
                                                     <input type="checkbox" name="item" value="2" title="选项2">
-                                                    <br/>
+                                                    <br />
                                                     <input type="checkbox" name="item" value="3" title="选项3">
-                                                    <br/>
+                                                    <br />
                                                     <input type="checkbox" name="item" value="4" title="选项4">
                                                 </div>
                                             </div>
@@ -180,48 +363,40 @@
                                                 <div class="layui-row layui-col-md12 text-left">
                                                     <div class="layui-col-md3 redioimg">
                                                         <label class="radio" style="display: block;">
-                                                            <div class="image-center"><img src="../images/a23.png ">
-                                                            </div>
+                                                            <div class="image-center"><img th:src="@{/images/a23.png}"></div>
                                                             <div class="text-wrapper">
                                                                 <div class="radio-button-wrapper">
-                                                                    <input type="radio" name="field[choices]"
-                                                                           value="nan" title="23232dewew20">
+                                                                    <input type="radio" name="field[choices]" value="nan" title="23232dewew20">
                                                                 </div>
                                                             </div>
                                                         </label>
                                                     </div>
                                                     <div class="layui-col-md3 redioimg">
                                                         <label class="radio" style="display: block;">
-                                                            <div class="image-center"><img src="../images/a23.png ">
-                                                            </div>
+                                                            <div class="image-center"><img th:src="@{/images/a23.png}"></div>
                                                             <div class="text-wrapper">
                                                                 <div class="radio-button-wrapper">
-                                                                    <input type="radio" name="field[choices]"
-                                                                           value="nan" title="360截图20160116222756711">
+                                                                    <input type="radio" name="field[choices]" value="nan" title="360截图20160116222756711">
                                                                 </div>
                                                             </div>
                                                         </label>
                                                     </div>
                                                     <div class="layui-col-md3 redioimg">
                                                         <label class="radio" style="display: block;">
-                                                            <div class="image-center"><img src="../images/a23.png ">
-                                                            </div>
+                                                            <div class="image-center"><img th:src="@{/images/a23.png}"></div>
                                                             <div class="text-wrapper">
                                                                 <div class="radio-button-wrapper">
-                                                                    <input type="radio" name="field[choices]"
-                                                                           value="nan" title="360截图20160116222756711">
+                                                                    <input type="radio" name="field[choices]" value="nan" title="360截图20160116222756711">
                                                                 </div>
                                                             </div>
                                                         </label>
                                                     </div>
                                                     <div class="layui-col-md3 redioimg">
                                                         <label class="radio" style="display: block;">
-                                                            <div class="image-center"><img src="../images/a23.png ">
-                                                            </div>
+                                                            <div class="image-center"><img th:src="@{/images/a23.png}"></div>
                                                             <div class="text-wrapper">
                                                                 <div class="radio-button-wrapper">
-                                                                    <input type="radio" name="field[choices]"
-                                                                           value="nan" title="360截图20160116222756711">
+                                                                    <input type="radio" name="field[choices]" value="nan" title="360截图20160116222756711">
                                                                 </div>
                                                             </div>
                                                         </label>
@@ -353,7 +528,6 @@
                                                 </div>
                                                 <div class="layui-inline layui-col-md12">
                                                     <label class="layui-form-label labelwidth">数字</label>
-
                                                     <div class="layui-input-inline">
                                                         <input type="text" name="" class="layui-input">
                                                     </div>
@@ -395,10 +569,8 @@
                                                 <label class="layui-form-label labelwidth">
                                                     <i class="layui-icon">&#xe637;</i>
                                                 </label>
-
                                                 <div class="layui-input-block">
-                                                    <input type="text" name="title" required lay-verify="required"
-                                                           placeholder="" autocomplete="off" class="layui-input">
+                                                    <input type="text" name="title" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
                                                 </div>
                                             </div>
                                         </div>
@@ -457,10 +629,8 @@
                                                     <label class="layui-form-label labelwidth">
                                                         <i class="layui-icon">&#xe64c;</i>
                                                     </label>
-
                                                     <div class="layui-input-block">
-                                                        <input type="text" name="title" required lay-verify="required"
-                                                               placeholder="" autocomplete="off" class="layui-input">
+                                                        <input type="text" name="title" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
                                                     </div>
                                                 </div>
                                             </div>
@@ -474,8 +644,7 @@
                                                 </div>
                                                 <div class="layui-row layui-col-md12 text-left field-desc">
                                                     <div class="spingfen">
-                                                        <i class="layui-icon">&#xe658;</i><i class="layui-icon">
-                                                        &#xe658;</i> <i class="layui-icon">&#xe658;</i>
+                                                        <i class="layui-icon">&#xe658;</i><i class="layui-icon">&#xe658;</i> <i class="layui-icon">&#xe658;</i>
                                                     </div>
 
                                                 </div>
@@ -515,7 +684,6 @@
                                                 </div>
                                                 <div class="layui-row layui-col-md12 layui-inline upbox">
                                                     <i class="layui-icon">&#xe681;</i>
-
                                                     <p>请选择或拖拽上传文件，5MB以内。 </p>
                                                 </div>
                                             </div>
@@ -536,7 +704,7 @@
                                         <div class="new-line">
                                             <!--表单关联-->
                                             <div class="layui-form-item text-left">
-                                                <input type="submit" class="layui-btn" name="" id="" value="提交"/>
+                                                <input type="submit" class="layui-btn" name="" id="" value="提交" />
                                             </div>
                                         </div>
                                     </form>
@@ -670,87 +838,440 @@
                                                 <!--内容2 控制器-->
                                                 <div class="line-right">
 
-                                                    <div class="layui-row">
+                                                    <div class="layui-row bgtitle">
                                                         <h2 class="layui-col-md6">多行文字</h2>
-
                                                         <div class="tabicon"><i class="layui-icon">&#xe631;</i></div>
                                                     </div>
                                                     <div class="layui-row">
-                                                        <div class="layui-row layui-col-md12">
-                                                            ` 标题<i class="layui-icon">&#xe6b2;</i>
+                                                        <div class="layui-row layui-col-md12 bgtip">
+                                                            标题<i class="layui-icon">&#xe60b;</i>
                                                         </div>
-                                                        <div class="layui-row layui-col-md12">
-                                                            <input type="text" class="layui-input"/>
+                                                        <div class="layui-row layui-col-md12 bgtip">
+                                                            <input type="text" class="layui-input" />
                                                         </div>
                                                     </div>
                                                     <div class="layui-row">
-                                                        <div class=" layui-col-md12">
-                                                            默认值<i class="layui-icon">&#xe6b2;</i>
+                                                        <div class=" layui-col-md12 bgtip">
+                                                            默认值<i class="layui-icon">&#xe60b;</i>
                                                         </div>
                                                         <div class="layui-row layui-col-md12">
-                                                            <input type="text" class="layui-input"/>
+                                                            <input type="text" class="layui-input" />
                                                         </div>
                                                     </div>
                                                     <div class="layui-row ">
-                                                        <div class="layui-col-md12">
-                                                            提示<i class="layui-icon">&#xe6b2;</i>
+                                                        <div class="layui-col-md12 bgtip">
+                                                            提示<i class="layui-icon">&#xe60b;</i>
                                                         </div>
                                                         <div class="layui-col-md12">
-                                                            <textarea name="" rows="" cols=""
-                                                                      id="briefText2"></textarea>
+                                                            <textarea name="" rows="" cols="" id="briefText2"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <!--手风琴组件-->
+                                                    <div class="layui-row">
+                                                        <div class="layui-collapse" lay-accordion="">
+                                                            <div class="layui-colla-item">
+                                                                <h2 class="layui-colla-title">校验</h2>
+                                                                <div class="layui-colla-content layui-show pcheck">
+                                                                    <p>
+                                                                        <input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        必须填<i class="layui-icon" title="关于必填校验">&#xe60b;</i>
+                                                                    </p>
+                                                                    <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        最少填写<input type="text" name="" id="" value="" class="pinput"/>个字
+                                                                        <i class="layui-icon" title="关于最少填写字数">&#xe60b;</i>
+                                                                    </p>
+                                                                    <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        最多填写<input type="text" name="" id="" value="" class="pinput"/>个字
+                                                                        <i class="layui-icon" title="关于最多填写字数">&#xe60b;</i>
+                                                                    </p>
+                                                                    <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        自定义出错文案<i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
+                                                                    </p>
+                                                                    <p><input type="text" name="" id="" value="" class="pinput-m"/></p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="layui-colla-item">
+                                                                <h2 class="layui-colla-title">布局设置</h2>
+                                                                <div class="layui-colla-content">
+                                                                    <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        宽度占整行的<i class="layui-icon" title="关于占用整行的宽度">&#xe60b;</i>
+                                                                    </p>
+                                                                    <div class="layui-input-inline layui-col-md12">
+                                                                        <select name="city" lay-verify="">
+                                                                            <option value="">请选择比例</option>
+                                                                            <option value="010">1/4</option>
+                                                                            <option value="021">2/4</option>
+                                                                            <option value="0571">3/4</option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        新起一行
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="layui-colla-item">
+                                                                <h2 class="layui-colla-title">其它设置</h2>
+                                                                <div class="layui-colla-content">
+                                                                    <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        字段隐藏<i class="layui-icon" title="关于字段隐藏">&#xe60b;</i>
+                                                                    </p>
+                                                                    <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        为填写者缓存所填内容，下次自动填写
+                                                                        <i class="layui-icon" title="关于缓存填写数据">&#xe60b;</i>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="line-right">
+                                                    <!--单项选择-->
+                                                    <div class="layui-row bgtitle">
+                                                        <h2 class="layui-col-md6">单项选择</h2>
+                                                        <div class="tabicon"><i class="layui-icon">&#xe631;</i></div>
+                                                    </div>
+                                                    <div class="layui-row">
+                                                        <div class="layui-row layui-col-md12 bgtip">
+                                                            标题<i class="layui-icon">&#xe60b;</i>
+                                                        </div>
+                                                        <div class="layui-row layui-col-md12">
+                                                            <input type="text" class="layui-input" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="layui-row">
+                                                        <div class="layui-row layui-col-md12 bgtip">
+                                                            选项<i class="layui-icon">&#xe60b;</i>
+                                                        </div>
+                                                        <div class="layui-row layui-col-md12">
+                                                            <p><i class="layui-icon">&#xe624;</i>
+                                                                <input type="checkbox" name="" lay-skin="primary" title="">
+                                                                <input type="text" name="" id="" value="" placeholder="选项"/>
+                                                                <i class="layui-icon">&#xe654;</i>
+                                                                <i class="layui-icon">&#xe640;</i>
+                                                                <i class="layui-icon">&#xe715;</i>
+                                                            </p>
+                                                            <p><i class="layui-icon">&#xe624;</i>
+                                                                <input type="checkbox" name="" lay-skin="primary" title="">
+                                                                <input type="text" name="" id="" value="" placeholder="选项"/>
+                                                                <i class="layui-icon">&#xe654;</i>
+                                                                <i class="layui-icon">&#xe640;</i>
+                                                                <i class="layui-icon">&#xe715;</i>
+                                                            </p>
+                                                            <p><i class="layui-icon">&#xe624;</i>
+                                                                <input type="checkbox" name="" lay-skin="primary" title="">
+                                                                <input type="text" name="" id="" value="" placeholder="选项"/>
+                                                                <i class="layui-icon">&#xe654;</i>
+                                                                <i class="layui-icon">&#xe640;</i>
+                                                                <i class="layui-icon">&#xe715;</i>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="layui-row ">
+                                                        <div class="layui-col-md12 bgtip">
+                                                            提示<i class="layui-icon">&#xe60b;</i>
+                                                        </div>
+                                                        <div class="layui-col-md12">
+                                                            <textarea name="" rows="" cols="" id="briefText3"></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="layui-row">
                                                         <div class="layui-collapse" lay-accordion="">
                                                             <div class="layui-colla-item">
                                                                 <h2 class="layui-colla-title">校验</h2>
-
-                                                                <div class="layui-colla-content layui-show checkmar">
-                                                                    <input type="checkbox" name="item" value="2"
-                                                                           title="必须填">
-                                                                    <br>
-                                                                    <input type="checkbox" name="item" value="2"
-                                                                           title="选项2">
-                                                                    <input type="text" name="" id="" value=""
-                                                                           placeholder="只能填数字" class=""/>
-                                                                    <br>
-                                                                    <input type="checkbox" name="item" value="2"
-                                                                           title="选项3">
-                                                                    <input type="text" name="" id="" value=""
-                                                                           placeholder="只能填数字" class=""/>
-                                                                    <br>
-
+                                                                <div class="layui-colla-content  layui-show pcheck">
+                                                                    <p>
+                                                                        <input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        必须填<i class="layui-icon" title="关于必填校验">&#xe60b;</i>
+                                                                    </p>
+                                                                    <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        设置"其他"必填
+                                                                        <i class="layui-icon" title="关于设置其他必填">&#xe60b;</i>
+                                                                    </p>
+                                                                    <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        自定义出错文案<i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
+                                                                    </p>
+                                                                    <p><input type="text" name="" id="" value="" class="pinput-m"/></p>
                                                                 </div>
                                                             </div>
                                                             <div class="layui-colla-item">
                                                                 <h2 class="layui-colla-title">布局设置</h2>
 
                                                                 <div class="layui-colla-content">
-                                                                    <p>222222</p>
+
+                                                                    <label class="layui-form-label">排列方式<i class="layui-icon" title="排列方式">&#xe60b;</i></label>
+                                                                    <div class="layui-input-block">
+
+                                                                        <input type="radio" name="sex" value="纵向" title="纵向" checked="">
+                                                                        <input type="radio" name="sex" value="横向" title="横向">
+                                                                    </div>
+                                                                    <div class="pcheck">
+                                                                        <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                            宽度占整行的<i class="layui-icon" title="关于占用整行的宽度">&#xe60b;</i>
+                                                                        </p>
+
+                                                                        <select name="city" >
+                                                                            <option value="">请选择比例</option>
+                                                                            <option value="010">1/4</option>
+                                                                            <option value="021">2/4</option>
+                                                                            <option value="0571">3/4</option>
+                                                                        </select>
+
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             <div class="layui-colla-item">
                                                                 <h2 class="layui-colla-title">其它设置</h2>
-
                                                                 <div class="layui-colla-content">
-                                                                    <p>2222222</p>
+                                                                    <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        字段隐藏<i class="layui-icon" title="关于字段隐藏">&#xe60b;</i>
+                                                                    </p>
+                                                                    <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        为填写者缓存所填内容，下次自动填写
+                                                                        <i class="layui-icon" title="关于缓存填写数据">&#xe60b;</i>
+                                                                    </p>
+                                                                    <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        选项展示顺序随机
+                                                                        <i class="layui-icon" title="选项展示顺序随机">&#xe60b;</i>
+                                                                    </p>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
 
+                                                <!--图片多选-->
+                                                <div class="line-right">
+
+                                                    <div class="layui-row bgtitle">
+                                                        <h2 class="layui-col-md6">图片多选</h2>
+                                                        <div class="tabicon"><i class="layui-icon">&#xe631;</i></div>
+                                                    </div>
+                                                    <div class="layui-row">
+                                                        <div class="layui-row layui-col-md12 bgtip">
+                                                            标题<i class="layui-icon">&#xe60b;</i>
+                                                        </div>
+                                                        <div class="layui-row layui-col-md12">
+                                                            <input type="text" class="layui-input" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="layui-row right-up">
+                                                        <!--<button type="button" class="layui-btn" id="test1">
+                                                          <i class="layui-icon">&#xe67c;</i>上传图片
+                                                        </button>
+                                                        <p>点此添加或拖动至此，一次至多5张 -》这里需要定义js</p>-->
+                                                        <div class="layui-upload-drag" id="uploadDemo">
+                                                            <i class="layui-icon"></i>
+                                                            <p>点击上传，或将文件拖拽到此处</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="layui-row ">
+                                                        <div class="layui-col-md12 bgtip">
+                                                            提示<i class="layui-icon">&#xe60b;</i>
+                                                        </div>
+                                                        <div class="layui-col-md12">
+                                                            <textarea name="" rows="" cols="" id="briefText4"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <!--手风琴组件-->
+                                                    <div class="layui-row">
+                                                        <div class="layui-collapse" lay-accordion="">
+                                                            <div class="layui-colla-item">
+                                                                <h2 class="layui-colla-title">校验</h2>
+                                                                <div class="layui-colla-content layui-show pcheck">
+                                                                    <p>
+                                                                        <input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        必须填<i class="layui-icon" title="关于必填校验">&#xe60b;</i>
+                                                                    </p>
+                                                                    <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        最少选<input type="text" name="" id="" value="" class="pinput"/>选项
+                                                                        <i class="layui-icon" title="关于最少填写字数">&#xe60b;</i>
+                                                                    </p>
+                                                                    <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        最多选<input type="text" name="" id="" value="" class="pinput"/>选项
+                                                                        <i class="layui-icon" title="关于最多填写字数">&#xe60b;</i>
+                                                                    </p>
+                                                                    <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        自定义出错文案<i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
+                                                                    </p>
+                                                                    <p><input type="text" name="" id="" value="" class="pinput-m"/></p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="layui-colla-item">
+                                                                <h2 class="layui-colla-title">布局设置</h2>
+                                                                <div class="layui-colla-content pcheck">
+                                                                    <label class="layui-form-label">排列方式<i class="layui-icon" title="排列方式">&#xe60b;</i></label>
+                                                                    <div class="layui-input-block">
+
+                                                                        <input type="radio" name="sex" value="纵向" title="纵向" checked="">
+                                                                        <input type="radio" name="sex" value="横向" title="横向">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="layui-colla-item">
+                                                                <h2 class="layui-colla-title">其它设置</h2>
+                                                                <div class="layui-colla-content">
+                                                                    <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        字段隐藏<i class="layui-icon" title="关于字段隐藏">&#xe60b;</i>
+                                                                    </p>
+                                                                    <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        选项展示顺序随机
+                                                                        <i class="layui-icon" title="选项展示顺序随机">&#xe60b;</i>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--右侧 日期组件-->
+                                                <div class="line-right">
+
+                                                    <div class="layui-row bgtitle">
+                                                        <h2 class="layui-col-md6">日期</h2>
+                                                        <div class="tabicon"><i class="layui-icon">&#xe631;</i></div>
+                                                    </div>
+                                                    <div class="layui-row">
+                                                        <div class="layui-row layui-col-md12 bgtip">
+                                                            标题<i class="layui-icon">&#xe60b;</i>
+                                                        </div>
+                                                        <div class="layui-row layui-col-md12">
+                                                            <input type="text" class="layui-input"  value="日期"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="layui-row">
+                                                        <div class="layui-row layui-col-md12 bgtip">
+                                                            默认值<i class="layui-icon">&#xe60b;</i>
+                                                        </div>
+                                                        <div class="layui-row ">
+
+                                                            <div class="layui-col-md5">
+                                                                <select name="city" lay-verify="required">
+                                                                    <option value=""></option>
+                                                                    <option value="0">特定日期</option>
+                                                                    <option value="1">填写当天</option>
+                                                                    <option value="2">填写日期</option>
+                                                                    <option value="3">填写日后</option>
+
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="layui-col-md6">
+                                                                <input type="text" class="layui-input" id="test1" placeholder="yyyy-MM-dd">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="layui-row ">
+                                                        <div class="layui-col-md12 bgtip">
+                                                            提示<i class="layui-icon">&#xe60b;</i>
+                                                        </div>
+                                                        <div class="layui-col-md12">
+                                                            <textarea name="" rows="" cols="" id="briefText5"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <!--手风琴组件-->
+                                                    <div class="layui-row">
+                                                        <div class="layui-collapse" lay-accordion="">
+                                                            <div class="layui-colla-item">
+                                                                <h2 class="layui-colla-title">校验</h2>
+                                                                <div class="layui-colla-content layui-show pcheck">
+                                                                    <div>
+                                                                        <input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        必须填<i class="layui-icon" title="关于必填校验">&#xe60b;</i>
+                                                                    </div>
+                                                                    <div><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        起始日期
+                                                                        <i class="layui-icon" title="关于起始日期">&#xe60b;</i>
+                                                                        <div class="layui-row ">
+
+                                                                            <div class="layui-col-md5">
+                                                                                <select name="city" lay-verify="required">
+                                                                                    <option value=""></option>
+                                                                                    <option value="0">特定日期</option>
+                                                                                    <option value="1">填写当天</option>
+                                                                                    <option value="2">填写日期</option>
+                                                                                    <option value="3">填写日后</option>
+
+                                                                                </select>
+                                                                            </div>
+
+                                                                            <div class="layui-col-md6">
+                                                                                <input type="text" class="layui-input" id="test1" placeholder="yyyy-MM-dd">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        结束日期
+                                                                        <i class="layui-icon" title="关于结束日期">&#xe60b;</i>
+                                                                        <div class="layui-row ">
+
+                                                                            <div class="layui-col-md5">
+                                                                                <select name="city" lay-verify="required">
+                                                                                    <option value=""></option>
+                                                                                    <option value="0">特定日期</option>
+                                                                                    <option value="1">填写当天</option>
+                                                                                    <option value="2">填写日期</option>
+                                                                                    <option value="3">填写日后</option>
+
+                                                                                </select>
+                                                                            </div>
+
+                                                                            <div class="layui-col-md6">
+                                                                                <input type="text" class="layui-input" id="test1" placeholder="yyyy-MM-dd">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        自定义出错文案<i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
+                                                                    </p>
+                                                                    <p><input type="text" name="" id="" value="" class="pinput-m"/></p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="layui-colla-item">
+                                                                <h2 class="layui-colla-title">布局设置</h2>
+                                                                <div class="layui-colla-content">
+                                                                    <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        宽度占整行的<i class="layui-icon" title="关于占用整行的宽度">&#xe60b;</i>
+                                                                    </p>
+                                                                    <div class="layui-input-inline layui-col-md12">
+                                                                        <select name="city" lay-verify="">
+                                                                            <option value="">请选择比例</option>
+                                                                            <option value="010">1/4</option>
+                                                                            <option value="021">2/4</option>
+                                                                            <option value="0571">3/4</option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        新起一行
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                            <div class="layui-colla-item">
+                                                                <h2 class="layui-colla-title">其它设置</h2>
+                                                                <div class="layui-colla-content">
+                                                                    <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        字段隐藏<i class="layui-icon" title="关于字段隐藏">&#xe60b;</i>
+                                                                    </p>
+                                                                    <p><input type="checkbox" name="like1[write]" lay-skin="primary" title="" checked="">
+                                                                        为填写者缓存所填内容，下次自动填写
+                                                                        <i class="layui-icon" title="关于缓存数据填写">&#xe60b;</i>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <!--提交按钮-->
-                                                <div class="layui-form-item">
+                                                <div class="layui-form-item leftfoot-btn">
                                                     <div class="layui-input-block">
-                                                        <button class="layui-btn" lay-submit="" lay-filter="demo1">
-                                                            立即提交
-                                                        </button>
-                                                        <button type="reset" class="layui-btn layui-btn-primary">重置
-                                                        </button>
+                                                        <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                                                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
                                                     </div>
                                                 </div>
                                             </form>
+
                                         </div>
                                         <div class="layui-tab-item">内容3</div>
                                     </div>
@@ -760,6 +1281,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </nav>
@@ -1101,103 +1623,103 @@
 
     FormCreator.prototype.createSingleText = function () {
         var htmlString = '<div class="new-line">' +
-                '<!--单行文字-->' +
-                '<div class="layui-form-item">' +
-                '<div class="layui-row layui-col-md12 text-left field-name">' +
-                '未命名' +
-                '</div>' +
-                '<div class="layui-row layui-col-md12 text-left field-desc">' +
-                '描述' +
-                '</div>' +
-                '<div class="layui-row layui-col-md6">' +
-                '<input type="text" class="layui-input"/>' +
-                '</div>' +
-                '</div>' +
-                '<div class="fn-area">' +
-                '<i class="layui-icon ele-copy">&#xe60a;</i>' +
-                '<i class="layui-icon ele-del">&#xe640;</i>' +
-                '<div class="msg ele-copy-msg">' +
-                '<p>' +
-                '<span class="up-trangle"></span>' +
-                '<span class="content">复制</span>' +
-                '</p>' +
-                '</div>' +
-                '</div>' +
-                '</div>';
+            '<!--单行文字-->' +
+            '<div class="layui-form-item">' +
+            '<div class="layui-row layui-col-md12 text-left field-name">' +
+            '未命名' +
+            '</div>' +
+            '<div class="layui-row layui-col-md12 text-left field-desc">' +
+            '描述' +
+            '</div>' +
+            '<div class="layui-row layui-col-md6">' +
+            '<input type="text" class="layui-input"/>' +
+            '</div>' +
+            '</div>' +
+            '<div class="fn-area">' +
+            '<i class="layui-icon ele-copy">&#xe60a;</i>' +
+            '<i class="layui-icon ele-del">&#xe640;</i>' +
+            '<div class="msg ele-copy-msg">' +
+            '<p>' +
+            '<span class="up-trangle"></span>' +
+            '<span class="content">复制</span>' +
+            '</p>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
         return $(htmlString);
     };
     FormCreator.prototype.createMultiText = function () {
         var htmlString = '<div class="new-line">' +
-                '<!--多行文字-->' +
-                '<div class="layui-form-item">' +
-                '<div class="layui-row layui-col-md12 text-left field-name">' +
-                '未命名' +
-                '</div>' +
-                '<div class="layui-row layui-col-md12 text-left field-desc">' +
-                '描述' +
-                '</div>' +
-                '<div class="layui-row layui-col-md12">' +
-                '<textarea class="layui-textarea"></textarea>' +
-                '</div>' +
-                '</div>' +
-                '<div class="fn-area">' +
-                '<i class="layui-icon ele-copy">&#xe60a;</i>' +
-                '<i class="layui-icon ele-del">&#xe640;</i>' +
-                '</div>' +
-                '</div>';
+            '<!--多行文字-->' +
+            '<div class="layui-form-item">' +
+            '<div class="layui-row layui-col-md12 text-left field-name">' +
+            '未命名' +
+            '</div>' +
+            '<div class="layui-row layui-col-md12 text-left field-desc">' +
+            '描述' +
+            '</div>' +
+            '<div class="layui-row layui-col-md12">' +
+            '<textarea class="layui-textarea"></textarea>' +
+            '</div>' +
+            '</div>' +
+            '<div class="fn-area">' +
+            '<i class="layui-icon ele-copy">&#xe60a;</i>' +
+            '<i class="layui-icon ele-del">&#xe640;</i>' +
+            '</div>' +
+            '</div>';
         return $(htmlString);
     };
     FormCreator.prototype.createSingleSelect = function () {
         //生成单项选择
         var htmlString = '		<div class="new-line">' +
-                '													<!--单项选择-->' +
-                '													<div class="layui-form-item">' +
-                '														<div class="layui-row layui-col-md12 text-left field-name">' +
-                '															未命名' +
-                '														</div>' +
-                '														<div class="layui-row layui-col-md12 text-left field-desc">' +
-                '															描述' +
-                '														</div>' +
-                '														<div class="layui-row layui-col-md12 text-left">' +
-                '															<input type="radio" name="item" value="1" title="选项1" checked="checked">' +
-                '															<br />' +
-                '															<input type="radio" name="item" value="2" title="选项2">' +
-                '															<br />' +
-                '															<input type="radio" name="item" value="3" title="选项3">' +
-                '														</div>' +
-                '													</div>' +
-                '													<div class="fn-area">' +
-                '														<i class="layui-icon ele-copy">&#xe60a;</i>' +
-                '														<i class="layui-icon ele-del">&#xe640;</i>' +
-                '													</div>' +
-                '												</div>';
+            '													<!--单项选择-->' +
+            '													<div class="layui-form-item">' +
+            '														<div class="layui-row layui-col-md12 text-left field-name">' +
+            '															未命名' +
+            '														</div>' +
+            '														<div class="layui-row layui-col-md12 text-left field-desc">' +
+            '															描述' +
+            '														</div>' +
+            '														<div class="layui-row layui-col-md12 text-left">' +
+            '															<input type="radio" name="item" value="1" title="选项1" checked="checked">' +
+            '															<br />' +
+            '															<input type="radio" name="item" value="2" title="选项2">' +
+            '															<br />' +
+            '															<input type="radio" name="item" value="3" title="选项3">' +
+            '														</div>' +
+            '													</div>' +
+            '													<div class="fn-area">' +
+            '														<i class="layui-icon ele-copy">&#xe60a;</i>' +
+            '														<i class="layui-icon ele-del">&#xe640;</i>' +
+            '													</div>' +
+            '												</div>';
         return $(htmlString);
     };
     FormCreator.prototype.createMultiSelect = function () {
         var htmlString = '<div class="new-line">' +
-                '													<!--多项选择-->' +
-                '													<div class="layui-form-item">' +
-                '														<div class="layui-row layui-col-md12 text-left field-name">' +
-                '															未命名' +
-                '														</div>' +
-                '														<div class="layui-row layui-col-md12 text-left field-desc">' +
-                '															描述' +
-                '														</div>' +
-                '														<div class="layui-row layui-col-md12 text-left">' +
-                '															<input type="checkbox" name="item" value="1" title="选项1" checked="checked">' +
-                '															<br />' +
-                '															<input type="checkbox" name="item" value="2" title="选项2">' +
-                '															<br />' +
-                '															<input type="checkbox" name="item" value="3" title="选项3">' +
-                '															<br />' +
-                '															<input type="checkbox" name="item" value="4" title="选项4">' +
-                '														</div>' +
-                '													</div>' +
-                '													<div class="fn-area">' +
-                '														<i class="layui-icon ele-copy">&#xe60a;</i>' +
-                '														<i class="layui-icon ele-del">&#xe640;</i>' +
-                '													</div>' +
-                '												</div>';
+            '													<!--多项选择-->' +
+            '													<div class="layui-form-item">' +
+            '														<div class="layui-row layui-col-md12 text-left field-name">' +
+            '															未命名' +
+            '														</div>' +
+            '														<div class="layui-row layui-col-md12 text-left field-desc">' +
+            '															描述' +
+            '														</div>' +
+            '														<div class="layui-row layui-col-md12 text-left">' +
+            '															<input type="checkbox" name="item" value="1" title="选项1" checked="checked">' +
+            '															<br />' +
+            '															<input type="checkbox" name="item" value="2" title="选项2">' +
+            '															<br />' +
+            '															<input type="checkbox" name="item" value="3" title="选项3">' +
+            '															<br />' +
+            '															<input type="checkbox" name="item" value="4" title="选项4">' +
+            '														</div>' +
+            '													</div>' +
+            '													<div class="fn-area">' +
+            '														<i class="layui-icon ele-copy">&#xe60a;</i>' +
+            '														<i class="layui-icon ele-del">&#xe640;</i>' +
+            '													</div>' +
+            '												</div>';
         return $(htmlString);
     };
     FormCreator.prototype.createSinglePic = function () {
@@ -1232,8 +1754,8 @@
 
     $('.add-field .grid-demo').click(function () {
         var fnName = 'create' + parseId(this.id),
-                $ele = creator[fnName](),
-                $activeLine = $form.find('.active-line');
+            $ele = creator[fnName](),
+            $activeLine = $form.find('.active-line');
         $activeLine.length ? $activeLine.after($ele) : $form.append($ele);
         form.render();
     });

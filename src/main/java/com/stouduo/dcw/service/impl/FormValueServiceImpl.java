@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -61,8 +62,9 @@ public class FormValueServiceImpl implements FormValueService {
 
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-    public FormValueRestVO formDatas(String formId, String content, String startTime, String endTime, int asc, int pageSize, int curPage) {
-        Page<FormValue> page = formValueRepository.findByContent(formId, content, startTime, endTime, new PageRequest(curPage, pageSize, asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createtime"));
+    @Override
+    public FormValueRestVO formDatas(String formId, String content, String startTime, Date endTime, int asc, int pageSize, int curPage) throws ParseException {
+        Page<FormValue> page = formValueRepository.findByContent(formId, content, sdf.parse(startTime), endTime, new PageRequest(curPage, pageSize, asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createTime"));
         FormValueRestVO restVO = new FormValueRestVO();
         List<FormValue> formValues = page.getContent();
         List<Map<String, String>> formValuesMap = new ArrayList<>();
@@ -76,10 +78,11 @@ public class FormValueServiceImpl implements FormValueService {
             formValueMap.put("browser", formValue.getBrowser());
             formValueMap.put("os", formValue.getOs());
             formValueMap.put("submitIP", formValue.getSubmitIP());
+            formValueMap.put("id",formValue.getId());
             formValueMap.putAll((Map<String, String>) JSON.parse(formValue.getValue()));
             formValuesMap.add(formValueMap);
         }
-        restVO.setCode(200);
+        restVO.setCode(0);
         restVO.setCount(page.getTotalElements());
         restVO.setMsg("");
         restVO.setData(formValuesMap);
@@ -87,13 +90,13 @@ public class FormValueServiceImpl implements FormValueService {
     }
 
     @Override
-    public void outport(String formId, String content, String startTime, String endTime, int asc, int pageSize, int curPage) throws ExcelException {
+    public void outport(String formId, String content, String startTime, Date endTime, int asc, int pageSize, int curPage) throws Exception {
         Form form = formRepository.findOne(formId);
         List<FormValue> formValues;
-        if (pageSize != 0 || curPage != 0) {
-            formValues = formValueRepository.findByContent(formId, content, startTime, endTime, new PageRequest(curPage, pageSize, asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createtime")).getContent();
+        if (curPage != -1) {
+            formValues = formValueRepository.findByContent(formId, content, sdf.parse(startTime), endTime, new PageRequest(curPage, pageSize, asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createtime")).getContent();
         } else {
-            formValues = formValueRepository.findByContent(formId, content, startTime, endTime, new Sort(asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createTime"));
+            formValues = formValueRepository.findByContent(formId, content, sdf.parse(startTime), endTime, new Sort(asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createTime"));
         }
         List<String> fieldNames = formPropertyRepository.findByForm(formId);
         fieldNames.add("表单创建人");

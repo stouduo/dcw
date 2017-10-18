@@ -150,28 +150,40 @@ public class UserController extends BaseController {
     @PostMapping("/bindInfo")
     public String bindInfo(User user, HttpSession session, Model model) {
         try {
-            if (StringUtils.isEmpty(user.getEmail())) {
+            session.setAttribute("code", userService.bindInfo(user));
+            if (!StringUtils.isEmpty(user.getEmail())) {
                 session.setAttribute("email", user.getEmail());
             }
-            userService.bindInfo(user);
+            if (!StringUtils.isEmpty(user.getTel())) {
+                session.setAttribute("tel", user.getTel());
+            }
         } catch (Exception e) {
-            return error("发送邮件失败！", model);
+            return error("发送失败！", model);
         }
         return "/userInfo";
     }
 
     @GetMapping("/active")
-    public String active(String token, Model model, HttpSession session) {
-        if (mailRecordService.verify(token)) {
-            return error("激活失败", model);
+    public RestResult<User> active(String code, HttpSession session) {
+        if (!code.equals(session.getAttribute("code"))) {
+            return restError("激活失败");
         } else {
+            String email = (String) session.getAttribute("email");
+            String tel = (String) session.getAttribute("tel");
             User user = userService.userInfo();
-            user.setEmail((String) session.getAttribute("email"));
-            session.removeAttribute("email");
+            if (!StringUtils.isEmpty(email)) {
+                user.setEmail(email);
+                session.removeAttribute("email");
+            }
+            if (!StringUtils.isEmpty(tel)) {
+                user.setTel(tel);
+                session.removeAttribute("tel");
+            }
             userService.save(user);
-            return "/userInfo";
+            return restSuccess("修改成功");
         }
     }
+
 
     @PostMapping("/editUser")
     public String editUser(User user, String oldPwd, String confirmPwd) {

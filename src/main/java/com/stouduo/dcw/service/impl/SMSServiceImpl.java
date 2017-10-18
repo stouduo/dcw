@@ -71,4 +71,9 @@ public class SMSServiceImpl implements SMSService {
         }
         return new Object[]{code, new Date()};
     }
+
+    @Override
+    public int sendSMS(String tel) throws Exception {
+        return (int) sendSms(tel)[0];
+    }
 }

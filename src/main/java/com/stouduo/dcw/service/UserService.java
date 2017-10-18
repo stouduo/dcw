@@ -8,7 +8,7 @@ public interface UserService {
 
     User userInfo();
 
-    void bindInfo(User user) throws Exception;
+    int bindInfo(User user) throws Exception;
 
     void editUser(User user, String oldPwd, String confirmPwd);
 

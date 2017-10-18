@@ -51,12 +51,12 @@ public class FormController extends BaseController {
         return restSuccess("编辑成功");
     }
 
-    @PostMapping("/edit/{id}")
+    @GetMapping("/edit/{id}")
     public String toEdit(@PathVariable("id") String formId, Model model) {
         if (!"new".equals(formId)) {
             FormDetailVO formDetailVO = formService.getForm(formId);
             if (formDetailVO != null)
-                model.addAttribute("form", formDetailVO);
+                model.addAttribute("formDetail", formDetailVO);
         }
         return "pages/formEditor";
     }
@@ -98,7 +98,12 @@ public class FormController extends BaseController {
 
     @GetMapping("/result/{id}")
     public String viewResult(@PathVariable("id") String formId, Model model, int curPage, int pageSize) {
-        ResultVO resultVO = formService.getResult(formId, curPage, pageSize);
+        ResultVO resultVO = null;
+        try {
+            resultVO = formService.getResult(formId, curPage-1, pageSize);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (resultVO == null) return error("找不到资源！", model);
         new ModelAndView().addObject("form", resultVO);
         return "result";

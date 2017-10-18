@@ -1,414 +1,486 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-	<head>
-		<meta charset="UTF-8">
-		<title>金数据-个人中心设置页</title>
-		<link rel="stylesheet" type="text/css" href="../layui/css/layui.css" />
-		<style type="text/css">
-			<style type="text/css">
-			.clearfix:after {
-				content: '';
-				clear: both;
-				display: block;
-			}
-			
-			a {
-				text-decoration: none;
-			}
-			a:hover{
-				color: #009aff;
-			}
-			.text-left {
-				text-align: left;
-			}
-			
-			.field-name {
-				height: 35px;
-				line-height: 35px;
-				font-size: larger;
-				overflow: auto;
-			}
-			
-			.field-desc {
-				height: 25px;
-				line-height: 25px;
-				font-weight: lighter;
-				font-size: x-small;
-				overflow: hidden;
-			}
-			
-			header {
-				background-color: #393D49;
-			}
-			.msg {
-				width: 60px;
-				height: 35px;
-				border-radius: 3px;
-				background-color: #333745;
-				position: absolute;
-				top: 23px;
-				right: 5px;
-				display: none;
-			}
-			
-			.msg p {
-				width: 100%;
-				line-height: 35px;
-				text-align: center;
-				color: #fff;
-				border-radius: 5px;
-				position: relative;
-				top: 0;
-				left: 0;
-			}
-			
-			.msg .up-trangle {
-				display: block;
-				width: 0;
-				height: 0;
-				border: 8px solid #333745;
-				transform: rotateZ(45deg);
-				position: absolute;
-				top: -4px;
-				right: 15px;
-			}
-			
-			.container {
-				box-sizing: border-box;
-				width: 960px;
-				padding: 0 7px;
-				margin: auto;
-			}
-			
-			nav .container {
-				margin: 10px auto;
-				margin-bottom: 0;
-			}
-			
-			/*个人中心*/
-			.set-head{
-				height: 40px;
-				line-height: 40px;
-				border-bottom: 1px solid #EEEEEE;
-			}
-			.set-img{
-				width: 120px;
-				border:1px solid #D9D9D9;
-				padding: 20px;
-			}
-			.set-img img{
-				width: 120px;
-				height: 120px;
-				float: left;
-				margin-bottom: 10px;
-			}
-			.set-img #username{
-				text-align: center;
-			}
-			.set-menu{
-				width: 162px;
-				padding: 10px 20px;
-				margin-top: 20px;
-				border: 1px solid #D9D9D9;
-			}
-			.set-menu li a{
-				color: #009aff;
-			}
-			.set-ileft{
-				margin-left: 48px;
-			}
-			/*右侧设置*/
-			.set-may a{
-				color: #009aff;
-			}
-			.set-may label{
-				float: left;
-				margin-bottom: 0;
-				min-width: 110px;
-				cursor: pointer;
-			}
-			.set-item{
-				line-height: 25px;
-				padding-bottom: 5px;
-			}
-			.set-mg{
-				margin-left: 10px;
-			}
-			.set-sel{
-				padding: 5px 20px;
-			}
-			.setbd{
-				margin-left: 110px;
-			}
-			.setbd li{
-				width: 32px;
-				padding: 2px;
-				float: left;
-			}
-			.setbd img{
-				width: 20px;
-			}
-			
-			/*lay 弹出层设置*/
-			.lay-hide{
-				display: none;
-			}
-			#lay-pass{
-				padding-top: 30px;
-				
-			}
-			.lay-gmodel input{
-				border: 1px solid #C3C9D0;
-				border-radius:2px;
-				height:30px;
-				line-height:30px;
-			}
-			/*绑定手机*/
-			#lay-phone{
-				padding: 20px;
-			}
-			#lay-phone .layui-form-label{
-				width: 150px;
-			}
-			#lay-phone .layui-form-item{
-				margin-top: 20px;
-			}
-			/*更改昵称*/
-			#lay-nick{
-				padding: 20px;
-			}
-			#lay-nick .layui-btn{
-				margin-left: 40px;
-			}
-		</style>
-	</head>
-	<body>
-		<header>
-			<div class="container">
-				<ul class="layui-nav">
-					<li class="layui-nav-item">
-						<a href="desktop.html">桌面<span class="layui-badge">1</span></a>
-					</li>
-					<li class="layui-nav-item">
-						<a href="javascript:confirm('暂时未开发，点击确定跳到编辑页')? window.location.href='editor.html' :1===1;">联系人<span class="layui-badge-dot"></span></a>
-					</li>
-					<li class="layui-nav-item">
-						<a href=""><img src="http://t.cn/RCzsdCq" class="layui-nav-img">个人中心</a>
-						<dl class="layui-nav-child">
-							<dd>
-								<a href="javascript:">退出</a>
-							</dd>
-						</dl>
-					</li>
-				</ul>
-			</div>
-		</header>
-		<!--桌面-->
-		<div class="layui-tab container">
-			<div class="set-head">
-				<h2 class="">个人中心<h2>
-			</div>
-			<!--个人中心页面-->
-			<div class="layui-tab-content">
-				<div class="layui-row">
-				    <div class="layui-col-md3">
-				      <div class="layui-row grid-demo">
-				        <div class="layui-col-md12">
-				          <div class="grid-demo grid-demo-bg1">
-				          	<div class="layui-inline set-img clearfix">
-							  <img src="https://pub-files.jinshuju.net/av/59e1cd44afae7e1ba89b92c71507970372.jpeg@avlarge" class="layui-circle">
-							  <p id="username">admin超管</p>
-							</div>
-				          </div>
-				        </div>
-				        <div class="layui-col-md12 set-menu">
-				          <div class="grid-demo grid-demo-bg2">
-				          	<ul>
-				          		<li><a href="#">账户设置<i class="layui-icon set-ileft">&#xe602;</i></a></li>
-				          	</ul>
-				          </div>
-				        </div>
-				        
-				      </div>
-				    </div>
-				    <div class="layui-col-md9">
-				      <div class="layui-row grid-demo grid-demo-bg1">
-				        <div class="layui-col-md12">
-				          <div class="grid-demo">
-				          	<fieldset class="layui-elem-field">
-							  <legend>账户设置</legend>
-							  <div class="layui-field-box set-may">
-							    	<div class="set-item ">
-								      <label>邮箱</label>
-								      <div class="email">
-								           <i class="layui-icon">&#x1005;</i>   
-								          12341234@qq.com
-								      </div>
-								    </div>
-								    <div class="set-item ">
-								      <label>密码</label>
-								      <div class="email">
-								            <a href="javascript:void(0)" id="seditpss">修改登录密码</a>
-								      </div>
-								    </div>
-								    <div class="set-item ">
-								      <label>手机号</label>
-								      <div class="email">
-								            <span>181****1234</span><a href="javascript:void(0)" class="set-mg" id="seditphone">修改手机号</a> (随时掌握重要信息） 
-								      </div>
-								    </div>
-								    <div class="set-item">
-								      <label>昵称</label>
-								      <div class="email">
-								            <span> 萌面大虾sky</span> <a href="javascript:void(0)" class="set-mg" id="seditnick">更改昵称</a>                               
-								      </div>
-								    </div>
-								    <div class="set-item">
-								      <label>绑定社交账号</label>
-								      <div class="email">
-								            <span> 仅用于金数据的第三方登录</span>
-								            <ul class="setbd clearfix">
-								            	<li><a href="#"><img src="../images/qq.png"/><p>绑定</p></a></li>
-								            	<li><a href="#"><img src="../images/qq.png"/><p>绑定</p></a></li>
-								            	<li><a href="#"><img src="../images/qq.png"/><p>绑定</p></a></li>
-								            	<li><a href="#"><img src="../images/qq.png"/><p>绑定</p></a></li>
-								            </ul>
-								      </div>
-								    </div>
-							  </div>
-							</fieldset>
-				          </div>
-				        </div>
-				        <div class="layui-col-md12">
-				          <div class="grid-demo grid-demo-bg2">
-				          	<fieldset class="layui-elem-field">
-							  <legend>语言设置</legend>
-							  <div class="layui-field-box">
-							      <div class="layui-form-item">
-								    <label class="layui-form-label">选择框</label>
-								      <select name="" lay-verify="required" class="set-sel">
-								        <option value="0">北京</option>
-								        <option value="1">上海</option>
-								        <option value="2">广州</option>
-								        <option value="3">深圳</option>
-								        <option value="4">杭州</option>
-								      </select>
-								  </div>
-								      	<div class="layui-input-block">
-									      <button class="layui-btn" lay-submit lay-filter="formDemo">保存设置</button>
-									      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
-									    </div>
-							  </div>
-							</fieldset>
-				          </div>
-				        
-				      </div>
-				    </div>
-				  </div>
-			</div>
-		</div>
-		</div>
-		
-		
-		<!--弹出层-->
-		<div class="lay-hide lay-gmodel" id="lay-pass">
-			<form class="layui-form" action="">
-			  <div class="layui-form-item">
-			    <label class="layui-form-label">原密码</label>
-			    <div class="layui-input-inline">
-			      <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
-			    </div>
-			  </div>
-			  <div class="layui-form-item">
-			    <label class="layui-form-label">新密码</label>
-			    <div class="layui-input-inline">
-			      <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
-			    </div>
-			  </div>
-			  <div class="layui-form-item">
-			    <label class="layui-form-label">新密码确认</label>
-			    <div class="layui-input-inline">
-			      <input type="password" name="password" required lay-verify="required" placeholder="请确认密码" autocomplete="off" class="layui-input">
-			    </div>
-			    <div class="layui-form-mid layui-word-aux">请你牢记新修改的密码</div>
-			  </div>
-			</from>  
-		</div>
-		<!--修改手机号-->
-		<div class="lay-hide lay-gmodel" id="lay-phone">
-			<form class="layui-form" action="">
-				<p>为了保证帐号安全，需要验证手机有效性 </p>
-			  <div class="layui-form-item">
-			    <label class="layui-form-label">已绑定手机号 </label>
-			    <div class="layui-input-inline">
-			      <input type="password" name="text" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
-			    </div>
-			  </div>
-			  <button class="layui-btn" lay-submit lay-filter="formDemo">获取验证码</button>
-			</from>  
-		</div>
-		<!--更改昵称-->
-		<div class="lay-hide lay-gmodel" id="lay-nick">
-			<form class="layui-form" action="">
-			  <div class="layui-form-item">
-			    <label class="layui-form-label">新的昵称 </label>
-			    <div class="layui-input-inline">
-			      <input type="password" name="text" required lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
-			    </div>
-			  </div>
-			  <button class="layui-btn" lay-submit lay-filter="formDemo">保存</button>
-			</from>  
-		</div>
-		<script src="../js/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../js/layer/layer.js" type="text/javascript" charset="utf-8"></script>
-		<script type="text/javascript">
-//			修改密码
-			$('#seditpss').on('click', function(){
-			    layer.open({
-			      type: 1,
-			      title: '修改密码',
-			      area: ['600px', '360px'],
-			      shadeClose: true, //点击遮罩关闭
-			      btn: ['确定', '取消'],
-			      btnAlign: 'l',//按钮排列 左对齐
-			      content: $('#lay-pass'),
-			      yes: function(index, layero){
-                	//按钮【按钮一】的回调
-                	alert("按钮【按钮一】的回调");
-		            }, btn2: function (index, layero) {
-		                //按钮【按钮二】的回调
-		            },
-				});
-			})
-			
-			//修改手机号
-			$('#seditphone').on('click', function(){
-			    layer.open({
-			      type: 1,
-			      title: '绑定手机号',
-			      area: ['600px', '360px'],
-			      shadeClose: true, //点击遮罩关闭
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}"/>
+    <style type="text/css">
+        .clearfix:after {
+            content: '';
+            clear: both;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #009aff;
+        }
+
+        .text-left {
+            text-align: left;
+        }
+
+        .field-name {
+            height: 35px;
+            line-height: 35px;
+            font-size: larger;
+            overflow: auto;
+        }
+
+        .field-desc {
+            height: 25px;
+            line-height: 25px;
+            font-weight: lighter;
+            font-size: x-small;
+            overflow: hidden;
+        }
+
+        header {
+            background-color: #393D49;
+        }
+
+        .msg {
+            width: 60px;
+            height: 35px;
+            border-radius: 3px;
+            background-color: #333745;
+            position: absolute;
+            top: 23px;
+            right: 5px;
+            display: none;
+        }
+
+        .msg p {
+            width: 100%;
+            line-height: 35px;
+            text-align: center;
+            color: #fff;
+            border-radius: 5px;
+            position: relative;
+            top: 0;
+            left: 0;
+        }
+
+        .msg .up-trangle {
+            display: block;
+            width: 0;
+            height: 0;
+            border: 8px solid #333745;
+            transform: rotateZ(45deg);
+            position: absolute;
+            top: -4px;
+            right: 15px;
+        }
+
+        .container {
+            box-sizing: border-box;
+            width: 960px;
+            padding: 0 7px;
+            margin: auto;
+        }
+
+        nav .container {
+            margin: 10px auto;
+            margin-bottom: 0;
+        }
+
+        /*个人中心*/
+        .set-head {
+            height: 40px;
+            line-height: 40px;
+            border-bottom: 1px solid #EEEEEE;
+        }
+
+        .set-img {
+            width: 120px;
+            border: 1px solid #D9D9D9;
+            padding: 20px;
+        }
+
+        .set-img img {
+            width: 120px;
+            height: 120px;
+            float: left;
+            margin-bottom: 10px;
+        }
+
+        .set-img #username {
+            text-align: center;
+        }
+
+        .set-menu {
+            width: 162px;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border: 1px solid #D9D9D9;
+        }
+
+        .set-menu li a {
+            color: #009aff;
+        }
+
+        .set-ileft {
+            margin-left: 48px;
+        }
+
+        /*右侧设置*/
+        .set-may a {
+            color: #009aff;
+        }
+
+        .set-may label {
+            float: left;
+            margin-bottom: 0;
+            min-width: 110px;
+            cursor: pointer;
+        }
+
+        .set-item {
+            line-height: 25px;
+            padding-bottom: 5px;
+        }
+
+        .set-mg {
+            margin-left: 10px;
+        }
+
+        .set-sel {
+            padding: 5px 20px;
+        }
+
+        .setbd {
+            margin-left: 110px;
+        }
+
+        .setbd li {
+            width: 32px;
+            padding: 2px;
+            float: left;
+        }
+
+        .setbd img {
+            width: 20px;
+        }
+
+        /*lay 弹出层设置*/
+        .lay-hide {
+            display: none;
+        }
+
+        #lay-pass {
+            padding-top: 30px;
+
+        }
+
+        .lay-gmodel input {
+            border: 1px solid #C3C9D0;
+            border-radius: 2px;
+            height: 30px;
+            line-height: 30px;
+        }
+
+        /*绑定手机*/
+        #lay-phone {
+            padding: 20px;
+        }
+
+        #lay-phone .layui-form-label {
+            width: 150px;
+        }
+
+        #lay-phone .layui-form-item {
+            margin-top: 20px;
+        }
+
+        /*更改昵称*/
+        #lay-nick {
+            padding: 20px;
+        }
+
+        #lay-nick .layui-btn {
+            margin-left: 40px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <ul class="layui-nav">
+            <li class="layui-nav-item">
+                <a th:href="@{/form/desktop}">桌面</a>
+            </li>
+            <li class="layui-nav-item">
+                <a th:href="@{/user/userInfo}"><img src="http://t.cn/RCzsdCq" class="layui-nav-img">个人中心</a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a th:href="@{/logout}">退出</a>
+                    </dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</header>
+<!--桌面-->
+<div class="layui-tab container">
+    <div class="set-head">
+        <h2 class="">个人中心<h2>
+    </div>
+    <!--个人中心页面-->
+    <div class="layui-tab-content">
+        <div class="layui-row">
+            <div class="layui-col-md3">
+                <div class="layui-row grid-demo">
+                    <div class="layui-col-md12">
+                        <div class="grid-demo grid-demo-bg1">
+                            <div class="layui-inline set-img clearfix">
+                                <img src="https://pub-files.jinshuju.net/av/59e1cd44afae7e1ba89b92c71507970372.jpeg@avlarge"
+                                     class="layui-circle">
+                                <p id="username" th:text="${user.username}"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md12 set-menu">
+                        <div class="grid-demo grid-demo-bg2">
+                            <ul>
+                                <li><a href="#">账户设置<i class="layui-icon set-ileft">&#xe602;</i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="layui-col-md9">
+                <div class="layui-row grid-demo grid-demo-bg1">
+                    <div class="layui-col-md12">
+                        <div class="grid-demo">
+                            <fieldset class="layui-elem-field">
+                                <legend>账户设置</legend>
+                                <div class="layui-field-box set-may">
+                                    <div class="set-item ">
+                                        <label>邮箱</label>
+                                        <div class="email" th:if="${not #strings.isEmpty(user.email)}">
+                                            <i class="layui-icon">&#x1005;</i>
+                                            <span th:text="${user.email}"></span>
+                                            <a href="javascript:bind();">修改</a>
+                                        </div>
+                                        <div class="email" th:if="${#strings.isEmpty(user.email)}">
+                                            <a href="javascript:bind();">去绑定</a>
+                                        </div>
+                                    </div>
+                                    <div class="set-item ">
+                                        <label>密码</label>
+                                        <div class="email">
+                                            <a href="javascript:void(0)" id="seditpss">修改登录密码</a>
+                                        </div>
+                                    </div>
+                                    <div class="set-item ">
+                                        <label>手机号</label>
+                                        <div class="email" th:if="${not #strings.isEmpty(user.tel)}">
+                                            <span th:text="${user.tel}"></span><a
+                                                href="javascript:bind()" class="set-mg">修改手机号</a>
+                                            (随时掌握重要信息）
+                                        </div>
+                                        <div class="email" th:if="${#strings.isEmpty(user.tel)}">
+                                            <a href="javascript:bind();">去绑定</a>
+                                        </div>
+                                    </div>
+                                    <div class="set-item">
+                                        <label>昵称</label>
+                                        <div class="email">
+                                            <span th:text="${user.nickname}"> </span> <a href="javascript:void(0)"
+                                                                                         class="set-mg" id="seditnick">更改昵称</a>
+                                        </div>
+                                    </div>
+                                    <!--<div class="set-item">-->
+                                    <!--<label>绑定社交账号</label>-->
+                                    <!--<div class="email">-->
+                                    <!--<span> 仅用于金数据的第三方登录</span>-->
+                                    <!--<ul class="setbd clearfix">-->
+                                    <!--<li><a href="#"><img src="../images/qq.png"/>-->
+                                    <!--<p>绑定</p></a></li>-->
+                                    <!--<li><a href="#"><img src="../images/qq.png"/>-->
+                                    <!--<p>绑定</p></a></li>-->
+                                    <!--<li><a href="#"><img src="../images/qq.png"/>-->
+                                    <!--<p>绑定</p></a></li>-->
+                                    <!--<li><a href="#"><img src="../images/qq.png"/>-->
+                                    <!--<p>绑定</p></a></li>-->
+                                    <!--</ul>-->
+                                    <!--</div>-->
+                                    <!--</div>-->
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <!--<div class="layui-col-md12">-->
+                    <!--<div class="grid-demo grid-demo-bg2">-->
+                    <!--<fieldset class="layui-elem-field">-->
+                    <!--<legend>语言设置</legend>-->
+                    <!--<div class="layui-field-box">-->
+                    <!--<div class="layui-form-item">-->
+                    <!--<label class="layui-form-label">选择框</label>-->
+                    <!--<select name="" lay-verify="required" class="set-sel">-->
+                    <!--<option value="0">北京</option>-->
+                    <!--<option value="1">上海</option>-->
+                    <!--<option value="2">广州</option>-->
+                    <!--<option value="3">深圳</option>-->
+                    <!--<option value="4">杭州</option>-->
+                    <!--</select>-->
+                    <!--</div>-->
+                    <!--<div class="layui-input-block">-->
+                    <!--<button class="layui-btn" lay-submit lay-filter="formDemo">保存设置</button>-->
+                    <!--<button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</fieldset>-->
+                    <!--</div>-->
+
+                    <!--</div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--弹出层-->
+<div class="lay-hide lay-gmodel" id="lay-pass">
+    <form class="layui-form" th:action="@{/user/editUser}" method="post">
+        <div class="layui-form-item">
+            <label class="layui-form-label">原密码</label>
+            <div class="layui-input-inline">
+                <input type="password" name="oldPwd" required lay-verify="required" placeholder="请输入密码"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">新密码</label>
+            <div class="layui-input-inline">
+                <input type="password" name="password" required id="newPwd" lay-verify="required" placeholder="请输入密码"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">新密码确认</label>
+            <div class="layui-input-inline">
+                <input type="password" name="comfirmPwd" required lay-verify="required|sameTo" placeholder="请确认密码"
+                       autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">请你牢记新修改的密码</div>
+        </div>
+        <div class="layui-form-item">
+            <button class="layui-btn" type="submit" lay-submit lay-filter="pwd">修改密码</button>
+        </div>
+
+    </form>
+</div>
+<!--修改手机号-->
+<div class="lay-hide lay-gmodel" id="lay-phone">
+    <form class="layui-form" th:action="@{/user/bindInfo}" method="post">
+        <p>为了保证帐号安全，需要验证手机/邮箱有效性 </p>
+        <div class="layui-form-item">
+            <label class="layui-form-label">手机号/邮箱 </label>
+            <div class="layui-input-inline">
+                <input type="text" name="email" lay-verify="required|phone|email" placeholder="" autocomplete="off"
+                       class="layui-input"/>
+            </div>
+            <button class="layui-btn" type="submit" lay-submit>获取验证码</button>
+        </div>
+    </form>
+    <form class="layui-form" th:action="@{/user/active}" method="post">
+        <div class="layui-form-item">
+            <label class="layui-form-label">请输入验证码： </label>
+            <div class="layui-input-inline">
+                <input type="text" name="code" lay-verify="required" placeholder="" autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <button class="layui-btn" type="submit" lay-submit lay-filter="bindInfo">完成修改</button>
+        </div>
+    </form>
+</div>
+<!--更改昵称-->
+<div class="lay-hide lay-gmodel" id="lay-nick">
+    <form class="layui-form" th:action="@{/user/editUser}" method="post">
+        <div class="layui-form-item">
+            <label class="layui-form-label">新的昵称 </label>
+            <div class="layui-input-inline">
+                <input type="text" name="nickname" th:value="${user.nickname}" required lay-verify="required"
+                       placeholder="" autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <button class="layui-btn" type="submit" lay-submit lay-filter="nickname">保存</button>
+        </div>
+    </form>
+</div>
+<script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    var bind;
+    layui.use(['layer', 'form'], function () {
+        var layer = layui.layer;
+        var form = layui.form;
+        var pwdLayer, bindInfoLayer, nickLayer;
+        form.on("submit(pwd)", function () {
+            layer.close(pwdLayer);
+        });
+        form.on("submit(bindInfo)", function () {
+            layer.close(bindInfoLayer);
+        });
+        form.on("submit(nickname)", function () {
+            layer.close(nickLayer);
+        });
+        form.verify({
+            sameTo: function (value) {
+                if (value != $('newPwd'))
+                    return '两次密码输入不一致';
+            }
+        });
+        //			修改密码
+        $('#seditpss').on('click', function () {
+            pwdLayer = layer.open({
+                type: 1,
+                title: '修改密码',
+                area: ['600px', '360px'],
+                shadeClose: true, //点击遮罩关闭
+                btn: ['确定', '取消'],
+                btnAlign: 'l',//按钮排列 左对齐
+                content: $('#lay-pass'),
+            });
+        })
+
+        //修改手机号
+        bind = function () {
+            bindInfoLayer = layer.open({
+                type: 1,
+                title: '绑定手机号',
+                area: ['600px', '360px'],
+                shadeClose: true, //点击遮罩关闭
 //			      btn: ['确定', '取消'],
-			      btnAlign: 'l',//按钮排列 左对齐
-			      content: $('#lay-phone')
-			      
-				});
-			})
-			
-			//更改昵称
-			$("#seditnick").on('click', function(){
-				layer.open({
-			      type: 1,
-			      title: '更改昵称',
-			      area: ['600px', '180px'],
-			      shadeClose: true, //点击遮罩关闭
+                btnAlign: 'l',//按钮排列 左对齐
+                content: $('#lay-phone')
+            });
+        }
+        //更改昵称
+        $("#seditnick").on('click', function () {
+            nickLayer = layer.open({
+                type: 1,
+                title: '更改昵称',
+                area: ['600px', '180px'],
+                shadeClose: true, //点击遮罩关闭
 //			      btn: ['确定', '取消'],
-			      btnAlign: 'l',//按钮排列 左对齐
-			      content: $('#lay-nick')
-			      
-				});
-			})
-		</script>
-	</body>
+                btnAlign: 'l',//按钮排列 左对齐
+                content: $('#lay-nick')
+            });
+        });
+
+    })
+</script>
+</body>
 </html>

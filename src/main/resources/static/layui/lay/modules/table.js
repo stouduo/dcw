@@ -69,7 +69,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
       ,'{{# layui.each(d.data.cols, function(i1, item1){ }}'
         ,'<tr>'
         ,'{{# layui.each(item1, function(i2, item2){ }}'
-        ,'{{# if(item2.show){ }}'
+        ,'{{# if(item2.show==undefined||item2.show){ }}'
           ,'{{# if(item2.fixed && item2.fixed !== "right"){ left = true; } }}'
           ,'{{# if(item2.fixed === "right"){ right = true; } }}'
           ,function(){
@@ -286,7 +286,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
             that.renderForm();
             return that.layMain.html('<div class="'+ NONE +'">'+ (res[response.msgName] || '返回的数据状态异常') +'</div>');
           }
-          res.data = options.dataFilter(res.data);
+          options.dataFilter&& (res.data = options.dataFilter(res.data));
           that.renderData(res, curr, res[response.countName]), sort();
           loadIndex && layer.close(loadIndex);
           typeof options.done === 'function' && options.done(res, curr, res[response.countName]);
@@ -369,9 +369,10 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
           item1[table.config.indexName] = i1;
         }
         that.eachCols(function(i3, item3){
-            if(item3.show){
+            if(item3.show==undefined||item3.show){
           var content = item1[item3.field||i3];
           if(content === undefined || content === null) content = '';
+          item3.dataFilter&&(content = item3.dataFilter(content));
           if(item3.colspan > 1) return;
           var td = ['<td data-field="'+ (item3.field||i3) +'"'+ function(){
             var attr = [];
@@ -568,6 +569,8 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
     var that = this
     ,config = that.config
     ,thisData = table.cache[that.key];
+    if(checked) table.checkData[index] = thisData[index];
+    else delete table.checkData[index];
     if(!thisData[index]) return;
     thisData[index][config.checkName] = checked;
   };
@@ -764,7 +767,6 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
       ,index = checkbox.parents('tr').eq(0).data('index')
       ,checked = checkbox[0].checked
       ,isAll = checkbox.attr('lay-filter') === 'layTableAllChoose';
-
       //全选
       if(isAll){
         childs.each(function(i, item){
@@ -793,6 +795,11 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
       var othis = $(this)
       ,index = othis.index();
       that.layBody.find('tr:eq('+ index +')').removeClass(ELEM_HOVER)
+    }).on('click','tr',function () {
+          var index = $(this).index();
+        layui.event.call(this,MOD_NAME,'col('+filter+')',{
+           data:table.cache[index]
+        });
     });
 
     //单元格编辑
@@ -829,10 +836,12 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
     });
 
     //单元格事件
-    that.layBody.on('click', 'td', function(){
+    that.layBody.on('click', 'td', function(e){
       var othis = $(this)
       ,field = othis.data('field')
       ,elemCell = othis.children(ELEM_CELL);
+
+      if(!field) e.stopPropagation();
 
       if(othis.data('off')) return;
 
@@ -1006,6 +1015,9 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
 
     return that;
   };
+
+  table.checkData = {};
+
 
   //表格选中状态
   table.checkStatus = function(id){

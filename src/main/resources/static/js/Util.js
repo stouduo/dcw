@@ -13,3 +13,16 @@ Date.prototype.Format = function (fmt) {
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
     return fmt;
 }
+
+function parseParam(param, key) {
+    var paramStr = "";
+    if (param instanceof String || param instanceof Number || param instanceof Boolean) {
+        paramStr += "&" + key + "=" + encodeURIComponent(param);
+    } else {
+        $.each(param, function (i) {
+            var k = key == null ? i : key + (param instanceof Array ? "[" + i + "]" : "." + i);
+            paramStr += '&' + parseParam(this, k);
+        });
+    }
+    return paramStr.substr(1);
+};

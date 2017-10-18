@@ -206,16 +206,13 @@
     <div class="container">
         <ul class="layui-nav">
             <li class="layui-nav-item">
-                <a href="desktop.html">桌面<span class="layui-badge">1</span></a>
+                <a th:href="@{/form/desktop}">桌面</a>
             </li>
             <li class="layui-nav-item">
-                <a href="">联系人<span class="layui-badge-dot"></span></a>
-            </li>
-            <li class="layui-nav-item">
-                <a href=""><img src="http://t.cn/RCzsdCq" class="layui-nav-img">个人中心</a>
+                <a th:href="@{/user/userInfo}"><img src="http://t.cn/RCzsdCq" class="layui-nav-img">个人中心</a>
                 <dl class="layui-nav-child">
                     <dd>
-                        <a href="javascript:">退出</a>
+                        <a th:href="@{/logout}">退出</a>
                     </dd>
                 </dl>
             </li>
@@ -227,8 +224,8 @@
         <ul class="layui-tab-title">
             <!--概述编辑规则设置发布数据报表-->
             <li class="layui-this">概述</li>
-            <li><a th:href="@{/formValue/edit/${formDetail.form.id}}">编辑</a></li>
-            <li><a th:href="@{/formValue/myFormData/${formDetail.form.id}}">数据</a></li>
+            <li><a th:href="@{'/form/edit/'+${formDetail.form.id}}">编辑</a></li>
+            <li><a th:href="@{'/formValue/myFormData/'+${formDetail.form.id}}">数据</a></li>
         </ul>
         <div class="layui-tab-content">
             <!--概述内容-->
@@ -394,7 +391,7 @@
                     </div>
                     <!--表格 有数据or 没有数据-->
                     <div class="row layui-form">
-                        <table id="q-table-recent-submit"></table>
+                        <table id="q-table-recent-submit" lay-filter="formValue"></table>
                     </div>
                     <!--复制 删除表单--><!----><!---->
                     <div class="foot-btn">
@@ -424,7 +421,7 @@
 
 </body>
 <script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
-<script th:src="@{/js/FormatDate.js}" type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/js/Util.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
 
 <script th:inline="javascript">
@@ -476,11 +473,11 @@
             var _this = this;
             var name = $(this).attr('name');
             var tip = layer.tips('<input id="content"  type="text" />',
-                    _this,
-                    {
-                        time: 0,
-                        closeBtn: 2,
-                    }
+                _this,
+                {
+                    time: 0,
+                    closeBtn: 2,
+                }
             );
             $('#content').val($('#' + name).text());
             $('#content').focus();
@@ -535,11 +532,11 @@
         $('#sjadd').on('click', function () {
             layer.open({
                 type: 2,
-                title: '数据详情',
+                title: '添加数据',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
                 area: ['800px', '520px'],
-                content: 'desktop.html',
+                content: '添加数据页面，，暂时没有页面',
                 btn: ['确定', '取消', '提交并再填一份'],
                 btnAlign: 'l', //按钮排列 左对齐
                 yes: function (index, layero) { //或者使用btn1
@@ -580,7 +577,28 @@
                     },
                 });
             });
-        })
+        });
+        table.on('col(formValue)', function (data) {
+            layer.open({
+                type: 2,
+                title: '数据详情',
+                maxmin: true,
+                shadeClose: true, //点击遮罩关闭层
+                area: ['800px', '520px'],
+                content: '需要修改的数据，暂时没有页面',
+                btn: ['确定', '取消', '提交并再填一份'],
+                btnAlign: 'l', //按钮排列 左对齐
+                yes: function (index, layero) { //或者使用btn1
+                    //按钮【按钮一】的回调
+                },
+                cancel: function (index) { //或者使用btn2
+                    //按钮【按钮二】的回调
+                },
+                btn3: function (index, layero) {
+                    //按钮【按钮三】的回调
+                }
+            });
+        });
     });
 </script>
 </html>
