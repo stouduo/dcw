@@ -44,7 +44,8 @@ public class UserServiceImpl implements UserService {
     public User userInfo() {
         User user = userRepository.findByUsername(SecurityUtil.getUsername());
         String tel = user.getTel();
-        user.setTel(tel.substring(0, 2) + "****" + tel.substring(7, 10));
+        if (!StringUtils.isEmpty(tel))
+            user.setTel(tel.substring(0, 2) + "****" + tel.substring(7, 10));
         return user;
     }
 
@@ -66,8 +67,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void editUser(User user, String oldPwd, String confirmPwd) {
         User temp = userRepository.findByUsername(SecurityUtil.getUsername());
-        if (!StringUtils.isEmpty(temp.getUsername())) {
-            temp.setUsername(user.getUsername());
+        if (!StringUtils.isEmpty(user.getNickname())) {
+            temp.setNickname(user.getNickname());
         }
         if (!StringUtils.isEmpty(oldPwd)) {
             if (temp.getPassword().equals(MD5Util.encode(oldPwd)) && user.getPassword().equals(confirmPwd)) {

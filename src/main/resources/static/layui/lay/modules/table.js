@@ -795,11 +795,13 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
       var othis = $(this)
       ,index = othis.index();
       that.layBody.find('tr:eq('+ index +')').removeClass(ELEM_HOVER)
-    }).on('click','tr',function () {
-          var index = $(this).index();
-        layui.event.call(this,MOD_NAME,'col('+filter+')',{
-           data:table.cache[index]
-        });
+    }).on('click','tr',function (e) {
+        if(!e.isCheckBox){
+            var index = $(this).index();
+            layui.event.call(this,MOD_NAME,'col('+filter+')',{
+                data:table.cache[index]
+            });
+        }
     });
 
     //单元格编辑
@@ -841,7 +843,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
       ,field = othis.data('field')
       ,elemCell = othis.children(ELEM_CELL);
 
-      if(!field) e.stopPropagation();
+      if(!field) e.isCheckBox=true;
 
       if(othis.data('off')) return;
 

@@ -227,7 +227,7 @@
 <!--桌面-->
 <div class="layui-tab container">
     <div class="set-head">
-        <h2 class="">个人中心<h2>
+        <h2 class="">个人中心</h2>
     </div>
     <!--个人中心页面-->
     <div class="layui-tab-content">
@@ -239,6 +239,7 @@
                             <div class="layui-inline set-img clearfix">
                                 <img src="https://pub-files.jinshuju.net/av/59e1cd44afae7e1ba89b92c71507970372.jpeg@avlarge"
                                      class="layui-circle">
+
                                 <p id="username" th:text="${user.username}"></p>
                             </div>
                         </div>
@@ -262,34 +263,38 @@
                                 <div class="layui-field-box set-may">
                                     <div class="set-item ">
                                         <label>邮箱</label>
+
                                         <div class="email" th:if="${not #strings.isEmpty(user.email)}">
                                             <i class="layui-icon">&#x1005;</i>
                                             <span th:text="${user.email}"></span>
-                                            <a href="javascript:bind();">修改</a>
+                                            <a href="javascript:bind(true);">修改</a>
                                         </div>
                                         <div class="email" th:if="${#strings.isEmpty(user.email)}">
-                                            <a href="javascript:bind();">去绑定</a>
+                                            <a href="javascript:bind(true);">去绑定</a>
                                         </div>
                                     </div>
                                     <div class="set-item ">
                                         <label>密码</label>
+
                                         <div class="email">
                                             <a href="javascript:void(0)" id="seditpss">修改登录密码</a>
                                         </div>
                                     </div>
                                     <div class="set-item ">
                                         <label>手机号</label>
+
                                         <div class="email" th:if="${not #strings.isEmpty(user.tel)}">
                                             <span th:text="${user.tel}"></span><a
-                                                href="javascript:bind()" class="set-mg">修改手机号</a>
+                                                href="javascript:bind(false)" class="set-mg">修改手机号</a>
                                             (随时掌握重要信息）
                                         </div>
                                         <div class="email" th:if="${#strings.isEmpty(user.tel)}">
-                                            <a href="javascript:bind();">去绑定</a>
+                                            <a href="javascript:bind(false);">去绑定</a>
                                         </div>
                                     </div>
                                     <div class="set-item">
                                         <label>昵称</label>
+
                                         <div class="email">
                                             <span th:text="${user.nickname}"> </span> <a href="javascript:void(0)"
                                                                                          class="set-mg" id="seditnick">更改昵称</a>
@@ -351,6 +356,7 @@
     <form class="layui-form" th:action="@{/user/editUser}" method="post">
         <div class="layui-form-item">
             <label class="layui-form-label">原密码</label>
+
             <div class="layui-input-inline">
                 <input type="password" name="oldPwd" required lay-verify="required" placeholder="请输入密码"
                        autocomplete="off" class="layui-input">
@@ -358,6 +364,7 @@
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">新密码</label>
+
             <div class="layui-input-inline">
                 <input type="password" name="password" required id="newPwd" lay-verify="required" placeholder="请输入密码"
                        autocomplete="off" class="layui-input">
@@ -365,6 +372,7 @@
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">新密码确认</label>
+
             <div class="layui-input-inline">
                 <input type="password" name="comfirmPwd" required lay-verify="required|sameTo" placeholder="请确认密码"
                        autocomplete="off" class="layui-input">
@@ -381,18 +389,31 @@
 <div class="lay-hide lay-gmodel" id="lay-phone">
     <form class="layui-form" th:action="@{/user/bindInfo}" method="post">
         <p>为了保证帐号安全，需要验证手机/邮箱有效性 </p>
+
         <div class="layui-form-item">
-            <label class="layui-form-label">手机号/邮箱 </label>
-            <div class="layui-input-inline">
-                <input type="text" name="email" lay-verify="required|phone|email" placeholder="" autocomplete="off"
-                       class="layui-input"/>
+            <div id="email">
+                <label class="layui-form-label">邮箱 </label>
+
+                <div class="layui-input-inline">
+                    <input type="text" name="email" lay-verify="required|email" placeholder="" autocomplete="off"
+                           class="layui-input"/>
+                </div>
             </div>
-            <button class="layui-btn" type="submit" lay-submit>获取验证码</button>
+            <div style="display: none" id="tel">
+                <label class="layui-form-label">手机号 </label>
+
+                <div class="layui-input-inline">
+                    <input type="text" name="tel" lay-verify="required|phone" placeholder="" autocomplete="off"
+                           class="layui-input"/>
+                </div>
+            </div>
+            <button class="layui-btn" type="submit" lay-filter="code" lay-submit>获取验证码</button>
         </div>
     </form>
     <form class="layui-form" th:action="@{/user/active}" method="post">
         <div class="layui-form-item">
             <label class="layui-form-label">请输入验证码： </label>
+
             <div class="layui-input-inline">
                 <input type="text" name="code" lay-verify="required" placeholder="" autocomplete="off"
                        class="layui-input">
@@ -408,6 +429,7 @@
     <form class="layui-form" th:action="@{/user/editUser}" method="post">
         <div class="layui-form-item">
             <label class="layui-form-label">新的昵称 </label>
+
             <div class="layui-input-inline">
                 <input type="text" name="nickname" th:value="${user.nickname}" required lay-verify="required"
                        placeholder="" autocomplete="off"
@@ -423,12 +445,26 @@
 <script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
     var bind;
-    layui.use(['layer', 'form'], function () {
+    layui.use(['layer', 'form', 'util'], function () {
         var layer = layui.layer;
         var form = layui.form;
+        var util = layui.util;
         var pwdLayer, bindInfoLayer, nickLayer;
         form.on("submit(pwd)", function () {
             layer.close(pwdLayer);
+        });
+        form.on("submit(code)", function (data) {
+            var startTime = new Date(), endTime = new Date();
+            endTime.setTime(startTime.setMinutes(startTime.getMinutes() + 1));
+            util.countdown(endTime, startTime, function (date, serverTime, timer) {
+                var second = date[3];
+                $(data.elem).text('重新发送' + date[3] + '秒');
+                $(data.elem).disable();
+                if (second == 0) {
+                    $(data.elem).text('获取验证码');
+                    $(data.elem).enabled();
+                }
+            });
         });
         form.on("submit(bindInfo)", function () {
             layer.close(bindInfoLayer);
@@ -449,14 +485,20 @@
                 title: '修改密码',
                 area: ['600px', '360px'],
                 shadeClose: true, //点击遮罩关闭
-                btn: ['确定', '取消'],
                 btnAlign: 'l',//按钮排列 左对齐
                 content: $('#lay-pass'),
             });
         })
 
         //修改手机号
-        bind = function () {
+        bind = function (email) {
+            if (email) {
+                $('#email').show();
+                $('#tel').hide();
+            } else {
+                $('#tel').show();
+                $('#email').hide();
+            }
             bindInfoLayer = layer.open({
                 type: 1,
                 title: '绑定手机号',

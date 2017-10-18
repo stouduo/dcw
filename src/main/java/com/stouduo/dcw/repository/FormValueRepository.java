@@ -16,10 +16,10 @@ public interface FormValueRepository extends PagingAndSortingRepository<FormValu
     @Query(nativeQuery = true, value = "SELECT * FROM formvalue fv WHERE fv.form=:form AND del=FALSE LIMIT 30")
     List<FormValue> findRecentByForm(@Param("form") String form);
 
-    @Query("select count(FormValue) from FormValue where form=:form and del=false")
+    @Query("select count(id) from FormValue where form=:form and del=false")
     long findFormValueCount(@Param("form") String formId);
 
-    @Query("select count(fv) from FormValue fv  where form=:form and del=false and to_days(fv.createTime) = to_days(now())")
+    @Query("select count(id) from FormValue fv  where form=:form and del=false and to_days(fv.createTime) = to_days(now())")
     long findTodayFormValueCount(@Param("form") String formId);
 
     //  @Query("select fv from FormValue fv where form=:form and fv.value like CONCAT('%',:content,'%')")
@@ -30,10 +30,10 @@ public interface FormValueRepository extends PagingAndSortingRepository<FormValu
     @Query("select fv from FormValue fv where form=:form and del=false and fv.value like %:content% and fv.createTime >= :startTime and fv.createTime<=:endTime")
     List<FormValue> findByContent(@Param("form") String formId, @Param("content") String content, @Param("startTime") Date startTime, @Param("endTime") Date endTime, Sort sort);
 
-    @Query("select count(fv) from FormValue fv where form=:form and del=false")
+    @Query("select count(id) from FormValue fv where form=:form and del=false")
     long findCountByForm(@Param("form") String formId);
 
-    @Query("select count(fv) from FormValue fv where fv.author=:author or fv.submitIP=:submitIP and del=false")
+    @Query("select count(id) from FormValue fv where fv.author=:author or fv.submitIP=:submitIP and del=false")
     long findSubmitCount(@Param("author") String username, @Param("submitIP") String ipAddress);
 
     @Modifying

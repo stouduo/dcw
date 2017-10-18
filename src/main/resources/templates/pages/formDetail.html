@@ -405,17 +405,17 @@
         </div>
     </div>
 </nav>
+<div class="lay-hide layui-form layui-form-item" id="showCol">
+</div>
 <script id="showCols" type="text/html">
-    <div class="lay-hide layui-form layui-form-item">
-        <div class="layui-form-item" pane="">
-            <ul class="layui-input-block showtips">
-                {{#layui.each(d,function(i,prop){}}
-                <li><input type="checkbox" class="prop" lay-skin="primary" title="{{prop.title}}"
-                           checked="{{!prop.show}}">
-                </li>
-                {{#};}}
-            </ul>
-        </div>
+    <div class="layui-form-item" pane="">
+        <ul class="layui-input-block showtips">
+            {{#layui.each(d,function(i,prop){}}
+            <li><input type="checkbox" class="prop" lay-skin="primary" title="{{prop.title}}"
+                       checked="{{!prop.show}}">
+            </li>
+            {{#});}}
+        </ul>
     </div>
 </script>
 
@@ -473,11 +473,11 @@
             var _this = this;
             var name = $(this).attr('name');
             var tip = layer.tips('<input id="content"  type="text" />',
-                _this,
-                {
-                    time: 0,
-                    closeBtn: 2,
-                }
+                    _this,
+                    {
+                        time: 0,
+                        closeBtn: 2,
+                    }
             );
             $('#content').val($('#' + name).text());
             $('#content').focus();
@@ -518,7 +518,7 @@
             });
         }
         //展示已知数据
-        table.render({
+        var tableIns = table.render({
             elem: '#q-table-recent-submit',
             data: formData,
             //				height: 272,
@@ -531,7 +531,7 @@
         //添加数据
         $('#sjadd').on('click', function () {
             layer.open({
-                type: 2,
+                type: 1,
                 title: '添加数据',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
@@ -551,36 +551,37 @@
             });
         });
 
+        var showTpl = showCols.innerHTML, content;
+        laytpl(showTpl).render(formProp, function (html) {
+            $('#showCol').html(html);
+        });
         $('#sjedit').on('click', function () {
-            var showTpl = showCols.innerHTML;
-            laytpl(showTpl).render(formProp, function (content) {
-                layer.open({
-                    type: 1,
-                    title: '编辑显示的内容（取消为不显示）',
-                    area: ['600px', '360px'],
-                    shadeClose: true, //点击遮罩关闭
-                    btn: ['确定', '取消'],
-                    btnAlign: 'l', //按钮排列 左对齐
-                    content: content,
-                    yes: function (index, layero) {
-                        $('.show').each(function (i, ele) {
-                            props[i].show = !ele.checked;
-                        });
-                        cols[0] = props;
-                        table.render({
-                            elem: '#q-table-recent-submit',
-                            cols: cols
-                        });
-                    },
-                    btn2: function (index, layero) {
-                        //按钮【按钮二】的回调
-                    },
-                });
+            layer.open({
+                type: 1,
+                title: '编辑显示的内容（取消为不显示）',
+                area: ['600px', '360px'],
+                shadeClose: true, //点击遮罩关闭
+                btn: ['确定', '取消'],
+                btnAlign: 'l', //按钮排列 左对齐
+                content: $('#showCol'),
+                yes: function (index, layero) {
+                    $('.prop').each(function (i, ele) {
+                        formProp[i].show = ele.checked;
+                    });
+                    cols[0] = formProp;
+                    tableIns.reload({
+                        cols: cols
+                    });
+                    layer.close(index);
+                },
+                btn2: function (index, layero) {
+                    //按钮【按钮二】的回调
+                },
             });
         });
         table.on('col(formValue)', function (data) {
             layer.open({
-                type: 2,
+                type: 1,
                 title: '数据详情',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层

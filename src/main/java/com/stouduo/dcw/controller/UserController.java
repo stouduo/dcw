@@ -160,7 +160,7 @@ public class UserController extends BaseController {
         } catch (Exception e) {
             return error("发送失败！", model);
         }
-        return "/userInfo";
+        return "/user/userInfo";
     }
 
     @GetMapping("/active")
@@ -188,7 +188,7 @@ public class UserController extends BaseController {
     @PostMapping("/editUser")
     public String editUser(User user, String oldPwd, String confirmPwd) {
         userService.editUser(user, oldPwd, confirmPwd);
-        return "/userInfo";
+        return "redirect:/user/userInfo";
     }
 
 
