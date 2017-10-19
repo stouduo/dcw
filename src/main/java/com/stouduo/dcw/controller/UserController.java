@@ -58,7 +58,7 @@ public class UserController extends BaseController {
                 session.setAttribute("code", codeInfo);
                 session.setAttribute("tel", tel);
             }
-            return "verifyEmail";
+            return "/signup";
         } catch (Exception e) {
             e.printStackTrace();
             return error("发送失败！", model);

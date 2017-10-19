@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUsername(SecurityUtil.getUsername());
         String tel = user.getTel();
         if (!StringUtils.isEmpty(tel))
-            user.setTel(tel.substring(0, 2) + "****" + tel.substring(7, 10));
+            user.setTel(tel.substring(0, 3) + "****" + tel.substring(7, 11));
         return user;
     }
 

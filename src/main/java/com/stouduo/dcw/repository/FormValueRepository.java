@@ -23,11 +23,11 @@ public interface FormValueRepository extends PagingAndSortingRepository<FormValu
     long findTodayFormValueCount(@Param("form") String formId);
 
     //  @Query("select fv from FormValue fv where form=:form and fv.value like CONCAT('%',:content,'%')")
-    @Query("select fv from FormValue fv where form=:form and del=false and fv.value like %:content% and fv.createTime >= :startTime and fv.createTime<=:endTime")
+    @Query("select fv from FormValue fv where form=:form and del=false and (fv.value like %:content% or fv.author like %:content% or fv.lastModifyPerson like %:content%) and fv.createTime >= :startTime and fv.createTime<=:endTime")
     Page<FormValue> findByContent(@Param("form") String formId, @Param("content") String content, @Param("startTime") Date startTime, @Param("endTime") Date endTime, Pageable page);
 
     //@Query("select fv from FormValue fv where form=:form and fv.value like CONCAT('%',:content,'%')")
-    @Query("select fv from FormValue fv where form=:form and del=false and fv.value like %:content% and fv.createTime >= :startTime and fv.createTime<=:endTime")
+    @Query("select fv from FormValue fv where form=:form and del=false and (fv.value like %:content% or fv.author like %:content% or fv.lastModifyPerson like %:content%) and fv.createTime >= :startTime and fv.createTime<=:endTime")
     List<FormValue> findByContent(@Param("form") String formId, @Param("content") String content, @Param("startTime") Date startTime, @Param("endTime") Date endTime, Sort sort);
 
     @Query("select count(id) from FormValue fv where form=:form and del=false")

@@ -235,18 +235,20 @@
                 <div class="layui-row  gaishu">
                     <div class="layui-col-md3">
                         <div class="grid-demo grid-demo-bg1">
-                            <span class="number" th:text="${formDetail.formValueCount}">0</span>
+                            <a th:href="@{'/formValue/myFormData/'+${formDetail.form.id}}"><span class="number"
+                                                                                                 th:text="${formDetail.formValueCount}">0</span>
 
-                            <p>表单总数据</spam><i
-                                    class="layui-icon">&#xe60b;</i></p>
+                                <p>表单总数据</spam><i
+                                        class="layui-icon">&#xe60b;</i></p></a>
                         </div>
                     </div>
                     <div class="layui-col-md3">
                         <div class="grid-demo">
-                            <span class="number" th:text="${formDetail.todaySubmitCount}">1</span>
+                            <a th:href="@{'/formValue/myFormData/'+${formDetail.form.id}(today=today)}"> <span class="number"
+                                                                                                  th:text="${formDetail.todaySubmitCount}">1</span>
 
-                            <p>今日提交<i class="layui-icon">
-                                &#xe60b;</i></p>
+                                <p>今日提交<i class="layui-icon">
+                                    &#xe60b;</i></p></a>
                         </div>
                     </div>
                     <div class="layui-col-md3">
@@ -378,7 +380,7 @@
                     <div class="layui-col-md10">
                         <div class="grid-demo grid-demo-bg1">
                             <span>最近提交表单数据</span>
-                            <a href="#" style="color: #007DDB;">查看更多</a>
+                            <a th:href="@{'/formValue/myFormData/'+${formDetail.form.id}}" style="color: #007DDB;">查看更多</a>
                         </div>
                     </div>
                     <div class="layui-col-md2 g-right">
@@ -473,11 +475,11 @@
             var _this = this;
             var name = $(this).attr('name');
             var tip = layer.tips('<input id="content"  type="text" />',
-                    _this,
-                    {
-                        time: 0,
-                        closeBtn: 2,
-                    }
+                _this,
+                {
+                    time: 0,
+                    closeBtn: 2,
+                }
             );
             $('#content').val($('#' + name).text());
             $('#content').focus();
@@ -554,6 +556,7 @@
         var showTpl = showCols.innerHTML, content;
         laytpl(showTpl).render(formProp, function (html) {
             $('#showCol').html(html);
+            form.render();
         });
         $('#sjedit').on('click', function () {
             layer.open({

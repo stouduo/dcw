@@ -445,10 +445,11 @@
 <script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
     var bind;
-    layui.use(['layer', 'form', 'util'], function () {
+    layui.use(['layer', 'form', 'util','element'], function () {
         var layer = layui.layer;
         var form = layui.form;
         var util = layui.util;
+        var element = layui.element;
         var pwdLayer, bindInfoLayer, nickLayer;
         form.on("submit(pwd)", function () {
             layer.close(pwdLayer);
@@ -474,7 +475,7 @@
         });
         form.verify({
             sameTo: function (value) {
-                if (value != $('newPwd'))
+                if (value != $('#newPwd').val())
                     return '两次密码输入不一致';
             }
         });

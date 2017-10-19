@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/gaishu.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/shuju.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/dropzone.min.css}"/>
     <style type="text/css">
         .clearfix:after {
             content: '';
@@ -243,9 +244,8 @@
                                 </span><i class="layui-icon">&#xe654;</i>
                                 <a href="javascript:add();">添加</a>
                                 </span>
-                                <span><i class="layui-icon">&#xe63c;</i><a href="">从excel添加</a></span>
-                                <span><i class="layui-icon">&#xe654;</i><a href="javascript:void(0);"
-                                                                           onclick="del()">删除</a></span>
+                                <span><i class="layui-icon">&#xe63c;</i><a href="javascript:importExcel();">从excel添加</a></span>
+                                <span><i class="layui-icon">&#xe654;</i><a href="javascript:del();">删除</a></span>
                             </div>
                         </div>
                         <!--<div class="layui-col-md1">-->
@@ -262,9 +262,9 @@
                         </div>
                         <div class="layui-col-md1">
                             <div class="grid-demo grid-demo-bg1">
-                                <i class="layui-icon" title="按提交日期筛选">&#xe60e;</i>
+                                <i class="layui-icon" style="cursor: pointer" title="按提交日期筛选">&#xe60e;</i>
                                 <!--<i class="layui-icon" title="查看数据变更记录">&#xe628;</i>-->
-                                <i class="layui-icon" title="显示或隐藏各列数据">&#xe647;</i>
+                                <i class="layui-icon" style="cursor: pointer" onclick="showCol()" title="显示或隐藏各列数据">&#xe647;</i>
                             </div>
                         </div>
                         <div class="layui-col-md1">
@@ -286,11 +286,39 @@
         </div>
     </div>
 </nav>
+
+<div class="lay-hide layui-form layui-form-item" id="showCol">
+</div>
+<!-- Change /upload-target to your upload address -->
+<div id="excel"class="lay-hide" style=" border: 2px dashed #0087F7;
+            border-radius: 5px;
+            background: white;height: 160px">
+
+    <div class="dz-message needsclick">
+        点击此处或将文件拖拽到此处<br>
+        <span class="note needsclick">(请上传<strong>.xls</strong>或者<strong>.xlsx</strong>的文件 )</span>
+        <span class="note needsclick">(上传文件大小不要超过<strong>256KB</strong>)</span>
+    </div>
+</div>
+<script id="showCols" type="text/html">
+    <div class="layui-form-item" pane="">
+        <ul class="layui-input-block showtips">
+            {{#layui.each(d,function(i,prop){}}
+            {{#if(prop.field&&prop.field!='id'){}}
+            <li><input type="checkbox" class="prop" lay-skin="primary" title="{{prop.title}}"
+                       checked="{{!prop.show}}">
+            </li>
+            {{#}}}
+            {{#});}}
+        </ul>
+    </div>
+</script>
 </body>
 <script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
 <script th:inline="javascript">
     var formId = [[${formDetail.form.id}]];
     var props = [[${formDetail.formProperties}]], formProp = [], cols = [];
+    var today = [[${today}]] == '1';
     formProp.push({checkbox: true})
     var prop;
     for (var i = 0; i < props.length; i++) {
@@ -314,14 +342,16 @@
 
 </script>
 <script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
-<script th:src="@{/js/dropzone.js}" type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/js/dropzone.min.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/Util.js}" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-    var search, del, outport, importExcel, add;
-    layui.use(['table', 'element', 'layer'], function () {
+    var search, del, outport, importExcel, add, showCol;
+    layui.use(['table', 'element', 'layer', 'laytpl', 'form'], function () {
         var table = layui.table;
         var element = layui.element;
         var layer = layui.layer;
+        var laytpl = layui.laytpl;
+        var form = layui.form;
         //展示已知数据
         var formData = table.render({
             elem: '#q-data-table',
@@ -329,7 +359,9 @@
             data: [],
             cols: cols,
             where: {
-                formId: formId
+                formId: formId,
+                startTime: today ? new Date().Format('yyyy-MM-dd HH:mm:ss') : '',
+                endTime: today ? new Date().Format('yyyy-MM-dd HH:mm:ss') : ''
             },
             method: 'get',
             request: {
@@ -358,7 +390,7 @@
             for (var i in table.checkData) {
                 ids += table.checkData[i].id + ",";
             }
-            ids.substring(0, ids.length - 1);
+            ids = ids.substring(0, ids.length - 1);
             ids && $.get('/formValue/del', {ids: ids}).done(function (data) {
                 layer.msg(data.msg, {time: 3000});
                 search();
@@ -379,7 +411,7 @@
         };
         add = function () {
             layer.open({
-                type: 2,
+                type: 1,
                 title: '添加数据',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
@@ -388,7 +420,6 @@
                 btn: ['确定', '取消', '提交并再填一份'],
                 btnAlign: 'l', //按钮排列 左对齐
                 yes: function (index, layero) { //或者使用btn1
-                    //按钮【按钮一】的回调
                 },
                 cancel: function (index) { //或者使用btn2
                     //按钮【按钮二】的回调
@@ -398,24 +429,67 @@
                 }
             });
         }
+        $("#excel").dropzone({
+            url: "/formValue/import",
+            addRemoveLinks: true,
+            dictInvalidInputType: '请上传.xls(x)的文件',
+            dictFileTooBig: 'excel表格不要超过256KB',
+            maxFilesize: 0.25,
+            acceptedFiles: ".xls,.xlsx",
+            init: function () {
+                this.on("success", function (file) {
+                    layer.msg(file.name + "导入成功", {time: 3000});
+                });
+            }
+        });
         importExcel = function () {
-            $("#excel").dropzone({
-                url: "/formValue/importExcel",
-                addRemoveLinks: true,
-                dictInvalidInputType: '请上传.xls(x)的文件',
-                dictFileTooBig: 'excel表格不要超过256KB',
-                maxFilesize: 0.25,
-                acceptedFiles: ".xls,.xlsx",
-                init: function () {
-                    this.on("success", function (file) {
-                        layer.msg(file.name + "导入成功", {time: 3000});
-                    });
+            layer.open({
+                type: 1,
+                title: '上传数据',
+                maxmin: true,
+                shadeClose: true, //点击遮罩关闭层
+                content: $('#excel'),
+                btn: ['上传'],
+                area: ['400px', '260px'],
+                btnAlign: 'l', //按钮排列 左对齐
+                yes: function (index, layero) { //或者使用btn1
+                    $('#excel').submit();
+                    layer.close(index);
                 }
             });
         };
+        var showTpl = showCols.innerHTML, content;
+        laytpl(showTpl).render(formProp, function (html) {
+            $('#showCol').html(html);
+            form.render();
+        });
+        showCol = function () {
+            layer.open({
+                type: 1,
+                title: '编辑显示的内容（取消为不显示）',
+                area: ['600px', '360px'],
+                shadeClose: true, //点击遮罩关闭
+                btn: ['确定', '取消'],
+                btnAlign: 'l', //按钮排列 左对齐
+                content: $('#showCol'),
+                yes: function (index, layero) {
+                    $('.prop').each(function (i, ele) {
+                        formProp[i + 1].show = ele.checked;
+                    });
+                    cols[0] = formProp;
+                    formData.reload({
+                        cols: cols
+                    });
+                    layer.close(index);
+                },
+                btn2: function (index, layero) {
+                    //按钮【按钮二】的回调
+                },
+            });
+        }
         table.on('col(formValue)', function (data) {
             layer.open({
-                type: 2,
+                type: 1,
                 title: '数据详情',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层

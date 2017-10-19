@@ -80,7 +80,7 @@ public class FormServiceImpl implements FormService {
         FormDetailVO formDetailVO = new FormDetailVO();
         formDetailVO.setForm(form);
         formDetailVO.setFormProperties(formPropertyRepository.findAllByForm(formId));
-        if (form.getAuthor() != SecurityUtil.getUsername())
+        if (!SecurityUtil.getUsername().equals(form.getAuthor()))
             formRepository.updateViewCount(formId);
         return formDetailVO;
     }

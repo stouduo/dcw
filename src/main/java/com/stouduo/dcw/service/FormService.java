@@ -8,7 +8,7 @@ import com.stouduo.dcw.vo.ResultVO;
 
 public interface FormService {
 
-    DesktopVO getAllForms(String username, int curPage, int pageSize);
+    DesktopVO  getAllForms(String username, int curPage, int pageSize);
 
     FormDetailVO formDetail(String formId);
 

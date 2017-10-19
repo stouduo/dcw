@@ -257,14 +257,14 @@
                     <!--1-->
                     <div class="layui-col-md2 databox deshedbox">
                         <div class="grid-demo grid-demo-bg1 ">
-                            <div class="addicon">
+                          <a th:href="@{/form/edit/new}"><div class="addicon">
                                 <i class="layui-icon deskadd">&#xe654;</i>
                             </div>
                             <div class="dfoot-head">
 			          		<span>
 			          			<i class="layui-icon">&#xe63c;</i> 创建表单
 			          		</span>
-                            </div>
+                            </div></a>
                             <!--<div class="dfoot-color">
                                 <span >
                                     <i class="layui-icon">&#xe7a0;</i> 创建文件夹
@@ -434,11 +434,12 @@
 </script>
 <script th:src="@{/layui/layui.js}"></script>
 <script>
-    layui.use(['layer', 'laypage', 'laytpl', 'flow'], function () { //独立版的layer无需执行这一句
+    layui.use(['layer', 'laypage', 'laytpl', 'flow','element'], function () { //独立版的layer无需执行这一句
         var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
         var laypage = layui.laypage;
         var laytpl = layui.laytpl;
         var flow = layui.flow;
+        var element = layui.element;
         flow.load({
             elem: '#formFlow' //流加载容器
 //            , scrollElem: '#formFlow' //滚动条所在元素，一般不用填，此处只是演示需要。

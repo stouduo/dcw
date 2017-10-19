@@ -24,7 +24,7 @@ public class User implements UserDetails {
     @Pattern(regexp = "^[\\S]{6,36}$", message = "密码必须6到12位，且不能出现空格")
     @NotEmpty(message = "密码不能为空")
     private String password;
-    @Pattern(regexp = "^1\\d{10}$", message = "手机号码输入错误")
+    @Pattern(regexp = "^1\\d{2}[\\d|*]{4}\\d{4}$", message = "手机号码输入错误")
     private String tel;
     @Email(message = "邮箱格式错误")
     private String email;

@@ -67,7 +67,9 @@ public class FormValueController extends BaseController {
     }
 
     @GetMapping("/myFormData/{id}")
-    public String myFormData(@PathVariable("id") String formId, Model model) {
+    public String myFormData(@PathVariable("id") String formId, Model model, String today) {
+        if (!StringUtils.isEmpty(today))
+            model.addAttribute("today", 1);
         model.addAttribute("formDetail", formValueService.myFormData(formId));
         return "pages/formValue";
     }
