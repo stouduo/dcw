@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>注册页面</title>
+		<link rel="stylesheet" type="text/css" href="../css/style.css" />
+		<style type="text/css">
+			body {
+				background-color: #F5F7FA;
+			}
+			
+			#wrap {
+				width: 800px;
+				margin: auto;
+				margin-top: 50px;
+			}
+			
+			.title {
+				font-size: 30px;
+				color: #FD8533;
+				text-align: center;
+			}
+			
+			.form-container {
+				width: 400px;
+				height: 500px;
+				border-radius: 5px;
+				background-color: #fff;
+				box-shadow: 0 0 12px #E0E0E0;
+				margin: auto;
+			}
+			
+			.sub-title {
+				text-align: center;
+				font-size: 16px;
+				font-weight: 200;
+				font-family: "微软雅黑";
+				box-shadow: 0 0 8px #E0E0E0;
+			}
+			
+			.form-container>div {
+				padding: 25px;
+			}
+			
+			.form-item {
+				padding-bottom: 10px;
+			}
+			
+			.form-item label {
+				line-height: 35px;
+				font-weight: bold;
+			}
+			
+			.form-item input {
+				width: 100%;
+				padding-left: 10px;
+				line-height: 40px;
+				border-radius: 5px;
+				border: 1px solid #CCCCCC;
+				background-color: #FAFFBD;
+			}
+			
+			.form-item input[type="submit"],
+			.form-item input[type="button"] {
+				background-color: #009AFF;
+				color: #fff;
+				font-size: larger;
+				border: none;
+			}
+			
+			.form-item input[type="submit"]:hover {
+				cursor: pointer;
+				background-color: #00A9F1;
+				transition: background-color 0.3s;
+			}
+			
+			.foot {
+				width: 400px;
+				line-height: 30px;
+				text-align: center;
+				font-size: 14px;
+				margin: auto;
+			}
+			
+			.foot a {
+				color: #009AFF;
+				-moz-transition: color 0.5s;
+				/* Firefox 4 */
+				-webkit-transition: color 0.5s;
+				/* Safari 和 Chrome */
+				-o-transition: color 0.5s;
+			}
+			
+			.foot a:hover {
+				color: blue;
+			}
+			
+			.msg {
+				color: red;
+				font-family: "微软雅黑";
+				font-size: 12px;
+				padding-top: 5px;
+				display: none;
+			}
+			
+			.rtip {
+				font-size: x-small;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="wrap">
+			<header>
+				<h1 class="title line-height-60">欢迎使用该系统</h1>
+			</header>
+			<div class="form-container border-box">
+				<h3 class="sub-title line-height-50">验证邮箱</h3>
+				<p class="rtip txt-center">验证邮件已发送至你的邮箱，请点击完成验证，进入金数据</p>
+				<div>
+					<form action="" method="post">
+						<div class="form-item rbox">
+							<input type="text" disabled="disabled" name="email" class="border-box" value="niubility@qq.com" />
+
+						</div>
+						<div class="form-item" style="margin-top: 10px;">
+							<input type="button" onclick="count(60)" disabled="disabled" id="resend" name="" value="重新发送" class="layui-btn rpost">
+						</div>
+						<div class="form-item">
+							<input id="submit" class="btn-submit" class="hide" type="button" value="去验证" />
+						</div>
+						<p class="change-mail">
+							<span>邮箱输错了？</span>
+							<a href="javscript:">换个邮箱</a>
+						</p>
+					</form>
+				</div>
+			</div>
+			<div class="foot">
+				<a href="javascript:">没有账号？点此注册</a>
+			</div>
+		</div>
+		<script src="../js/jquery-3.2.1.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var resendBtn = $("#resend");
+			count(60);
+			function count(i) {
+				var t = setInterval(function() {
+					resendBtn.val("重新发送(" + (i--) + "s)")
+					if(i <= 0) {
+						clearInterval(t);
+						resendBtn.removeAttr("disabled");
+					}
+				}, 1000);
+			}
+		</script>
+	</body>
+
+</html>
