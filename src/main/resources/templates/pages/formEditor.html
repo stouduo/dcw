@@ -245,13 +245,13 @@
                                             <img th:src="@{/images/20160703224347_e39266@hixlarge.png}"
                                                  style="width: 100%;"/>
                                         </div>
-                                        <div class="layui-form-item">
+                                        <div class="layui-form-item new-line">
                                             <!--<div class="layui-input-block">-->
                                             <input type="text" name="title" required lay-verify="required"
                                                    placeholder="表单名" autocomplete="off" class="layui-input">
                                             <!--</div>-->
                                         </div>
-                                        <div class="layui-form-item">
+                                        <div class="layui-form-item new-line">
                                             <textarea name="" rows="" cols="" id="briefText"></textarea>
                                         </div>
                                     </form>
@@ -381,6 +381,7 @@
 
                                                     <div class="layui-row bgtitle">
                                                         <h2 class="layui-col-md6">多行文字</h2>
+
                                                         <div class="tabicon"><i class="layui-icon">&#xe631;</i></div>
                                                     </div>
                                                     <div class="layui-row">
@@ -413,6 +414,7 @@
                                                         <div class="layui-collapse" lay-accordion="">
                                                             <div class="layui-colla-item">
                                                                 <h2 class="layui-colla-title">校验</h2>
+
                                                                 <div class="layui-colla-content layui-show pcheck">
                                                                     <p>
                                                                         <input type="checkbox" name="like1[write]"
@@ -420,6 +422,7 @@
                                                                         必须填<i class="layui-icon"
                                                                               title="关于必填校验">&#xe60b;</i>
                                                                     </p>
+
                                                                     <p><input type="checkbox" name="like1[write]"
                                                                               lay-skin="primary" title="" checked="">
                                                                         最少填写<input type="text" name="" id="" value=""
@@ -427,6 +430,7 @@
                                                                         <i class="layui-icon"
                                                                            title="关于最少填写字数">&#xe60b;</i>
                                                                     </p>
+
                                                                     <p><input type="checkbox" name="like1[write]"
                                                                               lay-skin="primary" title="" checked="">
                                                                         最多填写<input type="text" name="" id="" value=""
@@ -434,21 +438,27 @@
                                                                         <i class="layui-icon"
                                                                            title="关于最多填写字数">&#xe60b;</i>
                                                                     </p>
+
                                                                     <p><input type="checkbox" name="like1[write]"
                                                                               lay-skin="primary" title="" checked="">
-                                                                        自定义出错文案<i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
+                                                                        自定义出错文案<i class="layui-icon" title="设置提交时出错提示">
+                                                                            &#xe60b;</i>
                                                                     </p>
+
                                                                     <p><input type="text" name="" id="" value=""
                                                                               class="pinput-m"/></p>
                                                                 </div>
                                                             </div>
                                                             <div class="layui-colla-item">
                                                                 <h2 class="layui-colla-title">布局设置</h2>
+
                                                                 <div class="layui-colla-content">
                                                                     <p><input type="checkbox" name="like1[write]"
                                                                               lay-skin="primary" title="" checked="">
-                                                                        宽度占整行的<i class="layui-icon" title="关于占用整行的宽度">&#xe60b;</i>
+                                                                        宽度占整行的<i class="layui-icon" title="关于占用整行的宽度">
+                                                                            &#xe60b;</i>
                                                                     </p>
+
                                                                     <div class="layui-input-inline layui-col-md12">
                                                                         <select name="city" lay-verify="">
                                                                             <option value="">请选择比例</option>
@@ -466,11 +476,14 @@
                                                             </div>
                                                             <div class="layui-colla-item">
                                                                 <h2 class="layui-colla-title">其它设置</h2>
+
                                                                 <div class="layui-colla-content">
                                                                     <p><input type="checkbox" name="like1[write]"
                                                                               lay-skin="primary" title="" checked="">
-                                                                        字段隐藏<i class="layui-icon" title="关于字段隐藏">&#xe60b;</i>
+                                                                        字段隐藏<i class="layui-icon" title="关于字段隐藏">
+                                                                            &#xe60b;</i>
                                                                     </p>
+
                                                                     <p><input type="checkbox" name="like1[write]"
                                                                               lay-skin="primary" title="" checked="">
                                                                         为填写者缓存所填内容，下次自动填写
@@ -488,6 +501,7 @@
                                                     <!--单项选择-->
                                                     <div class="layui-row bgtitle">
                                                         <h2 class="layui-col-md6">单项选择</h2>
+
                                                         <div class="tabicon"><i class="layui-icon">&#xe631;</i></div>
                                                     </div>
                                                     <div class="layui-row">
@@ -512,6 +526,7 @@
                                                                 <i class="layui-icon">&#xe640;</i>
                                                                 <i class="layui-icon">&#xe715;</i>
                                                             </p>
+
                                                             <p><i class="layui-icon">&#xe624;</i>
                                                                 <input type="checkbox" name="" lay-skin="primary"
                                                                        title="">
@@ -521,6 +536,7 @@
                                                                 <i class="layui-icon">&#xe640;</i>
                                                                 <i class="layui-icon">&#xe715;</i>
                                                             </p>
+
                                                             <p><i class="layui-icon">&#xe624;</i>
                                                                 <input type="checkbox" name="" lay-skin="primary"
                                                                        title="">
@@ -545,6 +561,7 @@
                                                         <div class="layui-collapse" lay-accordion="">
                                                             <div class="layui-colla-item">
                                                                 <h2 class="layui-colla-title">校验</h2>
+
                                                                 <div class="layui-colla-content  layui-show pcheck">
                                                                     <p>
                                                                         <input type="checkbox" name="like1[write]"
@@ -552,16 +569,20 @@
                                                                         必须填<i class="layui-icon"
                                                                               title="关于必填校验">&#xe60b;</i>
                                                                     </p>
+
                                                                     <p><input type="checkbox" name="like1[write]"
                                                                               lay-skin="primary" title="" checked="">
                                                                         设置"其他"必填
                                                                         <i class="layui-icon"
                                                                            title="关于设置其他必填">&#xe60b;</i>
                                                                     </p>
+
                                                                     <p><input type="checkbox" name="like1[write]"
                                                                               lay-skin="primary" title="" checked="">
-                                                                        自定义出错文案<i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
+                                                                        自定义出错文案<i class="layui-icon" title="设置提交时出错提示">
+                                                                            &#xe60b;</i>
                                                                     </p>
+
                                                                     <p><input type="text" name="" id="" value=""
                                                                               class="pinput-m"/></p>
                                                                 </div>
@@ -573,6 +594,7 @@
 
                                                                     <label class="layui-form-label">排列方式<i
                                                                             class="layui-icon" title="排列方式">&#xe60b;</i></label>
+
                                                                     <div class="layui-input-block">
 
                                                                         <input type="radio" name="sex" value="纵向"
@@ -600,17 +622,21 @@
                                                             </div>
                                                             <div class="layui-colla-item">
                                                                 <h2 class="layui-colla-title">其它设置</h2>
+
                                                                 <div class="layui-colla-content">
                                                                     <p><input type="checkbox" name="like1[write]"
                                                                               lay-skin="primary" title="" checked="">
-                                                                        字段隐藏<i class="layui-icon" title="关于字段隐藏">&#xe60b;</i>
+                                                                        字段隐藏<i class="layui-icon" title="关于字段隐藏">
+                                                                            &#xe60b;</i>
                                                                     </p>
+
                                                                     <p><input type="checkbox" name="like1[write]"
                                                                               lay-skin="primary" title="" checked="">
                                                                         为填写者缓存所填内容，下次自动填写
                                                                         <i class="layui-icon"
                                                                            title="关于缓存填写数据">&#xe60b;</i>
                                                                     </p>
+
                                                                     <p><input type="checkbox" name="like1[write]"
                                                                               lay-skin="primary" title="" checked="">
                                                                         选项展示顺序随机
@@ -628,6 +654,7 @@
 
                                                     <div class="layui-row bgtitle">
                                                         <h2 class="layui-col-md6">图片多选</h2>
+
                                                         <div class="tabicon"><i class="layui-icon">&#xe631;</i></div>
                                                     </div>
                                                     <div class="layui-row">
@@ -645,6 +672,7 @@
                                                         <p>点此添加或拖动至此，一次至多5张 -》这里需要定义js</p>-->
                                                         <div class="layui-upload-drag" id="uploadDemo">
                                                             <i class="layui-icon"></i>
+
                                                             <p>点击上传，或将文件拖拽到此处</p>
                                                         </div>
                                                     </div>
@@ -662,6 +690,7 @@
                                                         <div class="layui-collapse" lay-accordion="">
                                                             <div class="layui-colla-item">
                                                                 <h2 class="layui-colla-title">校验</h2>
+
                                                                 <div class="layui-colla-content layui-show pcheck">
                                                                     <p>
                                                                         <input type="checkbox" name="like1[write]"
@@ -669,6 +698,7 @@
                                                                         必须填<i class="layui-icon"
                                                                               title="关于必填校验">&#xe60b;</i>
                                                                     </p>
+
                                                                     <p><input type="checkbox" name="like1[write]"
                                                                               lay-skin="primary" title="" checked="">
                                                                         最少选<input type="text" name="" id="" value=""
@@ -676,6 +706,7 @@
                                                                         <i class="layui-icon"
                                                                            title="关于最少填写字数">&#xe60b;</i>
                                                                     </p>
+
                                                                     <p><input type="checkbox" name="like1[write]"
                                                                               lay-skin="primary" title="" checked="">
                                                                         最多选<input type="text" name="" id="" value=""
@@ -683,19 +714,24 @@
                                                                         <i class="layui-icon"
                                                                            title="关于最多填写字数">&#xe60b;</i>
                                                                     </p>
+
                                                                     <p><input type="checkbox" name="like1[write]"
                                                                               lay-skin="primary" title="" checked="">
-                                                                        自定义出错文案<i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
+                                                                        自定义出错文案<i class="layui-icon" title="设置提交时出错提示">
+                                                                            &#xe60b;</i>
                                                                     </p>
+
                                                                     <p><input type="text" name="" id="" value=""
                                                                               class="pinput-m"/></p>
                                                                 </div>
                                                             </div>
                                                             <div class="layui-colla-item">
                                                                 <h2 class="layui-colla-title">布局设置</h2>
+
                                                                 <div class="layui-colla-content pcheck">
                                                                     <label class="layui-form-label">排列方式<i
                                                                             class="layui-icon" title="排列方式">&#xe60b;</i></label>
+
                                                                     <div class="layui-input-block">
 
                                                                         <input type="radio" name="sex" value="纵向"
@@ -707,11 +743,14 @@
                                                             </div>
                                                             <div class="layui-colla-item">
                                                                 <h2 class="layui-colla-title">其它设置</h2>
+
                                                                 <div class="layui-colla-content">
                                                                     <p><input type="checkbox" name="like1[write]"
                                                                               lay-skin="primary" title="" checked="">
-                                                                        字段隐藏<i class="layui-icon" title="关于字段隐藏">&#xe60b;</i>
+                                                                        字段隐藏<i class="layui-icon" title="关于字段隐藏">
+                                                                            &#xe60b;</i>
                                                                     </p>
+
                                                                     <p><input type="checkbox" name="like1[write]"
                                                                               lay-skin="primary" title="" checked="">
                                                                         选项展示顺序随机
@@ -728,6 +767,7 @@
 
                                                     <div class="layui-row bgtitle">
                                                         <h2 class="layui-col-md6">日期</h2>
+
                                                         <div class="tabicon"><i class="layui-icon">&#xe631;</i></div>
                                                     </div>
                                                     <div class="layui-row">
@@ -775,6 +815,7 @@
                                                         <div class="layui-collapse" lay-accordion="">
                                                             <div class="layui-colla-item">
                                                                 <h2 class="layui-colla-title">校验</h2>
+
                                                                 <div class="layui-colla-content layui-show pcheck">
                                                                     <div>
                                                                         <input type="checkbox" name="like1[write]"
@@ -787,6 +828,7 @@
                                                                         起始日期
                                                                         <i class="layui-icon"
                                                                            title="关于起始日期">&#xe60b;</i>
+
                                                                         <div class="layui-row ">
 
                                                                             <div class="layui-col-md5">
@@ -813,6 +855,7 @@
                                                                         结束日期
                                                                         <i class="layui-icon"
                                                                            title="关于结束日期">&#xe60b;</i>
+
                                                                         <div class="layui-row ">
 
                                                                             <div class="layui-col-md5">
@@ -836,19 +879,24 @@
                                                                     </div>
                                                                     <p><input type="checkbox" name="like1[write]"
                                                                               lay-skin="primary" title="" checked="">
-                                                                        自定义出错文案<i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
+                                                                        自定义出错文案<i class="layui-icon" title="设置提交时出错提示">
+                                                                            &#xe60b;</i>
                                                                     </p>
+
                                                                     <p><input type="text" name="" id="" value=""
                                                                               class="pinput-m"/></p>
                                                                 </div>
                                                             </div>
                                                             <div class="layui-colla-item">
                                                                 <h2 class="layui-colla-title">布局设置</h2>
+
                                                                 <div class="layui-colla-content">
                                                                     <p><input type="checkbox" name="like1[write]"
                                                                               lay-skin="primary" title="" checked="">
-                                                                        宽度占整行的<i class="layui-icon" title="关于占用整行的宽度">&#xe60b;</i>
+                                                                        宽度占整行的<i class="layui-icon" title="关于占用整行的宽度">
+                                                                            &#xe60b;</i>
                                                                     </p>
+
                                                                     <div class="layui-input-inline layui-col-md12">
                                                                         <select name="city" lay-verify="">
                                                                             <option value="">请选择比例</option>
@@ -866,11 +914,14 @@
                                                             </div>
                                                             <div class="layui-colla-item">
                                                                 <h2 class="layui-colla-title">其它设置</h2>
+
                                                                 <div class="layui-colla-content">
                                                                     <p><input type="checkbox" name="like1[write]"
                                                                               lay-skin="primary" title="" checked="">
-                                                                        字段隐藏<i class="layui-icon" title="关于字段隐藏">&#xe60b;</i>
+                                                                        字段隐藏<i class="layui-icon" title="关于字段隐藏">
+                                                                            &#xe60b;</i>
                                                                     </p>
+
                                                                     <p><input type="checkbox" name="like1[write]"
                                                                               lay-skin="primary" title="" checked="">
                                                                         为填写者缓存所填内容，下次自动填写
@@ -909,20 +960,20 @@
 </nav>
 </body>
 <script type="text/html" id="singletext">
-    <div class="new-line">
+    <div class="new-line" id="{{d.index}}">
         <!--单行文字-->
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
-                {{#d.name||未命名}}
+                {{d.name}}
                 {{#if(d.value.verify.indexOf('required')!=-1){}}
                 *
                 {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-desc">
-                {{#d.des||描述}}
+                {{d.des}}
             </div>
             <div class="layui-row layui-col-md6">
-                {{#if(!d.value){}}
+                {{#if(d.default){}}
                 <div type="text" class="layui-input"></div>
                 {{#}else{}}
                 <input type="text" name="{{d.name}}" lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
@@ -936,21 +987,21 @@
         </div>
     </div>
 </script>
-<script type="text/html" id="mutiltext">
-    <div class="new-line">
+<script type="text/html" id="multitext">
+    <div class="new-line" id="{{d.index}}">
         <!--多行文字-->
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
-                {{#d.name||未命名}}
+                {{d.name}}
                 {{#if(d.value.verify.indexOf('required')){}}
                 *
                 {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-desc">
-                {{#d.des||描述}}
+                {{d.des}}
             </div>
             <div class="layui-row layui-col-md12">
-                {{#if(!d.value){}}
+                {{#if(d.default){}}
                 <div type="text" class="layui-textarea"></div>
                 {{#}else{}}
                 <textarea class="layui-textarea" name="{{d.name}}" lay-verify="{{d.value.verify}}"
@@ -965,33 +1016,30 @@
     </div>
 </script>
 <script type="text/html" id="singleselect">
-    <div class="new-line">
+    <div class="new-line" id="{{d.index}}">
         <!--单项选择-->
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
-                {{#d.name||未命名}}
+                {{d.name}}
                 {{#if(d.value.verify.indexOf('required')){}}
                 *
                 {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-desc">
-                {{#d.des||描述}}
+                {{d.des}}
             </div>
             <div class="layui-row layui-col-md12 text-left">
-                {{#if(!d.value){}}
-                <div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><span>选项1</span>
-                </div>
-                </br>
-                <div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><span>选项2</span>
-                </div>
-                </br>
-                <div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><span>选项3</span>
-                </div>
-                {{#}}}
+
                 {{#layui.each(d.value.radios,function(i,item){}}
-                <input type="radio" name="{{item.name}}" value="{{item.value}}" title="item.value"
+                {{#if(d.default){}}
+                <div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><span>{{item}}</span>
+                </div>
+                </br>
+                {{#}else{}}
+                <input type="radio" name="{{item.name}}" value="{{item.value}}" title="{{item.value}}"
                        checked="{{item.checked}}">
                 <br/>
+                {{#}}}
                 {{#});}}
             </div>
         </div>
@@ -1001,37 +1049,31 @@
         </div>
     </div>
 </script>
-<script type="text/html" id="mutilselect">
-    <div class="new-line">
+<script type="text/html" id="multiselect">
+    <div class="new-line" id="{{d.index}}">
         <!--多项选择-->
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
-                {{#d.name||未命名}}
+                {{d.name}}
                 {{#if(d.value.verify.indexOf('required')){}}
                 *
                 {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-desc">
-                {{#d.des||描述}}
+                {{d.des}}
             </div>
             <div class="layui-row layui-col-md12 text-left">
-                {{#if(!d.value){}}
-                <div class="layui-unselect layui-form-checkbox " lay-skin=""><span>选项1</span><i class="layui-icon"></i>
+
+                {{#layui.each(d.value.checkboxs,function(i,item){}}
+                {{#if(d.default){}}
+                <div class="layui-unselect layui-form-checkbox " lay-skin=""><span>{{item}}</span><i class="layui-icon"></i>
                 </div>
                 <br/>
-                <div class="layui-unselect layui-form-checkbox " lay-skin=""><span>选项2</span><i class="layui-icon"></i>
-                </div>
-                <br/>
-                <div class="layui-unselect layui-form-checkbox " lay-skin=""><span>选项3</span><i class="layui-icon"></i>
-                </div>
-                <br/>
-                <div class="layui-unselect layui-form-checkbox " lay-skin=""><span>选项4</span><i class="layui-icon"></i>
-                </div>
-                {{#}}}
-                {{#layui.each(d.value.checkboxs),function(i,item){}}
+                {{#}else{}}
                 <input type="checkbox" name="{{item.name}}" value="{{item.value}}" title="{{item.value}}"
                        checked="{{item.checked}}">
                 <br/>
+                {{#}}}
                 {{#});}}
             </div>
         </div>
@@ -1042,73 +1084,35 @@
     </div>
 </script>
 <script type="text/html" id="singlepic">
-    <div class="new-line">
+    <div class="new-line" id="{{d.index}}">
         <!--图片单选-->
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
-                {{#d.name||未命名}}
+                {{d.name}}
                 {{#if(d.value.verify.indexOf('required')){}}
                 *
                 {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-desc">
-                {{#d.des||描述}}
+                {{d.des}}
             </div>
             <!--有图片就把上面一段隐藏-->
             <div class="layui-row layui-col-md12 text-left">
-                {{#if(!d.value){}}
+
+                {{#layui.each(d.value.images,function(i,item){}}
+                {{#if(d.default){}}
                 <div class="layui-col-md3 redioimg">
                     <label class="radio" style="display: block;">
                         <div class="image-center"><img
-                                src="/images/a23.png">
+                                src="{{item.imgPath}}">
                         </div>
                         <div class="text-wrapper">
                             <div class="layui-unselect layui-form-radio"><i
-                                    class="layui-anim layui-icon"></i><span>选项1</span></div>
+                                    class="layui-anim layui-icon"></i><span>{{item.title}}</span></div>
                         </div>
                     </label>
                 </div>
-                <div class="layui-col-md3 redioimg">
-                    <label class="radio" style="display: block;">
-                        <div class="image-center"><img
-                                src="/images/a23.png">
-                        </div>
-                        <div class="text-wrapper">
-                            <div class="radio-button-wrapper">
-                                <div class="layui-unselect layui-form-radio"><i
-                                        class="layui-anim layui-icon"></i><span>选项2</span></div>
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                <div class="layui-col-md3 redioimg">
-                    <label class="radio" style="display: block;">
-                        <div class="image-center"><img
-                                src="/images/a23.png">
-                        </div>
-                        <div class="text-wrapper">
-                            <div class="radio-button-wrapper">
-                                <div class="layui-unselect layui-form-radio"><i
-                                        class="layui-anim layui-icon"></i><span>选项3</span></div>
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                <div class="layui-col-md3 redioimg">
-                    <label class="radio" style="display: block;">
-                        <div class="image-center"><img
-                                src="/images/a23.png">
-                        </div>
-                        <div class="text-wrapper">
-                            <div class="radio-button-wrapper">
-                                <div class="layui-unselect layui-form-radio"><i
-                                        class="layui-anim layui-icon"></i><span>选项4</span></div>
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                {{#}}}
-                {{#layui.each(d.value.images,function(i,item){}}
+                {{#}else{}}
                 <div class="layui-col-md3 redioimg">
                     <label class="radio" style="display: block;">
                         <div class="image-center"><img
@@ -1123,83 +1127,43 @@
                         </div>
                     </label>
                 </div>
+                {{#}}}
                 {{#});}}
             </div>
         </div>
     </div></script>
 <script type="text/html" id="multipic">
-    <div class="new-line">
+    <div class="new-line" id="{{d.index}}">
         <!--图片多选-->
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
-                {{#d.name||未命名}}
+                {{d.name}}
                 {{#if(d.value.verify.indexOf('required')){}}
                 *
                 {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-desc">
-                {{#d.des||描述}}
+                {{d.des}}
             </div>
 
             <div class="layui-row layui-col-md12 text-left">
-                {{#if(!d.value){}}
-                <div class="layui-col-md3 redioimg">
-                    <label class="checkbox" style="display: block;">
-                        <div class="image-center"><img
-                                src="/images/a23.png">
-                        </div>
-                        <div class="text-wrapper">
-                            <div class="checkbox-button-wrapper">
-                                <input type="checkbox" name="field[choices]"
-                                       value="1" title="1">
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                <div class="layui-col-md3 redioimg">
-                    <label class="checkbox" style="display: block;">
-                        <div class="image-center"><img
-                                src="/images/a23.png">
-                        </div>
-                        <div class="text-wrapper">
-                            <div class="checkbox-button-wrapper">
-                                <input type="checkbox" name="field[choices]"
-                                       value="2"
-                                       title="2">
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                <div class="layui-col-md3 redioimg">
-                    <label class="checkbox" style="display: block;">
-                        <div class="image-center"><img
-                                src="/images/a23.png">
-                        </div>
-                        <div class="text-wrapper">
-                            <div class="checkbox-button-wrapper">
-                                <input type="checkbox" name="field[choices]"
-                                       value="3"
-                                       title="3">
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                <div class="layui-col-md3 redioimg">
-                    <label class="checkbox" style="display: block;">
-                        <div class="image-center"><img
-                                src="/images/a23.png">
-                        </div>
-                        <div class="text-wrapper">
-                            <div class="checkbox-button-wrapper">
-                                <input type="checkbox" name="field[choices]"
-                                       value="4"
-                                       title="4">
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                {{#}}}
+
                 {{#layui.each(d.value.images,function(i,item){}}
+                {{#if(d.default){}}
+                <div class="layui-col-md3 redioimg">
+                    <label class="checkbox" style="display: block;">
+                        <div class="image-center"><img
+                                src="{{item.imgPath}}">
+                        </div>
+                        <div class="text-wrapper">
+                            <div class="checkbox-button-wrapper">
+                                <input type="checkbox" name="field[choices]"
+                                       value="1" title="{{item.title}}">
+                            </div>
+                        </div>
+                    </label>
+                </div>
+                {{#}else{}}
                 <div class="layui-col-md3 redioimg">
                     <label class="checkbox" style="display: block;">
                         <div class="image-center"><img
@@ -1214,226 +1178,119 @@
                         </div>
                     </label>
                 </div>
+                {{#}}}
                 {{#});}}
             </div>
         </div>
     </div>
     </div></script>
 <script type="text/html" id="singlemat">
-    <div class="new-line">
+    <div class="new-line" id="{{d.index}}">
         <!--矩阵单选-->
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
-                {{#d.name||未命名}}
+                {{d.name}}
                 {{#if(d.value.verify.indexOf('required')){}}
                 *
                 {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-desc">
-                {{#d.des||描述}}
+                {{d.des}}
             </div>
 
             <div class="gtable">
                 <table class="layui-table">
-                    {{#if(!d.value){}}
                     <thead>
                     <tr>
                         <th></th>
-                        <th>项目</th>
-                        <th>项目</th>
-                        <th>项目</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>题目</td>
-                        <td>
-                            <div class="layui-unselect layui-form-radio"><i
-                                    class="layui-anim layui-icon"></i><span>选项1</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="layui-unselect layui-form-radio"><i
-                                    class="layui-anim layui-icon"></i><span>选项1</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="layui-unselect layui-form-radio"><i
-                                    class="layui-anim layui-icon"></i><span>选项1</span>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>题目</td>
-                        <td>
-                            <div class="layui-unselect layui-form-radio"><i
-                                    class="layui-anim layui-icon"></i><span>选项1</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="layui-unselect layui-form-radio"><i
-                                    class="layui-anim layui-icon"></i><span>选项1</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="layui-unselect layui-form-radio"><i
-                                    class="layui-anim layui-icon"></i><span>选项1</span>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>题目</td>
-                        <td>
-                            <div class="layui-unselect layui-form-radio"><i
-                                    class="layui-anim layui-icon"></i><span>选项1</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="layui-unselect layui-form-radio"><i
-                                    class="layui-anim layui-icon"></i><span>选项1</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="layui-unselect layui-form-radio"><i
-                                    class="layui-anim layui-icon"></i><span>选项1</span>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                    {{#}else{}}}
-                    {{# layui.each(d.value.table,function(i,item)){}}
-                    <thead>
-                    <tr>
-                        <th></th>
-                        {{#layui.each(item.thead.ths,function(i,th){}}
+                        {{#layui.each(d.value.table.thead.ths,function(i,th){}}
                         <th>{{th.title}}</th>
                         {{#});}}
                     </tr>
                     </thead>
                     <tbody>
-                    {{#layui.each(item.tbody.trs,function(i,tr}}
+                    {{#layui.each(d.value.table.tbody.trs,function(i,tr){}}
                     <tr>
                         <td>{{tr.title}}</td>
-                        {{#layui.each(tds,function(i,td}}
-                        <td><input type="radio" name="{{td.name}}" value="{{td.value}}" title="{{td.title}}">
+                        {{#layui.each(tr.tds,function(i,td){}}
+                        <td>
+                            {{#if(d.default){}}
+                            <div class="layui-unselect layui-form-radio"><i
+                                    class="layui-anim layui-icon"></i><span>{{td.title}}</span>
+                            </div>
+                            {{#}else{}}
+                            <input type="radio" name="{{td.name}}" value="{{td.value}}" title="{{td.title}}">
+                            {{#}}}
                         </td>
                         {{#});}}
                     </tr>
                     {{#});}}
                     </tbody>
 
-                    {{#}}}
-                    {{#}}}
                 </table>
             </div>
         </div>
     </div></script>
 <script type="text/html" id="mattext">
-    <div class="new-line">
+    <div class="new-line" id="{{d.index}}">
         <!--矩阵填空-->
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
-                {{#d.name||未命名}}
+                {{d.name}}
                 {{#if(d.value.verify.indexOf('required')){}}
                 *
                 {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-desc">
-                {{#d.des||描述}}
+                {{d.des}}
             </div>
             <div class="gtable">
                 <table class="layui-table">
-                    {{#if(!d.value){}}
                     <thead>
                     <tr>
                         <th></th>
-                        <th>项目</th>
-                        <th>项目</th>
-                        <th>项目</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>题目</td>
-                        <td>
-                        </td>
-                        <td>
-                            <div type="text" class="layui-input"></div>
-                        </td>
-                        <td>
-                            <div type="text" class="layui-input"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>题目</td>
-                        <td>
-                            <div type="text" class="layui-input"></div>
-                        </td>
-                        <td>
-                            <div type="text" class="layui-input"></div>
-                        </td>
-                        <td>
-                            <div type="text" class="layui-input"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>题目</td>
-                        <td>
-                            <div type="text" class="layui-input"></div>
-                        </td>
-                        <td>
-                            <div type="text" class="layui-input"></div>
-                        </td>
-                        <td>
-                            <div type="text" class="layui-input"></div>
-                        </td>
-                    </tr>
-                    </tbody>
-                    {{#}else{}}}
-                    {{# layui.each(d.value.table,function(i,item)){}}
-                    <thead>
-                    <tr>
-                        <th></th>
-                        {{#layui.each(item.thead.ths,function(i,th){}}
+                        {{#layui.each(d.value.table.thead.ths,function(i,th){}}
                         <th>{{th.title}}</th>
                         {{#});}}
                     </tr>
                     </thead>
                     <tbody>
-                    {{#layui.each(item.tbody.trs,function(i,tr}}
+                    {{#layui.each(d.value.table.tbody.trs,function(i,tr){}}
                     <tr>
                         <td>{{tr.title}}</td>
-                        {{#layui.each(tds,function(i,td}}
-                        <td><input type="radio" name="{{td.name}}" value="{{td.value}}" title="{{td.title}}">
+                        {{#layui.each(tr.tds,function(i,td){}}
+                        <td>
+                        {{#if(d.default){}}
+                        <div type="text" class="layui-input"></div>
+                        {{#}else{}}
+                        <input type="text" name="{{td.name}}" value="{{td.value}}" title="{{td.title}}">
+                        {{#}}}
                         </td>
                         {{#});}}
                     </tr>
                     {{#});}}
                     </tbody>
-
-                    {{#}}}
-                    {{#}}}
                 </table>
             </div>
         </div>
     </div></script>
 <!--123数字-->
 <script type="text/html" id="numberfield">
-    <div class="new-line">
+    <div class="new-line" id="{{d.index}}">
         <!--123数字-->
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
-                {{#d.name||未命名}}
+                {{d.name}}
                 {{#if(d.value.verify.indexOf('required')){}}
                 *
                 {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-desc">
-                {{#d.des||描述}}
+                {{d.des}}
             </div>
             <div class="layui-inline layui-col-md12">
                 <div class="layui-input-inline">
-                    {{#if(!d.value){}}
+                    {{#if(d.default){}}
                     <div type="text" class="layui-input"></div>
                     {{#}else{}}
                     <input type="text" name="{{d.name}}" lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
@@ -1445,20 +1302,20 @@
     </div>
 </script>
 <script type="text/html" id="timepicker">
-    <div class="new-line">
+    <div class="new-line" id="{{d.index}}">
         <!--时间-->
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
-                {{#d.name||未命名}}
+                {{d.name}}
                 {{#if(d.value.verify.indexOf('required')){}}
                 *
                 {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-desc">
-                {{#d.des||描述}}
+                {{d.des}}
             </div>
             <div class="layui-inline layui-row layui-col-md4">
-                {{#if(d.value){}}
+                {{#if(!d.default){}}
                 <select name="{{d.name}}" lay-verify="d.value.verify">
                     <option value="">时</option>
                     {{#for(var i=0;i<24;i++){}}
@@ -1478,7 +1335,7 @@
                 {{#}}}
             </div>
             <div class="layui-inline layui-row layui-col-md4">
-                {{#if(d.value){}}
+                {{#if(!d.default){}}
                 <select name="{{d.name}}" lay-verify="d.value.verify">
                     <option value="">分</option>
                     {{#for(var i=0;i<60;i++){}}
@@ -1501,23 +1358,24 @@
     </div>
 </script>
 <script type="text/html" id="datepicker">
-    <div class="new-line">
+    <div class="new-line" id="{{d.index}}">
         <!--日期-->
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
-                {{#d.name||未命名}}
+                {{d.name}}
                 {{#if(d.value.verify.indexOf('required')){}}
                 *
                 {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-desc">
-                {{#d.des||描述}}
+                {{d.des}}
             </div>
             <label class="layui-form-label labelwidth">
                 <i class="layui-icon">&#xe637;</i>
             </label>
+
             <div class="layui-input-block">
-                {{#if(!d.value){}}
+                {{#if(d.default){}}
                 <div type="text" class="layui-input"></div>
                 {{#}else{}}
                 <input type="text" name="{{d.name}}" lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
@@ -1528,20 +1386,20 @@
     </div>
 </script>
 <script type="text/html" id="dropselect">
-    <div class="new-line">
+    <div class="new-line" id="{{d.index}}">
         <!--下拉框-->
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
-                {{#d.name||未命名}}
+                {{d.name}}
                 {{#if(d.value.verify.indexOf('required')){}}
                 *
                 {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-desc">
-                {{#d.des||描述}}
+                {{d.des}}
             </div>
             <div class="layui-inline layui-row layui-col-md4">
-                {{#if(d.value){}}
+                {{#if(!d.default){}}
                 <select name="{{d.name}}" lay-verify="{{d.value.verify}}">
                     <option value="">请选择</option>
                     {{#layui.each(d.value.options,function(i,option){}}
@@ -1549,27 +1407,33 @@
                     {{#});}}
                 </select>
                 {{#}else{}}
-                <div class="layui-select-title"><input type="text" placeholder="请选择" value="" class="layui-input layui-unselect"><i class="layui-edge"></i></div>
+                <div class="layui-select-title"><input type="text" placeholder="请选择" value=""
+                                                       class="layui-input layui-unselect"><i class="layui-edge"></i>
+                </div>
                 {{#}}}
             </div>
         </div>
     </div>
 </script>
 <script type="text/html" id="descfield">
-    <div class="new-line">
+    <div class="new-line" id="{{d.index}}">
         <!--描述-->
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
-                描述
+                {{d.name}}
+                {{#if(d.value.verify.indexOf('required')){}}
+                *
+                {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-desc">
-                请在右侧面板添加段落说明信息
+                {{d.des}}
             </div>
         </div>
     </div>
 </script>
+<!--分页有点难处理-->
 <script type="text/html" id="pagination">
-    <div class="new-line">
+    <div class="new-line" id="{{d.index}}">
         <!--分页-->
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
@@ -1582,40 +1446,59 @@
     </div>
 </script>
 <script type="text/html" id="urlfield">
-    <div class="new-line">
+    <div class="new-line" id="{{d.index}}">
         <!--网址-->
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
-                网址
+                {{d.name}}
+                {{#if(d.value.verify.indexOf('required')){}}
+                *
+                {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-desc">
-                填写示例：http://www.baidu.com 或 https://www.baidu.com
+                {{d.des}}
             </div>
             <div class="layui-row layui-col-md12">
                 <label class="layui-form-label labelwidth">
                     <i class="layui-icon">&#xe64c;</i>
                 </label>
+
                 <div class="layui-input-block">
-                    <input type="text" name="title" required
-                           lay-verify="required"
-                           placeholder="" autocomplete="off"
+                    {{#if(d.default){}}
+                    <div type="text" class="layui-input"></div>
+                    {{#}else{}}
+                    <input type="text" name="{{d.name}}" lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
                            class="layui-input">
+                    {{#}}}
                 </div>
             </div>
         </div>
     </div>
 </script>
 <script type="text/html" id="markfield">
-    <div class="new-line">
+    <div class="new-line" id="{{d.index}}">
         <!--评分-->
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
-                评分
+                {{d.name}}
+                {{#if(d.value.verify.indexOf('required')){}}
+                *
+                {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-desc">
                 <div class="spingfen">
+                    {{#if(d.default){}}
+                    {{#layui.each(d.value.score,function(i,item){}}
+                    <i class="layui-icon">&#xe658;</i>
+                    {{#});}}
+                    {{#layui.each(d.value.fullscore-d.value.score,function(i,item){}}
+                    <i class="layui-icon">&#xe658;</i>
+                    {{#});}}
+
+                    {{#}else{}}
                     <i class="layui-icon">&#xe658;</i><i
                         class="layui-icon">&#xe658;</i> <i class="layui-icon">&#xe658;</i>
+                    {{#}}}
                 </div>
 
             </div>
@@ -1623,41 +1506,79 @@
     </div>
 </script>
 <script type="text/html" id="multiselect">
-    <div class="new-line">
+    <div class="new-line" id="{{d.index}}">
         <!--两级下拉框-->
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
-                未命名
+                {{d.name}}
+                {{#if(d.value.verify.indexOf('required')){}}
+                *
+                {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-desc">
-                描述
+                {{d.des}}
             </div>
             <div class="layui-inline layui-row layui-col-md4">
-                <select name="" lay-verify="">
-                    <option value="">请选择</option>
+                {{#if(!d.default){}}
+                <select name="{{d.name}}" lay-verify="d.value.verify">
+                    <option value="">{{d.value.fdefault}}</option>
+                    {{#layui.each(d.value.fOptoins,function(i,fOption){}}
+                    <option value="{{fOption.value}}">{{fOption.name}}</option>
+                    {{#});}}
                 </select>
+                {{#}else{}}
+                <div class="layui-unselect layui-form-select">
+                    <div class="layui-select-title"><input type="text" placeholder="时" value="" readonly=""
+                                                           class="layui-input layui-unselect"><i class="layui-edge"></i>
+                    </div>
+                    <dl class="layui-anim layui-anim-upbit" style="">
+                        <dd lay-value="" class="layui-select-tips">请选择</dd>
+                    </dl>
+                </div>
+                {{#}}}
             </div>
             <div class="layui-inline layui-row layui-col-md4">
-                <select name="" lay-verify="">
-                    <option value="">请选择</option>
+                {{#if(!d.default){}}
+                <select name="{{d.name}}" lay-verify="d.value.verify">
+                    <option value="">{{d.value.sdefault}}</option>
+                    {{#layui.each(d.value.sOptoins,function(i,sOption){}}
+                    <option value="{{sOption.value}}">{{sOption.name}}</option>
+                    {{#});}}
                 </select>
+                {{#}else{}}
+                <div class="layui-unselect layui-form-select layui-form-selected">
+                    <div class="layui-select-title"><input type="text" placeholder="分" value="" readonly=""
+                                                           class="layui-input layui-unselect"><i class="layui-edge"></i>
+                    </div>
+                    <dl class="layui-anim layui-anim-upbit" style="">
+                        <dd lay-value="" class="layui-select-tips">请选择</dd>
+                    </dl>
+                </div>
+                {{#}}}
             </div>
         </div>
     </div>
 </script>
 <script type="text/html" id="uploadfile">
-    <div class="new-line">
+    <div class="new-line" id="{{d.index}}">
         <!--上传文件-->
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
-                附件
+                {{d.name}}
+                {{#if(d.value.verify.indexOf('required')){}}
+                *
+                {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-desc">
-                描述
+                {{d.des}}
             </div>
             <div class="layui-row layui-col-md12 layui-inline upbox">
                 <i class="layui-icon">&#xe681;</i>
-                <p>请选择或拖拽上传文件，5MB以内。 </p>
+                {{#if(d.default){}}
+                <p>请选择或拖拽上传文件，20MB以内。 </p>
+                {{#}else{}}
+                <p>{{d.value.filetype}}，{{d.value.filecount}},{{d.value.filesize}}。 </p>
+                {{#}}}
             </div>
         </div>
     </div>
@@ -1665,306 +1586,71 @@
 <script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-    layui.use('table', function () {
-        var table = layui.table;
-
-        //展示已知数据
-        table.render({
-            elem: '#q-data-table',
-            data: [{
-                "id": "10001",
-                "username": "杜甫",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "116",
-                "ip": "192.168.0.8",
-                "logins": "108",
-                "joinTime": "2016-10-14"
-            }, {
-                "id": "10002",
-                "username": "李白",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "12",
-                "ip": "192.168.0.8",
-                "logins": "106",
-                "joinTime": "2016-10-14",
-                "LAY_CHECKED": true
-            }, {
-                "id": "10003",
-                "username": "王勃",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "65",
-                "ip": "192.168.0.8",
-                "logins": "106",
-                "joinTime": "2016-10-14"
-            }, {
-                "id": "10004",
-                "username": "贤心",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "666",
-                "ip": "192.168.0.8",
-                "logins": "106",
-                "joinTime": "2016-10-14"
-            }, {
-                "id": "10005",
-                "username": "贤心",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "86",
-                "ip": "192.168.0.8",
-                "logins": "106",
-                "joinTime": "2016-10-14"
-            }, {
-                "id": "10006",
-                "username": "贤心",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "12",
-                "ip": "192.168.0.8",
-                "logins": "106",
-                "joinTime": "2016-10-14"
-            }, {
-                "id": "10007",
-                "username": "贤心",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "16",
-                "ip": "192.168.0.8",
-                "logins": "106",
-                "joinTime": "2016-10-14"
-            }, {
-                "id": "10008",
-                "username": "贤心",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "106",
-                "ip": "192.168.0.8",
-                "logins": "106",
-                "joinTime": "2016-10-14"
-            }],
-            //				height: 272,
-            cols: [
-                [ //标题栏
-                    {
-                        checkbox: true,
-                        LAY_CHECKED: true
-                    } //默认全选
-                    , {
-                    field: 'id',
-                    title: 'ID',
-                    width: 80,
-                    sort: true
-                }, {
-                    field: 'username',
-                    title: '用户名',
-                    width: 120,
-                    sort: true
-                }, {
-                    field: 'email',
-                    title: '邮箱',
-                    width: 150,
-                    sort: true
-                }, {
-                    field: 'sign',
-                    title: '签名',
-                    width: 150,
-                    sort: true
-                }, {
-                    field: 'sex',
-                    title: '性别',
-                    width: 80,
-                    sort: true
-                }, {
-                    field: 'city',
-                    title: '城市',
-                    width: 100,
-                    sort: true
-                }, {
-                    field: 'experience',
-                    title: '积分',
-                    width: 80,
-                    sort: true
+    var index = 0, page = 1, pageIds = [];
+    var formProps = {};
+    var defaultProps = {
+        singletext: {value: {verify: '', value: ''}},
+        multitext: {value: {verify: '', value: ''}},
+        singleselect: {value: {verify: '', radios: ['选项1', '选项2', '选项3']}},
+        multiselect: {value: {verify: '', checkboxs: ['选项1', '选项2', '选项3', '选项4']}},
+        singlepic: {
+            value: {
+                verify: '',
+                images: [{imgPath: '/images/a23.png', title: '选项1'}, {
+                    imgPath: '/images/a23.png',
+                    title: '选项2'
+                }, {imgPath: '/images/a23.png', title: '选项3'}, {imgPath: '/images/a23.png', title: '选项4'}]
+            }
+        },
+        multipic: {
+            value: {
+                verify: '',
+                images: [{imgPath: '/images/a23.png', title: '1'}, {
+                    imgPath: '/images/a23.png',
+                    title: '2'
+                }, {imgPath: '/images/a23.png', title: '3'}, {imgPath: '/images/a23.png', title: '4'}]
+            }
+        },
+        singlemat: {
+            value: {
+                verify: '',
+                table: {
+                    thead: {ths: [{title: '项目'}, {title: '项目'}, {title: '项目'}]},
+                    tbody: {
+                        trs: [{title: '题目', tds: [{title: '选项1'}, {title: '选项2'}, {title: '选项3'}]}, {
+                            title: '题目',
+                            tds: [{title: '选项1'}, {title: '选项2'}, {title: '选项3'}]
+                        }, {title: '题目', tds: [{title: '选项1'}, {title: '选项2'}, {title: '选项3'}]}]
+                    }
                 }
-                ]
-            ],
-            skin: 'row', //表格风格
-            even: true,
-            page: true, //是否显示分页
-            limits: [5, 7, 10],
-            limit: 5 //每页默认显示的数量
-        });
-    });
-</script>
-<script type="text/javascript">
-    layui.use('table', function () {
-        var table = layui.table;
-        //展示已知数据
-        table.render({
-            elem: '#q-table-recent-submit',
-            data: [{
-                "id": "10001",
-                "username": "杜甫",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "116",
-                "ip": "192.168.0.8",
-                "logins": "108",
-                "joinTime": "2016-10-14"
-            }, {
-                "id": "10002",
-                "username": "李白",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "12",
-                "ip": "192.168.0.8",
-                "logins": "106",
-                "joinTime": "2016-10-14",
-                "LAY_CHECKED": true
-            }, {
-                "id": "10003",
-                "username": "王勃",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "65",
-                "ip": "192.168.0.8",
-                "logins": "106",
-                "joinTime": "2016-10-14"
-            }, {
-                "id": "10004",
-                "username": "贤心",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "666",
-                "ip": "192.168.0.8",
-                "logins": "106",
-                "joinTime": "2016-10-14"
-            }, {
-                "id": "10005",
-                "username": "贤心",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "86",
-                "ip": "192.168.0.8",
-                "logins": "106",
-                "joinTime": "2016-10-14"
-            }, {
-                "id": "10006",
-                "username": "贤心",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "12",
-                "ip": "192.168.0.8",
-                "logins": "106",
-                "joinTime": "2016-10-14"
-            }, {
-                "id": "10007",
-                "username": "贤心",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "16",
-                "ip": "192.168.0.8",
-                "logins": "106",
-                "joinTime": "2016-10-14"
-            }, {
-                "id": "10008",
-                "username": "贤心",
-                "email": "xianxin@layui.com",
-                "sex": "男",
-                "city": "浙江杭州",
-                "sign": "人生恰似一场修行",
-                "experience": "106",
-                "ip": "192.168.0.8",
-                "logins": "106",
-                "joinTime": "2016-10-14"
-            }],
-            //				height: 272,
-            cols: [
-                [ //标题栏
-                    {
-                        checkbox: true,
-                        LAY_CHECKED: true
-                    } //默认全选
-                    , {
-                    field: 'id',
-                    title: 'ID',
-                    width: 80,
-                    sort: true
-                }, {
-                    field: 'username',
-                    title: '用户名',
-                    width: 120,
-                    sort: true
-                }, {
-                    field: 'email',
-                    title: '邮箱',
-                    width: 150,
-                    sort: true
-                }, {
-                    field: 'sign',
-                    title: '签名',
-                    width: 150,
-                    sort: true
-                }, {
-                    field: 'sex',
-                    title: '性别',
-                    width: 80,
-                    sort: true
-                }, {
-                    field: 'city',
-                    title: '城市',
-                    width: 100,
-                    sort: true
-                }, {
-                    field: 'experience',
-                    title: '积分',
-                    width: 80,
-                    sort: true
+            }
+        },
+        mattext: {
+            value: {
+                verify: '',
+                table: {
+                    thead: {ths: [{title: '项目'}, {title: '项目'}, {title: '项目'}]},
+                    tbody: {
+                        trs: [{title: '题目', tds: [{}, {}, {}]}, {title: '题目', tds: [{}, {}, {}]}, {
+                            title: '题目',
+                            tds: [{}, {}, {}]
+                        }]
+                    }
                 }
-                ]
-            ],
-            skin: 'row', //表格风格
-            even: true,
-            page: true, //是否显示分页
-            limits: [5, 7, 10],
-            limit: 5 //每页默认显示的数量
-        });
-    });
-</script>
-<script type="text/javascript">
-    var $form = $('.formEditorView>div>form').on('click', '.new-line', active).on('click', '.ele-copy', copyself).on('click', '.ele-del', delself);
+            }
+        },
+        numberfield: {value: {verify: 'number'}},
+        timepicker: {value: {verify: '', value: ''}},
+        datepicker: {value: {verify: '', value: ''}},
+        dropselect: {value: {verify: '', value: ''}},
+        descfield: {value: {verify: '', value: ''}},
+        pagination: {value: {verify: '', value: ''}},
+        urlfield: {value: {verify: 'url'}},
+        markfield: {value: {verify: '', value: ''}},
+        multiselect: {value: {verify: '', value: ''}},
+        uploadfile: {value: {filetype: '请选择或拖拽上传文件', filecount: 2, filesize: '20MB以内。'}}
+    }
+    var $form = $('.formEditorView>div>form');
     var active = function () {
         $('.new-line').removeClass('active-line');
         $(this).addClass('active-line');
@@ -1990,11 +1676,22 @@
         layedit.build('briefText'); //建立编辑器
 
         $('.add-field .grid-demo').click(function () {
-            var tpl = $(this).attr('templateName').innerHTML;
-            laytpl(tpl).render({}, function (html) {
-                var $html = $(html).on('click', '.new-line', active).on('click', '.ele-copy', copyself).on('click', '.ele-del', delself);
+            var tplId = $(this).attr('templateName');
+            var defaultProp = $.extend(false, {}, defaultProps[tplId], {
+                index: index,
+                name: '未命名',
+                des: '描述',
+                default: true
+            });
+            //可以为每一个配置都设置一个默认的配置对象，需要先定义。
+            formProps[index++] = defaultProp;
+            laytpl($('#' + tplId).html()).render(defaultProp, function (html) {
+                var $html= $(html);
+                $('.new-line').removeClass('active-line');
+                $html.addClass('active-line');
                 var $activeLine = $form.find('.active-line');
                 $activeLine.length ? $activeLine.after($ele) : $form.append($html);
+                $html.on('click', '.new-line', active).on('click', '.ele-copy', copyself).on('click', '.ele-del', delself);
                 form.render();
             });
         });

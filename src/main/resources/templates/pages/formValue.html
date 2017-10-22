@@ -262,7 +262,7 @@
                         </div>
                         <div class="layui-col-md1">
                             <div class="grid-demo grid-demo-bg1">
-                                <i class="layui-icon" style="cursor: pointer" title="按提交日期筛选">&#xe60e;</i>
+                                <i class="layui-icon" style="cursor: pointer" title="按提交日期筛选" onclick="showDatePicker()">&#xe60e;</i>
                                 <!--<i class="layui-icon" title="查看数据变更记录">&#xe628;</i>-->
                                 <i class="layui-icon" style="cursor: pointer" onclick="showCol()" title="显示或隐藏各列数据">&#xe647;</i>
                             </div>
@@ -290,14 +290,20 @@
 <div class="lay-hide layui-form layui-form-item" id="showCol">
 </div>
 <!-- Change /upload-target to your upload address -->
-<div id="excel"class="lay-hide" style=" border: 2px dashed #0087F7;
+<div id="excel"class="lay-hide dropzone" style=" border: 2px dashed #0087F7;
             border-radius: 5px;
-            background: white;height: 160px">
+            background: white;">
 
     <div class="dz-message needsclick">
         点击此处或将文件拖拽到此处<br>
         <span class="note needsclick">(请上传<strong>.xls</strong>或者<strong>.xlsx</strong>的文件 )</span>
         <span class="note needsclick">(上传文件大小不要超过<strong>256KB</strong>)</span>
+    </div>
+</div>
+<div class="layui-inline lay-hide" id="datetimepicker">
+    <label class="layui-form-label">日期范围</label>
+    <div class="layui-input-inline">
+        <input type="text" class="layui-input" id="datetime" placeholder=" - ">
     </div>
 </div>
 <script id="showCols" type="text/html">
@@ -345,13 +351,15 @@
 <script th:src="@{/js/dropzone.min.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/Util.js}" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-    var search, del, outport, importExcel, add, showCol;
-    layui.use(['table', 'element', 'layer', 'laytpl', 'form'], function () {
+    var search, del, outport, importExcel, add, showCol,showDatePicker;
+    Dropzone.autoDiscover = false;
+    layui.use(['table', 'element', 'layer', 'laytpl', 'form','laydate'], function () {
         var table = layui.table;
         var element = layui.element;
         var layer = layui.layer;
         var laytpl = layui.laytpl;
         var form = layui.form;
+        var laydate = layui.laydate;
         //展示已知数据
         var formData = table.render({
             elem: '#q-data-table',
@@ -375,12 +383,35 @@
             limits: [15, 30, 45],
             limit: 15 //每页默认显示的数量
         });
+        laydate.render({
+            elem: '#datetime'
+            ,type: 'datetime'
+            ,range: true
+        });
+
+        showDatePicker = function(){
+            layer.open({
+                type: 1,
+                title: '选择日期',
+                area: ['350px', '150px'],
+                shadeClose: true, //点击遮罩关闭层
+                content: $('#datetimepicker'),
+                btn: ['确定'],
+                btnAlign: 'l', //按钮排列 左对齐
+                yes: function (index, layero) { //或者使用btn1
+                    search();
+                    layer.close(index);
+                }
+            });
+        };
         search = function () {
+            var datetimerange = $('#datetime').val().split(' - ');
+            var startTime = datetimerange[0],endTime=datetimerange[1];
             formData.reload({
                 where: {
                     content: $('#searchContent').val(),
-                    startTime: '',
-                    endTime: '',
+                    startTime: startTime,
+                    endTime: endTime,
                     formId: formId
                 }
             });
@@ -430,11 +461,13 @@
             });
         }
         $("#excel").dropzone({
-            url: "/formValue/import",
+            url: "/formValue/import?formId="+formId,
             addRemoveLinks: true,
             dictInvalidInputType: '请上传.xls(x)的文件',
             dictFileTooBig: 'excel表格不要超过256KB',
+            dictRemoveFile:'点我删除文件',
             maxFilesize: 0.25,
+            paramName:'excel',
             acceptedFiles: ".xls,.xlsx",
             init: function () {
                 this.on("success", function (file) {
@@ -446,14 +479,13 @@
             layer.open({
                 type: 1,
                 title: '上传数据',
-                maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
                 content: $('#excel'),
-                btn: ['上传'],
-                area: ['400px', '260px'],
+                btn: ['完成'],
+                area: ['400px', '315px'],
                 btnAlign: 'l', //按钮排列 左对齐
                 yes: function (index, layero) { //或者使用btn1
-                    $('#excel').submit();
+                    search();
                     layer.close(index);
                 }
             });

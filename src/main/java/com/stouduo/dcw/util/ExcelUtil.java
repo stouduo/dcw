@@ -315,11 +315,12 @@ public class ExcelUtil {
                     //给对象赋值
                     // setFieldValueByName(enNormalName, content, entity);
                 }
-                formValue.setOs(clientMsg[1]);
+                 formValue.setOs(clientMsg[1]);
                 formValue.setSubmitIP(ip);
                 formValue.setBrowser(clientMsg[0]);
                 formValue.setAuthor(username);
                 formValue.setLastModifyPerson(username);
+                formValue.setLastModifyTime(now);
                 formValue.setCreateTime(now);
                 formValue.setForm(formId);
                 formValue.setValue(JSON.toJSON(values).toString());

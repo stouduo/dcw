@@ -1,5 +1,6 @@
 package com.stouduo.dcw.controller;
 
+import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.stouduo.dcw.domain.User;
 import com.stouduo.dcw.service.MailRecordService;
 import com.stouduo.dcw.service.SMSService;
@@ -16,15 +17,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.imageio.ImageIO;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -41,28 +44,64 @@ public class UserController extends BaseController {
     private SMSService smsService;
     @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired
+    private DefaultKaptcha defaultKaptcha;
 
     @PostMapping("/signup/info")
-    public String getEmail(HttpSession session, String tel, String email, Model model) {
+    public String getEmail(HttpSession session, String captchaCode, String username, Model model) {
         try {
-            if (StringUtils.isEmpty(email) && StringUtils.isEmpty(tel))
-                return error("发送失败！", model);
-            if (!StringUtils.isEmpty(email)) {
-                mailRecordService.sendEmail(email);
-                session.setAttribute("email", email);
+            String captcha = (String) session.getAttribute("captcha");
+            if (StringUtils.isEmpty(captchaCode) || !captcha.equals(captchaCode)) {
+                model.addAttribute("msg", "验证码错误");
+                return "register";
             }
-            if (!StringUtils.isEmpty(tel)) {
-                Object[] codeInfo = smsService.sendSms(tel);
+            if (StringUtils.isEmpty(username))
+                return error("发送失败！", model);
+            if (username.indexOf('@') != -1) {
+                mailRecordService.sendEmail(username);
+                session.setAttribute("email", username);
+                model.addAttribute("mail", "mail." + username.substring(username.indexOf('@') + 1, username.length()));
+            } else {
+                Object[] codeInfo = smsService.sendSms(username);
                 int code = (int) codeInfo[0];
                 if (code == -1) return error("发送失败！", model);
                 session.setAttribute("code", codeInfo);
-                session.setAttribute("tel", tel);
+                session.setAttribute("tel", username);
             }
-            return "/signup";
+            return "waiting";
         } catch (Exception e) {
             e.printStackTrace();
             return error("发送失败！", model);
         }
+    }
+
+    @RequestMapping("/captcha")
+    public void captcha(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        byte[] captchaChallengeAsJpeg = null;
+        ByteArrayOutputStream jpegOutputStream = new ByteArrayOutputStream();
+        try {
+            //生产验证码字符串并保存到session中
+            String createText = defaultKaptcha.createText();
+            request.getSession().setAttribute("captcha", createText);
+            //使用生产的验证码字符串返回一个BufferedImage对象并转为byte写入到byte数组中
+            BufferedImage challenge = defaultKaptcha.createImage(createText);
+            ImageIO.write(challenge, "jpg", jpegOutputStream);
+        } catch (IllegalArgumentException e) {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+
+        //定义response输出类型为image/jpeg类型，使用response输出流输出图片的byte数组
+        captchaChallengeAsJpeg = jpegOutputStream.toByteArray();
+        response.setHeader("Cache-Control", "no-store");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
+        response.setContentType("image/jpeg");
+        ServletOutputStream responseOutputStream =
+                response.getOutputStream();
+        responseOutputStream.write(captchaChallengeAsJpeg);
+        responseOutputStream.flush();
+        responseOutputStream.close();
     }
 
     @GetMapping("/signup/validInfo")
@@ -73,8 +112,10 @@ public class UserController extends BaseController {
 
     @GetMapping("/signup/reSend")
     @ResponseBody
-    public RestResult<User> reSend(HttpSession session, String tel, String email) {
+    public RestResult<User> reSend(HttpSession session) {
         try {
+            String email = (String) session.getAttribute("email");
+            String tel = (String) session.getAttribute("tel");
             if (!StringUtils.isEmpty(email)) {
                 mailRecordService.sendEmail(email);
             }
@@ -90,11 +131,11 @@ public class UserController extends BaseController {
         return restSuccess("发送成功");
     }
 
-    @GetMapping("/signup/verify")
+    @RequestMapping(value = "/signup/verify", method = {RequestMethod.GET, RequestMethod.POST})
     public String verify(Model model, String token, String code, HttpSession session) {
         if (!StringUtils.isEmpty(code)) {
             Object[] codeInfo = (Object[]) session.getAttribute("code");
-            if (codeInfo != null && codeInfo[0].equals(code)) {
+            if (codeInfo != null && codeInfo[0].toString().equals(code)) {
                 GregorianCalendar gc = new GregorianCalendar();
                 gc.setTime(new Date());
                 gc.add(GregorianCalendar.MINUTE, -5);
