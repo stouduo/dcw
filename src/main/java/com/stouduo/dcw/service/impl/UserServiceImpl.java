@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
@@ -30,7 +31,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public boolean save(User user) {
-        if (userRepository.findByUsername(user.getUsername()) != null)
+        String tel = user.getTel(), email = user.getEmail();
+        if (userRepository.findByUsernameOrTelOrEmail(user.getUsername(), StringUtils.isEmpty(tel) ? "" : tel, StringUtils.isEmpty(email) ? "" : email).size() > 0)
             return false;
         if (StringUtils.isEmpty(user.getRoles()))
             user.setRoles(Const.ROLE_USER);
@@ -72,7 +74,7 @@ public class UserServiceImpl implements UserService {
         }
         if (!StringUtils.isEmpty(oldPwd)) {
             if (temp.getPassword().equals(MD5Util.encode(oldPwd)) && user.getPassword().equals(confirmPwd)) {
-                temp.setPassword(MD5Util.encode(temp.getPassword()));
+                temp.setPassword(MD5Util.encode(user.getPassword()));
             }
         }
         userRepository.save(temp);

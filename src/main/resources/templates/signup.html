@@ -1,75 +1,176 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <meta charset="UTF-8">
-    <title>注册</title>
-    <link rel="icon" href="" type="img/x-ico"><!-- >href可以放title左边的图标<-->
-    <link th:href="@{/css/main.css}" type="text/css" rel="stylesheet">
-    <link media="all" rel="stylesheet" th:href="@{/layui/css/layui.css}"/>
-    <script type="application/javascript" th:src="@{/js/jquery-3.2.1.min.js}"></script>
-    <script type="application/javascript" th:src="@{/layui/layui.js}"></script>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>欢迎注册</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <style type="text/css">
+        body {
+            background-color: #F5F7FA;
+        }
+
+        #wrap {
+            width: 800px;
+            margin: auto;
+            margin-top: 50px;
+        }
+
+        .title {
+            font-size: 30px;
+            color: #FD8533;
+            text-align: center;
+        }
+
+        .form-container {
+            width: 400px;
+            height: 370px;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 0 12px #E0E0E0;
+            margin: auto;
+        }
+
+        .sub-title {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 200;
+            font-family: "微软雅黑";
+            box-shadow: 0 0 8px #E0E0E0;
+        }
+
+        .form-container > div {
+            padding: 25px;
+        }
+
+        .form-item {
+            padding-bottom: 25px;
+        }
+
+        .form-item label {
+            line-height: 35px;
+            font-weight: bold;
+        }
+
+        .form-item input {
+            width: 100%;
+            padding-left: 10px;
+            line-height: 40px;
+            border-radius: 5px;
+            border: 1px solid #CCCCCC;
+            background-color: #FAFFBD;
+        }
+
+        .form-item input[type="submit"] {
+            background-color: #009AFF;
+            color: #fff;
+            font-size: larger;
+            border: none;
+        }
+
+        .form-item input[type="submit"]:hover {
+            cursor: pointer;
+            background-color: #00A9F1;
+            transition: background-color 0.3s;
+        }
+
+        .foot {
+            width: 400px;
+            line-height: 30px;
+            text-align: center;
+            font-size: 14px;
+            margin: auto;
+        }
+
+        .foot a {
+            color: #009AFF;
+            -moz-transition: color 0.5s;
+            /* Firefox 4 */
+            -webkit-transition: color 0.5s;
+            /* Safari 和 Chrome */
+            -o-transition: color 0.5s;
+        }
+
+        .foot a:hover {
+            color: blue;
+        }
+
+        .msg {
+            color: red;
+            font-family: "微软雅黑";
+            font-size: 12px;
+            padding-top: 5px;
+            display: block;
+        }
+    </style>
 </head>
+
 <body>
-<div class="nav">
-    <div id="login-box">
-        <form class="layui-form" th:action="@{/user/signup}" method="post">
-            <div class="login">
-                <div class="title">注册</div>
-                <div class="content">
-                    <div class="login-text item">
-                        <label class="name">用户名</label>
-                        <input class="value phone-email" placeholder="请输入用户名"
-                               autocomplete="off" lay-verify="required|username" name="username" type="text">
-                    </div>
-                    <div class="login-text item">
-                        <label class="name">请输入密码</label>
-                        <input class="value password" lay-verify="required|password" placeholder="请输入密码"
-                               autocomplete="off"
-                               name="password" type="password">
-                    </div>
-                    <div class="err item">
-                        <p class="err-pe" th:if="${user}" th:errors="${user.username}"></p>
+<div id="wrap">
+    <header>
+        <h1 class="title line-height-60">欢迎使用</h1>
+    </header>
+    <div class="form-container border-box">
+        <h3 class="sub-title line-height-50">注册</h3>
 
-                        <p class="err-pe" th:if="${user}" th:errors="${user.password}"></p>
+        <p class="rtip txt-center" th:if="${not #strings.isEmpty(session.email)}" th:text="${session.email}"></p>
 
-                        <p class="err-pe" th:if="${error}">用户名已存在</p>
-                    </div>
-                    <input class="btn register-btn" type="submit" lay-submit="" value="开启账号"/>
+        <p class="rtip txt-center" th:if="${not #strings.isEmpty(session.tel)}" th:text="${session.tel}"></p>
+
+        <div>
+            <form th:action="@{/user/signup}" method="post">
+                <div class="form-item">
+                    <label for="username">用户名</label>
+                    <br/>
+                    <input type="text" required="required" name="username" id="username" class="border-box"
+                           placeholder="用户名不能有特殊字符，且不能全为数字"/>
+
+                    <p id="uerr" class="msg">
+                    </p>
                 </div>
-            </div>
-        </form>
+                <div class="form-item">
+                    <label for="password">密码</label>
+                    <br/>
+                    <input type="password" required="required" name="password" id="password" class="border-box"
+                           placeholder="密码必须6到20位，且不能出现空格"/>
+
+                    <p id="perr" class="error msg">
+                        <span th:if="${user}" th:errors="${user.username}"></span>
+                        <span th:if="${user}" th:errors="${user.password}"></span>
+                        <span th:if="${error}">用户名已存在</span>
+                    </p>
+                </div>
+                <div class="form-item">
+                    <input id="login" class="btn-submit" type="submit" value="注册"/>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="foot">
+        <a th:href="@{/login}">已有账号？点此登陆</a>
     </div>
 </div>
-<script th:inline="javascript">
-    $(function () {
-        var error = [[${error}]], user = [[${user}]];
-        if (error || user) {
-            $('.err').show();
-        }
-        layui.use('form', function () {
-            var form = layui.form;
-            form.verify({
-                username: function (value, item) { //value：表单的值、item：表单的DOM对象
-                    if (!new RegExp("^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$").test(value)) {
-                        return '用户名不能有特殊字符';
-                    }
-                    if (/(^\_)|(\__)|(\_+$)/.test(value)) {
-                        return '用户名首尾不能出现下划线\'_\'';
-                    }
-                    if (/^\d+\d+\d$/.test(value)) {
-                        return '用户名不能全为数字';
-                    }
-                }
-
-                //我们既支持上述函数式的方式，也支持下述数组的形式
-                //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
-                , password: [
-                    /^[\S]{6,12}$/
-                    , '密码必须6到12位，且不能出现空格'
-                ]
-            });
+<script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    (function () {
+        $('input').focus(function () {
+            $('#perr').hide();
         });
-    });
+        $('#login').click(function () {
+            var a, b, username, password;
+            username = $('#username').val(), password = $('#password').val();
+            a = /^[a-zA-Z0-9_\u4e00-\u9fa5\\s·]+$/.test(username) && !/^\d+\d+\d$/.test(username) && !/(^\_)|(\__)|(\_+$)/.test(username);
+            b = /^[\S]{6,12}$/.test(password);
+            var html = (!a ? "用户名格式不正确" : "") + (!a && !b ? "," : "") + (!b ? "密码格式不正确" : "");
+            if (!a || !b) {
+                $('#perr').html(html);
+                $('#perr').show();
+            }
+            return a && b;
+        })
+    }());
 </script>
 </body>
 </html>

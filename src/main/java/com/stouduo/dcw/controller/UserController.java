@@ -167,7 +167,7 @@ public class UserController extends BaseController {
         String accessUsername = StringUtils.isEmpty(email) ? tel : email;
         if (!userService.save(user)) {
             model.addAttribute("error", true);
-            return "/signup";
+            return "signup";
         }
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(accessUsername, user.getPassword());
         token.setDetails(userDetailsService.loadUserByUsername(accessUsername));
@@ -227,8 +227,8 @@ public class UserController extends BaseController {
 
 
     @PostMapping("/editUser")
-    public String editUser(User user, String oldPwd, String confirmPwd) {
-        userService.editUser(user, oldPwd, confirmPwd);
+    public String editUser(User user, String oldPwd, String newPwd) {
+        userService.editUser(user, oldPwd, newPwd);
         return "redirect:/user/userInfo";
     }
 
