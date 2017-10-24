@@ -5,6 +5,7 @@ import com.stouduo.dcw.service.FormValueService;
 import com.stouduo.dcw.util.ExcelException;
 import com.stouduo.dcw.util.RestResult;
 import com.stouduo.dcw.vo.FormValueRestVO;
+import freemarker.template.utility.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -17,12 +18,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
+import org.thymeleaf.util.DateUtils;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 
 @Controller
 @RequestMapping("/formValue")
@@ -59,7 +62,7 @@ public class FormValueController extends BaseController {
     @ResponseBody
     public FormValueRestVO formDatas(@RequestParam(defaultValue = "") String content, String formId, @RequestParam(defaultValue = "1970-01-01 00:00:00") String startTime, String endTime, @RequestParam(defaultValue = "0") int asc, @RequestParam(defaultValue = "15") int pageSize, @RequestParam(defaultValue = "1") int curPage) {
         try {
-            return formValueService.formDatas(formId, content, startTime, StringUtils.isEmpty(endTime) ? new Date() : new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(endTime), asc, pageSize, curPage - 1);
+            return formValueService.formDatas(formId, content, startTime, StringUtils.isEmpty(endTime) ? new Date() : sdf.parse(endTime), asc, pageSize, curPage - 1);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -74,10 +77,12 @@ public class FormValueController extends BaseController {
         return "pages/formValue";
     }
 
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     @GetMapping("/outport")
     public void outport(@RequestParam(defaultValue = "") String content, String formId, @RequestParam(defaultValue = "1970-01-01 00:00:00") String startTime, String endTime, @RequestParam(defaultValue = "0") int asc, @RequestParam(defaultValue = "0") int pageSize, @RequestParam(defaultValue = "0") int curPage) {
         try {
-            formValueService.outport(formId, content, startTime, StringUtils.isEmpty(endTime) ? new Date() : new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(endTime), asc, pageSize, curPage - 1);
+            formValueService.outport(formId, content, startTime, StringUtils.isEmpty(endTime) ? new Date() : sdf.parse(endTime), asc, pageSize, curPage - 1);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -97,4 +102,24 @@ public class FormValueController extends BaseController {
         return restSuccess("导入成功");
     }
 
+    @PostMapping("/uploadImgs")
+    @ResponseBody
+    public RestResult<List<Map<String, String>>> uploadImgs(MultipartFile[] files, HttpServletRequest request) {
+        List<Map<String, String>> imgs = new ArrayList<>();
+        Map<String, String> img;
+        String filename, filepath, basepath = request.getContextPath() + "/uploadfiles/" +sdf.format(new Date()).substring(0,9);
+        try {
+            for (MultipartFile file : files) {
+                filename = file.getName();
+                filepath = basepath + file.getOriginalFilename();
+                file.transferTo(new File(filepath));
+                img = new HashMap<>();
+                img.put(filepath, filename);
+                imgs.add(img);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new RestResult<>().setData(imgs);
+    }
 }

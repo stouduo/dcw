@@ -26,3 +26,14 @@ function parseParam(param, key) {
     }
     return paramStr.substr(1);
 };
+
+DCW = {
+    singlemat: {
+        encoder: function () {
+
+        }
+    },
+    mattext: {},
+    multiselected: {},
+    uploadfile: {}
+}

@@ -244,8 +244,9 @@
                     </div>
                     <div class="layui-col-md3">
                         <div class="grid-demo">
-                            <a th:href="@{'/formValue/myFormData/'+${formDetail.form.id}(today=today)}"> <span class="number"
-                                                                                                  th:text="${formDetail.todaySubmitCount}">1</span>
+                            <a th:href="@{'/formValue/myFormData/'+${formDetail.form.id}(today=today)}"> <span
+                                    class="number"
+                                    th:text="${formDetail.todaySubmitCount}">1</span>
 
                                 <p>今日提交<i class="layui-icon">
                                     &#xe60b;</i></p></a>
@@ -380,7 +381,8 @@
                     <div class="layui-col-md10">
                         <div class="grid-demo grid-demo-bg1">
                             <span>最近提交表单数据</span>
-                            <a th:href="@{'/formValue/myFormData/'+${formDetail.form.id}}" style="color: #007DDB;">查看更多</a>
+                            <a th:href="@{'/formValue/myFormData/'+${formDetail.form.id}}"
+                               style="color: #007DDB;">查看更多</a>
                         </div>
                     </div>
                     <div class="layui-col-md2 g-right">
@@ -433,8 +435,7 @@
     for (var i = 0; i < data.length; i++) {
         value = JSON.parse(data[i].value);
         delete data[i].value;
-        tempform = {};
-        $.extend(tempform, value, data[i]);
+        tempform = $.extend({}, value, data[i]);
         tempform.createTime = new Date(tempform.createTime).Format('yyyy-MM-dd HH:mm:ss');
         tempform.lastModifyTime = new Date(tempform.lastModifyTime).Format('yyyy-MM-dd HH:mm:ss');
         formData.push(tempform);
