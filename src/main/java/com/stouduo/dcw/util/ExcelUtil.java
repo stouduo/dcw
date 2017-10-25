@@ -303,6 +303,7 @@ public class ExcelUtil {
             String ip = ControllerUtil.getIpAddress();
             String username = SecurityUtil.getUsername();
             Date now = new Date();
+            Cell author, creatTime, os, lastModifyPerson, browser, submitIP, lastModifyTime;
             for (int i = 1; i < realRows; i++) {
                 //新建要转换的对象
                 formValue = new FormValue();
@@ -310,18 +311,25 @@ public class ExcelUtil {
                 for (String fieldName : fieldNames) {
                     //根据中文字段名获取列号
                     //获取当前单元格中的内容
-                    fieldValue = sheet.getCell(colMap.get(fieldName), i).getContents().toString().trim();
+                    fieldValue = sheet.getCell(colMap.get(fieldName), i).getContents().trim();
                     values.put(fieldName, fieldValue);
                     //给对象赋值
                     // setFieldValueByName(enNormalName, content, entity);
                 }
-                 formValue.setOs(clientMsg[1]);
-                formValue.setSubmitIP(ip);
-                formValue.setBrowser(clientMsg[0]);
-                formValue.setAuthor(username);
-                formValue.setLastModifyPerson(username);
-                formValue.setLastModifyTime(now);
-                formValue.setCreateTime(now);
+                author = sheet.getCell(colMap.get("提交人"), i);
+                creatTime = sheet.getCell(colMap.get("提交时间"), i);
+                os = sheet.getCell(colMap.get("操作系统"), i);
+                browser = sheet.getCell(colMap.get("浏览器"), i);
+                lastModifyPerson = sheet.getCell(colMap.get("修改人"), i);
+                lastModifyTime = sheet.getCell(colMap.get("修改时间"), i);
+                submitIP = sheet.getCell(colMap.get("IP"), i);
+                formValue.setOs(os != null ? os.getContents().trim() : clientMsg[1]);
+                formValue.setSubmitIP(submitIP != null ? submitIP.getContents().trim() : ip);
+                formValue.setBrowser(browser != null ? browser.getContents().trim() : clientMsg[0]);
+                formValue.setAuthor(author != null ? author.getContents().trim() : username);
+                formValue.setLastModifyPerson(lastModifyPerson != null ? lastModifyPerson.getContents().trim() : username);
+                formValue.setLastModifyTime(creatTime != null ? sdf.parse(creatTime.getContents()) : now);
+                formValue.setCreateTime(lastModifyTime != null ? sdf.parse(lastModifyTime.getContents()) : now);
                 formValue.setForm(formId);
                 formValue.setValue(JSON.toJSON(values).toString());
                 values.clear();
@@ -342,8 +350,7 @@ public class ExcelUtil {
         return resultList;
     }
 
-
-
+ private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     /*<-------------------------辅助的私有方法----------------------------------------------->*/
 
     /**

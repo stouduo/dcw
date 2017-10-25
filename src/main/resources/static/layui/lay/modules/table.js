@@ -798,9 +798,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
     }).on('click','tr',function (e) {
         if(!e.isCheckBox){
             var index = $(this).index();
-            layui.event.call(this,MOD_NAME,'col('+filter+')',{
-                data:table.cache[index]
-            });
+            layui.event.call(this,MOD_NAME,'col('+filter+')',table.cache[that.key][index]);
         }
     });
 

@@ -291,9 +291,1350 @@
 <div class="lay-hide layui-form layui-form-item" id="showCol">
 </div>
 
-<form class="lay-hide layui-form layui-form-item" id="addData">
-</form>
+<form class="lay-hide layui-form layui-form-item" id="editData">
+    <div class="layui-row">
+        <div class="layui-col-xs8">
+            <div class="grid-demo">
+                <!--表单放这-->
+                <section class="formEditorView">
+                    <div class="form-container">
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    业务员（不用填写）
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" name="业务员" readonly="readonly" class="layui-input"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    姓名<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" name="姓名" lay-verify="required" class="layui-input"/>
+                                </div>
+                            </div>
 
+                        </div>
+
+                        <div class="new-line">
+                            <!--下拉框-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    性别<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                            描述
+                                        </div>-->
+                                <div class="layui-inline layui-row layui-col-md4">
+                                    <select name="性别" lay-verify="required">
+                                        <option value="">请选择</option>
+                                        <option value="男">男</option>
+                                        <option value="女">女</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    出生日期<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" lay-verify="required" name="出生日期"
+                                           id="birthday"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    学历<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" name="学历" class="layui-input"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    户籍省份<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" lay-verify="required" name="户籍省份"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    芝麻信用分<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" lay-verify="required" name="芝麻信用分"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    jie dai bao 负债（要准假，如有虚假一律拒放）<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" lay-verify="required"
+                                           name="jie dai bao 负债（要准假，如有虚假一律拒放）"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    负面记录（有或无）<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" lay-verify="required" name="负面记录（有或无）"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    身份证号码<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" lay-verify="required|identity" name="身份证号码"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    身份证地址
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" lay-verify="required" name="身份证地址"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--两级下拉框-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    现居地址<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                            描述
+                                        </div>-->
+                                <div class="layui-inline layui-row layui-col-md3">
+                                    <select name="现居地址_province" lay-verify="required">
+                                        <option value="">省/自治区/直辖市</option>
+                                    </select>
+                                </div>
+                                <div class="layui-inline layui-row layui-col-md3">
+                                    <select name="现居地址_city" lay-verify="required">
+                                        <option value="">市</option>
+                                    </select>
+                                </div>
+                                <div class="layui-inline layui-row layui-col-md3">
+                                    <select name="现居地址_area" lay-verify="required">
+                                        <option value="">区/县</option>
+                                    </select>
+                                </div>
+                                <div class="layui-row layui-col-md12">
+                                    <input type="text" name="现居地址_detail" lay-verify="required" class="layui-input"
+                                           placeholder="请输入详细地址"/>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    地理位置<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6" style="text-align: left;margin-bottom: 10px;">
+                                    <button type="text" onclick="getLocation()" class="layui-btn layui-btn-normal">
+                                        &#xe604;获取地理位置
+                                    </button>
+                                </div>
+                                <div id="myMap" class="layui-col-md12" style="height: 200px;"></div>
+                                <div class="layui-row layui-col-md12">
+                                    <input type="text" disabled="disabled" class="layui-input" lay-verify="required"
+                                           placeholder="点击按钮自动获取" name="地理位置"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    本人实名手机<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="本人实名手机" lay-verify="required"/>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    号码归属地<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="号码归属地" lay-verify="required"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--下拉框-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    手机运营商<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                            描述
+                                        </div>-->
+                                <div class="layui-inline layui-row layui-col-md4">
+                                    <select name="手机运营商" lay-verify="required">
+                                        <option value="">请选择</option>
+                                        <option value="中国移动">中国移动</option>
+                                        <option value="中国电信">中国电信</option>
+                                        <option value="中国联通">中国联通</option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    实名手机使用时间（多少年）<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="实名手机使用时间（多少年）" lay-verify="required"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    手机平均消费（多少元）<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="手机平均消费（多少元）" lay-verify="required"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    实名手机服务mi ma<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="实名手机服务mi ma" lay-verify="required"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    QQ号<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="QQ号" lay-verify="required"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    微信号<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="微信号" lay-verify="required"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    支付宝号<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="支付宝号" lay-verify="required"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    借贷宝号<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="借贷宝号" lay-verify="required"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    单位名称（没有填个人）<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="单位名称（没有填个人）" lay-verify="required"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    单位电话<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="单位电话" lay-verify="required"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--两级下拉框-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    单位地址<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                            描述
+                                        </div>-->
+                                <div class="layui-inline layui-row layui-col-md3">
+                                    <select name="单位地址_province" lay-verify="required">
+                                        <option value="">省/自治区/直辖市</option>
+                                    </select>
+                                </div>
+                                <div class="layui-inline layui-row layui-col-md3">
+                                    <select name="单位地址_city" lay-verify="required">
+                                        <option value="">市</option>
+                                    </select>
+                                </div>
+                                <div class="layui-inline layui-row layui-col-md3">
+                                    <select name="单位地址_area" lay-verify="required">
+                                        <option value="">区/县</option>
+                                    </select>
+                                </div>
+                                <div class="layui-row layui-col-md12">
+                                    <input type="text" name="单位地址_detail" lay-verify="required" class="layui-input"
+                                           placeholder="请输入详细地址"/>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    职位/工种<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="职位/工种" lay-verify="required"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    月收入（多少元）<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="职位/工种" lay-verify="required"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    单位电话<span style="color: red;">*</span>
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="单位电话" lay-verify="required"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    爸爸姓名
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="爸爸姓名"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    爸爸手机号
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="爸爸手机号" lay-verify="phone"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    妈妈姓名
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="妈妈姓名"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    妈妈手机号
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="妈妈手机号" lay-verify="phone"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--单行文字-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    配偶姓名
+                                </div>
+                                <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        </div>-->
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="配偶姓名"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    配偶手机号
+                                </div>
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="配偶手机号" lay-verify="phone"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    同事姓名<span style="color: red;">*</span>
+                                </div>
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="同事姓名" lay-verify="required"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    同事手机号<span style="color: red;">*</span>
+                                </div>
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="同事手机号" lay-verify="required|phone"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    亲属姓名<span style="color: red;">*</span>
+                                </div>
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="亲属姓名" lay-verify="required"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    亲属关系<span style="color: red;">*</span>
+                                </div>
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="亲属关系" lay-verify="required"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    亲属手机号<span style="color: red;">*</span>
+                                </div>
+                                <div class="layui-row layui-col-md6">
+                                    <input type="text" class="layui-input" name="亲属手机号" lay-verify="required|phone"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="new-line">
+                            <!--多项选择-->
+                            <div class="layui-form-item">
+                                <div class="layui-row layui-col-md12 text-left field-name">
+                                    如有以下资产，请勾选1-4项<span style="color:red;">*</span>
+                                </div>
+                                <div class="layui-row layui-col-md12 text-left">
+                                    <input type="checkbox" name="如有以下资产，请勾选" value="车" title="车">
+                                    <br/>
+                                    <input type="checkbox" name="如有以下资产，请勾选" value="房" title="房">
+                                    <br/>
+                                    <input type="checkbox" name="如有以下资产，请勾选" value="信用卡" title="信用卡">
+                                    <br/>
+                                    <input type="checkbox" name="如有以下资产，请勾选" value="征信报告" title="征信报告">
+                                    <br/>
+                                    <input type="checkbox" name="如有以下资产，请勾选" value="无" title="无">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <div class="layui-col-xs4">
+            <div class="grid-demo grid-demo-bg2 ">提交人：<span class="other" name="提交人"></span></div>
+            <div class="grid-demo grid-demo-bg2 ">提交时间：<span class="other" name="提交时间"></span></div>
+            <div class="grid-demo grid-demo-bg2 ">修改人：<span class="other" name="修改人"></span></div>
+            <div class="grid-demo grid-demo-bg2 ">修改时间：<span class="other" name="修改时间"></span></div>
+            <div class="grid-demo grid-demo-bg2 ">浏览器：<span class="other" name="浏览器"></span></div>
+            <div class="grid-demo grid-demo-bg2 ">操作系统：<span class="other" name="操作系统"></span></div>
+            <div class="grid-demo grid-demo-bg2 ">IP：<span class="other" name="IP"></span></div>
+        </div>
+    </div>
+</form>
+<form class="lay-hide layui-form layui-form-item" id="addData">
+    <div class="layui-row">
+        <div class="grid-demo">
+            <!--表单放这-->
+            <section class="formEditorView">
+                <div class="form-container">
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                业务员（不用填写）
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" name="业务员" readonly="readonly" class="layui-input"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                姓名<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" name="姓名" lay-verify="required" class="layui-input"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--下拉框-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                性别<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        描述
+                                    </div>-->
+                            <div class="layui-inline layui-row layui-col-md4">
+                                <select name="性别" lay-verify="required">
+                                    <option value="">请选择</option>
+                                    <option value="男">男</option>
+                                    <option value="女">女</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                出生日期<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" lay-verify="required" name="出生日期" id="birthday"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                学历<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" name="学历" class="layui-input"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                户籍省份<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" lay-verify="required" name="户籍省份"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                芝麻信用分<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" lay-verify="required" name="芝麻信用分"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                jie dai bao 负债（要准假，如有虚假一律拒放）<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" lay-verify="required"
+                                       name="jie dai bao 负债（要准假，如有虚假一律拒放）"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                负面记录（有或无）<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" lay-verify="required" name="负面记录（有或无）"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                身份证号码<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" lay-verify="required|identity" name="身份证号码"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                身份证地址
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" lay-verify="required" name="身份证地址"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--两级下拉框-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                现居地址<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        描述
+                                    </div>-->
+                            <div class="layui-inline layui-row layui-col-md3">
+                                <select name="现居地址_province" lay-verify="required">
+                                    <option value="">省/自治区/直辖市</option>
+                                </select>
+                            </div>
+                            <div class="layui-inline layui-row layui-col-md3">
+                                <select name="现居地址_city" lay-verify="required">
+                                    <option value="">市</option>
+                                </select>
+                            </div>
+                            <div class="layui-inline layui-row layui-col-md3">
+                                <select name="现居地址_area" lay-verify="required">
+                                    <option value="">区/县</option>
+                                </select>
+                            </div>
+                            <div class="layui-row layui-col-md12">
+                                <input type="text" name="现居地址_detail" lay-verify="required" class="layui-input"
+                                       placeholder="请输入详细地址"/>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                地理位置<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6" style="text-align: left;margin-bottom: 10px;">
+                                <button type="text" onclick="getLocation()" class="layui-btn layui-btn-normal">
+                                    &#xe604;获取地理位置
+                                </button>
+                            </div>
+                            <div id="myMap" class="layui-col-md12" style="height: 200px;"></div>
+                            <div class="layui-row layui-col-md12">
+                                <input type="text" disabled="disabled" class="layui-input" lay-verify="required"
+                                       placeholder="点击按钮自动获取" name="地理位置"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                本人实名手机<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="本人实名手机" lay-verify="required"/>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                号码归属地<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="号码归属地" lay-verify="required"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--下拉框-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                手机运营商<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        描述
+                                    </div>-->
+                            <div class="layui-inline layui-row layui-col-md4">
+                                <select name="手机运营商" lay-verify="required">
+                                    <option value="">请选择</option>
+                                    <option value="中国移动">中国移动</option>
+                                    <option value="中国电信">中国电信</option>
+                                    <option value="中国联通">中国联通</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                实名手机使用时间（多少年）<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="实名手机使用时间（多少年）" lay-verify="required"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                手机平均消费（多少元）<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="手机平均消费（多少元）" lay-verify="required"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                实名手机服务mi ma<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="实名手机服务mi ma" lay-verify="required"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                QQ号<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="QQ号" lay-verify="required"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                微信号<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="微信号" lay-verify="required"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                支付宝号<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="支付宝号" lay-verify="required"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                借贷宝号<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="借贷宝号" lay-verify="required"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                单位名称（没有填个人）<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="单位名称（没有填个人）" lay-verify="required"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                单位电话<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="单位电话" lay-verify="required"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--两级下拉框-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                单位地址<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                        描述
+                                    </div>-->
+                            <div class="layui-inline layui-row layui-col-md3">
+                                <select name="单位地址_province" lay-verify="required">
+                                    <option value="">省/自治区/直辖市</option>
+                                </select>
+                            </div>
+                            <div class="layui-inline layui-row layui-col-md3">
+                                <select name="单位地址_city" lay-verify="required">
+                                    <option value="">市</option>
+                                </select>
+                            </div>
+                            <div class="layui-inline layui-row layui-col-md3">
+                                <select name="单位地址_area" lay-verify="required">
+                                    <option value="">区/县</option>
+                                </select>
+                            </div>
+                            <div class="layui-row layui-col-md12">
+                                <input type="text" name="单位地址_detail" lay-verify="required" class="layui-input"
+                                       placeholder="请输入详细地址"/>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                职位/工种<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="职位/工种" lay-verify="required"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                月收入（多少元）<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="职位/工种" lay-verify="required"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                单位电话<span style="color: red;">*</span>
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="单位电话" lay-verify="required"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                爸爸姓名
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="爸爸姓名"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                爸爸手机号
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="爸爸手机号" lay-verify="phone"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                妈妈姓名
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="妈妈姓名"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                妈妈手机号
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="妈妈手机号" lay-verify="phone"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--单行文字-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                配偶姓名
+                            </div>
+                            <!--<div class="layui-row layui-col-md12 text-left field-desc">
+                                    </div>-->
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="配偶姓名"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                配偶手机号
+                            </div>
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="配偶手机号" lay-verify="phone"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                同事姓名<span style="color: red;">*</span>
+                            </div>
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="同事姓名" lay-verify="required"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                同事手机号<span style="color: red;">*</span>
+                            </div>
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="同事手机号" lay-verify="required|phone"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                亲属姓名<span style="color: red;">*</span>
+                            </div>
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="亲属姓名" lay-verify="required"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                亲属关系<span style="color: red;">*</span>
+                            </div>
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="亲属关系" lay-verify="required"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                亲属手机号<span style="color: red;">*</span>
+                            </div>
+                            <div class="layui-row layui-col-md6">
+                                <input type="text" class="layui-input" name="亲属手机号" lay-verify="required|phone"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="new-line">
+                        <!--多项选择-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left field-name">
+                                如有以下资产，请勾选1-4项<span style="color:red;">*</span>
+                            </div>
+                            <div class="layui-row layui-col-md12 text-left">
+                                <input type="checkbox" name="如有以下资产，请勾选" value="车" title="车">
+                                <br/>
+                                <input type="checkbox" name="如有以下资产，请勾选" value="房" title="房">
+                                <br/>
+                                <input type="checkbox" name="如有以下资产，请勾选" value="信用卡" title="信用卡">
+                                <br/>
+                                <input type="checkbox" name="如有以下资产，请勾选" value="征信报告" title="征信报告">
+                                <br/>
+                                <input type="checkbox" name="如有以下资产，请勾选" value="无" title="无">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</form>
 <!-- Change /upload-target to your upload address -->
 <div id="excel" class="lay-hide dropzone" style=" border: 2px dashed #0087F7;
             border-radius: 5px;
@@ -311,6 +1652,7 @@
         <input type="text" class="layui-input" id="datetime" placeholder=" - ">
     </div>
 </div>
+
 <script id="showCols" type="text/html">
     <div class="layui-form-item" pane="">
         <ul class="layui-input-block showtips">
@@ -324,621 +1666,54 @@
         </ul>
     </div>
 </script>
-
-<script type="text/html" id="singletext">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--单行文字-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')!=-1){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <div class="layui-row layui-col-md6">
-                {{#if(d.default){}}
-                <div type="text" class="layui-input"></div>
-                {{#}else{}}
-                <input type="text" name="{{d.name}}" lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
-                       class="layui-input">
-                {{#}}}
-            </div>
-        </div>
-        {{#if(d.default){}}
-        <div class="fn-area">
-            <i class="layui-icon ele-copy">&#xe60a;</i>
-            <i class="layui-icon ele-del">&#xe640;</i>
-        </div>
-        {{#}}}
-    </div>
-</script>
-<script type="text/html" id="multitext">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--多行文字-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <div class="layui-row layui-col-md12">
-                {{#if(d.default){}}
-                <div type="text" class="layui-textarea"></div>
-                {{#}else{}}
-                <textarea class="layui-textarea" name="{{d.name}}" lay-verify="{{d.value.verify}}"
-                          value="{{d.value.value}}"></textarea>
-                {{#}}}
-            </div>
-        </div>
-        <div class="fn-area">
-            <i class="layui-icon ele-copy">&#xe60a;</i>
-            <i class="layui-icon ele-del">&#xe640;</i>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="singleselect">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--单项选择-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left">
-
-                {{#layui.each(d.value.radios,function(i,item){}}
-                {{#if(d.default){}}
-                <div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><span>{{item}}</span>
-                </div>
-                </br>
-                {{#}else{}}
-                <input type="radio" name="{{item.name}}" value="{{item.value}}" title="{{item.value}}"
-                       checked="{{item.checked}}">
-                <br/>
-                {{#}}}
-                {{#});}}
-            </div>
-        </div>
-        <div class="fn-area">
-            <i class="layui-icon ele-copy">&#xe60a;</i>
-            <i class="layui-icon ele-del">&#xe640;</i>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="multiselect">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--多项选择-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left">
-
-                {{#layui.each(d.value.checkboxs,function(i,item){}}
-                {{#if(d.default){}}
-                <div class="layui-unselect layui-form-checkbox " lay-skin=""><span>{{item}}</span><i class="layui-icon"></i>
-                </div>
-                <br/>
-                {{#}else{}}
-                <input type="checkbox" name="{{item.name}}" value="{{item.value}}" title="{{item.value}}"
-                       checked="{{item.checked}}">
-                <br/>
-                {{#}}}
-                {{#});}}
-            </div>
-        </div>
-        <div class="fn-area">
-            <i class="layui-icon ele-copy">&#xe60a;</i>
-            <i class="layui-icon ele-del">&#xe640;</i>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="singlepic">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--图片单选-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <!--有图片就把上面一段隐藏-->
-            <div class="layui-row layui-col-md12 text-left">
-
-                {{#layui.each(d.value.images,function(i,item){}}
-                {{#if(d.default){}}
-                <div class="layui-col-md3 redioimg">
-                    <label class="radio" style="display: block;">
-                        <div class="image-center"><img
-                                src="{{item.imgPath}}">
-                        </div>
-                        <div class="text-wrapper">
-                            <div class="layui-unselect layui-form-radio"><i
-                                    class="layui-anim layui-icon"></i><span>{{item.title}}</span></div>
-                        </div>
-                    </label>
-                </div>
-                {{#}else{}}
-                <div class="layui-col-md3 redioimg">
-                    <label class="radio" style="display: block;">
-                        <div class="image-center"><img
-                                src="{{item.imgPath}}">
-                        </div>
-                        <div class="text-wrapper">
-                            <div class="radio-button-wrapper">
-                                <input type="radio" name="{{item.name}}"
-                                       value="{{item.value}}"
-                                       title="{{item.title}}">
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                {{#}}}
-                {{#});}}
-            </div>
-        </div>
-    </div></script>
-<script type="text/html" id="multipic">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--图片多选-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-
-            <div class="layui-row layui-col-md12 text-left">
-
-                {{#layui.each(d.value.images,function(i,item){}}
-                {{#if(d.default){}}
-                <div class="layui-col-md3 redioimg">
-                    <label class="checkbox" style="display: block;">
-                        <div class="image-center"><img
-                                src="{{item.imgPath}}">
-                        </div>
-                        <div class="text-wrapper">
-                            <div class="checkbox-button-wrapper">
-                                <input type="checkbox" name="field[choices]"
-                                       value="1" title="{{item.title}}">
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                {{#}else{}}
-                <div class="layui-col-md3 redioimg">
-                    <label class="checkbox" style="display: block;">
-                        <div class="image-center"><img
-                                src="{{item.imgPath}}">
-                        </div>
-                        <div class="text-wrapper">
-                            <div class="checkbox-button-wrapper">
-                                <input type="checkbox" name="{{item.name}}"
-                                       value="{{item.value}}"
-                                       title="{{item.title}}">
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                {{#}}}
-                {{#});}}
-            </div>
-        </div>
-    </div>
-    </div></script>
-<script type="text/html" id="singlemat">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--矩阵单选-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-
-            <div class="gtable">
-                <table class="layui-table">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        {{#layui.each(d.value.table.thead.ths,function(i,th){}}
-                        <th>{{th.title}}</th>
-                        {{#});}}
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {{#layui.each(d.value.table.tbody.trs,function(i,tr){}}
-                    <tr>
-                        <td>{{tr.title}}</td>
-                        {{#layui.each(tr.tds,function(i,td){}}
-                        <td>
-                            {{#if(d.default){}}
-                            <div class="layui-unselect layui-form-radio"><i
-                                    class="layui-anim layui-icon"></i><span>{{td.title}}</span>
-                            </div>
-                            {{#}else{}}
-                            <input type="radio" name="{{td.name}}" value="{{td.value}}" title="{{td.title}}">
-                            {{#}}}
-                        </td>
-                        {{#});}}
-                    </tr>
-                    {{#});}}
-                    </tbody>
-
-                </table>
-            </div>
-        </div>
-    </div></script>
-<script type="text/html" id="mattext">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--矩阵填空-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <div class="gtable">
-                <table class="layui-table">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        {{#layui.each(d.value.table.thead.ths,function(i,th){}}
-                        <th>{{th.title}}</th>
-                        {{#});}}
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {{#layui.each(d.value.table.tbody.trs,function(i,tr){}}
-                    <tr>
-                        <td>{{tr.title}}</td>
-                        {{#layui.each(tr.tds,function(i,td){}}
-                        <td>
-                            {{#if(d.default){}}
-                            <div type="text" class="layui-input"></div>
-                            {{#}else{}}
-                            <input type="text" name="{{td.name}}" value="{{td.value}}" title="{{td.title}}">
-                            {{#}}}
-                        </td>
-                        {{#});}}
-                    </tr>
-                    {{#});}}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div></script>
-<script type="text/html" id="numberfield">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--123数字-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <div class="layui-inline layui-col-md12">
-                <div class="layui-input-inline">
-                    {{#if(d.default){}}
-                    <div type="text" class="layui-input"></div>
-                    {{#}else{}}
-                    <input type="text" name="{{d.name}}" lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
-                           class="layui-input">
-                    {{#}}}
-                </div>
-            </div>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="timepicker">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--时间-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <div class="layui-inline layui-row layui-col-md4">
-                {{#if(!d.default){}}
-                <select name="{{d.name}}" lay-verify="d.value.verify">
-                    <option value="">时</option>
-                    {{#for(var i=0;i<24;i++){}}
-                    {{#if(i<10) i='0'+i;}}
-                    <option value="{{i}}">{{i}}</option>
-                    {{#}}}
-                </select>
-                {{#}else{}}
-                <div class="layui-unselect layui-form-select">
-                    <div class="layui-select-title"><input type="text" placeholder="时" value="" readonly=""
-                                                           class="layui-input layui-unselect"><i class="layui-edge"></i>
-                    </div>
-                    <dl class="layui-anim layui-anim-upbit" style="">
-                        <dd lay-value="" class="layui-select-tips">时</dd>
-                    </dl>
-                </div>
-                {{#}}}
-            </div>
-            <div class="layui-inline layui-row layui-col-md4">
-                {{#if(!d.default){}}
-                <select name="{{d.name}}" lay-verify="d.value.verify">
-                    <option value="">分</option>
-                    {{#for(var i=0;i<60;i++){}}
-                    {{#if(i<10) i='0'+i;}}
-                    <option value="{{i}}">{{i}}</option>
-                    {{#}}}
-                </select>
-                {{#}else{}}
-                <div class="layui-unselect layui-form-select layui-form-selected">
-                    <div class="layui-select-title"><input type="text" placeholder="分" value="" readonly=""
-                                                           class="layui-input layui-unselect"><i class="layui-edge"></i>
-                    </div>
-                    <dl class="layui-anim layui-anim-upbit" style="">
-                        <dd lay-value="" class="layui-select-tips">分</dd>
-                    </dl>
-                </div>
-                {{#}}}
-            </div>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="datepicker">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--日期-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <label class="layui-form-label labelwidth">
-                <i class="layui-icon">&#xe637;</i>
-            </label>
-
-            <div class="layui-input-block">
-                {{#if(d.default){}}
-                <div type="text" class="layui-input"></div>
-                {{#}else{}}
-                <input type="text" name="{{d.name}}" lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
-                       class="layui-input">
-                {{#}}}
-            </div>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="dropselect">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--下拉框-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <div class="layui-inline layui-row layui-col-md4">
-                {{#if(!d.default){}}
-                <select name="{{d.name}}" lay-verify="{{d.value.verify}}">
-                    <option value="">请选择</option>
-                    {{#layui.each(d.value.options,function(i,option){}}
-                    <option value="{{option.value}}">{{option.name}}</option>
-                    {{#});}}
-                </select>
-                {{#}else{}}
-                <div class="layui-select-title"><input type="text" placeholder="请选择" value=""
-                                                       class="layui-input layui-unselect"><i class="layui-edge"></i>
-                </div>
-                {{#}}}
-            </div>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="descfield">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--描述-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="urlfield">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--网址-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <div class="layui-row layui-col-md12">
-                <label class="layui-form-label labelwidth">
-                    <i class="layui-icon">&#xe64c;</i>
-                </label>
-
-                <div class="layui-input-block">
-                    {{#if(d.default){}}
-                    <div type="text" class="layui-input"></div>
-                    {{#}else{}}
-                    <input type="text" name="{{d.name}}" lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
-                           class="layui-input">
-                    {{#}}}
-                </div>
-            </div>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="markfield">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--评分-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                <div class="spingfen">
-                    {{#if(d.default){}}
-                    {{#layui.each(d.value.score,function(i,item){}}
-                    <i class="layui-icon">&#xe658;</i>
-                    {{#});}}
-                    {{#layui.each(d.value.fullscore-d.value.score,function(i,item){}}
-                    <i class="layui-icon">&#xe658;</i>
-                    {{#});}}
-
-                    {{#}else{}}
-                    <i class="layui-icon">&#xe658;</i><i
-                        class="layui-icon">&#xe658;</i> <i class="layui-icon">&#xe658;</i>
-                    {{#}}}
-                </div>
-
-            </div>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="multiselected">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--两级下拉框-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <div class="layui-inline layui-row layui-col-md4">
-                {{#if(!d.default){}}
-                <select name="{{d.name}}" lay-verify="d.value.verify">
-                    <option value="">{{d.value.fdefault}}</option>
-                    {{#layui.each(d.value.fOptoins,function(i,fOption){}}
-                    <option value="{{fOption.value}}">{{fOption.name}}</option>
-                    {{#});}}
-                </select>
-                {{#}else{}}
-                <div class="layui-unselect layui-form-select">
-                    <div class="layui-select-title"><input type="text" placeholder="时" value="" readonly=""
-                                                           class="layui-input layui-unselect"><i class="layui-edge"></i>
-                    </div>
-                    <dl class="layui-anim layui-anim-upbit" style="">
-                        <dd lay-value="" class="layui-select-tips">请选择</dd>
-                    </dl>
-                </div>
-                {{#}}}
-            </div>
-            <div class="layui-inline layui-row layui-col-md4">
-                {{#if(!d.default){}}
-                <select name="{{d.name}}" lay-verify="d.value.verify">
-                    <option value="">{{d.value.sdefault}}</option>
-                    {{#layui.each(d.value.sOptoins,function(i,sOption){}}
-                    <option value="{{sOption.value}}">{{sOption.name}}</option>
-                    {{#});}}
-                </select>
-                {{#}else{}}
-                <div class="layui-unselect layui-form-select layui-form-selected">
-                    <div class="layui-select-title"><input type="text" placeholder="分" value="" readonly=""
-                                                           class="layui-input layui-unselect"><i class="layui-edge"></i>
-                    </div>
-                    <dl class="layui-anim layui-anim-upbit" style="">
-                        <dd lay-value="" class="layui-select-tips">请选择</dd>
-                    </dl>
-                </div>
-                {{#}}}
-            </div>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="uploadfile">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--上传文件-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <div class="layui-row layui-col-md12 layui-inline upbox">
-                <i class="layui-icon">&#xe681;</i>
-                {{#if(d.default){}}
-                <p>请选择或拖拽上传文件，20MB以内。 </p>
-                {{#}else{}}
-                <p>{{d.value.filetype}}，{{d.value.filecount}},{{d.value.filesize}}。 </p>
-                {{#}}}
-            </div>
-        </div>
-    </div>
-</script>
-
 </body>
+
 <script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
+
+<script src="http://api.map.baidu.com/api?v=2.0&ak=mfZGQrMfwBXfdLgIQaaFH0cS1kBKu11p&callback=initMap"
+        type="text/javascript"></script>
+
+<script type="text/javascript">
+    //不要用赋值的方法定义function
+    //赋值定义js就按先后顺序查找，如果在定义前就使用js肯定会报错
+    var _map = null;
+    var address = '';
+
+    function initMap() {
+        //				alert(1)
+        var mp = new BMap.Map('myMap');
+        _map = mp;
+        mp.centerAndZoom(new BMap.Point(121.491, 31.233), 11);
+        mp.enableScrollWheelZoom(true); //缩放
+        setTimeout(function () {
+            mp.enableDragging(); //两秒后开启拖拽
+            //map.enableInertialDragging();   //两秒后开启惯性拖拽
+        }, 2000);
+        var geoc = new BMap.Geocoder();
+        mp.addEventListener("click", function (e) {
+            alert(e.point.lng + "," + e.point.lat);
+            var pt = e.point;
+            var $address = $('#myLocationNow');
+            geoc.getLocation(pt, function (rs) {
+                var addComp = rs.addressComponents;
+                //						alert(addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber);
+                address = addComp.province + ", " + addComp.city + ", " + addComp.district + ", " + addComp.street + ", " + addComp.streetNumber;
+                $address.val(address);
+            });
+        });
+
+        function myFun(result) {
+            var cityName = result.name;
+            mp.setCenter(cityName);
+//					alert("当前定位城市:" + cityName);
+        }
+
+        var myCity = new BMap.LocalCity();
+        myCity.get(myFun);
+    }
+
+    $('button').off("click");
+</script>
 <script th:inline="javascript">
     var formId = [[${formDetail.form.id}]];
     var props = [[${formDetail.formProperties}]], formProp = [], cols = [];
@@ -1006,7 +1781,10 @@
             , type: 'datetime'
             , range: true
         });
-
+        laydate.render({
+            elem: '#birthday'
+            , type: 'date'
+        });
         showDatePicker = function () {
             layer.open({
                 type: 1,
@@ -1156,20 +1934,19 @@
             });
         }
         table.on('col(formValue)', function (data) {
-            for (var i = 0; i < props.length; i++) {
-                props[i].value = JSON.parse(props[i]);
-
-                laytpl($('#' + props[i].type).html()).render(props[i], function (html) {
-                    $('#editData').append(html);
-                });
-            }
+            $('#editData :input').each(function (i, elem) {
+                $(elem).val(data[$(elem).attr('name')]);
+            });
+            $('#editData .other').each(function (i, elem) {
+                $(elem).text(data[$(elem).attr('name')])
+            });
             layer.open({
                 type: 1,
                 title: '数据详情',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
                 area: ['800px', '520px'],
-                content: '需要修改的数据，暂时没有页面',
+                content: $('#editData'),
                 btn: ['修改', '删除'],
                 btnAlign: 'l', //按钮排列 左对齐
                 yes: function (index, layero) { //或者使用btn1

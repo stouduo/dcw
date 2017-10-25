@@ -99,13 +99,13 @@ public class FormValueServiceImpl implements FormValueService {
             formValues = formValueRepository.findByContent(formId, content, sdf.parse(startTime), endTime, new Sort(asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createTime"));
         }
         List<String> fieldNames = formPropertyRepository.findByForm(formId);
-        fieldNames.add("表单创建人");
-        fieldNames.add("表单最后修改人");
-        fieldNames.add("表单创建时间");
-        fieldNames.add("表单最后修改时间");
+        fieldNames.add("提交人");
+        fieldNames.add("修改人");
+        fieldNames.add("提交时间");
+        fieldNames.add("修改时间");
         fieldNames.add("浏览器");
         fieldNames.add("操作系统");
-        fieldNames.add("操作IP");
+        fieldNames.add("IP");
         ExcelUtil.listToExcel(formValues, "Sheet1", fieldNames, form.getTitle());
     }
 
