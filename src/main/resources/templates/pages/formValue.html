@@ -1180,14 +1180,6 @@
                 }
             });
         });
-        (function () {
-            for (var i = 0; i < props.length; i++) {
-                props[i].value = JSON.parse(props[i]);
-                laytpl($('#' + props[i].type).html()).render(props[i], function (html) {
-                    $('#addData').append(html);
-                });
-            }
-        })();
     });
 </script>
 </html>
