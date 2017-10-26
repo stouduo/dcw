@@ -45,11 +45,17 @@ public class FormValueServiceImpl implements FormValueService {
         if (StringUtils.isEmpty(formValue.getId())) {
             formValue.setCreateTime(now);
             formValue.setAuthor(SecurityUtil.getUsername());
+            String[] clientMsg = ControllerUtil.getUserAgent();
+            formValue.setBrowser(clientMsg[0]);
+            formValue.setOs(clientMsg[1]);
+            formValue.setSubmitIP(ControllerUtil.getIpAddress());
+        }else{
+            FormValue f = formValueRepository.findOne(formValue.getId());
+            formValue.setAuthor(f.getAuthor());
+            formValue.setCreateTime(f.getCreateTime());
+            formValue.setBrowser(f.getBrowser());
+            formValue.setSubmitIP(f.getSubmitIP());
         }
-        String[] clientMsg = ControllerUtil.getUserAgent();
-        formValue.setBrowser(clientMsg[0]);
-        formValue.setOs(clientMsg[1]);
-        formValue.setSubmitIP(ControllerUtil.getIpAddress());
         formValue.setLastModifyPerson(SecurityUtil.getUsername());
         formValueRepository.save(formValue);
     }
