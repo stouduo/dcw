@@ -37,8 +37,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests()
 //                .antMatchers("/**").permitAll()
-                .antMatchers("/css/**", "/js/**").permitAll()
-                .antMatchers("/tosignup","/register","/user/captcha","/form/view/**", "/form/result/**", "/user/signup/**", "/user/active").permitAll()
+                .antMatchers("/css/**", "/layui/**", "/images/**", "/js/**").permitAll()
+                .antMatchers("/tosignup", "/register", "/user/captcha", "/form/view/**","/formValue/submit", "/form/result/**", "/user/signup/**", "/user/active").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").successForwardUrl("/user/loginSuccess").failureUrl("/login?error").permitAll()
 //                .and().rememberMe().rememberMeParameter("rememberMe").tokenValiditySeconds(60 * 60 * 24 * 7).rememberMeCookieName("dcw")

@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -126,21 +127,20 @@ public class ExcelUtil {
             String formName,
             List<String> fieldNames,
             String sheetName,
-            int sheetSize
+            int sheetSize,
+            HttpServletResponse response
 
     ) throws ExcelException {
-        HttpServletResponse response = ControllerUtil.getCurrentResponse();
-        //设置默认文件名为当前时间：年月日时分秒
-        String fileName = formName + "_" + new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()).toString();
-
-        //设置response头信息
-        response.reset();
-        response.setContentType("application/octet-stream");        //改成输出excel文件
-        response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xls");
-        response.setHeader("content-type", "application/octet-stream");
         //创建工作簿并发送到浏览器
         try {
+            //设置默认文件名为当前时间：年月日时分秒
+            String fileName = formName + "_" + new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()).toString();
 
+            //设置response头信息
+            response.reset();
+            response.setContentType("application/vnd.ms-excel");        //改成输出excel文件
+            response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8") + ".xls");
+            response.setHeader("content-type", "application/vnd.ms-excel");
             OutputStream out = response.getOutputStream();
             listToExcel(list, sheetName, fieldNames, sheetSize, out);
             out.flush();
@@ -170,10 +170,11 @@ public class ExcelUtil {
             List<FormValue> list,
             String sheetName,
             List<String> fieldNames,
-            String formName
+            String formName,
+            HttpServletResponse response
     ) throws ExcelException {
 
-        listToExcel(list, formName, fieldNames, sheetName, 65535);
+        listToExcel(list, formName, fieldNames, sheetName, 65535, response);
     }
 
     /**
@@ -350,7 +351,7 @@ public class ExcelUtil {
         return resultList;
     }
 
- private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     /*<-------------------------辅助的私有方法----------------------------------------------->*/
 
     /**

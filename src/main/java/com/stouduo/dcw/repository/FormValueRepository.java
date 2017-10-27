@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface FormValueRepository extends PagingAndSortingRepository<FormValue, String> {
-    @Query(nativeQuery = true, value = "SELECT * FROM formvalue fv WHERE fv.form=:form AND del=FALSE LIMIT 30")
+    @Query(nativeQuery = true, value = "SELECT * FROM formvalue fv WHERE fv.form=:form AND del=FALSE ORDER BY fv.createtime DESC LIMIT 30")
     List<FormValue> findRecentByForm(@Param("form") String form);
 
     @Query("select count(id) from FormValue where form=:form and del=false")
@@ -39,4 +39,7 @@ public interface FormValueRepository extends PagingAndSortingRepository<FormValu
     @Modifying
     @Query("update FormValue f set f.del=true where f.id=:id")
     void delFormValues(@Param("id") String id);
+
+    @Query("select count(id) from FormValue fv where fv.submitIP=:submitIP and del=false")
+    long findSubmitCount(String ipAddress);
 }

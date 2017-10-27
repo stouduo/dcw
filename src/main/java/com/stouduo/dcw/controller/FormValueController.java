@@ -22,6 +22,7 @@ import org.thymeleaf.util.DateUtils;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -52,10 +53,10 @@ public class FormValueController extends BaseController {
     }
 
     @PostMapping("/submit")
-    public String submit(FormValue formValue, Model model) {
-
+    @ResponseBody
+    public RestResult<FormValue> submit(FormValue formValue) {
         formValueService.save(formValue);
-        return success("感谢您的提交！", model);
+        return restSuccess("提交成功，感谢您的填写！");
     }
 
     @GetMapping("/formDatas")
@@ -80,9 +81,9 @@ public class FormValueController extends BaseController {
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @GetMapping("/outport")
-    public void outport(@RequestParam(defaultValue = "") String content, String formId, @RequestParam(defaultValue = "1970-01-01 00:00:00") String startTime, String endTime, @RequestParam(defaultValue = "0") int asc, @RequestParam(defaultValue = "0") int pageSize, @RequestParam(defaultValue = "0") int curPage) {
+    public void outport(HttpServletResponse response,@RequestParam(defaultValue = "") String content, String formId, @RequestParam(defaultValue = "1970-01-01 00:00:00") String startTime, String endTime, @RequestParam(defaultValue = "0") int asc, @RequestParam(defaultValue = "0") int pageSize, @RequestParam(defaultValue = "0") int curPage) {
         try {
-            formValueService.outport(formId, content, startTime, StringUtils.isEmpty(endTime) ? new Date() : sdf.parse(endTime), asc, pageSize, curPage - 1);
+            formValueService.outport(response,formId, content, startTime, StringUtils.isEmpty(endTime) ? new Date() : sdf.parse(endTime), asc, pageSize, curPage - 1);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -107,7 +108,7 @@ public class FormValueController extends BaseController {
     public RestResult<List<Map<String, String>>> uploadImgs(MultipartFile[] files, HttpServletRequest request) {
         List<Map<String, String>> imgs = new ArrayList<>();
         Map<String, String> img;
-        String filename, filepath, basepath = request.getContextPath() + "/uploadfiles/" +sdf.format(new Date()).substring(0,9);
+        String filename, filepath, basepath = request.getContextPath() + "/uploadfiles/" + sdf.format(new Date()).substring(0, 9);
         try {
             for (MultipartFile file : files) {
                 filename = file.getName();

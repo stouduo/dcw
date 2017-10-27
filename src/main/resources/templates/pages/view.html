@@ -21,7 +21,7 @@
             <!--表单放这-->
             <!--<section class="formEditorView">-->
             <div class="form-container">
-                <form action="" method="post" class="layui-form">
+                <form action="" id="view" method="post" class="layui-form">
                     <div class="banner">
                         <img th:src="@{/images/20160703224347_e39266@hixlarge.png}" style="width: 100%;"/>
                     </div>
@@ -108,7 +108,7 @@
                             <!--<div class="layui-row layui-col-md12 text-left field-desc">
                                     </div>-->
                             <div class="layui-row layui-col-md6">
-                                <input type="text" name="学 历" class="layui-input"/>
+                                <input type="text" name="学 历" lay-verify="required" class="layui-input"/>
                             </div>
                         </div>
 
@@ -220,18 +220,18 @@
                                         描述
                                     </div>-->
                             <div class="layui-inline layui-row layui-col-md3">
-                                <select name="现 住 地 址_0" lay-verify="required" lay-filter="province"class="province">
-                                    <option value="辽宁省">省/自治区/直辖市</option>
+                                <select name="现 住 地 址_0" lay-verify="required" lay-filter="province" class="province">
+                                    <option value=" ">省/自治区/直辖市</option>
                                 </select>
                             </div>
                             <div class="layui-inline layui-row layui-col-md3">
                                 <select name="现 住 地 址_1" lay-verify="required" lay-filter="city" class="city">
-                                    <option value="沈阳市">市</option>
+                                    <option value=" ">市</option>
                                 </select>
                             </div>
                             <div class="layui-inline layui-row layui-col-md3">
-                                <select name="现 住 地 址_2" lay-verify="required" lay-filter="block"class="block">
-                                    <option value="浑南区">区/县</option>
+                                <select name="现 住 地 址_2" lay-verify="required" lay-filter="block" class="block">
+                                    <option value=" ">区/县</option>
                                 </select>
                             </div>
                             <div class="layui-row layui-col-md12">
@@ -474,18 +474,18 @@
                                         描述
                                     </div>-->
                             <div class="layui-inline layui-row layui-col-md3">
-                                <select name="单 位 地 址_0" lay-verify="required"lay-filter="province" class="province">
-                                    <option value="辽宁省">省/自治区/直辖市</option>
+                                <select name="单 位 地 址_0" lay-verify="required" lay-filter="province" class="province">
+                                    <option value=" ">省/自治区/直辖市</option>
                                 </select>
                             </div>
                             <div class="layui-inline layui-row layui-col-md3">
-                                <select name="单 位 地 址_1" lay-verify="required" lay-filter="city"class="city">
-                                    <option value="沈阳市">市</option>
+                                <select name="单 位 地 址_1" lay-verify="required" lay-filter="city" class="city">
+                                    <option value=" ">市</option>
                                 </select>
                             </div>
-                            <div class="layui-inline layui-row layui-col-md3" >
-                                <select name="单 位 地 址_2" lay-verify="required" lay-filter="block"class="block">
-                                    <option value="浑南区">区/县</option>
+                            <div class="layui-inline layui-row layui-col-md3">
+                                <select name="单 位 地 址_2" lay-verify="required" lay-filter="block" class="block">
+                                    <option value=" ">区/县</option>
                                 </select>
                             </div>
                             <div class="layui-row layui-col-md12">
@@ -779,6 +779,7 @@
     function setLocation(getLocation) {
         geoc.getPoint(getLocation, function (point) {
             if (point) {
+                mp.clearOverlays();
                 mp.centerAndZoom(point, 16);
                 mp.addOverlay(new BMap.Marker(point));
             } else {
@@ -793,6 +794,7 @@
                 var pt = r.point;
                 geoc.getLocation(pt, function (result) {
                     if (result) {
+                        mp.clearOverlays();
                         mp.centerAndZoom(pt, 16);
                         mp.addOverlay(new BMap.Marker(pt));
                         var addComp = result.addressComponents;
@@ -814,16 +816,15 @@
             elem: '#birthday'
             , type: 'date'
         });
-        window.userAddress = '';//在JS中存储用户完整地址
         ;(function () {
             $.getJSON('/js/address.json', function (address) {
-                var province,city,block,details='';
+                var province, city, block, details = '';
                 var $province = $(".province");
                 var getProvinceList = function () {
                     var list = [];
-                    for(var i=0,l=address.length;i<l;i++){
-                        if('0' ==address[i].parentId){
-                            list.push($.extend({},address[i]));
+                    for (var i = 0, l = address.length; i < l; i++) {
+                        if ('0' == address[i].parentId) {
+                            list.push($.extend({}, address[i]));
                         }
                     }
                     return list;
@@ -833,15 +834,15 @@
                  * @param nowDistrictAreaName 当前地区的名字
                  */
                 var getNextDistrictList = function (nowDistrictAreaName) {
-                    var list = [],id='';
-                    for(var i=0,l=address.length;i<l;i++){
-                        if(address[i].areaName === nowDistrictAreaName){
-                            id=address[i].areaCode;
+                    var list = [], id = '';
+                    for (var i = 0, l = address.length; i < l; i++) {
+                        if (address[i].areaName === nowDistrictAreaName) {
+                            id = address[i].areaCode;
                         }
                     }
-                    for(var i=0,l=address.length;i<l;i++){
-                        if(id===address[i].parentId){
-                            list.push($.extend({},address[i]));
+                    for (var i = 0, l = address.length; i < l; i++) {
+                        if (id === address[i].parentId) {
+                            list.push($.extend({}, address[i]));
                         }
                     }
                     return list;
@@ -852,26 +853,26 @@
                  * @param defaultText
                  * @returns {string}
                  */
-                var createOptions = function (addressList,defaultText) {
+                var createOptions = function (addressList, defaultText) {
                     var template = '<option value="q_MyValue">q_MyText</option>';
-                    var html = '<option value="" >'+(defaultText || "--请选择--")+'</option>';
-                    for(var i=0,l=addressList.length;i<l;i++){
-                        html+= template.replace("q_MyValue",addressList[i].areaName).replace("q_MyText",addressList[i].areaName);
+                    var html = '<option value="" >' + (defaultText || "--请选择--") + '</option>';
+                    for (var i = 0, l = addressList.length; i < l; i++) {
+                        html += template.replace("q_MyValue", addressList[i].areaName).replace("q_MyText", addressList[i].areaName);
                     }
                     return html;
                 }
-                var selectHandler = function (data,level) {
+                var selectHandler = function (data, level) {
                     window.data = data;
                     var areaName = data.value;
                     var list = getNextDistrictList(areaName);
                     var html = "";
                     var $select = $(data.elem).parent().next();
-                    if(!level || level == 0){
-                        html =createOptions(list, "市");
+                    if (!level || level == 0) {
+                        html = createOptions(list, "市");
                         $select.next().find(".block").html("<option value=''>市区/县</option>");
                         $select = $select.find(".city");
-                    }else{
-                        html = createOptions(list,"市区/县");
+                    } else {
+                        html = createOptions(list, "市区/县");
                         $select = $select.find(".block");
                     }
                     $select.html(html);
@@ -880,19 +881,19 @@
 
                 var init = function () {
                     var list = getProvinceList();
-                    var html = createOptions(list,"省/自治区/直辖市");
+                    var html = createOptions(list, "省/自治区/直辖市");
                     $province.html(html);
                     form.render();
                 };
-                form.on('select(province)', function(data){
+                form.on('select(province)', function (data) {
                     province = data.value;
-                    selectHandler(data,0);
+                    selectHandler(data, 0);
                 });
-                form.on('select(city)', function(data){
+                form.on('select(city)', function (data) {
                     city = data.value;
-                    selectHandler(data,1);
+                    selectHandler(data, 1);
                 });
-                form.on('select(block)', function(data){
+                form.on('select(block)', function (data) {
                     block = data.value;
                 });
                 init();
@@ -916,11 +917,19 @@
             }
             var id = value.id;
             delete value.id;
-            $.post('/formValue/save', {value: JSON.stringify(value), id: id, form: formId}, function (data) {
-                layer.msg("提交成功，谢谢您的填写！", {time: 3000});
+            $.post('/formValue/submit', {value: JSON.stringify(value), id: id, form: formId}, function (data) {
+                layer.msg(data.msg, {time: 3000});
+                if (data.code == 1) {
+                    resetForm('view');
+                }
             });
             return false;
         });
 
+        function resetForm(form) {
+            $('#' + form)[0].reset();
+            $('#' + form + ' :checked').removeAttr("checked");
+            $('#' + form + ' :selected').removeAttr('selected');
+        }
     });
 </script>

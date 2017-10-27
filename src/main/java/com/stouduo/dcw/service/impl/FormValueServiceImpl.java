@@ -8,7 +8,6 @@ import com.stouduo.dcw.repository.FormRepository;
 import com.stouduo.dcw.repository.FormValueRepository;
 import com.stouduo.dcw.service.FormValueService;
 import com.stouduo.dcw.util.ControllerUtil;
-import com.stouduo.dcw.util.ExcelException;
 import com.stouduo.dcw.util.ExcelUtil;
 import com.stouduo.dcw.util.SecurityUtil;
 import com.stouduo.dcw.vo.FormDetailVO;
@@ -22,11 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
 
+import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
-import static com.stouduo.dcw.util.ExcelUtil.excelToList;
 
 @Service
 @Transactional
@@ -96,11 +94,11 @@ public class FormValueServiceImpl implements FormValueService {
     }
 
     @Override
-    public void outport(String formId, String content, String startTime, Date endTime, int asc, int pageSize, int curPage) throws Exception {
+    public void outport(HttpServletResponse response,String formId, String content, String startTime, Date endTime, int asc, int pageSize, int curPage) throws Exception {
         Form form = formRepository.findOne(formId);
         List<FormValue> formValues;
         if (curPage != -1) {
-            formValues = formValueRepository.findByContent(formId, content, sdf.parse(startTime), endTime, new PageRequest(curPage, pageSize, asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createtime")).getContent();
+            formValues = formValueRepository.findByContent(formId, content, sdf.parse(startTime), endTime, new PageRequest(curPage, pageSize, asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createTime")).getContent();
         } else {
             formValues = formValueRepository.findByContent(formId, content, sdf.parse(startTime), endTime, new Sort(asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createTime"));
         }
@@ -112,7 +110,7 @@ public class FormValueServiceImpl implements FormValueService {
         fieldNames.add("浏览器");
         fieldNames.add("操作系统");
         fieldNames.add("IP");
-        ExcelUtil.listToExcel(formValues, "Sheet1", fieldNames, form.getTitle());
+        ExcelUtil.listToExcel(formValues, "Sheet1", fieldNames, form.getTitle(),response);
     }
 
     @Override

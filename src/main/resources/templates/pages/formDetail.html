@@ -224,7 +224,7 @@
         <ul class="layui-tab-title">
             <!--概述编辑规则设置发布数据报表-->
             <li class="layui-this">概述</li>
-            <li><a th:href="@{'/form/edit/'+${formDetail.form.id}}">编辑</a></li>
+            <!--<li><a disabled="disabled" >编辑</a></li>-->
             <li><a th:href="@{'/formValue/myFormData/'+${formDetail.form.id}}">数据</a></li>
         </ul>
         <div class="layui-form-item gform">
@@ -325,7 +325,7 @@
                                     <div class="layui-col-md4">结果分享</div>
                                     <div class="layui-col-md4 layui-col-md-offset4">
                                         <div class="select">
-                                            <select name="resultShow" class="edit">
+                                            <select name="resultShow" class="edit" lay-filter="edit">
                                                 <option th:selected="${formDetail.form.submitPrivilege=='PEOPLE_OF_ALL'}"
                                                         value="PEOPLE_OF_ALL">公开
                                                 </option>
@@ -363,18 +363,18 @@
                                         </a>
                                     </div>
                                 </div>
-                                <div class="layui-row">
-                                    <div class="layui-col-md4">邮件推送提醒</div>
-                                    <div class="layui-col-md4 layui-col-md-offset4">
-                                        <a href="javascript:void(0)" class="gdashed">未开启</a>
-                                    </div>
-                                </div>
-                                <div class="layui-row">
-                                    <div class="layui-col-md4">短信推送提醒</div>
-                                    <div class="layui-col-md4 layui-col-md-offset4">
-                                        <a href="javascript:void(0)" class="gdashed">未开启</a>
-                                    </div>
-                                </div>
+                                <!--<div class="layui-row">-->
+                                <!--<div class="layui-col-md4">邮件推送提醒</div>-->
+                                <!--<div class="layui-col-md4 layui-col-md-offset4">-->
+                                <!--<a href="javascript:void(0)" class="gdashed">未开启</a>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="layui-row">-->
+                                <!--<div class="layui-col-md4">短信推送提醒</div>-->
+                                <!--<div class="layui-col-md4 layui-col-md-offset4">-->
+                                <!--<a href="javascript:void(0)" class="gdashed">未开启</a>-->
+                                <!--</div>-->
+                                <!--</div>-->
                                 <!--<div class="layui-row">-->
                                 <!--<div class="layui-col-md4">团队协作</div>-->
                                 <!--<div class="layui-col-md4 layui-col-md-offset4">-->
@@ -516,7 +516,7 @@
                                 <!--<div class="layui-row layui-col-md12 text-left field-desc">
                                         </div>-->
                                 <div class="layui-row layui-col-md6">
-                                    <input type="text" name="学 历" class="layui-input"/>
+                                    <input type="text" name="学 历" lay-verify="required" class="layui-input"/>
                                 </div>
                             </div>
 
@@ -630,17 +630,17 @@
                                 <div class="layui-inline layui-row layui-col-md3">
                                     <select name="现 住 地 址_0" lay-verify="required" lay-filter="province"
                                             class="province">
-                                        <option value="辽宁省">省/自治区/直辖市</option>
+                                        <option value=" ">省/自治区/直辖市</option>
                                     </select>
                                 </div>
                                 <div class="layui-inline layui-row layui-col-md3">
                                     <select name="现 住 地 址_1" lay-verify="required" lay-filter="city" class="city">
-                                        <option value="沈阳市">市</option>
+                                        <option value=" ">市</option>
                                     </select>
                                 </div>
                                 <div class="layui-inline layui-row layui-col-md3">
-                                    <select name="现 住 地 址_2" lay-verify="required" lay-filter="block" city="block">
-                                        <option value="浑南区">区/县</option>
+                                    <select name="现 住 地 址_2" lay-verify="required" lay-filter="block" class="block">
+                                        <option value=" ">区/县</option>
                                     </select>
                                 </div>
                                 <div class="layui-row layui-col-md12">
@@ -663,9 +663,7 @@
                                         </div>-->
                                 <div class="layui-row layui-col-md6" style="text-align: left;margin-bottom: 10px;">
                                     <input type="button" onclick="myLoc('map1')"
-                                           class="layui-btn layui-btn-normal">
-                                    &#xe604;获取地理位置
-                                    </input>
+                                           class="layui-btn layui-btn-normal" value=" &#xe604;获取地理位置"/>
                                 </div>
                                 <div id="map1" class="layui-col-md12" style="height: 200px;"></div>
                                 <div class="layui-row layui-col-md12">
@@ -887,17 +885,17 @@
                                 <div class="layui-inline layui-row layui-col-md3">
                                     <select name="单 位 地 址_0" lay-verify="required" lay-filter="province"
                                             class="province">
-                                        <option value="辽宁省">省/自治区/直辖市</option>
+                                        <option value=" ">省/自治区/直辖市</option>
                                     </select>
                                 </div>
                                 <div class="layui-inline layui-row layui-col-md3">
                                     <select name="单 位 地 址_1" lay-verify="required" lay-filter="city" class="city">
-                                        <option value="沈阳市">市</option>
+                                        <option value=" ">市</option>
                                     </select>
                                 </div>
                                 <div class="layui-inline layui-row layui-col-md3">
                                     <select name="单 位 地 址_2" lay-verify="required" lay-filter="block" class="block">
-                                        <option value="浑南区">区/县</option>
+                                        <option value=" ">区/县</option>
                                     </select>
                                 </div>
                                 <div class="layui-row layui-col-md12">
@@ -1234,7 +1232,7 @@
                             <!--<div class="layui-row layui-col-md12 text-left field-desc">
                                     </div>-->
                             <div class="layui-row layui-col-md6">
-                                <input type="text" name="学 历" class="layui-input"/>
+                                <input type="text" name="学 历" lay-verify="required" class="layui-input"/>
                             </div>
                         </div>
 
@@ -1347,17 +1345,17 @@
                                     </div>-->
                             <div class="layui-inline layui-row layui-col-md3">
                                 <select name="现 住 地 址_0" lay-verify="required" lay-filter="province" class="province">
-                                    <option value="辽宁省">省/自治区/直辖市</option>
+                                    <option value=" ">省/自治区/直辖市</option>
                                 </select>
                             </div>
                             <div class="layui-inline layui-row layui-col-md3">
                                 <select name="现 住 地 址_1" lay-verify="required" lay-filter="city" class="city">
-                                    <option value="沈阳市">市</option>
+                                    <option value=" ">市</option>
                                 </select>
                             </div>
                             <div class="layui-inline layui-row layui-col-md3">
-                                <select name="现 住 地 址_2" lay-verify="required" lay-filter="block" city="block">
-                                    <option value="浑南区">区/县</option>
+                                <select name="现 住 地 址_2" lay-verify="required" lay-filter="block" class="block">
+                                    <option value=" ">区/县</option>
                                 </select>
                             </div>
                             <div class="layui-row layui-col-md12">
@@ -1380,9 +1378,7 @@
                                     </div>-->
                             <div class="layui-row layui-col-md6" style="text-align: left;margin-bottom: 10px;">
                                 <input type="button" onclick="myLoc('map2')"
-                                       class="layui-btn layui-btn-normal">
-                                &#xe604;获取地理位置
-                                </input>
+                                       class="layui-btn layui-btn-normal" value=" &#xe604;获取地理位置"/>
                             </div>
                             <div id="map2" class="layui-col-md12" style="height: 200px;"></div>
                             <div class="layui-row layui-col-md12">
@@ -1603,17 +1599,17 @@
                                     </div>-->
                             <div class="layui-inline layui-row layui-col-md3">
                                 <select name="单 位 地 址_0" lay-verify="required" lay-filter="province" class="province">
-                                    <option value="辽宁省">省/自治区/直辖市</option>
+                                    <option value=" ">省/自治区/直辖市</option>
                                 </select>
                             </div>
                             <div class="layui-inline layui-row layui-col-md3">
                                 <select name="单 位 地 址_1" lay-verify="required" lay-filter="city" class="city">
-                                    <option value="沈阳市">市</option>
+                                    <option value=" ">市</option>
                                 </select>
                             </div>
                             <div class="layui-inline layui-row layui-col-md3">
                                 <select name="单 位 地 址_2" lay-verify="required" lay-filter="block" class="block">
-                                    <option value="浑南区">区/县</option>
+                                    <option value=" ">区/县</option>
                                 </select>
                             </div>
                             <div class="layui-row layui-col-md12">
@@ -1869,7 +1865,7 @@
     var $address1 = $('#address1');
     var $address2 = $('#address2');
     var geolocation;
-    var mpmap = {}
+    var mpmap = {map1: {elem: $address1}, map2: {elem: $address2}}
 
     function initMap() {
         map1 = new BMap.Map('map1');
@@ -1879,8 +1875,8 @@
         map1.enableScrollWheelZoom(true); //缩放
         map2.centerAndZoom(new BMap.Point(121.491, 31.233), 11);
         map2.enableScrollWheelZoom(true); //缩放
-        mpmap.map1 = map1;
-        mpmap.map2 = map2;
+        mpmap.map1.map = map1;
+        mpmap.map2.map = map2;
         setTimeout(function () {
             map1.enableDragging(); //两秒后开启拖拽
             map2.enableDragging(); //两秒后开启拖拽
@@ -1909,8 +1905,9 @@
     function setLocation(map, getLocation) {
         geoc.getPoint(getLocation, function (point) {
             if (point) {
-                mpmap[map].centerAndZoom(point, 16);
-                mpmap[map].addOverlay(new BMap.Marker(point));
+                mpmap[map].map.clearOverlays();
+                mpmap[map].map.centerAndZoom(point, 16);
+                mpmap[map].map.addOverlay(new BMap.Marker(point));
             } else {
                 alert("您选择地址没有解析到结果!");
             }
@@ -1923,11 +1920,11 @@
                 var pt = r.point;
                 geoc.getLocation(pt, function (result) {
                     if (result) {
-                        mpmap[map].centerAndZoom(pt, 16);
-                        mpmap[map].addOverlay(new BMap.Marker(pt));
+                        mpmap[map].map.clearOverlays();
+                        mpmap[map].map.centerAndZoom(pt, 16);
+                        mpmap[map].map.addOverlay(new BMap.Marker(pt));
                         var addComp = result.addressComponents;
-                        $address1.val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
-                        $address2.val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+                        mpmap[map].elem.val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
                     }
                 });
             }
@@ -1936,6 +1933,7 @@
 </script>
 <script th:inline="javascript">
     var data = [[${formDetail.formValues}]], formData = [];
+    var formId = [[${formDetail.form.id}]];
     var props = [[${formDetail.formProperties}]], formProp = [], cols = [];
     var value, tempform;
     for (var i = 0; i < data.length; i++) {
@@ -1972,10 +1970,12 @@
 
 <script type="text/javascript">
     var del;
+
     function copy() {
         $('#myForm')[0].select();
         document.execCommand("Copy");
     }
+
     layui.use(['table', 'layer', 'element', 'form'], function () {
         var table = layui.table;
         var element = layui.element;
@@ -1986,11 +1986,11 @@
             var _this = this;
             var name = $(this).attr('name');
             var tip = layer.tips('<input id="content"  type="text" />',
-                    _this,
-                    {
-                        time: 0,
-                        closeBtn: 2,
-                    }
+                _this,
+                {
+                    time: 0,
+                    closeBtn: 2,
+                }
             );
             $('#content').val($('#' + name).text());
             $('#content').focus();
@@ -2042,6 +2042,8 @@
         });
 
         function addData(elemId) {
+            if (form.executeVerify($('#' + elemId)))
+                return false;
             var params = $('#' + elemId).serializeArray();
             var value = {};
             for (x in params) {
@@ -2059,9 +2061,10 @@
             var id = value.id;
             delete value.id;
             $.post('/formValue/save', {value: JSON.stringify(value), id: id, form: formId}, function (data) {
-                search();
                 layer.msg(data.msg, {time: 3000});
+                window.location.reload();
             });
+            return true;
         }
 
         //添加数据
@@ -2076,16 +2079,18 @@
                 btn: ['确定', '取消', '提交并再填一份'],
                 btnAlign: 'l', //按钮排列 左对齐
                 yes: function (index, layero) { //或者使用btn1
-                    layer.close(index);
-                    addData('addData');
-                    resetForm('addData');
+                    if (addData('addData')) {
+                        layer.close(index);
+                        resetForm('addData');
+                    }
                 },
                 cancel: function (index) { //或者使用btn2
                     layer.close(index);
                 },
                 btn3: function (index, layero) {
-                    addData('addData');
-                    resetForm('addData');
+                   if(addData('addData') ){
+                       resetForm('addData');
+                   }
                 }
             });
         });
@@ -2139,11 +2144,10 @@
                         break;
                     case '单 位 地 址':
                     case '现 住 地 址':
-                        var address = data[key].toString().split(" ");
+                        var address = data[key].toString().trim().split(" ");
                         var i = 0;
                         for (; i < address.length - 1; i++) {
-                            $('#editData :input[name="' + key + '_' + i + '"] option[value="' + address[i] + '"]').attr('selected', 'selected');
-                            $('#editData :input[name="' + key + '_' + i + '"] option[value="' + address[i] + '"]').trigger('select');
+                            form.select($('#editData :input[name="' + key + '_' + i + '"]'), address[i]);
                         }
                         $('#editData :input[name="' + key + '_' + i + '"]').val(address[i])
                         break;
@@ -2173,14 +2177,14 @@
                 btn: ['修改', '删除'],
                 btnAlign: 'l', //按钮排列 左对齐
                 yes: function (index, layero) { //或者使用btn1
-                    layer.close(index);
-                    addData('editData');
+                    if(addData('editData')){
+                        layer.close(index);
+                    }
                 },
                 btn2: function (index) { //或者使用btn2
                     $.get('/formValue/del', {ids: data.id}).done(function (data) {
                         layer.close(index);
                         layer.msg(data.msg, {time: 3000});
-                        search();
                     });
                 }
             });
