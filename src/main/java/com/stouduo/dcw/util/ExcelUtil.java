@@ -527,20 +527,23 @@ public class ExcelUtil {
         //填充内容
         int rowNo = 1;
         int c = 0;
+        Map<String, String> value;
         for (int index = firstIndex; index <= lastIndex; index++) {
             //获取单个对象
             FormValue item = list.get(index);
             c = 0;
-            for (Map.Entry<String, String> entry : ((Map<String, String>) JSON.parse(item.getValue())).entrySet()) {
-                sheet.addCell(new Label(c++, rowNo, entry.getValue()));
+            value = (Map<String, String>) JSON.parse(item.getValue());
+            value.put("提交人",item.getAuthor());
+            value.put("修改人",item.getLastModifyPerson());
+            value.put("提交时间",item.getCreateTime() == null ? "" : sdf.format(item.getCreateTime()));
+            value.put("修改时间",item.getLastModifyTime() == null ? "" : sdf.format(item.getLastModifyTime()));
+            value.put("浏览器",item.getBrowser());
+            value.put("操作系统",item.getOs());
+            value.put("IP",item.getSubmitIP());
+            for (String name : fieldNames) {
+                sheet.addCell(new Label(c++, rowNo, value.get(name)));
             }
-            sheet.addCell(new Label(c++, rowNo, item.getAuthor()));
-            sheet.addCell(new Label(c++, rowNo, item.getLastModifyPerson()));
-            sheet.addCell(new Label(c++, rowNo, item.getCreateTime() == null ? "" : sdf.format(item.getCreateTime())));
-            sheet.addCell(new Label(c++, rowNo, item.getLastModifyTime() == null ? "" : sdf.format(item.getLastModifyTime())));
-            sheet.addCell(new Label(c++, rowNo, item.getBrowser()));
-            sheet.addCell(new Label(c++, rowNo, item.getOs()));
-            sheet.addCell(new Label(c, rowNo++, item.getSubmitIP()));
+            rowNo++;
         }
 
         //设置自动列宽

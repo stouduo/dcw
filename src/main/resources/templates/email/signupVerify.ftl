@@ -818,7 +818,7 @@
                                 <div class="btn fullwidth btn--shadow btn--medium" style="text-align: center;">
                                     <![if !mso]><a
                                         style="border-radius: 4px;display: block;font-size: 12px;font-weight: bold;line-height: 22px;padding: 10px 20px 11px 20px;text-align: center;text-decoration: none !important;transition: opacity 0.1s ease-in;color: #ffffff !important;box-shadow: inset 0 -2px 0 0 rgba(0, 0, 0, 0.2);background-color: #1293e3;font-family: Avenir, sans-serif;"
-                                        href="http://localhost:8888/user/signup/verify?token=${token}">验证邮箱</a><![endif]>
+                                        href="http://weimijiekuan.com/user/signup/verify?token=${token}">验证邮箱</a><![endif]>
                                     <!--[if mso]><p style="line-height:0;margin:0;">&nbsp;</p>
                                 <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml"
                                              href="http://localhost:8888/user/verify?token=${token}"

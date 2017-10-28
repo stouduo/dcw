@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 
 @Configuration
 @EnableWebSecurity
@@ -27,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
             @Override
             public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                return encodedPassword.equals(MD5Util.encode((String) rawPassword));
+                return !StringUtils.isEmpty(encodedPassword) && encodedPassword.equals(MD5Util.encode((String) rawPassword));
             }
         }); //user Details Service验证;
     }
@@ -38,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
 //                .antMatchers("/**").permitAll()
                 .antMatchers("/css/**", "/layui/**", "/images/**", "/js/**").permitAll()
-                .antMatchers("/tosignup", "/register", "/user/captcha", "/form/view/**","/formValue/submit", "/form/result/**", "/user/signup/**", "/user/active").permitAll()
+                .antMatchers("/tosignup", "/register", "/user/captcha", "/form/view/**", "/formValue/submit", "/form/result/**", "/user/signup/**", "/user/active").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").successForwardUrl("/user/loginSuccess").failureUrl("/login?error").permitAll()
 //                .and().rememberMe().rememberMeParameter("rememberMe").tokenValiditySeconds(60 * 60 * 24 * 7).rememberMeCookieName("dcw")

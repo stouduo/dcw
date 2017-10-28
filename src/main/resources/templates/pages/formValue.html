@@ -231,7 +231,7 @@
         <div class="layui-form-item gform">
             <div class="formright">
                 <label class="layui-form-label">发布表单</label>
-                <input type="text" id="myForm" th:value="@{'http://localhost:8888/form/view/'+${formDetail.form.id}}"
+                <input type="text" id="myForm" th:value="@{'http://weimijiekuan.com/form/view/'+${formDetail.form.id}}"
                        class="border-gray"/>
                 <i class="layui-icon" onclick="copy();">&#xe64c;</i>
                 <a th:href="@{'/form/view/'+${formDetail.form.id}}" target="_blank"><i class="layui-icon">
@@ -323,7 +323,7 @@
                                 <!--<div class="layui-row layui-col-md12 text-left field-desc">
                                         </div>-->
                                 <div class="layui-row layui-col-md6">
-                                    <input type="text" name="业 务 员（不 用 填 写）" disabled class="layui-input"/>
+                                    <input type="text" name="业 务 员（不 用 填 写）"  class="layui-input"/>
                                 </div>
                             </div>
                         </div>
@@ -1039,7 +1039,7 @@
                             <!--<div class="layui-row layui-col-md12 text-left field-desc">
                                     </div>-->
                             <div class="layui-row layui-col-md6">
-                                <input type="text" name="业 务 员（不 用 填 写）" disabled class="layui-input"/>
+                                <input type="text" name="业 务 员（不 用 填 写）"  class="layui-input"/>
                             </div>
                         </div>
                     </div>
