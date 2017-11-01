@@ -102,24 +102,19 @@ public class FormValueController extends BaseController {
         return restSuccess("导入成功");
     }
 
-    @PostMapping("/uploadImgs")
+    @PostMapping("/uploadImg")
     @ResponseBody
-    public RestResult<List<Map<String, String>>> uploadImgs(MultipartFile[] files, HttpServletRequest request) {
-        List<Map<String, String>> imgs = new ArrayList<>();
-        Map<String, String> img;
-        String filename, filepath, basepath = request.getContextPath() + "/uploadfiles/" +sdf.format(new Date()).substring(0,9);
+    public RestResult<Map<String, String>> uploadImgs(MultipartFile file, HttpServletRequest request) {
+        Map<String, String> img = new HashMap<>();
+        String filename, filepath, basepath = request.getContextPath() + "/uploadfiles/" + sdf.format(new Date()).substring(0, 9);
         try {
-            for (MultipartFile file : files) {
-                filename = file.getName();
-                filepath = basepath + file.getOriginalFilename();
-                file.transferTo(new File(filepath));
-                img = new HashMap<>();
-                img.put(filepath, filename);
-                imgs.add(img);
-            }
+            filename = file.getName();
+            filepath = basepath + file.getOriginalFilename();
+            file.transferTo(new File(filepath));
+            img.put(filepath, filename);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return new RestResult<>().setData(imgs);
+        return new RestResult<>().setData(img);
     }
 }
