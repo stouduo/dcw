@@ -64,7 +64,7 @@ public class FormProperty implements Serializable {
         this.type = type;
     }
 
-    @Column(name = "value", nullable = false, length = 256)
+    @Column(name = "value", columnDefinition = "text")
     public String getValue() {
         return value;
     }

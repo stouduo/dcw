@@ -51,7 +51,7 @@ public class FormValue implements Serializable {
         this.id = id;
     }
 
-    @Column(name = "value", nullable = false, length = 65535)
+    @Column(name = "value", columnDefinition = "text")
     public String getValue() {
         return value;
     }

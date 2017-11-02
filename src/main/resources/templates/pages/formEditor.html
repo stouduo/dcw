@@ -30,7 +30,7 @@
         overflow: auto;
     }
 
-    .field-desc {
+    .field-des {
         height: 25px;
         line-height: 25px;
         font-weight: lighter;
@@ -339,7 +339,7 @@
                                                 </div>
 
                                                 <div class="layui-col-md6 fied-item">
-                                                    <div class="grid-demo layui-bg-gray" templateName="descfield">
+                                                    <div class="grid-demo layui-bg-gray" templateName="desfield">
                                                         <i class="layui-icon">&#xe6b2;</i>&nbsp;&nbsp;描述
                                                     </div>
                                                 </div>
@@ -377,7 +377,8 @@
 
                                         </div>
                                         <div class="layui-tab-item">
-                                            <form class="layui-form" id="editor">
+                                            <form class="layui-form">
+                                                <div id="editor"></div>
                                                 <!--内容2 控制器-->
                                                 <!--提交按钮-->
                                                 <div class="layui-form-item leftfoot-btn">
@@ -413,16 +414,13 @@
                 {{d.name}}
                 {{d.value.verify.required?"*":""}}
             </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
+            <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
             </div>
             <div class="layui-row layui-col-md6">
-                {{#if(d.default){}}
-                <div type="text" class="layui-input"></div>
-                {{#}else{}}
-                <input type="text" name="{{d.name}}" lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
+                <input type="text" name="{{d.name}}" readonly="{{d.default?'readonly':''}}"
+                       lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
                        class="layui-input">
-                {{#}}}
             </div>
         </div>
         {{#if(d.default){}}
@@ -441,16 +439,13 @@
                 {{d.name}}
                 {{d.value.verify.required?"*":""}}
             </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
+            <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
             </div>
             <div class="layui-row layui-col-md12">
-                {{#if(d.default){}}
-                <div type="text" class="layui-textarea"></div>
-                {{#}else{}}
-                <textarea class="layui-textarea" name="{{d.name}}" lay-verify="{{d.value.verify}}"
+                <textarea class="layui-textarea" readonly="{{d.default?'readonly':''}}" name="{{d.name}}"
+                          lay-verify="{{d.value.verify}}"
                           value="{{d.value.value}}"></textarea>
-                {{#}}}
             </div>
         </div>
         <div class="fn-area">
@@ -467,21 +462,16 @@
                 {{d.name}}
                 {{d.value.verify.required?"*":""}}
             </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
+            <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
             </div>
             <div class="layui-row layui-col-md12 text-left">
 
                 {{#layui.each(d.value.radios,function(i,item){}}
-                {{#if(d.default){}}
-                <div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><span>{{item}}</span>
-                </div>
-                </br>
-                {{#}else{}}
-                <input type="radio" name="{{item.name}}" value="{{item.value}}" title="{{item.value}}"
-                       checked="{{item.checked}}">
+                <input type="radio" {{d.default?'disabled':''}} name="{{d.name}}" value="{{item.value}}"
+                title="{{item.value}}"
+                {{item.checked?'checked':''}}>
                 <br/>
-                {{#}}}
                 {{#});}}
             </div>
         </div>
@@ -499,21 +489,16 @@
                 {{d.name}}
                 {{d.value.verify.required?"*":""}}
             </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
+            <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
             </div>
             <div class="layui-row layui-col-md12 text-left">
 
                 {{#layui.each(d.value.checkboxs,function(i,item){}}
-                {{#if(d.default){}}
-                <div class="layui-unselect layui-form-checkbox " lay-skin=""><span>{{item}}</span><i class="layui-icon"></i>
-                </div>
+                <input type="checkbox" {{d.default?'disabled':''}} name="{{d.name}}" value="{{item.value}}"
+                title="{{item.value}}"
+                {{item.checked?'checked':''}}>
                 <br/>
-                {{#}else{}}
-                <input type="checkbox" name="{{item.name}}" value="{{item.value}}" title="{{item.value}}"
-                       checked="{{item.checked}}">
-                <br/>
-                {{#}}}
                 {{#});}}
             </div>
         </div>
@@ -531,26 +516,13 @@
                 {{d.name}}
                 {{d.value.verify.required?"*":""}}
             </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
+            <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
             </div>
             <!--有图片就把上面一段隐藏-->
             <div class="layui-row layui-col-md12 text-left">
 
                 {{#layui.each(d.value.images,function(i,item){}}
-                {{#if(d.default){}}
-                <div class="layui-col-md3 redioimg">
-                    <label class="radio" style="display: block;">
-                        <div class="image-center"><img
-                                src="{{item.imgPath}}">
-                        </div>
-                        <div class="text-wrapper">
-                            <div class="layui-unselect layui-form-radio"><i
-                                    class="layui-anim layui-icon"></i><span>{{item.title}}</span></div>
-                        </div>
-                    </label>
-                </div>
-                {{#}else{}}
                 <div class="layui-col-md3 redioimg">
                     <label class="radio" style="display: block;">
                         <div class="image-center"><img
@@ -558,9 +530,9 @@
                         </div>
                         <div class="text-wrapper">
                             <div class="radio-button-wrapper">
-                                <input type="radio" name="{{item.name}}"
-                                       value="{{item.value}}"
-                                       title="{{item.title}}">
+                                <input type="radio" {{d.default?'disabled':''}} name="{{d.name}}"
+                                value="{{item.imgName}}"
+                                title="{{item.imgName}}">
                             </div>
                         </div>
                     </label>
@@ -578,14 +550,13 @@
                 {{d.name}}
                 {{d.value.verify.required?"*":""}}
             </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
+            <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
             </div>
 
             <div class="layui-row layui-col-md12 text-left">
 
                 {{#layui.each(d.value.images,function(i,item){}}
-                {{#if(d.default){}}
                 <div class="layui-col-md3 redioimg">
                     <label class="checkbox" style="display: block;">
                         <div class="image-center"><img
@@ -593,28 +564,13 @@
                         </div>
                         <div class="text-wrapper">
                             <div class="checkbox-button-wrapper">
-                                <input type="checkbox" name="field[choices]"
-                                       value="1" title="{{item.title}}">
+                                <input type="checkbox" {{d.default?'disabled':''}} name="{{d.name}}"
+                                value="{{item.imgName}}"
+                                title="{{item.imgName}}">
                             </div>
                         </div>
                     </label>
                 </div>
-                {{#}else{}}
-                <div class="layui-col-md3 redioimg">
-                    <label class="checkbox" style="display: block;">
-                        <div class="image-center"><img
-                                src="{{item.imgPath}}">
-                        </div>
-                        <div class="text-wrapper">
-                            <div class="checkbox-button-wrapper">
-                                <input type="checkbox" name="{{item.name}}"
-                                       value="{{item.value}}"
-                                       title="{{item.title}}">
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                {{#}}}
                 {{#});}}
             </div>
         </div>
@@ -628,7 +584,7 @@
                 {{d.name}}
                 {{d.value.verify.required?"*":""}}
             </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
+            <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
             </div>
 
@@ -647,10 +603,10 @@
                     <tr>
                         <td>{{title.value}}</td>
                         {{#layui.each(title.selects,function(j,select){}}
-                        <td>
-                            <input type="radio" readonly="{{d.default?'readonly':''}}"
-                                   checked="{{select.checked==select.value}}"
-                                   name="{{d.name+'_'+title+'_'+select.value+'_'+i+'_'+j}}" value="{{select.value}}"
+                        <td class="layui-input-block">
+                            <input type="radio" {{d.default?'disabled':''}}
+                            {{select.checked==select.value?'checked':''}}
+                            name="{{d.name+'_'+title.value+'_'+select.value+'_'+i}}" value="{{select.value}}"
                             />
                         </td>
                         {{#});}}
@@ -670,7 +626,7 @@
                 {{d.name}}
                 {{d.value.verify.required?"*":""}}
             </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
+            <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
             </div>
             <div class="gtable">
@@ -679,7 +635,7 @@
                     <tr>
                         <th></th>
                         {{#layui.each(d.value.selects,function(i,select){}}
-                        <th>{{select.value}}</th>
+                        <th>{{select}}</th>
                         {{#});}}
                     </tr>
                     </thead>
@@ -689,9 +645,9 @@
                         <td>{{title.value}}</td>
                         {{#layui.each(title.selects,function(j,select){}}
                         <td>
-                            <input type="text" readonly="{{d.default?'readonly':''}}"
-                                   name="{{d.name+'_'+title+'_'+select.value+'_'+i+'_'+j}}"
-                                   value="{{select.value}}">
+                            <input type="text" class="layui-input" readonly="{{d.default?'readonly':''}}"
+                                   name="{{d.name+'_'+title.value+'_'+select+'_'+i+'_'+j}}"
+                            />
                         </td>
                         {{#});}}
                     </tr>
@@ -709,17 +665,14 @@
                 {{d.name}}
                 {{d.value.verify.required?"*":""}}
             </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
+            <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
             </div>
             <div class="layui-inline layui-col-md12">
                 <div class="layui-input-inline">
-                    {{#if(d.default){}}
-                    <div type="text" class="layui-input"></div>
-                    {{#}else{}}
-                    <input type="text" name="{{d.name}}" lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
+                    <input type="text" name="{{d.name}}" readonly="{{d.default?'readonly':''}}"
+                           lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
                            class="layui-input">
-                    {{#}}}
                 </div>
             </div>
         </div>
@@ -733,48 +686,26 @@
                 {{d.name}}
                 {{d.value.verify.required?"*":""}}
             </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
+            <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
             </div>
             <div class="layui-inline layui-row layui-col-md4">
-                {{#if(!d.default){}}
-                <select name="{{d.name}}" lay-verify="d.value.verify">
-                    <option value="">时</option>
-                    {{#for(var i=0;i<24;i++){}}
-                    {{#if(i<10) i='0'+i;}}
-                    <option value="{{i}}">{{i}}</option>
-                    {{#}}}
-                </select>
-                {{#}else{}}
-                <div class="layui-unselect layui-form-select">
-                    <div class="layui-select-title"><input type="text" placeholder="时" value="" readonly=""
-                                                           class="layui-input layui-unselect"><i class="layui-edge"></i>
-                    </div>
-                    <dl class="layui-anim layui-anim-upbit" style="">
-                        <dd lay-value="" class="layui-select-tips">时</dd>
-                    </dl>
-                </div>
+                <select name="{{d.name}}" {{d.default?'disabled':''}} lay-verify="d.value.verify">
+                <option value="">时</option>
+                {{#for(var i=0;i<24;i++){}}
+                {{#if(i<10) i='0'+i;}}
+                <option value="{{i}}" {{d.value.hour==i?'selected':''}}>{{i}}</option>
                 {{#}}}
+                </select>
             </div>
             <div class="layui-inline layui-row layui-col-md4">
-                {{#if(!d.default){}}
-                <select name="{{d.name}}" lay-verify="d.value.verify">
-                    <option value="">分</option>
-                    {{#for(var i=0;i<60;i++){}}
-                    {{#if(i<10) i='0'+i;}}
-                    <option value="{{i}}">{{i}}</option>
-                    {{#}}}
-                </select>
-                {{#}else{}}
-                <div class="layui-unselect layui-form-select layui-form-selected">
-                    <div class="layui-select-title"><input type="text" placeholder="分" value="" readonly=""
-                                                           class="layui-input layui-unselect"><i class="layui-edge"></i>
-                    </div>
-                    <dl class="layui-anim layui-anim-upbit" style="">
-                        <dd lay-value="" class="layui-select-tips">分</dd>
-                    </dl>
-                </div>
+                <select name="{{d.name}}" {{d.default?'disabled':''}} lay-verify="d.value.verify">
+                <option value="">分</option>
+                {{#for(var i=0;i<60;i++){}}
+                {{#if(i<10) i='0'+i;}}
+                <option value="{{i}}" {{d.value.minute==i?'selected':''}}>{{i}}</option>
                 {{#}}}
+                </select>
             </div>
         </div>
     </div>
@@ -787,20 +718,15 @@
                 {{d.name}}
                 {{d.value.verify.required?"*":""}}
             </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
+            <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
             </div>
-            <label class="layui-form-label labelwidth">
-                <i class="layui-icon">&#xe637;</i>
-            </label>
-
+        </div>
+        <div class="layui-form-item">
             <div class="layui-input-block">
-                {{#if(d.default){}}
-                <div type="text" class="layui-input"></div>
-                {{#}else{}}
-                <input type="text" name="{{d.name}}" lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
-                       class="layui-input">
-                {{#}}}
+                <input type="text" readonly="{{d.default?'readonly':''}}" name="{{d.name}}"
+                       lay-verify="{{d.value.verify}}" value="{{d.value.default.value}}"
+                       class="layui-input" placeholder="yyyy-mm-dd">
             </div>
         </div>
     </div>
@@ -813,27 +739,22 @@
                 {{d.name}}
                 {{d.value.verify.required?"*":""}}
             </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
+            <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
             </div>
             <div class="layui-inline layui-row layui-col-md4">
-                {{#if(!d.default){}}
-                <select name="{{d.name}}" lay-verify="{{d.value.verify}}">
-                    <option value="">请选择</option>
-                    {{#layui.each(d.value.options,function(i,option){}}
-                    <option value="{{option.value}}">{{option.name}}</option>
-                    {{#});}}
+                <select name="{{d.name}}" {{d.default?'disabled':''}} lay-verify="{{d.value.verify}}">
+                <option value="">请选择</option>
+                {{#layui.each(d.value.options,function(i,option){}}
+                <option value="{{option.value}}" {{option.checked==option.value?'disabled':''}}>{{option.value}}
+                </option>
+                {{#});}}
                 </select>
-                {{#}else{}}
-                <div class="layui-select-title"><input type="text" placeholder="请选择" value=""
-                                                       class="layui-input layui-unselect"><i class="layui-edge"></i>
-                </div>
-                {{#}}}
             </div>
         </div>
     </div>
 </script>
-<script type="text/html" id="descfield">
+<script type="text/html" id="desfield">
     <div class="new-line" editor="{{d.editor}}">
         <!--描述-->
         <div class="layui-form-item">
@@ -841,7 +762,7 @@
                 {{d.name}}
                 {{d.value.verify.required?"*":""}}
             </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
+            <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
             </div>
         </div>
@@ -855,7 +776,7 @@
                 {{d.name}}
                 {{d.value.verify.required?"*":""}}
             </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
+            <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
             </div>
             <div class="layui-row layui-col-md12">
@@ -864,12 +785,9 @@
                 </label>
 
                 <div class="layui-input-block">
-                    {{#if(d.default){}}
-                    <div type="text" class="layui-input"></div>
-                    {{#}else{}}
-                    <input type="text" name="{{d.name}}" lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
+                    <input type="text" name="{{d.name}}" readonly="{{d.default?'readonly':''}}"
+                           lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
                            class="layui-input">
-                    {{#}}}
                 </div>
             </div>
         </div>
@@ -883,20 +801,13 @@
                 {{d.name}}
                 {{d.value.verify.required?"*":""}}
             </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
+            <div class="layui-row layui-col-md12 text-left field-des">
                 <div class="spingfen">
-                    {{#if(d.default){}}
-                    {{#layui.each(d.value.score,function(i,item){}}
+                    {{#for(var i=0;i
+                    <d.value.fullscore
+                            ;i++){}}
                     <i class="layui-icon">&#xe658;</i>
                     {{#});}}
-                    {{#layui.each(d.value.fullscore-d.value.score,function(i,item){}}
-                    <i class="layui-icon">&#xe658;</i>
-                    {{#});}}
-
-                    {{#}else{}}
-                    <i class="layui-icon">&#xe658;</i><i
-                        class="layui-icon">&#xe658;</i> <i class="layui-icon">&#xe658;</i>
-                    {{#}}}
                 </div>
 
             </div>
@@ -911,46 +822,21 @@
                 {{d.name}}
                 {{d.value.verify.required?"*":""}}
             </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
+            <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
             </div>
             <div class="layui-inline layui-row layui-col-md4">
-                {{#if(!d.default){}}
-                <select name="{{d.name}}" lay-verify="d.value.verify">
-                    <option value="">{{d.value.fdefault}}</option>
-                    {{#layui.each(d.value.fOptoins,function(i,fOption){}}
-                    <option value="{{fOption.value}}">{{fOption.name}}</option>
-                    {{#});}}
+                <select name="{{d.name}}" lay-filter="fselect" {{d.default?'disabled':''}} lay-verify="d.value.verify">
+                <option value="">{{d.value.select.fdefault}}</option>
+                {{#layui.each(d.value.selects,function(i,select){}}
+                <option value="{{select.value}}">{{select.value}}</option>
+                {{#});}}
                 </select>
-                {{#}else{}}
-                <div class="layui-unselect layui-form-select">
-                    <div class="layui-select-title"><input type="text" placeholder="时" value="" readonly=""
-                                                           class="layui-input layui-unselect"><i class="layui-edge"></i>
-                    </div>
-                    <dl class="layui-anim layui-anim-upbit" style="">
-                        <dd lay-value="" class="layui-select-tips">请选择</dd>
-                    </dl>
-                </div>
-                {{#}}}
             </div>
             <div class="layui-inline layui-row layui-col-md4">
-                {{#if(!d.default){}}
-                <select name="{{d.name}}" lay-verify="d.value.verify">
-                    <option value="">{{d.value.sdefault}}</option>
-                    {{#layui.each(d.value.sOptoins,function(i,sOption){}}
-                    <option value="{{sOption.value}}">{{sOption.name}}</option>
-                    {{#});}}
+                <select name="{{d.name}}" class="sselect" {{d.default?'disabled':''}} lay-verify="d.value.verify">
+                <option value="">{{d.value.select.sdefault}}</option>
                 </select>
-                {{#}else{}}
-                <div class="layui-unselect layui-form-select layui-form-selected">
-                    <div class="layui-select-title"><input type="text" placeholder="分" value="" readonly=""
-                                                           class="layui-input layui-unselect"><i class="layui-edge"></i>
-                    </div>
-                    <dl class="layui-anim layui-anim-upbit" style="">
-                        <dd lay-value="" class="layui-select-tips">请选择</dd>
-                    </dl>
-                </div>
-                {{#}}}
             </div>
         </div>
     </div>
@@ -963,16 +849,13 @@
                 {{d.name}}
                 {{d.value.verify.required?"*":""}}
             </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
+            <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
             </div>
             <div class="layui-row layui-col-md12 layui-inline upbox">
                 <i class="layui-icon">&#xe681;</i>
-                {{#if(d.default){}}
-                <p>请选择或拖拽上传文件，20MB以内。 </p>
-                {{#}else{}}
-                <p>{{d.value.filetype}}，{{d.value.filecount}},{{d.value.filesize}}。 </p>
-                {{#}}}
+                <p>
+                    请选择或拖拽上传文件{{d.value.fileCount!='1'?'（最多'+d.value.fileCount+'个）':''}}，限制在每个{{d.value.fileSize}}M以内。 </p>
             </div>
         </div>
     </div>
@@ -988,7 +871,7 @@
             <div class="layui-row layui-col-md12 bgtip">
                 标题<i class="layui-icon">&#xe60b;</i>
             </div>
-            <div class="layui-row layui-col-md12 bgtip">
+            <div class="layui-row layui-col-md12">
                 <input type="text" class="layui-input" name="name" value="{{d.name}}"/>
             </div>
         </div>
@@ -1005,7 +888,7 @@
                 提示<i class="layui-icon">&#xe60b;</i>
             </div>
             <div class="layui-col-md12">
-                <textarea name="desc" value="{{d.desc}}"></textarea>
+                <textarea name="des" value="{{d.des}}"></textarea>
             </div>
         </div>
         <!--手风琴组件-->
@@ -1020,19 +903,19 @@
                             <i class="layui-icon" title="关于必填校验">&#xe60b;</i>
                         </p>
                         <p><input type="checkbox" name="value_verify_min_checked" lay-skin="primary" title=""
-                                  checked="{{d.value.verify.min.checked}}"> 最少填写
+                                  {{d.value.verify.min.checked ? 'checked':''}} > 最少填写
                             <input type="text" name="value_verify_min_length" value="{{d.value.verify.min.length}}"
                                    class="pinput"/>个字
                             <i class="layui-icon" title="关于最少填写字数">&#xe60b;</i>
                         </p>
                         <p><input type="checkbox" name="value_verify_max_checked" lay-skin="primary" title=""
-                                  checked=""> 最多填写
+                            "> 最多填写
                             <input type="text" name="value_verify_max_length" value="{{d.value.verify.max.length}}"
                                    class="pinput"/>个字
                             <i class="layui-icon" title="关于最多填写字数">&#xe60b;</i>
                         </p>
                         <p><input type="checkbox" name="value_verify_msg_checked" lay-skin="primary" title=""
-                                  checked="{{d.value.verify.msg.checked}}"> 自定义出错文案
+                                  {{d.value.verify.msg.checked?'checked':''}}> 自定义出错文案
                             <i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
                         </p>
                         <p><input type="text" name="value_verify_msg_val" value="{{d.value.verify.msg.val}}"
@@ -1042,7 +925,7 @@
                 <!--<div class="layui-colla-item">-->
                 <!--<h2 class="layui-colla-title">布局设置</h2>-->
                 <!--<div class="layui-colla-content">-->
-                <!--<p><input type="checkbox" name="value_coln_checked" lay-skin="primary" title="" checked="">-->
+                <!--<p><input type="checkbox" name="value_coln_checked" lay-skin="primary" title="" ">-->
                 <!--宽度占整行的-->
                 <!--<i class="layui-icon" title="关于占用整行的宽度">&#xe60b;</i>-->
                 <!--</p>-->
@@ -1094,7 +977,7 @@
                 提示<i class="layui-icon">&#xe60b;</i>
             </div>
             <div class="layui-col-md12">
-                <input type="text" class="layui-input-block" name="desc" value="{{d.desc}}"/>
+                <input type="text" class="layui-input-block" name="des" value="{{d.des}}"/>
             </div>
         </div>
         <!--手风琴组件-->
@@ -1104,50 +987,53 @@
                     <h2 class="layui-colla-title">校验</h2>
                     <div class="layui-colla-content layui-show pcheck">
                         <p>
-                            <input type="checkbox" name="value_required_checked" lay-skin="primary" title=""
-                                   checked="{{d.value.required.checked}}"> 必须填
+                            <input type="checkbox" name="value_verify_required" lay-skin="primary" title=""
+                                   {{d.value.verify.required ? 'checked':''}}> 必须填
                             <i class="layui-icon" title="关于必填校验">&#xe60b;</i>
                         </p>
-                        <p><input type="checkbox" name="value_min_checked" lay-skin="primary" title=""
-                                  checked="{{d.value.min.checked}}"> 最少填写
-                            <input type="text" name="value_min_length" value="{{d.value.min.length}}" class="pinput"/>个字
+                        <p><input type="checkbox" name="value_verify_min_checked" lay-skin="primary" title=""
+                                  {{d.value.verify.min.checked ? 'checked':''}} > 最少填写
+                            <input type="text" name="value_verify_min_length" value="{{d.value.verify.min.length}}"
+                                   class="pinput"/>个字
                             <i class="layui-icon" title="关于最少填写字数">&#xe60b;</i>
                         </p>
-                        <p><input type="checkbox" name="value_max_checked" lay-skin="primary" title="" checked=""> 最多填写
-                            <input type="text" name="value_max_length" value="{{d.value.max.length}}" class="pinput"/>个字
+                        <p><input type="checkbox" name="value_verify_max_checked" lay-skin="primary" title=""
+                            "> 最多填写
+                            <input type="text" name="value_verify_max_length" value="{{d.value.verify.max.length}}"
+                                   class="pinput"/>个字
                             <i class="layui-icon" title="关于最多填写字数">&#xe60b;</i>
                         </p>
                         <p><input type="checkbox" name="value_verify_msg_checked" lay-skin="primary" title=""
-                                  checked="{{d.value.verify.msg.checked}}"> 自定义出错文案
+                                  {{d.value.verify.msg.checked?'checked':''}}> 自定义出错文案
                             <i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
                         </p>
                         <p><input type="text" name="value_verify_msg_val" value="{{d.value.verify.msg.val}}"
                                   class="pinput-m"/></p>
                     </div>
                 </div>
-                <div class="layui-colla-item">
-                    <h2 class="layui-colla-title">布局设置</h2>
-                    <div class="layui-colla-content">
-                        <p><input type="checkbox" name="value_coln_checked" lay-skin="primary" title="" checked="">
-                            宽度占整行的
-                            <i class="layui-icon" title="关于占用整行的宽度">&#xe60b;</i>
-                        </p>
-                        <div class="layui-input-inline layui-col-md12">
-                            <select name="value_coln_val">
-                                <option>请选择比例</option>
-                                <option selected="{{d.value.coln_val=='layui-col-md3'?'selected':''}}"
-                                        value="layui-col-md3">1/4
-                                </option>
-                                <option selected="{{d.value.coln_val=='layui-col-md3'?'selected':''}}"
-                                        value="layui-col-md6">2/4
-                                </option>
-                                <option selected="{{d.value.coln_val=='layui-col-md3'?'selected':''}}"
-                                        value="layui-col-md9">3/4
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                <!--<div class="layui-colla-item">-->
+                <!--<h2 class="layui-colla-title">布局设置</h2>-->
+                <!--<div class="layui-colla-content">-->
+                <!--<p><input type="checkbox" name="value_coln_checked" lay-skin="primary" title="" ">-->
+                <!--宽度占整行的-->
+                <!--<i class="layui-icon" title="关于占用整行的宽度">&#xe60b;</i>-->
+                <!--</p>-->
+                <!--<div class="layui-input-inline layui-col-md12">-->
+                <!--<select name="value_coln_val">-->
+                <!--<option>请选择比例</option>-->
+                <!--<option selected="{{d.value.coln_val=='layui-col-md3'?'selected':''}}"-->
+                <!--value="layui-col-md3">1/4-->
+                <!--</option>-->
+                <!--<option selected="{{d.value.coln_val=='layui-col-md3'?'selected':''}}"-->
+                <!--value="layui-col-md6">2/4-->
+                <!--</option>-->
+                <!--<option selected="{{d.value.coln_val=='layui-col-md3'?'selected':''}}"-->
+                <!--value="layui-col-md9">3/4-->
+                <!--</option>-->
+                <!--</select>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
             </div>
         </div>
     </div>
@@ -1164,7 +1050,7 @@
                 标题<i class="layui-icon">&#xe60b;</i>
             </div>
             <div class="layui-row layui-col-md12">
-                <input type="text" value="{{d.value}}" name="name" class="layui-input"/>
+                <input type="text" value="{{d.name}}" name="name" class="layui-input"/>
             </div>
         </div>
         <div class="layui-row">
@@ -1175,9 +1061,10 @@
                 {{#layui.each(d.value.radios,function(i,item){}}
                 <p><i class="layui-icon">&#xe624;</i>
                     <input type="radio" name="value_radios_checked" value="{{item.value}}"
-                           checked="{{item.checked==item.value}}"
-                           lay-skin="primary" title="默认选择">
-                    <input type="text" name="value_radios_value" id="" value="{{item.value}}" placeholder="选项"/>
+                           {{item.checked==item.value?'checked':''}}
+                           lay-skin="primary" title="默认选择" class="checked">
+                    <input type="text" name="value_radios_value" class="select" value="{{item.value}}"
+                           placeholder="选项"/>
                     <i class="layui-icon addselect">&#xe654;</i>
                     <i class="layui-icon delselect">&#xe640;</i>
                 </p>
@@ -1189,7 +1076,7 @@
                 提示<i class="layui-icon">&#xe60b;</i>
             </div>
             <div class="layui-col-md12">
-                <textarea name="desc" value="{{d.desc}}"></textarea>
+                <textarea name="des" value="{{d.des}}"></textarea>
             </div>
         </div>
         <div class="layui-row">
@@ -1199,12 +1086,12 @@
                     <div class="layui-colla-content layui-show pcheck">
                         <p>
                             <input type="checkbox" name="value_verify_required" value="true" lay-skin="primary" title=""
-                                   checked="{{d.value.verify.required}}"> 必须填
+                                   {{d.value.verify.required?'checked':''}}> 必须填
                             <i class="layui-icon" title="关于必填校验">&#xe60b;</i>
                         </p>
                         <p><input type="checkbox" name="value_verify_msg_required" value="true" lay-skin="primary"
                                   title=""
-                                  checked="{{d.value.verify.msg.required}}"> 自定义出错文案
+                                  {{d.value.verify.msg.required?'checked':''}}> 自定义出错文案
                             <i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
                         </p>
                         <p><input type="text" name="value_verify_msg_val" value="{{d.value.verify.msg.val}}"
@@ -1237,9 +1124,11 @@
             <div class="layui-row layui-col-md12">
                 {{#layui.each(d.value.checkboxs,function(i,item){}}
                 <p><i class="layui-icon">&#xe624;</i>
-                    <input type="radio" name="value_checkboxs_{{i}}_checked" value="true" checked="{{item.checked}}"
-                           lay-skin="primary" title="默认选择">
-                    <input type="text" name="value_checkboxs_{{i}}" id="" value="{{item.value}}" placeholder="选项"/>
+                    <input type="checkbox" name="value_checkboxs_checked" value="{{item.value}}"
+                           {{item.value==item.checked?'checked':''}}
+                           lay-skin="primary" title="默认选择" class="checked">
+                    <input type="text" name="value_checkboxs_value" class="select" value="{{item.value}}"
+                           placeholder="选项"/>
                     <i class="layui-icon addselect">&#xe654;</i>
                     <i class="layui-icon delselect">&#xe640;</i>
                 </p>
@@ -1251,7 +1140,7 @@
                 提示<i class="layui-icon">&#xe60b;</i>
             </div>
             <div class="layui-col-md12">
-                <textarea name="desc" value="{{d.desc}}"></textarea>
+                <textarea name="des" value="{{d.des}}"></textarea>
             </div>
         </div>
         <div class="layui-row">
@@ -1261,25 +1150,25 @@
                     <div class="layui-colla-content layui-show pcheck">
                         <p>
                             <input type="checkbox" name="value_verify_required" value="true" lay-skin="primary" title=""
-                                   checked="{{d.value.verify.required}}"> 必须填
+                                   {{d.value.verify.required}}"> 必须填
                             <i class="layui-icon" title="关于必填校验">&#xe60b;</i>
                         </p>
                         <p><input type="checkbox" name="value_verify_min_required" lay-skin="primary" title=""
-                                  checked="{{d.value.verify.min.required}}"> 最少选
-                            <input type="text" name="value_verify_min_val" id="" value="{{d.value.verify.min.val}}"
+                                  {{d.value.verify.min.required}}"> 最少选
+                            <input type="text" name="value_verify_min_val" value="{{d.value.verify.min.val}}"
                                    class="pinput"/>选项
                             <i class="layui-icon" title="关于最少填写字数">&#xe60b;</i>
                         </p>
                         <p><input type="checkbox" name="value_verify_max_required" lay-skin="primary" title=""
                                   value="true"
-                                  checked="{{d.value.verify.max.required}}"> 最多选
-                            <input type="text" name="value_verify_max_val" id="" value="{{d.value.verify.max.val}}"
+                                  {{d.value.verify.max.required}}"> 最多选
+                            <input type="text" name="value_verify_max_val" value="{{d.value.verify.max.val}}"
                                    class="pinput"/>选项
                             <i class="layui-icon" title="关于最多填写字数">&#xe60b;</i>
                         </p>
                         <p><input type="checkbox" name="value_verify_msg_checked" lay-skin="primary" value="true"
                                   title=""
-                                  checked="{{d.value.verify.msg.required}}"> 自定义出错文案
+                                  {{d.value.verify.msg.required}}"> 自定义出错文案
                             <i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
                         </p>
                         <p><input type="text" name="value_verify_msg_val" value="{{d.value.verify.msg.val}}"
@@ -1310,12 +1199,13 @@
             <div id="imgs">
                 {{#layui.each(d.value.checkboxs,function(i,item){}}
                 <p><i class="layui-icon">&#xe624;</i>
-                    <input type="radio" name="value_checkboxs_default_checked" value="{{i}}"
-                           checked="{{item.checked==i}}"
-                           lay-skin="primary" title="默认选择">
+                    <input type="checkbox" name="value_checkboxs_default_checked" value="{{i}}"
+                           {{item.checked==i}}"
+                           lay-skin="primary" title="默认选择" class="checked">
                     <img src="{{item.imgPath}}"/> <input type="hidden" name="value_img_path" id=""
                                                          value="{{item.imgPath}}"
-                                                         placeholder="选项"/><input type="text" name="value_img_imgName"
+                                                         placeholder="选项"/><input class="select" type="text"
+                                                                                  name="value_img_imgName"
                                                                                   id=""
                                                                                   value="{{item.imgName}}"
                                                                                   placeholder="选项"/>
@@ -1349,25 +1239,25 @@
                     <div class="layui-colla-content layui-show pcheck">
                         <p>
                             <input type="checkbox" name="value_verify_required" value="true" lay-skin="primary" title=""
-                                   checked="{{d.value.verify.required}}"> 必须填
+                                   {{d.value.verify.required?'checked':''}}> 必须填
                             <i class="layui-icon" title="关于必填校验">&#xe60b;</i>
                         </p>
                         <p><input type="checkbox" name="value_verify_min_required" lay-skin="primary" title=""
-                                  checked="{{d.value.verify.min.required}}"> 最少选
+                                  {{d.value.verify.min.required?'checked':''}}> 最少选
                             <input type="text" name="value_verify_min_val" id="" value="{{d.value.verify.min.val}}"
                                    class="pinput"/>选项
                             <i class="layui-icon" title="关于最少填写字数">&#xe60b;</i>
                         </p>
                         <p><input type="checkbox" name="value_verify_max_required" lay-skin="primary" title=""
                                   value="true"
-                                  checked="{{d.value.verify.max.required}}"> 最多选
+                                  {{d.value.verify.max.required?'checked':''}}> 最多选
                             <input type="text" name="value_verify_max_val" id="" value="{{d.value.verify.max.val}}"
                                    class="pinput"/>选项
                             <i class="layui-icon" title="关于最多填写字数">&#xe60b;</i>
                         </p>
                         <p><input type="checkbox" name="value_verify_msg_checked" lay-skin="primary" value="true"
                                   title=""
-                                  checked="{{d.value.verify.msg.required}}"> 自定义出错文案
+                                  {{d.value.verify.msg.required?'checked':''}}> 自定义出错文案
                             <i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
                         </p>
                         <p><input type="text" name="value_verify_msg_val" value="{{d.value.verify.msg.val}}"
@@ -1398,13 +1288,14 @@
             <div id="imgs">
                 {{#layui.each(d.value.checkboxs,function(i,item){}}
                 <p><i class="layui-icon">&#xe624;</i>
-                    <input type="radio" name="value_checkboxs_default_checked" value="{{i}}"
-                           checked="{{item.checked==i}}"
-                           lay-skin="primary" title="默认选择">
-                    <img src="{{item.imgPath}}"/> <input type="hidden" name="value_img_path" id=""
+                    <input type="radio" name="value_checkboxs_checked" value="{{item.imgName}}"
+                           {{item.checked==item.imgName?'checked':''}}"
+                           lay-skin="primary" title="默认选择" class="checked">
+                    <img src="{{item.imgPath}}"/> <input type="hidden" name="value_images_path" id=""
                                                          value="{{item.imgPath}}"
-                                                         placeholder="选项"/><input type="text" name="value_img_imgName"
-                                                                                  id=""
+                                                         placeholder="选项"/><input type="text"
+                                                                                  name="value_images_imgName"
+                                                                                  class="select"
                                                                                   value="{{item.imgName}}"
                                                                                   placeholder="选项"/>
                     <i class="layui-icon addselect">&#xe654;</i>
@@ -1426,7 +1317,7 @@
                 提示<i class="layui-icon">&#xe60b;</i>
             </div>
             <div class="layui-col-md12">
-                <textarea name="desc" rows="" cols="" value="{{d.desc}}" id="briefText4"></textarea>
+                <textarea name="des" rows="" cols="" value="{{d.des}}"></textarea>
             </div>
         </div>
         <!--手风琴组件-->
@@ -1437,12 +1328,12 @@
                     <div class="layui-colla-content layui-show pcheck">
                         <p>
                             <input type="checkbox" name="value_verify_required" value="true" lay-skin="primary" title=""
-                                   checked="{{d.value.verify.required}}"> 必须填
+                                   {{d.value.verify.required?'checked':''}}> 必须填
                             <i class="layui-icon" title="关于必填校验">&#xe60b;</i>
                         </p>
                         <p><input type="checkbox" name="value_verify_msg_checked" lay-skin="primary" value="true"
                                   title=""
-                                  checked="{{d.value.verify.msg.required}}"> 自定义出错文案
+                                  {{d.value.verify.msg.required?'checked':''}}> 自定义出错文案
                             <i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
                         </p>
                         <p><input type="text" name="value_verify_msg_val" value="{{d.value.verify.msg.val}}"
@@ -1476,25 +1367,31 @@
             <div class="layui-row ">
 
                 <div class="layui-col-md5">
-                    <select name="value_default_type" class="dateslt">
-                        <option value="0" selected="{{d.value.default.type=='0'}}">特定日期</option>
-                        <option value="1" selected="{{d.value.default.type=='1'}}">填写当天</option>
-                        <option value="2" selected="{{d.value.default.type=='2'}}">填写日期</option>
-                        <option value="3" selected="{{d.value.default.type=='3'}}">填写日后</option>
+                    <select name="value_default_type" lay-filter="dateslt">
+                        <option value="0" {{d.value.default.type=='0'?'selected':''}}>特定日期</option>
+                        <option value="1" {{d.value.default.type=='1'?'selected':''}}>填写当天</option>
+                        <option value="2" {{d.value.default.type=='2'?'selected':''}}>填写日期</option>
+                        <option value="3" {{d.value.default.type=='3'?'selected':''}}>填写日后</option>
                     </select>
                 </div>
 
                 <div class="layui-col-md6">
-                    <input type="text" class="layui-input" value="{{d.value.default.value}}" name="value_default_value"
+                    <input type="text" class="layui-input" value="{{d.value.default.val}}" name="value_default_val"
                            id="0"
                            placeholder="yyyy-MM-dd">
-                    <div id="2"><input type="text" value="{{d.value.default.value}}" name="value_default_value"
-                                       class="layui-input"
-                    >天
+                    <div id="2" class="lay-hide ">
+                        <div class="layui-col-md8"><input type="text" value="{{d.value.default.value}}"
+                                                          name="value_default_value"
+                                                          class="layui-input"
+                        ></div>
+                        天
                     </div>
-                    <div id="3"><input type="text" value="{{d.value.default.value}}" name="value_default_value"
-                                       class="layui-input"
-                    >天
+                    <div id="3" class="lay-hide ">
+                        <div class="layui-col-md8"><input type="text" value="{{d.value.default.value}}"
+                                                          name="value_default_value"
+                                                          class="layui-input"
+                        ></div>
+                        天
                     </div>
                 </div>
             </div>
@@ -1504,7 +1401,7 @@
                 提示<i class="layui-icon">&#xe60b;</i>
             </div>
             <div class="layui-col-md12">
-                <textarea name="" rows="" cols=""></textarea>
+                <textarea name="des" value="{{d.des}}" rows="" cols=""></textarea>
             </div>
         </div>
         <!--手风琴组件-->
@@ -1515,21 +1412,21 @@
                     <div class="layui-colla-content layui-show pcheck">
                         <div>
                             <input type="checkbox" name="value_verify_required" value="true" lay-skin="primary" title=""
-                                   checked="{{d.value.verify.required}}">
+                                   {{d.value.verify.required?'checked':''}}>
                             必须填
                             <i class="layui-icon" title="关于必填校验">&#xe60b;</i>
                         </div>
                         <div><input type="checkbox" name="value_verify_start_required" lay-skin="primary" title=""
-                                    checked="{{d.value.verify.start.required}}" value="true"> 起始日期
+                                    {{d.value.verify.start.required?'checked':''}} value="true"> 起始日期
                             <i class="layui-icon" title="关于起始日期">&#xe60b;</i>
                             <div class="layui-row ">
 
                                 <div class="layui-col-md5">
-                                    <select name="value_verify_start_type" class="dateslt">
-                                        <option value="0" selected="{{d.value.verify.start.type=='0'}}">特定日期</option>
-                                        <option value="1" selected="{{d.value.verify.start.type=='1'}}">填写当天</option>
-                                        <option value="2" selected="{{d.value.verify.start.type=='2'}}">填写日期</option>
-                                        <option value="3" selected="{{d.value.verify.start.type=='3'}}">填写日后</option>
+                                    <select name="value_verify_start_type" lay-filter="dateslt">
+                                        <option value="0" {{d.value.verify.start.type=='0'?'selected':''}}>特定日期</option>
+                                        <option value="1" {{d.value.verify.start.type=='1'?'selected':''}}>填写当天</option>
+                                        <option value="2" {{d.value.verify.start.type=='2'?'selected':''}}>填写日期</option>
+                                        <option value="3" {{d.value.verify.start.type=='3'?'selected':''}}>填写日后</option>
 
                                     </select>
                                 </div>
@@ -1538,29 +1435,37 @@
                                     <input type="text" class="layui-input" value="{{d.value.verify.start.val}}"
                                            name="value_verify_start_val" id="0"
                                            placeholder="yyyy-MM-dd">
-                                    <div id="2"><input type="text" value="{{d.value.verify.start.val}}"
-                                                       name="value_verify_start_val" class="layui-input"
-                                    >天
+                                    <div id="2" class="lay-hide ">
+                                        <div class="layui-col-md8"><input type="text"
+                                                                          value="{{d.value.verify.start.val}}"
+                                                                          name="value_verify_start_val"
+                                                                          class="layui-input"
+                                        ></div>
+                                        天
                                     </div>
-                                    <div id="3"><input type="text" value="{{d.value.verify.start.val}}"
-                                                       name="value_verify_start_val" class="layui-input"
-                                    >天
+                                    <div id="3" class="lay-hide ">
+                                        <div class="layui-col-md8"><input type="text"
+                                                                          value="{{d.value.verify.start.val}}"
+                                                                          name="value_verify_start_val"
+                                                                          class="layui-input"
+                                        ></div>
+                                        天
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div><input type="checkbox" name="value_verify_end_required" lay-skin="primary" title=""
-                                    checked="{{d.value.verify.end.required}}" value="true">
+                                    {{d.value.verify.end.required?'checked':''}} value="true">
                             结束日期
                             <i class="layui-icon" title="关于结束日期">&#xe60b;</i>
                             <div class="layui-row ">
 
                                 <div class="layui-col-md5">
-                                    <select name="value_verify_end_type" class="dateslt">
-                                        <option value="0" selected="{{d.value.verify.end.type=='0'}}">特定日期</option>
-                                        <option value="1" selected="{{d.value.verify.end.type=='1'}}">填写当天</option>
-                                        <option value="2" selected="{{d.value.verify.end.type=='2'}}">填写日期</option>
-                                        <option value="3" selected="{{d.value.verify.end.type=='3'}}">填写日后</option>
+                                    <select name="value_verify_end_type" lay-filter="dateslt">
+                                        <option value="0" {{d.value.verify.end.type=='0'?'selected':''}}>特定日期</option>
+                                        <option value="1" {{d.value.verify.end.type=='1'?'selected':''}}>填写当天</option>
+                                        <option value="2" {{d.value.verify.end.type=='2'?'selected':''}}>填写日期</option>
+                                        <option value="3" {{d.value.verify.end.type=='3'?'selected':''}}>填写日后</option>
 
                                     </select>
                                 </div>
@@ -1568,19 +1473,25 @@
                                 <div class="layui-col-md6">
                                     <input type="text" class="layui-input" name="value_verify_end_val" id="0"
                                            placeholder="yyyy-MM-dd" value="{{d.value.verify.end.val}}">
-                                    <div id="2"><input type="text" value="{{d.value.verify.end.val}}"
-                                                       name="value_verify_end_val" class="layui-input"
-                                    >天
+                                    <div id="2" class="lay-hide layui-row">
+                                        <div class="layui-col-md8"><input type="text" value="{{d.value.verify.end.val}}"
+                                                                          name="value_verify_end_val"
+                                                                          class="layui-input"
+                                        ></div>
+                                        天
                                     </div>
-                                    <div id="3"><input type="text" value="{{d.value.verify.end.val}}"
-                                                       name="value_verify_end_val" class="layui-input"
-                                    >天
+                                    <div id="3" class="lay-hide layui-row">
+                                        <div class="layui-col-md8"><input type="text" value="{{d.value.verify.end.val}}"
+                                                                          name="value_verify_end_val"
+                                                                          class="layui-input layui-col-md5"
+                                        ></div>
+                                        天
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <p><input type="checkbox" name="value_verify_msg_required" lay-skin="primary" value="true"
-                                  title="" checked="{{d.value.verify.msg.required}}"> 自定义出错文案
+                                  title="" {{d.value.verify.msg.required?'checked':''}}> 自定义出错文案
                             <i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
                         </p>
                         <p><input type="text" name="value_verify_msg_val" id="" value="{{d.value.verify.msg.val}}"
@@ -1617,7 +1528,7 @@
                         <option value="">时</option>
                         {{#for(var i=0;i<24;i++){}}
                         {{#if(i<10) i='0'+i;}}
-                        <option value="{{i}}" selected="{{d.value.hour==i}}">{{i}}</option>
+                        <option value="{{i}}" {{d.value.hour==i?'selected':''}}>{{i}}</option>
                         {{#}}}
                     </select>
                 </div>
@@ -1626,7 +1537,7 @@
                         <option value="">分</option>
                         {{#for(var i=0;i<60;i++){}}
                         {{#if(i<10) i='0'+i;}}
-                        <option value="{{i}}" selected="{{d.value.minute==i}}">{{i}}</option>
+                        <option value="{{i}}" {{d.value.minute==i?'selected':''}}>{{i}}</option>
                         {{#}}}
                     </select>
                 </div>
@@ -1637,7 +1548,7 @@
                 提示<i class="layui-icon">&#xe60b;</i>
             </div>
             <div class="layui-col-md12">
-                <textarea name="desc" rows="" cols="" value="{{d.desc}}"></textarea>
+                <textarea name="des" rows="" cols="" value="{{d.des}}"></textarea>
             </div>
         </div>
         <!--手风琴组件-->
@@ -1648,11 +1559,11 @@
                     <div class="layui-colla-content layui-show pcheck">
                         <div>
                             <input type="checkbox" name="value_verify_required" value="true" lay-skin="primary" title=""
-                                   checked="{{d.value.verify.required}}"> 必须填
+                                   {{d.value.verify.required?'checked':''}}> 必须填
                             <i class="layui-icon" title="关于必填校验">&#xe60b;</i>
                         </div>
                         <p><input type="checkbox" name="value_verify_msg_required" value="true" lay-skin="primary"
-                                  title="" checked="{{d.value.verify.msg.required}}"> 自定义出错文案
+                                  title="" {{d.value.verify.msg.required?'checked':''}}> 自定义出错文案
                             <i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
                         </p>
                         <p><input type="text" name="value_verify_msg_val" id="" value="{{d.value.verify.msg.val}}"
@@ -1685,9 +1596,11 @@
             <div class="layui-row layui-col-md12">
                 {{#layui.each(d.value.selects,function(i,item){}}
                 <p><i class="layui-icon">&#xe624;</i>
-                    <input type="radio" name="value_selects_checked" value="{{i}}" checked="{{item.checked==i}}"
-                           lay-skin="primary" title="默认选择">
-                    <input type="text" name="value_selects_{{i}}" id="" value="{{item.value}}" placeholder="选项"/>
+                    <input type="radio" name="value_selects_checked" value="{{item.value}}"
+                           {{item.checked==item.value?'checked':''}}
+                           lay-skin="primary" title="默认选择" class="checked">
+                    <input type="text" name="value_selects_value" class="select" value="{{item.value}}"
+                           placeholder="选项"/>
                     <i class="layui-icon addselect">&#xe654;</i>
                     <i class="layui-icon delselect">&#xe640;</i>
                 </p>
@@ -1700,7 +1613,7 @@
             </div>
             <div class="layui-row ">
                 <input type="text" class="layui-input" name="value_defaultslt" value="{{d.value.defaultslt}}"
-                       placeholder="yyyy-MM-dd">
+                >
             </div>
         </div>
         <div class="layui-row ">
@@ -1708,7 +1621,7 @@
                 提示<i class="layui-icon">&#xe60b;</i>
             </div>
             <div class="layui-col-md12">
-                <textarea name="" rows="" cols="" id="briefText5"></textarea>
+                <textarea name="des" value="{{d.des}}" rows="" cols=""></textarea>
             </div>
         </div>
         <!--手风琴组件-->
@@ -1719,11 +1632,11 @@
                     <div class="layui-colla-content layui-show pcheck">
                         <div>
                             <input type="checkbox" name="value_verify_required" value="true" lay-skin="primary" title=""
-                                   checked="{{d.value.verify.required}}"> 必须填
+                                   {{d.value.verify.required?'checked':''}}> 必须填
                             <i class="layui-icon" title="关于必填校验">&#xe60b;</i>
                         </div>
                         <p><input type="checkbox" name="value_verify_msg_required" value="true" lay-skin="primary"
-                                  title="" checked="{{d.value.verify.msg.required}}"> 自定义出错文案
+                                  title="" {{d.value.verify.msg.required?'checked':''}}> 自定义出错文案
                             <i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
                         </p>
                         <p><input type="text" name="value_verify_msg_val" id="" value="{{d.value.verify.msg.val}}"
@@ -1765,7 +1678,7 @@
                 提示<i class="layui-icon">&#xe60b;</i>
             </div>
             <div class="layui-col-md12">
-                <textarea name="desc" value="{{d.desc}}" rows="" cols=""></textarea>
+                <textarea name="des" value="{{d.des}}" rows="" cols=""></textarea>
             </div>
         </div>
         <!--手风琴组件-->
@@ -1776,11 +1689,11 @@
                     <div class="layui-colla-content layui-show pcheck">
                         <div>
                             <input type="checkbox" name="value_verify_required" value="true" lay-skin="primary" title=""
-                                   checked="{{d.value.verify.required}}"> 必须填
+                                   {{d.value.verify.required?'checked':''}}> 必须填
                             <i class="layui-icon" title="关于必填校验">&#xe60b;</i>
                         </div>
                         <p><input type="checkbox" name="value_verify_msg_required" value="true" lay-skin="primary"
-                                  title="" checked="{{d.value.verify.msg.required}}"> 自定义出错文案
+                                  title="" {{d.value.verify.msg.required?'checked':''}}> 自定义出错文案
                             <i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
                         </p>
                         <p><input type="text" name="value_verify_msg_val" id="" value="{{d.value.verify.msg.val}}"
@@ -1789,8 +1702,9 @@
                 </div>
             </div>
         </div>
+    </div>
 </script>
-<script type="text/html" id="descfieldeditor">
+<script type="text/html" id="desfieldeditor">
     <!--右侧 日期组件-->
     <div class="line-right">
 
@@ -1811,7 +1725,7 @@
                 提示<i class="layui-icon">&#xe60b;</i>
             </div>
             <div class="layui-col-md12">
-                <textarea name="" rows="" cols="" id="briefText5"></textarea>
+                <textarea name="des" value="{{d.des}}" rows="" cols=""></textarea>
             </div>
         </div>
         <!--手风琴组件-->
@@ -1840,9 +1754,11 @@
             </div>
             <div class="layui-row ">
                 <div class="layui-col-md6">
-                    <input type="radio" name="value_fullscore" value="3" checked="{{d.value.fullscore=='3'}}" title="3">
-                    <input type="radio" name="value_fullscore" value="5" checked="{{d.value.fullscore=='5'}}" title="5">
-                    <input type="radio" name="value_fullscore" value="10" checked="{{d.value.fullscore=='10'}}"
+                    <input type="radio" name="value_fullscore" value="3" {{d.value.fullscore=='3'?'checked':''}}
+                           title="3">
+                    <input type="radio" name="value_fullscore" value="5" {{d.value.fullscore=='5'?'checked':''}}
+                           title="5">
+                    <input type="radio" name="value_fullscore" value="10" {{d.value.fullscore=='10'?'checked':''}}
                            title="10">
                 </div>
             </div>
@@ -1854,16 +1770,10 @@
             <div class="layui-row ">
                 <div class="layui-col-md6">
                     <select name="value_score_img">
-                        <option value="/images/qq.png" selected="{{d.value.score.img=='/images/qq.png'}}"><img
-                                th:src="@{/images/qq.png}"/></option>
-                        <option value="/images/qq.png" selected="{{d.value.score.img=='/images/qq.png'}}"><img
-                                th:src="@{/images/qq.png}"/></option>
-                        <option value="/images/qq.png" selected="{{d.value.score.img=='/images/qq.png'}}"><img
-                                th:src="@{/images/qq.png}"/></option>
-                        <option value="/images/qq.png" selected="{{d.value.score.img=='/images/qq.png'}}"><img
-                                th:src="@{/images/qq.png}"/></option>
-                        <option value="/images/qq.png" selected="{{d.value.score.img=='/images/qq.png'}}"><img
-                                th:src="@{/images/qq.png}"/></option>
+                        {{#layui.each(d.value.imgs,function(i,img){}}
+                        <option value="{{img}}" {{d.value.img==img?'selected':''}}><img
+                                src="{{img}}"/></option>
+                        {{#});}}
                     </select>
                 </div>
             </div>
@@ -1873,7 +1783,7 @@
                 提示<i class="layui-icon">&#xe60b;</i>
             </div>
             <div class="layui-col-md12">
-                <textarea name="desc" value="{{d.desc}}" rows="" cols="" id="briefText5"></textarea>
+                <textarea name="des" value="{{d.des}}" rows="" cols=""></textarea>
             </div>
         </div>
         <!--手风琴组件-->
@@ -1884,11 +1794,11 @@
                     <div class="layui-colla-content layui-show pcheck">
                         <div>
                             <input type="checkbox" name="value_verify_required" value="true" lay-skin="primary" title=""
-                                   checked="{{d.value.verify.required}}"> 必须填
+                                   {{d.value.verify.required?'checked':''}}> 必须填
                             <i class="layui-icon" title="关于必填校验">&#xe60b;</i>
                         </div>
                         <p><input type="checkbox" name="value_verify_msg_required" value="true" lay-skin="primary"
-                                  title="" checked="{{d.value.verify.msg.required}}"> 自定义出错文案
+                                  title="" {{d.value.verify.msg.required?'checked':''}}> 自定义出错文案
                             <i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
                         </p>
                         <p><input type="text" name="value_verify_msg_val" id="" value="{{d.value.verify.msg.val}}"
@@ -1931,7 +1841,7 @@
                 提示<i class="layui-icon">&#xe60b;</i>
             </div>
             <div class="layui-col-md12">
-                <textarea name="desc" value="{{d.desc}}" rows="" cols=""></textarea>
+                <textarea name="des" value="{{d.des}}" rows="" cols=""></textarea>
             </div>
         </div>
         <!--手风琴组件-->
@@ -1942,20 +1852,21 @@
                     <div class="layui-colla-content layui-show pcheck">
                         <p>
                             <input type="checkbox" name="value_required_checked" lay-skin="primary" title=""
-                                   checked="{{d.value.required.checked}}"> 必须填
+                                   {{d.value.required.checked?'checked':''}}> 必须填
                             <i class="layui-icon" title="关于必填校验">&#xe60b;</i>
                         </p>
                         <p><input type="checkbox" name="value_min_checked" lay-skin="primary" title=""
-                                  checked="{{d.value.min.checked}}"> 最小值
+                                  {{d.value.min.checked?'checked':''}}> 最小值
                             <input type="text" name="value_min_value" value="{{d.value.min.value}}" class="pinput"/>
                             <i class="layui-icon" title="最小值">&#xe60b;</i>
                         </p>
-                        <p><input type="checkbox" name="value_max_checked" lay-skin="primary" title="" checked=""> 最大值
+                        <p><input type="checkbox" name="value_max_checked" lay-skin="primary" title=""
+                                  {{d.value.max.checked?'checked':''}}> 最大值
                             <input type="text" name="value_max_value" value="{{d.value.max.value}}" class="pinput"/>
                             <i class="layui-icon" title="最大值">&#xe60b;</i>
                         </p>
                         <p><input type="checkbox" name="value_verify_msg_checked" lay-skin="primary" title=""
-                                  checked="{{d.value.verify.msg.checked}}"> 自定义出错文案
+                                  {{d.value.verify.msg.checked?'checked':''}}> 自定义出错文案
                             <i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
                         </p>
                         <p><input type="text" name="value_verify_msg_val" value="{{d.value.verify.msg.val}}"
@@ -1989,11 +1900,11 @@
             </div>
             <div class="layui-row ">
                 <select name="value_fileCount" lay-verify="required">
-                    <option value="1" selected="{{d.value.fileCount=='1'}}">1</option>
-                    <option value="2" selected="{{d.value.fileCount=='2'}}">2</option>
-                    <option value="3" selected="{{d.value.fileCount=='3'}}">3</option>
-                    <option value="4" selected="{{d.value.fileCount=='4'}}">4</option>
-                    <option value="5" selected="{{d.value.fileCount=='5'}}">5</option>
+                    <option value="1" {{d.value.fileCount=='1'?'selected':''}}>1</option>
+                    <option value="2" {{d.value.fileCount=='2'?'selected':''}}>2</option>
+                    <option value="3" {{d.value.fileCount=='3'?'selected':''}}>3</option>
+                    <option value="4" {{d.value.fileCount=='4'?'selected':''}}>4</option>
+                    <option value="5" {{d.value.fileCount=='5'?'selected':''}}>5</option>
                 </select>
             </div>
         </div>
@@ -2003,10 +1914,10 @@
             </div>
             <div class="layui-row ">
                 <select name="value_fileSize">
-                    <option value="5" selected="{{d.value.fileSize}}"> 5MB (用于收集照片、一般文档)</option>
-                    <option value="10" selected="{{d.value.fileSize}}"> 10MB (用于收集短视频)</option>
-                    <option value="15" selected="{{d.value.fileSize}}"> 15MB (用于收集较大文档)</option>
-                    <option value="20" selected="{{d.value.fileSize}}"> 20MB (用于收集3分钟左右的视频)</option>
+                    <option value="5" {{d.value.fileSize=='5'?'selected':''}}> 5MB (用于收集照片、一般文档)</option>
+                    <option value="10" {{d.value.fileSize=='10'?'selected':''}}> 10MB (用于收集短视频)</option>
+                    <option value="15" {{d.value.fileSize=='15'?'selected':''}}> 15MB (用于收集较大文档)</option>
+                    <option value="20" {{d.value.fileSize=='20'?'selected':''}}> 20MB (用于收集3分钟左右的视频)</option>
                 </select>
             </div>
         </div>
@@ -2015,11 +1926,11 @@
                 文件上传类型<i class="layui-icon">&#xe60b;</i>
             </div>
             <div class="layui-row ">
-                <select name="value_fileType" class="fileTypeslt">
-                    <option value="">图片</option>
-                    <option value="audio">音频</option>
-                    <option value="video">视频</option>
-                    <option value="file">自定义</option>
+                <select name="value_fileType" lay-filter="fileTypeslt">
+                    <option value="" {{d.value.fileType==''?'selected':''}}>图片</option>
+                    <option value="audio" {{d.value.fileType=='audio'?'selected':''}}>音频</option>
+                    <option value="video" {{d.value.fileType=='video'?'selected':''}}>视频</option>
+                    <option value="file" {{d.value.fileType=='file'?'selected':''}}>自定义</option>
                 </select>
             </div>
             <div id="file" style="display: none">
@@ -2032,7 +1943,7 @@
                 提示<i class="layui-icon">&#xe60b;</i>
             </div>
             <div class="layui-col-md12">
-                <textarea name="desc" value="{{d.desc}}" rows="" cols=""></textarea>
+                <textarea name="des" value="{{d.des}}" rows="" cols=""></textarea>
             </div>
         </div>
         <!--手风琴组件-->
@@ -2043,7 +1954,7 @@
                     <div class="layui-colla-content layui-show pcheck">
                         <p>
                             <input type="checkbox" name="value_verify_required" lay-skin="primary" value="true" title=""
-                                   checked="{{d.value.verify.required}}"> 必须填
+                                   {{d.value.verify.required?'checked':''}}> 必须填
                             <i class="layui-icon" title="关于必填校验">&#xe60b;</i>
                         </p>
                     </div>
@@ -2091,9 +2002,10 @@
                 {{#layui.each(d.value.selects,function(i,select){}}
                 <p><i class="layui-icon">&#xe624;</i>
                     <input type="radio" name="value_selects_checked" value="{{select.value}}"
-                           checked="{{select.checked==select.value}}"
-                           lay-skin="primary" title="默认选择">
-                    <input type="text" name="value_selects_value" value="{{select.value}}" placeholder="项目"/>
+                           {{select.checked==select.value?'checked':''}}
+                           lay-skin="primary" title="默认选择" class="checked">
+                    <input type="text" name="value_selects_value" class="select" value="{{select.value}}"
+                           placeholder="项目"/>
                     <i class="layui-icon addselect">&#xe654;</i>
                     <i class="layui-icon delselect">&#xe640;</i>
                 </p>
@@ -2105,7 +2017,7 @@
                 提示<i class="layui-icon">&#xe60b;</i>
             </div>
             <div class="layui-col-md12">
-                <textarea name="desc" value="{{d.desc}}" rows="" cols=""></textarea>
+                <textarea name="des" value="{{d.des}}" rows="" cols=""></textarea>
             </div>
         </div>
         <!--手风琴组件-->
@@ -2115,12 +2027,12 @@
                     <h2 class="layui-colla-title">校验</h2>
                     <div class="layui-colla-content layui-show pcheck">
                         <p>
-                            <input type="checkbox" name="value_required_checked" lay-skin="primary" title=""
-                                   checked="{{d.value.required.checked}}"> 必须填
+                            <input type="checkbox" name="value_verify_required" lay-skin="primary" title=""
+                                   {{d.value.verify.required?'checked':''}}> 必须填
                             <i class="layui-icon" title="关于必填校验">&#xe60b;</i>
                         </p>
                         <p><input type="checkbox" name="value_verify_msg_checked" lay-skin="primary" title=""
-                                  checked="{{d.value.verify.msg.checked}}"> 自定义出错文案
+                                  {{d.value.verify.msg.checked?'checked':''}}> 自定义出错文案
                             <i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
                         </p>
                         <p><input type="text" name="value_verify_msg_val" value="{{d.value.verify.msg.val}}"
@@ -2169,7 +2081,7 @@
             <div class="layui-row layui-col-md12">
                 {{#layui.each(d.value.selects,function(i,select){}}
                 <p><i class="layui-icon">&#xe624;</i>
-                    <input type="text" name="value_selects_value" value="{{select.value}}" placeholder="项目"/>
+                    <input type="text" name="value_selects" value="{{select}}" placeholder="项目"/>
                     <i class="layui-icon addselect">&#xe654;</i>
                     <i class="layui-icon delselect">&#xe640;</i>
                 </p>
@@ -2181,7 +2093,7 @@
                 提示<i class="layui-icon">&#xe60b;</i>
             </div>
             <div class="layui-col-md12">
-                <textarea name="desc" value="{{d.desc}}" rows="" cols=""></textarea>
+                <textarea name="des" value="{{d.des}}" rows="" cols=""></textarea>
             </div>
         </div>
         <!--手风琴组件-->
@@ -2191,17 +2103,17 @@
                     <h2 class="layui-colla-title">校验</h2>
                     <div class="layui-colla-content layui-show pcheck">
                         <p>
-                            <input type="checkbox" name="value_required_checked" lay-skin="primary" title=""
-                                   checked="{{d.value.required.checked}}"> 必须填
+                            <input type="checkbox" name="value_verify_required" lay-skin="primary" title=""
+                                   {{d.value.verify.required?'checked':''}}> 必须填
                             <i class="layui-icon" title="关于必填校验">&#xe60b;</i>
                         </p>
                         <p>
-                            <input type="checkbox" name="value_number_checked" lay-skin="primary" title=""
-                                   checked="{{d.value.number.checked}}"> 必须为数字
+                            <input type="checkbox" name="value_verify_number_checked" lay-skin="primary" title=""
+                                   {{d.value.verify.number.checked?'checked':''}}> 必须为数字
                             <i class="layui-icon" title="关于必填数字校验">&#xe60b;</i>
                         </p>
                         <p><input type="checkbox" name="value_verify_msg_checked" lay-skin="primary" title=""
-                                  checked="{{d.value.verify.msg.checked}}"> 自定义出错文案
+                                  {{d.value.verify.msg.checked?'checked':''}}> 自定义出错文案
                             <i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
                         </p>
                         <p><input type="text" name="value_verify_msg_val" value="{{d.value.verify.msg.val}}"
@@ -2233,18 +2145,21 @@
             </div>
             <div class="layui-row layui-col-md12">
                 {{#layui.each(d.value.selects,function(i,fselect){}}
-                <p><i class="layui-icon">&#xe624;</i>
-                    <input type="text" name="value_selects_value" value="{{item.value}}" placeholder="一级选项"/>
-                    <i class="layui-icon addselect">&#xe654;</i>
-                    <i class="layui-icon delselect">&#xe640;</i>
-                    {{#layui.each(item.seconds,function(j,sselect){}}
-                <p><i class="layui-icon">&#xe624;</i>
-                    <input type="text" name="value_selects_seconds" id="" value="{{select}}" placeholder="二级选项"/>
-                    <i class="layui-icon addselect">&#xe654;</i>
-                    <i class="layui-icon delselect">&#xe640;</i>
-                </p>
-                {{#});}}
-                </p>
+                <div class="layui-row">
+                    <div class="layui-col-md12">
+                        <i class="layui-icon">&#xe624;</i>
+                        <input type="text" name="value_selects_value" value="{{fselect.value}}" placeholder="一级选项"/>
+                        <i class="layui-icon addselect">&#xe654;</i>
+                        <i class="layui-icon delselect">&#xe640;</i>
+                    </div>
+                    {{#layui.each(fselect.seconds,function(j,sselect){}}
+                    <div class="layui-col-md-offset1 layui-col-md11"><i class="layui-icon">&#xe624;</i>
+                        <input type="text" name="value_selects_seconds" value="{{sselect}}" placeholder="二级选项"/>
+                        <i class="layui-icon addselect">&#xe654;</i>
+                        <i class="layui-icon delselect">&#xe640;</i>
+                    </div>
+                    {{#});}}
+                </div>
                 {{#});}}
             </div>
         </div>
@@ -2269,7 +2184,7 @@
                 提示<i class="layui-icon">&#xe60b;</i>
             </div>
             <div class="layui-col-md12">
-                <textarea name="desc" value="{{d.desc}}" rows="" cols=""></textarea>
+                <textarea name="des" value="{{d.des}}" rows="" cols=""></textarea>
             </div>
         </div>
         <!--手风琴组件-->
@@ -2279,12 +2194,12 @@
                     <h2 class="layui-colla-title">校验</h2>
                     <div class="layui-colla-content layui-show pcheck">
                         <p>
-                            <input type="checkbox" name="value_required_checked" lay-skin="primary" title=""
-                                   checked="{{d.value.required.checked}}"> 必须填
+                            <input type="checkbox" name="value_verify_required" lay-skin="primary" title=""
+                                   {{d.value.verify.required?'checked':''}}> 必须填
                             <i class="layui-icon" title="关于必填校验">&#xe60b;</i>
                         </p>
                         <p><input type="checkbox" name="value_verify_msg_checked" lay-skin="primary" title=""
-                                  checked="{{d.value.verify.msg.checked}}"> 自定义出错文案
+                                  {{d.value.verify.msg.checked?'checked':''}}> 自定义出错文案
                             <i class="layui-icon" title="设置提交时出错提示">&#xe60b;</i>
                         </p>
                         <p><input type="text" name="value_verify_msg_val" value="{{d.value.verify.msg.val}}"
@@ -2298,10 +2213,11 @@
 
 <scrip type="text/html" id="img">
     <p><i class="layui-icon">&#xe624;</i>
-        <input type="radio" name="value_selects_default_checked" checked=""
-               lay-skin="primary" title="默认选择">
+        <input type="radio" name="value_selects_default_checked" {{item.checked==item.imgName?'checked':''}}
+               value="{{item.imgName}}" lay-skin="primary" title="默认选择" class="checked">
         <img src="{{item.imgPath}}"/> <input type="hidden" name="value_img_path" id="" value="{{item.imgPath}}"
-                                             placeholder="选项"/><input type="text" name="value_img_imgName" id=""
+                                             placeholder="选项"/><input type="text" name="value_images_imgName"
+                                                                      class="select"
                                                                       value="{{item.imgName}}"
                                                                       placeholder="选项"/>
         <i class="layui-icon addselect">&#xe654;</i>
@@ -2316,75 +2232,234 @@
         singletext: {
             value: {
                 verify: {
-                    required: true,
+                    required: false,
                     min: {checked: false, length: ''},
                     max: {checked: false, length: ''},
                     msg: {checked: false, val: ''}
                 },
                 value: '',
-                name: '',
-                desc: ''
-            }
+            },
+            name: '',
+            des: ''
         },
-        multitext: {value: {verify: '', value: ''}},
-        singleselect: {value: {verify: '', radios: ['选项1', '选项2', '选项3']}},
-        multiselect: {value: {verify: '', checkboxs: ['选项1', '选项2', '选项3', '选项4']}},
+        multitext: {
+            value: {
+                verify: {
+                    required: false,
+                    min: {checked: false, length: ''},
+                    max: {checked: false, length: ''},
+                    msg: {checked: false, val: ''}
+                },
+                value: '',
+            },
+            name: '',
+            des: ''
+        },
+        singleselect: {
+            value: {
+                verify: {required: false, msg: {checked: false, val: ''}},
+                radios: [{value: '选项1', checked: '选项1'}, {value: '选项2', checked: ''}, {value: '选项3', checked: ''}]
+            },
+            name: '',
+            des: ''
+        },
+        multiselect: {
+            value: {
+                verify: {
+                    required: false,
+                    msg: {checked: false, val: ''},
+                    max: {checked: false, val: ''},
+                    min: {checked: false, val: ''}
+                },
+                checkboxs: [{value: '选项1', checked: '选项1'}, {value: '选项2', checked: ''}, {
+                    value: '选项3', checked: ''
+                }, {value: '选项4', checked: ''}]
+            },
+            name: '',
+            des: ''
+        },
         singlepic: {
             value: {
-                verify: '',
-                images: [{imgPath: '/images/a23.png', title: '选项1'}, {
+                verify: {required: false, msg: {checked: false, val: ''}},
+                images: [{checked: '选项1', imgPath: '/images/a23.png', imgName: '选项1'}, {
+                    checked: '',
                     imgPath: '/images/a23.png',
-                    title: '选项2'
-                }, {imgPath: '/images/a23.png', title: '选项3'}, {imgPath: '/images/a23.png', title: '选项4'}]
-            }
+                    imgName: '选项1'
+                }, {checked: '', imgPath: '/images/a23.png', imgName: '选项1'}, {
+                    checked: '',
+                    imgPath: '/images/a23.png',
+                    imgName: '选项1'
+                }]
+            },
+            name: '',
+            des: ''
         },
         multipic: {
             value: {
-                verify: '',
-                images: [{imgPath: '/images/a23.png', title: '1'}, {
-                    imgPath: '/images/a23.png',
-                    title: '2'
-                }, {imgPath: '/images/a23.png', title: '3'}, {imgPath: '/images/a23.png', title: '4'}]
-            }
+                verify: {
+                    required: false,
+                    msg: {checked: false, val: ''},
+                    max: {checked: false, val: ''},
+                    min: {checked: false, val: ''}
+                },
+                images: [{checked: '选项1', imgPath: '/images/a23.png', imgName: '选项1'},
+                    {
+                        checked: '选项1',
+                        imgPath: '/images/a23.png',
+                        imgName: '选项1'
+                    },
+                    {checked: '选项1', imgPath: '/images/a23.png', imgName: '选项1'},
+                    {
+                        checked: '选项1',
+                        imgPath: '/images/a23.png',
+                        imgName: '选项1'
+                    }]
+            },
+            name: '',
+            des: ''
         },
         singlemat: {
             value: {
-                verify: '',
-                table: {
-                    thead: {ths: [{title: '项目'}, {title: '项目'}, {title: '项目'}]},
-                    tbody: {
-                        trs: [{title: '题目', tds: [{title: '选项1'}, {title: '选项2'}, {title: '选项3'}]}, {
-                            title: '题目',
-                            tds: [{title: '选项1'}, {title: '选项2'}, {title: '选项3'}]
-                        }, {title: '题目', tds: [{title: '选项1'}, {title: '选项2'}, {title: '选项3'}]}]
-                    }
-                }
-            }
+                verify: {required: false, msg: {checked: false, val: ''}},
+                titles: [{
+                    value: '題目',
+                    selects: [{value: '项目', checked: '项目'}, {value: '项目', checked: ''}, {value: '项目', checked: ''}]
+                },
+                    {
+                        value: '題目',
+                        selects: [{value: '项目', checked: '项目'}, {value: '项目', checked: ''}, {value: '项目', checked: ''}]
+                    },
+                    {
+                        value: '題目',
+                        selects: [{value: '项目', checked: '项目'}, {value: '项目', checked: ''}, {value: '项目', checked: ''}]
+                    }],
+                selects: [{value: '项目', checked: '项目'}, {value: '项目', checked: ''}, {value: '项目', checked: ''}]
+            },
+            name: '',
+            des: ''
         },
         mattext: {
             value: {
-                verify: '',
-                table: {
-                    thead: {ths: [{title: '项目'}, {title: '项目'}, {title: '项目'}]},
-                    tbody: {
-                        trs: [{title: '题目', tds: [{}, {}, {}]}, {title: '题目', tds: [{}, {}, {}]}, {
-                            title: '题目',
-                            tds: [{}, {}, {}]
-                        }]
-                    }
-                }
-            }
+                verify: {required: false, msg: {checked: false, val: ''}, number: {checked: false}},
+                titles: [{
+                    value: '題目',
+                    selects: ['项目', '项目', '项目']
+                },
+                    {
+                        value: '題目',
+                        selects: ['项目', '项目', '项目']
+                    },
+                    {
+                        value: '題目',
+                        selects: ['项目', '项目', '项目']
+                    }],
+                selects: ['项目', '项目', '项目']
+            },
+            name: '',
+            des: ''
         },
-        numberfield: {value: {verify: 'number'}},
-        timepicker: {value: {verify: '', value: ''}},
-        datepicker: {value: {verify: '', value: ''}},
-        dropselect: {value: {verify: '', value: ''}},
-        descfield: {value: {verify: '', value: ''}},
-        pagination: {value: {verify: '', value: ''}},
-        urlfield: {value: {verify: 'url'}},
-        markfield: {value: {verify: '', value: ''}},
-        multiselected: {value: {verify: '', value: ''}},
-        uploadfile: {value: {filetype: '请选择或拖拽上传文件', filecount: 2, filesize: '20MB以内。'}}
+        numberfield: {
+            value: {
+                verify: {
+                    required: false,
+                    min: {checked: false, value: ''},
+                    max: {checked: false, value: ''},
+                    msg: {checked: false, value: ''}
+                },
+                value: '',
+            },
+            name: '',
+            des: ''
+        },
+        timepicker: {
+            value: {
+                verify: {
+                    required: false,
+                    msg: {checked: false, value: ''}
+                },
+                hour: '',
+                minute: '',
+            },
+            name: '',
+            des: ''
+        },
+        datepicker: {
+            value: {
+                verify: {
+                    required: false,
+                    start: {type: '0', val: '', value: ''},
+                    end: {type: '0', val: '', value: ''},
+                    msg: {checked: false, val: ''}
+                },
+                default: {type: '0', value: '', val: ''},
+                value: ''
+            },
+            name: '',
+            des: ''
+        },
+        dropselect: {
+            value: {
+                verify: {
+                    required: false,
+                    msg: {checked: false, val: ''}
+                },
+                selects: [{value: '选项', checked: '选项'}, {value: '选项', checked: ''}],
+                defaultslt: '请选择',
+                value: ''
+            },
+            name: '',
+            des: ''
+        },
+        desfield: {name: '', des: ''},
+        urlfield: {
+            value: {
+                verify: {
+                    required: false,
+                    msg: {checked: false, val: ''}
+                },
+                value: '',
+            },
+            name: '',
+            des: ''
+        },
+        markfield: {
+            value: {
+                verify: {
+                    required: false,
+                    msg: {checked: false, val: ''}
+                },
+                fullscore: '3',
+                img: '',
+                imgs: ['/images/qq.png', '/images/qq.png', '/images/qq.png']
+            },
+            name: '',
+            des: ''
+        },
+        multiselected: {
+            value: {
+                verify: {
+                    required: false,
+                    msg: {checked: false, val: ''}
+                },
+                select: {fdefault: '请选择', sdefault: '请选择'},
+                selects: [{value: '一级选项', seconds: ['二级选项','二级选项']}, {value: '一级选项', seconds: ['二级选项','二级选项']}]
+            },
+            name: '',
+            des: ''
+        },
+        uploadfile: {
+            value: {
+                verify: {
+                    required: false,
+                    msg: {checked: false, val: ''}
+                },
+                fileCount: '1',
+                fileType: '',
+                fileSize: '15',
+            },
+            name: '',
+            des: ''
+        }
     }
     layui.use(['element', 'layedit', 'form', 'laytpl', 'upload'], function () {
         var element = layui.element;
@@ -2409,50 +2484,63 @@
             ]
         }, edit;
         var $editor = $('#editor').on('click', '.addselect', function () {
-            $(this).after(this.parentNode && this.parentNode.parentNode && this.parentNode.parentNode.cloneNode(true));
+            var parentNode = this.parentNode;
+            $(parentNode).after(parentNode && parentNode.cloneNode(true));
+            form.render('radio');
+            form.render('checkbox');
         }).on('click', '.delselect', function () {
-            (this.parentNode && this.parentNode.parentNode && this.parentNode.parentNode.remove());
-        }).on('select', '.dateslt', function () {
-            var $elem = $(this.parentNode.nextSibling);
-            $elem.children().hide();
-            $elem.find('id=' + $(this).val()).show();
-        }).on('select', '.fileTypeslt', function () {
-            var $elem = $('#' + $(this).val());
+            this.parentNode && this.parentNode.remove();
+        }).on('blur', '.select', function () {
+            $(this.parentNode).find('.checked').val($(this).val());
+        });
+        form.on('select(fileTypeslt)', function (data) {
+            var $elem = $('#' + $(data.elem).val());
             if ($elem) {
                 $elem.show();
             } else
                 $elem.hide();
         });
-        var $form = $('.formEditorView>div>form').on('click', '.new-line', function () {
-            $('.new-line').removeClass('active-line');
-            var $this = $(this);
-            $this.addClass('active-line');
-            var $template = $('#' + $this.attr('editor') + "editor");
-            laytpl($template.html()).render($this.data('prop'), function (html) {
-                $editor.prepend(html);
-                edit = layedit.build($editor.find('textarea')[0], editOptions);
-                form.render();
-                $('#editorTab').click();
-            });
-            $('#uploadImgs') && upload.render({
-                elem: '#uploadImgs',
-                url: '/formValue/uploadImg',
-                fileCount: 5,
-                drag: true,
-                done: function (res) {
-                    laytpl(img.innerHTML).render(res.data, function (html) {
-                        $('#imgSelects').append(html)
-                    });
-                }
-            });
-        }).on('click', '.ele-copy', function () {
+        form.on('select(dateslt)', function (data) {
+            var $elem = $(data.elem.parentNode.nextSibling.nextSibling);
+            $elem.children().hide();
+            $elem.find('#' + data.value).show();
+        });
+        var $form = $('.formEditorView>div>form').on('click', '.new-line', function (e) {
+            if (!e.isDefaultPrevented()) {
+                $('.new-line').removeClass('active-line');
+                var $this = $(this);
+                $this.addClass('active-line');
+                var $template = $('#' + $this.attr('editor') + "editor");
+                laytpl($template.html()).render($this.data('prop'), function (html) {
+                    $editor.html(html);
+                    edit = layedit.build($editor.find('textarea')[0], editOptions);
+                    form.render();
+                    $('#editorTab').click();
+                });
+                $('#uploadImgs') && upload.render({
+                    elem: '#uploadImgs',
+                    url: '/formValue/uploadImg',
+                    fileCount: 5,
+                    drag: true,
+                    done: function (res) {
+                        laytpl(img.innerHTML).render(res.data, function (html) {
+                            $('#imgSelects').append(html)
+                        });
+                    }
+                });
+            }
+        }).on('click', '.ele-copy', function (e) {
+            e.preventDefault();
             var ele = (this.parentNode && this.parentNode.parentNode && this.parentNode.parentNode.cloneNode(true));
             if (!ele) {
                 alert('发生错误');
             } else {
+                $(ele).data('prop', $.extend(true, {}, $(this.parentNode.parentNode).data('prop')));
                 $('.formEditorView .active-line').after($(ele));
             }
-        }).on('click', '.ele-del', function () {
+        }).on('click', '.ele-del', function (e) {
+            e.preventDefault();
+            $(this.parentNode.parentNode).removeData('prop');
             (this.parentNode && this.parentNode.parentNode && this.parentNode.parentNode.remove());
         });
 
