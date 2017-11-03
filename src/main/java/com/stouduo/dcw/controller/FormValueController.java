@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -104,17 +105,29 @@ public class FormValueController extends BaseController {
 
     @PostMapping("/uploadImg")
     @ResponseBody
-    public RestResult<Map<String, String>> uploadImgs(MultipartFile file, HttpServletRequest request) {
+    public RestResult<Map<String, String>> uploadImg(MultipartFile file, HttpServletRequest request) {
         Map<String, String> img = new HashMap<>();
-        String filename, filepath, basepath = request.getContextPath() + "/uploadfiles/" + sdf.format(new Date()).substring(0, 9);
+        String filename, filepath = "/uploadfiles/" + sdf.format(new Date()).substring(0, 10) + "/";
+        String baseDir = request.getServletContext().getRealPath("/");
+        File uploadDir = new File(baseDir + filepath);
+        if (!uploadDir.exists()) uploadDir.mkdirs();
         try {
-            filename = file.getName();
-            filepath = basepath + file.getOriginalFilename();
-            file.transferTo(new File(filepath));
-            img.put(filepath, filename);
+            filename = file.getOriginalFilename().split("\\.")[0];
+            filepath += file.getOriginalFilename();
+            file.transferTo(new File(baseDir + filepath));
+            img.put("imgName", filename);
+            img.put("imgPath", filepath);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return new RestResult<>().setData(img);
+    }
+
+    @GetMapping("/delImg")
+    @ResponseBody
+    public RestResult<Map<String, String>> delImg(String imgPath, HttpServletRequest request) {
+        File file = new File(request.getServletContext().getRealPath("/") + imgPath);
+        if (file.exists()) file.delete();
+        return restSuccess("删除成功");
     }
 }

@@ -175,7 +175,6 @@ layui.define('layer' , function(exports){
     var that = this
     ,options = that.config
     ,elemFile = that.elemFile[0]
-
     //高级浏览器处理方式，支持跨域
     ,ajaxSend = function(){
       layui.each(files || that.files || that.chooseFiles || elemFile.files, function(index, file){
@@ -340,7 +339,10 @@ layui.define('layer' , function(exports){
       break;
     }
 
-    if(!!options.fileCount&&that.chooseFiles.size()>options.fileCount)
+    that.fileLength = 0;
+    for(var file in that.chooseFiles) that.fileLength++;
+
+    if(!!options.fileCount&&that.fileLength>options.fileCount)
         return that.msg('文件个数不能超过'+options.fileCount+'个');
 
 
