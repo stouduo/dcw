@@ -121,7 +121,7 @@ layui.define(['layer', 'form'], function(exports){
     }else{
       $(iframeWin[0].document.body).html(content)
     };
-    layedit.sync(index)
+   // layedit.sync(index)
   };
   //将编辑器内容同步到textarea（一般用于异步提交时）
   Edit.prototype.sync = function(index){
@@ -205,6 +205,8 @@ layui.define(['layer', 'form'], function(exports){
         }
         iframeDOM.execCommand('formatBlock', false, '<p>');
       }
+    }).on('keyup',function () {
+        textArea.value = body.html();
     });
 
     //给textarea同步内容
