@@ -397,7 +397,35 @@ layui.define('layer', function(exports){
     });
     return that;
   };
-
+    Form.prototype.executeVerify = function (formElem) {
+        var verify = form.config.verify, DANGER = 'layui-form-danger'
+            , verifyElem = formElem.find('*[lay-verify]'), stop = false;
+        //开始校验
+        layui.each(verifyElem, function (_, item) {
+            var othis = $(this), ver = othis.attr('lay-verify').split('|');
+            var tips = '', value = othis.val(),attrTips = othis.attr('tips');
+            othis.removeClass(DANGER);
+            layui.each(ver, function (_, thisVer) {
+                var isFn = typeof verify[thisVer] === 'function';
+                if(verify[thisVer]){
+                    if(isFn)tips = verify[thisVer](value, item)||attrTips;
+                    if(!verify[thisVer][0].test(value)) tips = verify[thisVer][1] ||attrTips;
+                    layer.msg(tips, {
+                        icon: 5
+                        ,shift: 6
+                    });
+                    //非移动设备自动定位焦点
+                    if (!device.android && !device.ios) {
+                        item.focus();
+                    }
+                    othis.addClass(DANGER);
+                    return stop = true;
+                }
+            });
+            if (stop) return stop;
+        });
+        return stop;
+    }
   //表单提交校验
   var submit = function(){
     var button = $(this), verify = form.config.verify, stop = null
