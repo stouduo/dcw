@@ -572,17 +572,22 @@
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
                 area: ['800px', '520px'],
-                content: '添加数据页面，，暂时没有页面',
+                content: $('#addData'),
                 btn: ['确定', '取消', '提交并再填一份'],
                 btnAlign: 'l', //按钮排列 左对齐
                 yes: function (index, layero) { //或者使用btn1
-                    //按钮【按钮一】的回调
+                    if (addData('addData')) {
+                        layer.close(index);
+                        resetForm('addData');
+                    }
                 },
                 cancel: function (index) { //或者使用btn2
-                    //按钮【按钮二】的回调
+                    layer.close(index);
                 },
                 btn3: function (index, layero) {
-                    //按钮【按钮三】的回调
+                    if(addData('addData') ){
+                        resetForm('addData');
+                    }
                 }
             });
         });
@@ -616,27 +621,156 @@
                 },
             });
         });
+
+        function resetForm(form) {
+            $('#' + form)[0].reset();
+            $('#' + form + ' :checked').removeAttr("checked");
+            $('#' + form + ' :selected').removeAttr('selected');
+        }
+
         table.on('col(formValue)', function (data) {
+            resetForm('editData');
+            var $elem;
+            for (var key in data) {
+                switch (key) {
+                    case '如 有 以 下 资 产，请 勾 选':
+                        var zc = data[key].toString().split("，");
+                        for (var i = 0; i < zc.length; i++) {
+                            $('#editData :input[name="' + key + '_' + zc[i] + '"]').attr('checked', true);
+                        }
+                        break;
+                    case '单 位 地 址':
+                    case '现 住 地 址':
+                        var address = data[key].toString().trim().split(" ");
+                        var i = 0;
+                        for (; i < address.length - 1; i++) {
+                            form.select($('#editData :input[name="' + key + '_' + i + '"]'), address[i]);
+                        }
+                        $('#editData :input[name="' + key + '_' + i + '"]').val(address[i])
+                        break;
+                    case '性 别':
+                    case '手 机 运 营 商':
+                        $('#editData :input[name="' + key + '"] option[value="' + data[key] + '"]').attr('selected', 'selected');
+                        break;
+                    case '地 理 位 置':
+                        setLocation('map1', data[key]);
+                        $('#editData :input[name="' + key + '"]').val(data[key]);
+                        break;
+                    default:
+                        $('#editData :input[name="' + key + '"]').val(data[key]);
+                }
+            }
+            $('#editData .other').each(function (i, elem) {
+                $(elem).text(data[$(elem).attr('name')])
+            });
+            form.render();
             layer.open({
                 type: 1,
                 title: '数据详情',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
                 area: ['800px', '520px'],
-                content: '需要修改的数据，暂时没有页面',
-                btn: ['确定', '取消', '提交并再填一份'],
+                content: $('#editData'),
+                btn: ['修改', '删除'],
                 btnAlign: 'l', //按钮排列 左对齐
                 yes: function (index, layero) { //或者使用btn1
-                    //按钮【按钮一】的回调
+                    if(addData('editData')){
+                        layer.close(index);
+                    }
                 },
-                cancel: function (index) { //或者使用btn2
-                    //按钮【按钮二】的回调
-                },
-                btn3: function (index, layero) {
-                    //按钮【按钮三】的回调
+                btn2: function (index) { //或者使用btn2
+                    $.get('/formValue/del', {ids: data.id}).done(function (data) {
+                        layer.close(index);
+                        layer.msg(data.msg, {time: 3000});
+                    });
                 }
             });
         });
+        ;
+        (function () {
+            $.getJSON('/js/address.json', function (address) {
+                var province, city, block;
+                var $province = $(".province");
+                var getProvinceList = function () {
+                    var list = [];
+                    for (var i = 0, l = address.length; i < l; i++) {
+                        if ('0' == address[i].parentId) {
+                            list.push($.extend({}, address[i]));
+                        }
+                    }
+                    return list;
+                };
+                /**
+                 * 获取下一级地址目录
+                 * @param nowDistrictAreaName 当前地区的名字
+                 */
+                var getNextDistrictList = function (nowDistrictAreaName) {
+                    var list = [], id = '';
+                    for (var i = 0, l = address.length; i < l; i++) {
+                        if (address[i].areaName === nowDistrictAreaName) {
+                            id = address[i].areaCode;
+                        }
+                    }
+                    for (var i = 0, l = address.length; i < l; i++) {
+                        if (id === address[i].parentId) {
+                            list.push($.extend({}, address[i]));
+                        }
+                    }
+                    return list;
+                };
+                /***
+                 * 根据获取的下一级目录列表生成select
+                 * @param addressList
+                 * @param defaultText
+                 * @returns {string}
+                 */
+                var createOptions = function (addressList, defaultText) {
+                    var template = '<option value="q_MyValue">q_MyText</option>';
+                    var html = '<option value="" >' + (defaultText || "--请选择--") + '</option>';
+                    for (var i = 0, l = addressList.length; i < l; i++) {
+                        html += template.replace("q_MyValue", addressList[i].areaName).replace("q_MyText", addressList[i].areaName);
+                    }
+                    return html;
+                }
+                var selectHandler = function (data, level) {
+                    window.data = data;
+                    var areaName = data.value;
+                    var list = getNextDistrictList(areaName);
+                    var html = "";
+                    var $select = $(data.elem).parent().next();
+                    if (!level || level == 0) {
+                        html = createOptions(list, "市");
+                        $select.next().find(".block").html("<option value=''>市区/县</option>");
+                        $select = $select.find(".city");
+                    } else {
+                        html = createOptions(list, "市区/县");
+                        $select = $select.find(".block");
+                    }
+                    $select.html(html);
+                    form.render();
+                };
+
+                var init = function () {
+                    var list = getProvinceList();
+                    var html = createOptions(list, "省/自治区/直辖市");
+                    $province.html(html);
+                    form.render();
+                };
+                form.on('select(province)', function (data) {
+                    province = data.value;
+                    selectHandler(data, 0);
+                });
+                form.on('select(city)', function (data) {
+                    city = data.value;
+                    selectHandler(data, 1);
+                });
+                form.on('select(block)', function (data) {
+                    block = data.value;
+                });
+                init();
+            });
+
+        }());
     });
 </script>
 </html>
