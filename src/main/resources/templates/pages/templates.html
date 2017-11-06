@@ -1,4 +1,4 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<!DOCTYPE html >
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <body>
@@ -118,7 +118,7 @@
                 <div class="layui-row layui-col-md12 text-left">
                     {{#layui.each(d.value.checkboxs,function(i){}}
                     {{#var item = d.value.checkboxs[i]}}
-                    <input type="checkbox" {{d.default?'disabled':''}} name="{{d.name}}_{{item.value}}"
+                    <input type="checkbox" {{d.default?'disabled':''}} name="{{d.name}}"
                     value="{{item.value}}"
                     title="{{item.value}}"
                     {{item.checked?'checked':''}}>
@@ -220,7 +220,7 @@
                             <div class="text-wrapper">
                                 <div class="checkbox-button-wrapper">
                                     <input type="checkbox" {{d.default?'disabled':''}}
-                                    name="{{d.name}}_{{d.value.images[i].imgName}}"
+                                    name="{{d.name}}"
                                     {{d.value.images[i].checked?'checked':''}}
                                     value="{{d.value.images[i].imgName}}"
                                     title="{{d.value.images[i].imgName}}">
@@ -325,7 +325,7 @@
                                 <input type="text" class="layui-input" {{d.default?'readonly':''}}
                                 lay-verify="{{d.value.verify.required?'required':''+d.value.verify.number.checked?'|number':''}}"
                                 tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
-                                name="{{d.name+'_'+d.value.titles[i].value+'_'+d.value.titles[i].selects[j]+'_'+i+'_'+j}}"
+                                name="{{d.name+'_'+d.value.titles[i].value+'_'+d.value.titles[i].selects[j]}}"
                                 />
                             </td>
                             {{#});}}
@@ -387,7 +387,7 @@
                     {{d.des}}
                 </div>
                 <div class="layui-inline layui-row layui-col-md4">
-                    <select name="{{d.name}}_0" {{d.default?'disabled':''}}
+                    <select name="{{d.name}}" {{d.default?'disabled':''}}
                     lay-verify="{{d.value.verify.required?'required':''}}"
                     tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}">
                     <option value="">时</option>
@@ -398,7 +398,7 @@
                     </select>
                 </div>
                 <div class="layui-inline layui-row layui-col-md4">
-                    <select name="{{d.name}}_1" {{d.default?'disabled':''}}
+                    <select name="{{d.name}}" {{d.default?'disabled':''}}
                     lay-verify="{{d.value.verify.required?'required':''}}"
                     tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}">
                     <option value="">分</option>
@@ -553,11 +553,13 @@
                 </div>
                 <div class="layui-row layui-col-md12 text-left field-des">
                     <div class="spingfen">
-                        {{#for(var i=0;i<d.value.fullscore;i++){}}
+                        {{#for(var i=0;i
+                        <d.value.fullscore
+                        ;i++){}}
                         <i class="layui-icon score">&#xe658;</i>
                         {{#}}}
                     </div>
-                    <input  name="{{d.name}}" type="hidden"/>
+                    <input name="{{d.name}}" type="hidden"/>
                 </div>
             </div>
             {{#if(d.default){}}
@@ -582,7 +584,7 @@
                     {{d.des}}
                 </div>
                 <div class="layui-inline layui-row layui-col-md4">
-                    <select name="{{d.name}}_0" lay-filter="fselect" {{d.default?'disabled':''}}
+                    <select name="{{d.name}}" lay-filter="fselect" {{d.default?'disabled':''}}
                     lay-verify="d.value.verify">
                     <option value="">{{d.value.select.fdefault}}</option>
                     {{#layui.each(d.value.selects,function(i){}}
@@ -592,7 +594,7 @@
                     </select>
                 </div>
                 <div class="layui-inline layui-row layui-col-md4">
-                    <select name="{{d.name}}_1" class="sselect" {{d.default?'disabled':''}} lay-verify="d.value.verify">
+                    <select name="{{d.name}}" class="sselect" {{d.default?'disabled':''}} lay-verify="d.value.verify">
                     <option value="">{{d.value.select.sdefault}}</option>
                     </select>
                 </div>
@@ -619,10 +621,10 @@
                     {{d.des}}
                 </div>
                 <div class="layui-row layui-col-md12 layui-inline upbox">
-                    <i class="layui-icon">&#xe681;</i>
-                    <p>
-                        请选择或拖拽上传文件{{d.value.fileCount!='1'?'（最多'+d.value.fileCount+'个）':''}}，限制在每个{{d.value.fileSize}}M以内。 </p>
-                </div>
+                <i class="layui-icon">&#xe681;</i>
+                <p>
+                    请选择或拖拽上传文件{{d.value.fileCount!='1'?'（最多'+d.value.fileCount+'个）':''}}，限制在每个{{d.value.fileSize}}M以内。 </p>
+            </div>
             </div>
             {{#if(d.default){}}
             <div class="fn-area">

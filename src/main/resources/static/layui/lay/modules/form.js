@@ -412,8 +412,8 @@ layui.define('layer', function(exports){
             layui.each(ver, function (_, thisVer) {
                 var isFn = typeof verify[thisVer] === 'function';
                 if(verify[thisVer]){
-                    if(isFn)tips = verify[thisVer](value, item)||attrTips;
-                    if(!verify[thisVer][0].test(value)) tips = verify[thisVer][1] ||attrTips;
+                    if(isFn)tips =attrTips|| verify[thisVer](value, item);
+                    if(!verify[thisVer][0].test(value)) tips = attrTips||verify[thisVer][1];
                     layer.msg(tips, {
                         icon: 5
                         ,shift: 6

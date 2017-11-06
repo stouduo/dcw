@@ -504,11 +504,13 @@
         var layer = layui.layer;
         var form = layui.form;
         var laytpl = layui.laytpl;
-
+        var $html;
         props && layui.each(props, function () {
             this.value = JSON.parse(this.value);
             laytpl($('#' + this.type).html()).render(this, function (html) {
-                $('#formContainer').append(html);
+                $html = $(html);
+
+                $('#formContainer').append($html);
             });
         });
 
@@ -575,20 +577,51 @@
         function addData(elemId) {
             if (form.executeVerify($('#' + elemId)))
                 return false;
-            var params = $('#' + elemId).serializeArray();
             var value = {};
-            for (var x in params) {
-                value[params[x].name] = params[x].value;
-            }
-            var keys;
-            for (var key in value) {
-                keys = key.split("_");
-                if (keys.length > 1) {
-                    !value[keys[0]] && (value[keys[0]] = "");
-                    value[keys[0]] += (value[key] + (keys[0] == '如 有 以 下 资 产，请 勾 选' ? "，" : " "));
-                    delete value[key];
+            layui.each(props, function () {
+                var name = this.name, type = this.type;
+                var inputs = $('#' + elemId + ' :*[name^="' + name + '"]');
+                if (inputs.length == 1) value[name] = inputs[0].value;
+                else {
+                    var values = [], d = {}, names;
+                    layui.each(inputs, function () {
+                        if (type == 'mattxt') {
+                            names = this.name.split("\_");
+                            !names[1] && (names[1] = {});
+                            d[names[1]][names[2]] = this.value;
+                        } else {
+                            values.push(this.value);
+                        }
+                    });
+                    if (values.length != 0) {
+                        var split;
+                        switch (type) {
+                            case 'timepicker':
+                                split = ':';
+                                break;
+                            case 'multiselected':
+                                split = '-';
+                                break;
+                            case 'address':
+                                split = ' ';
+                                break;
+                            default:
+                                split = ',';
+                        }
+                        value[name] = values.join(split);
+                    } else {
+                        var val = '';
+                        layui.each(d, function (i) {
+                            val += i + ":(";
+                            layui.each(d[i], function (j) {
+                                val += j + ":" + d[i][j] + ',';
+                            });
+                            val = val.substring(0, val.length - 1) + "),";
+                        });
+                        value[name] = val.substring(0, val.length - 1);
+                    }
                 }
-            }
+            });
             var id = value.id;
             delete value.id;
             $.post('/formValue/save', {value: JSON.stringify(value), id: id, form: formId}, function (data) {
@@ -670,36 +703,48 @@
 
         table.on('col(formValue)', function (data) {
             resetForm('editData');
-            var $elem;
-            for (var key in data) {
-                switch (key) {
-                    case '如 有 以 下 资 产，请 勾 选':
-                        var zc = data[key].toString().split("，");
-                        for (var i = 0; i < zc.length; i++) {
-                            $('#editData :input[name="' + key + '_' + zc[i] + '"]').attr('checked', true);
-                        }
+            layui.each(props, function () {
+                var name = this.name, type = this.type, $form = $('#editData');
+                var inputs;
+                switch (type) {
+                    case 'singleselect':
+                    case 'singlepic':
+                        $form.find('input[name="' + name + '"][value="' + data[name] + '"').attr('checked', true);
                         break;
-                    case '单 位 地 址':
-                    case '现 住 地 址':
-                        var address = data[key].toString().trim().split(" ");
-                        var i = 0;
-                        for (; i < address.length - 1; i++) {
-                            form.select($('#editData :input[name="' + key + '_' + i + '"]'), address[i]);
-                        }
-                        $('#editData :input[name="' + key + '_' + i + '"]').val(address[i])
+                    case 'multiselect':
+                    case 'multipic':
+                    case 'singlemat':
+                        layui.each(data[name].split(','), function () {
+                            inputs = $form.find('input[name^="' + name + '"][value="' + data[name] + '"').attr('checked', true);
+                        });
                         break;
-                    case '性 别':
-                    case '手 机 运 营 商':
-                        $('#editData :input[name="' + key + '"] option[value="' + data[key] + '"]').attr('selected', 'selected');
+                    case 'mattext':
+                        layui.each(data[name].match(/:(?!\()(.*?)[,|)]/), function () {
+                            inputs = $form.find('input[name^="' + name + '"]').val(this.substring(1, this.length - 1));
+                        });
                         break;
-                    case '地 理 位 置':
-                        setLocation('map1', data[key]);
-                        $('#editData :input[name="' + key + '"]').val(data[key]);
+                    case 'address':
+                        var addresses = data[name].split(" ");
+
+                        break;
+                    case 'timepicker':
+                        var times = data[name].split(':');
+                        inputs= $form.find('select[name="'+name+'"');
+                        form.select();
+                        break;
+                    case 'multiselected':
+                        var selects = data[name].split('-');
+                        break;
+                    case 'markfield':
+                        break;
+                    case 'dropselect':
+                        break;
+                    case 'location':
                         break;
                     default:
-                        $('#editData :input[name="' + key + '"]').val(data[key]);
+                        $form.find('input[name="' + name + '"]')[0].value = data[name];
                 }
-            }
+            });
             $('#editData .other').each(function (i, elem) {
                 $(elem).text(data[$(elem).attr('name')])
             });
