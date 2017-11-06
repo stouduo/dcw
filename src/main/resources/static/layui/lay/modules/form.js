@@ -428,40 +428,12 @@ layui.define('layer', function(exports){
     }
   //表单提交校验
   var submit = function(){
-    var button = $(this), verify = form.config.verify, stop = null
-    ,DANGER = 'layui-form-danger', field = {} ,elem = button.parents(ELEM)
+      var button = $(this), field = {}, elem = button.parents(ELEM)
+          , formElem = button.parents('form')[0] //获取当前所在的form元素，如果存在的话
+          , fieldElem = elem.find('input,select,textarea') //获取所有表单域
+          , filter = button.attr('lay-filter'); //获取过滤器
 
-    ,verifyElem = elem.find('*[lay-verify]') //获取需要校验的元素
-    ,formElem = button.parents('form')[0] //获取当前所在的form元素，如果存在的话
-    ,fieldElem = elem.find('input,select,textarea') //获取所有表单域
-    ,filter = button.attr('lay-filter'); //获取过滤器
-
-    //开始校验
-    layui.each(verifyElem, function(_, item){
-      var othis = $(this), ver = othis.attr('lay-verify').split('|');
-      var tips = '', value = othis.val(),attrTips = othis.attr('tips');
-      othis.removeClass(DANGER);
-      layui.each(ver, function(_, thisVer){
-        var isFn = typeof verify[thisVer] === 'function';
-        if(verify[thisVer]){
-          if(isFn)tips = verify[thisVer](value, item)||attrTips;
-          if(!verify[thisVer][0].test(value)) tips = verify[thisVer][1] ||attrTips;
-          layer.msg(tips, {
-            icon: 5
-            ,shift: 6
-          });
-          //非移动设备自动定位焦点
-          if(!device.android && !device.ios){
-            item.focus();
-          }
-          othis.addClass(DANGER);
-          return stop = true;
-        }
-      });
-      if(stop) return stop;
-    });
-
-    if(stop) return false;
+      if (form.executeVerify(elem)) return false;
 
     layui.each(fieldElem, function(_, item){
       if(!item.name) return;
