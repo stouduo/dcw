@@ -463,19 +463,21 @@
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
                 {{d.name}}
-                {{d.value.verify.required?"*":""}}
+                {{#if(d.value.verify.required){}}
+                <span style='color:red'>*</span>
+                {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
             </div>
             <div class="layui-row layui-col-md6">
-                <input type="text" name="{{d.name}}" readonly="{{d.default?'readonly':''}}"
-                       lay-verify="{{(d.value.verify.required?'required':'')+(d.value.verify.min.checked?'|minlen':'')+(d.value.verify.max.checked?'|maxlen':'')}}"
-                       minlen="{{d.value.verify.min.checked?d.value.verify.min.val:''}}"
-                       maxlen="{{d.value.verify.max.checked?d.value.verify.max.val:''}}"
-                       tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
-                       value="{{d.value.value}}"
-                       class="layui-input">
+                <input type="text" name="{{d.name}}" {{d.default?'readonly':''}}
+                lay-verify="{{(d.value.verify.required?'required':'')+(d.value.verify.min.checked?'|minlen':'')+(d.value.verify.max.checked?'|maxlen':'')}}"
+                minlen="{{d.value.verify.min.checked?d.value.verify.min.val:''}}"
+                maxlen="{{d.value.verify.max.checked?d.value.verify.max.val:''}}"
+                tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
+                value="{{d.value.value}}"
+                class="layui-input">
             </div>
         </div>
         {{#if(d.default){}}
@@ -492,17 +494,19 @@
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
                 {{d.name}}
-                {{d.value.verify.required?"*":""}}
+                {{#if(d.value.verify.required){}}
+                <span style='color:red'>*</span>
+                {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
             </div>
             <div class="layui-row layui-col-md12">
-                <textarea class="layui-textarea" readonly="{{d.default?'readonly':''}}" name="{{d.name}}"
-                          lay-verify="{{(d.value.verify.required?'required':'')+(d.value.verify.min.checked?'|minlen':'')+(d.value.verify.max.checked?'|maxlen':'')}}"
-                          minlen="{{d.value.verify.min.val}}"
-                          maxlen="{{d.value.verify.max.val}}"
-                          tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
+                <textarea class="layui-textarea" {{d.default?'readonly':''}} name="{{d.name}}"
+                lay-verify="{{(d.value.verify.required?'required':'')+(d.value.verify.min.checked?'|minlen':'')+(d.value.verify.max.checked?'|maxlen':'')}}"
+                minlen="{{d.value.verify.min.val}}"
+                maxlen="{{d.value.verify.max.val}}"
+                tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
                 >{{d.value.value}}</textarea>
             </div>
         </div>
@@ -520,7 +524,9 @@
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
                 {{d.name}}
-                {{d.value.verify.required?"*":""}}
+                {{#if(d.value.verify.required){}}
+                <span style='color:red'>*</span>
+                {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
@@ -550,7 +556,9 @@
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
                 {{d.name}}
-                {{d.value.verify.required?"*":""}}
+                {{#if(d.value.verify.required){}}
+                <span style='color:red'>*</span>
+                {{#}}}
                 {{#if(d.value.verify.min.checked&&d.value.verify.max.checked){}}
                 [请选择{{d.value.verify.min.val}}-{{d.value.verify.max.val}}个选项]
                 {{#}else{}}
@@ -586,7 +594,9 @@
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
                 {{d.name}}
-                {{d.value.verify.required?"*":""}}
+                {{#if(d.value.verify.required){}}
+                <span style='color:red'>*</span>
+                {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
@@ -633,7 +643,9 @@
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
                 {{d.name}}
-                {{d.value.verify.required?"*":""}}
+                {{#if(d.value.verify.required){}}
+                <span style='color:red'>*</span>
+                {{#}}}
                 {{#if(d.value.verify.min.checked&&d.value.verify.max.checked){}}
                 [请选择{{d.value.verify.min.val}}-{{d.value.verify.max.val}}个选项]
                 {{#}else{}}
@@ -687,7 +699,9 @@
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
                 {{d.name}}
-                {{d.value.verify.required?"*":""}}
+                {{#if(d.value.verify.required){}}
+                <span style='color:red'>*</span>
+                {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
@@ -738,7 +752,9 @@
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
                 {{d.name}}
-                {{d.value.verify.required?"*":""}}
+                {{#if(d.value.verify.required){}}
+                <span style='color:red'>*</span>
+                {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
@@ -759,10 +775,10 @@
                         <td>{{d.value.titles[i].value}}</td>
                         {{#layui.each(d.value.titles[i].selects,function(j){}}
                         <td>
-                            <input type="text" class="layui-input" readonly="{{d.default?'readonly':''}}"
-                                   lay-verify="{{d.value.verify.required?'required':''+d.value.verify.number.checked?'|number':''}}"
-                                   tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
-                                   name="{{d.name+'_'+d.value.titles[i].value+'_'+d.value.titles[i].selects[j]+'_'+i+'_'+j}}"
+                            <input type="text" class="layui-input" {{d.default?'readonly':''}}
+                            lay-verify="{{d.value.verify.required?'required':''+d.value.verify.number.checked?'|number':''}}"
+                            tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
+                            name="{{d.name+'_'+d.value.titles[i].value+'_'+d.value.titles[i].selects[j]+'_'+i+'_'+j}}"
                             />
                         </td>
                         {{#});}}
@@ -785,18 +801,20 @@
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
                 {{d.name}}
-                {{d.value.verify.required?"*":""}}
+                {{#if(d.value.verify.required){}}
+                <span style='color:red'>*</span>
+                {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
             </div>
             <div class="layui-inline layui-col-md12">
                 <div class="layui-input-inline">
-                    <input type="text" name="{{d.name}}" readonly="{{d.default?'readonly':''}}"
-                           lay-verify="{{'number'+d.value.verify.required?'|required':''}}"
-                           tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
-                           value="{{d.value.value}}"
-                           class="layui-input">
+                    <input type="text" name="{{d.name}}" {{d.default?'readonly':''}}
+                    lay-verify="{{'number'+d.value.verify.required?'|required':''}}"
+                    tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
+                    value="{{d.value.value}}"
+                    class="layui-input">
                 </div>
             </div>
         </div>
@@ -814,7 +832,9 @@
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
                 {{d.name}}
-                {{d.value.verify.required?"*":""}}
+                {{#if(d.value.verify.required){}}
+                <span style='color:red'>*</span>
+                {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
@@ -856,7 +876,9 @@
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
                 {{d.name}}
-                {{d.value.verify.required?"*":""}}
+                {{#if(d.value.verify.required){}}
+                <span style='color:red'>*</span>
+                {{#}}}
                 {{#if(d.value.verify.start.checked&&d.value.verify.end.checked){}}
                 （请选择[{{d.value.verify.start.value}}-{{d.value.verify.end.value}}]之间的日期）
                 {{#}else{}}
@@ -870,13 +892,13 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <input type="text" readonly="{{d.default?'readonly':''}}" name="{{d.name}}"
-                       lay-verify="{{(d.value.verify.required?'required':'')+(d.value.verify.start.checked?'|start':'')+(d.value.verify.end.checked?'|end':'')}}"
-                       start="{{d.value.verify.start.checked?d.value.verify.start.value:''}}"
-                       end="{{d.value.verify.end.checked?d.value.verify.end.value:''}}"
-                       tips="{{d.value.verify.msg.checked?d.value.verify.msg.value:''}}"
-                       value="{{d.value.default.value}}"
-                       class="layui-input" placeholder="yyyy-mm-dd">
+                <input type="text" {{d.default?'readonly':''}} name="{{d.name}}"
+                lay-verify="{{(d.value.verify.required?'required':'')+(d.value.verify.start.checked?'|start':'')+(d.value.verify.end.checked?'|end':'')}}"
+                start="{{d.value.verify.start.checked?d.value.verify.start.value:''}}"
+                end="{{d.value.verify.end.checked?d.value.verify.end.value:''}}"
+                tips="{{d.value.verify.msg.checked?d.value.verify.msg.value:''}}"
+                value="{{d.value.default.value}}"
+                class="layui-input" placeholder="yyyy-mm-dd">
             </div>
         </div>
         {{#if(d.default){}}
@@ -893,7 +915,9 @@
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
                 {{d.name}}
-                {{d.value.verify.required?"*":""}}
+                {{#if(d.value.verify.required){}}
+                <span style='color:red'>*</span>
+                {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
@@ -943,7 +967,9 @@
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
                 {{d.name}}
-                {{d.value.verify.required?"*":""}}
+                {{#if(d.value.verify.required){}}
+                <span style='color:red'>*</span>
+                {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
@@ -954,9 +980,9 @@
                 </label>
 
                 <div class="layui-input-block">
-                    <input type="text" name="{{d.name}}" readonly="{{d.default?'readonly':''}}"
-                           lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
-                           class="layui-input">
+                    <input type="text" name="{{d.name}}" {{d.default?'readonly':''}}
+                    lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
+                    class="layui-input">
                 </div>
             </div>
         </div>
@@ -974,7 +1000,9 @@
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
                 {{d.name}}
-                {{d.value.verify.required?"*":""}}
+                {{#if(d.value.verify.required){}}
+                <span style='color:red'>*</span>
+                {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-des">
                 <div class="spingfen">
@@ -1001,7 +1029,9 @@
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
                 {{d.name}}
-                {{d.value.verify.required?"*":""}}
+                {{#if(d.value.verify.required){}}
+                <span style='color:red'>*</span>
+                {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
@@ -1035,7 +1065,9 @@
         <div class="layui-form-item">
             <div class="layui-row layui-col-md12 text-left field-name">
                 {{d.name}}
-                {{d.value.verify.required?"*":""}}
+                {{#if(d.value.verify.required){}}
+                <span style='color:red'>*</span>
+                {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-des">
                 {{d.des}}
@@ -1195,23 +1227,29 @@
 
         //添加数据
         $('#sjadd').on('click', function () {
+            var $addData = $('#addData');
+            $addData.find('section').append($('#formContainer'));
+            $('#formContainer').show();
+            form.render();
             layer.open({
                 type: 1,
                 title: '添加数据',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
                 area: ['800px', '520px'],
-                content: $('#addData'),
+                content: $addData,
                 btn: ['确定', '取消', '提交并再填一份'],
                 btnAlign: 'l', //按钮排列 左对齐
                 yes: function (index, layero) { //或者使用btn1
                     if (addData('addData')) {
                         layer.close(index);
                         resetForm('addData');
+                        $('#formContainer').hide();
                     }
                 },
                 cancel: function (index) { //或者使用btn2
                     layer.close(index);
+                    $('#formContainer').hide();
                 },
                 btn3: function (index, layero) {
                     if (addData('addData')) {
@@ -1227,6 +1265,8 @@
             form.render();
         });
         $('#sjedit').on('click', function () {
+            var $editData = $('#editData');
+            $editData.find('section').append($('#formContainer'));
             layer.open({
                 type: 1,
                 title: '编辑显示的内容（取消为不显示）',
@@ -1234,7 +1274,7 @@
                 shadeClose: true, //点击遮罩关闭
                 btn: ['确定', '取消'],
                 btnAlign: 'l', //按钮排列 左对齐
-                content: $('#showCol'),
+                content: $editData,
                 yes: function (index, layero) {
                     $('.prop').each(function (i, ele) {
                         formProp[i].show = ele.checked;
@@ -1315,7 +1355,6 @@
                 }
             });
         });
-        ;
         (function () {
             $.getJSON('/js/address.json', function (address) {
                 var province, city, block;

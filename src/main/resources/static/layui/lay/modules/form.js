@@ -64,6 +64,10 @@ layui.define('layer', function(exports){
     return that;
   };
 
+    Form.prototype.select = function (elem, selectValue) {
+        $(elem[0].nextSibling).find('dd[lay-value="' + selectValue + '"]').click();
+    }
+
   //表单事件监听
   Form.prototype.on = function(events, callback){
     return layui.onevent.call(this, MOD_NAME, events, callback);
