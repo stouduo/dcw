@@ -287,7 +287,7 @@
                                     <div class="layui-col-md4">填写者权限</div>
                                     <div class="layui-col-md4 layui-col-md-offset4">
                                         <div class="select">
-                                            <select name="submitPrivilege" class="edit">
+                                            <select name="submitPrivilege" lay-filter="edit">
                                                 <option th:selected="${formDetail.form.submitPrivilege=='PEOPER_OF_ALL'}"
                                                         value="PEOPER_OF_ALL">所有人
                                                 </option>
@@ -303,7 +303,7 @@
                                     <div class="layui-col-md4 layui-col-md-offset4">
                                         <div class="layui-form-item">
                                             <div class="layui-input-block">
-                                                <input type="checkbox" name="collectFlag" class="edit"
+                                                <input type="checkbox" name="collectFlag" lay-filter="edit"
                                                        th:checked="${formDetail.form.collectFlag}"
                                                        lay-skin="switch"
                                                        lay-text="开启|关闭">
@@ -315,7 +315,7 @@
                                     <div class="layui-col-md4">结果分享</div>
                                     <div class="layui-col-md4 layui-col-md-offset4">
                                         <div class="select">
-                                            <select name="resultShow" class="edit">
+                                            <select name="resultShow" lay-filter="edit">
                                                 <option th:selected="${formDetail.form.submitPrivilege=='PEOPER_OF_ALL'}"
                                                         value="PEOPER_OF_ALL">公开
                                                 </option>
@@ -418,8 +418,6 @@
             <div class="grid-demo">
                 <!--表单放这-->
                 <section class="formEditorView">
-                    <div class="form-container">
-                    </div>
                 </section>
             </div>
         </div>
@@ -440,12 +438,12 @@
         <div class="grid-demo">
             <!--表单放这-->
             <section class="formEditorView">
-                <div class="form-container">
-                </div>
             </section>
         </div>
     </div>
 </form>
+<div class="lay-hide form-container" id="formContainer">
+</div>
 <div class="lay-hide layui-form layui-form-item" id="showCol">
 </div>
 <script id="showCols" type="text/html">
@@ -459,7 +457,6 @@
         </ul>
     </div>
 </script>
-
 </body>
 <script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/Util.js}" type="text/javascript" charset="utf-8"></script>
@@ -505,6 +502,15 @@
         var layer = layui.layer;
         var form = layui.form;
         var laytpl = layui.laytpl;
+
+        props && layui.each(props, function () {
+            this.value = JSON.parse(this.value);
+            laytpl($('#' + this.type).html()).render(this, function (html) {
+                $('#formContainer').append(html);
+            });
+        });
+
+
         $('.tips').bind('click', function () {
             var _this = this;
             var name = $(this).attr('name');
@@ -534,13 +540,13 @@
             });
 
         });
-        form.on('select', function (data) {
+        form.on('select(edit)', function (data) {
             $.post('/form/editForm', $('#editForm').serialize(), function (data) {
                 layer.msg(data.msg, {time: 3000});
             })
 
         });
-        form.on('switch', function (data) {
+        form.on('switch(edit)', function (data) {
             $.post('/form/editForm', $('#editForm').serialize(), function (data) {
                 layer.msg(data.msg, {time: 3000});
             })
@@ -564,6 +570,32 @@
             height: 290
         });
 
+        function addData(elemId) {
+            if (form.executeVerify($('#' + elemId)))
+                return false;
+            var params = $('#' + elemId).serializeArray();
+            var value = {};
+            for (var x in params) {
+                value[params[x].name] = params[x].value;
+            }
+            var keys;
+            for (var key in value) {
+                keys = key.split("_");
+                if (keys.length > 1) {
+                    !value[keys[0]] && (value[keys[0]] = "");
+                    value[keys[0]] += (value[key] + (keys[0] == '如 有 以 下 资 产，请 勾 选' ? "，" : " "));
+                    delete value[key];
+                }
+            }
+            var id = value.id;
+            delete value.id;
+            $.post('/formValue/save', {value: JSON.stringify(value), id: id, form: formId}, function (data) {
+                layer.msg(data.msg, {time: 3000});
+                window.location.reload();
+            });
+            return true;
+        }
+
         //添加数据
         $('#sjadd').on('click', function () {
             layer.open({
@@ -585,7 +617,7 @@
                     layer.close(index);
                 },
                 btn3: function (index, layero) {
-                    if(addData('addData') ){
+                    if (addData('addData')) {
                         resetForm('addData');
                     }
                 }
@@ -674,7 +706,7 @@
                 btn: ['修改', '删除'],
                 btnAlign: 'l', //按钮排列 左对齐
                 yes: function (index, layero) { //或者使用btn1
-                    if(addData('editData')){
+                    if (addData('editData')) {
                         layer.close(index);
                     }
                 },
