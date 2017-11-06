@@ -1,0 +1,637 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="templates">
+    <script type="text/html" id="singletext">
+        <div class="new-line" editor="{{d.type}}">
+            <!--单行文字-->
+            <div class="layui-form-item">
+                <div class="layui-row layui-col-md12 text-left field-name">
+                    {{d.name}}
+                    {{#if(d.value.verify.required){}}
+                    <span style='color:red'>*</span>
+                    {{#}}}
+                </div>
+                <div class="layui-row layui-col-md12 text-left field-des">
+                    {{d.des}}
+                </div>
+                <div class="layui-row layui-col-md6">
+                    <input type="text" name="{{d.name}}" {{d.default?'readonly':''}}
+                    lay-verify="{{(d.value.verify.required?'required':'')+(d.value.verify.min.checked?'|minlen':'')+(d.value.verify.max.checked?'|maxlen':'')}}"
+                    minlen="{{d.value.verify.min.checked?d.value.verify.min.val:''}}"
+                    maxlen="{{d.value.verify.max.checked?d.value.verify.max.val:''}}"
+                    tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
+                    value="{{d.value.value}}"
+                    class="layui-input">
+                </div>
+            </div>
+            {{#if(d.default){}}
+            <div class="fn-area">
+                <i class="layui-icon ele-copy">&#xe60a;</i>
+                <i class="layui-icon ele-del">&#xe640;</i>
+            </div>
+            {{#}}}
+        </div>
+    </script>
+    <script type="text/html" id="multitext">
+        <div class="new-line" editor="{{d.type}}">
+            <!--多行文字-->
+            <div class="layui-form-item">
+                <div class="layui-row layui-col-md12 text-left field-name">
+                    {{d.name}}
+                    {{#if(d.value.verify.required){}}
+                    <span style='color:red'>*</span>
+                    {{#}}}
+                </div>
+                <div class="layui-row layui-col-md12 text-left field-des">
+                    {{d.des}}
+                </div>
+                <div class="layui-row layui-col-md12">
+                    <textarea class="layui-textarea" {{d.default?'readonly':''}} name="{{d.name}}"
+                    lay-verify="{{(d.value.verify.required?'required':'')+(d.value.verify.min.checked?'|minlen':'')+(d.value.verify.max.checked?'|maxlen':'')}}"
+                    minlen="{{d.value.verify.min.val}}"
+                    maxlen="{{d.value.verify.max.val}}"
+                    tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
+                    >{{d.value.value}}</textarea>
+                </div>
+            </div>
+            {{#if(d.default){}}
+            <div class="fn-area">
+                <i class="layui-icon ele-copy">&#xe60a;</i>
+                <i class="layui-icon ele-del">&#xe640;</i>
+            </div>
+            {{#}}}
+        </div>
+    </script>
+    <script type="text/html" id="singleselect">
+        <div class="new-line" editor="{{d.type}}">
+            <!--单项选择-->
+            <div class="layui-form-item">
+                <div class="layui-row layui-col-md12 text-left field-name">
+                    {{d.name}}
+                    {{#if(d.value.verify.required){}}
+                    <span style='color:red'>*</span>
+                    {{#}}}
+                </div>
+                <div class="layui-row layui-col-md12 text-left field-des">
+                    {{d.des}}
+                </div>
+                <div class="layui-row layui-col-md12 text-left">
+
+                    {{#layui.each(d.value.radios,function(i){}}
+                    {{#var item = d.value.radios[i]}}
+                    <input type="radio" {{d.default?'disabled':''}} name="{{d.name}}" value="{{item}}"
+                    title="{{item}}"
+                    {{item.checked?'checked':''}}>
+                    <br/>
+                    {{#});}}
+                </div>
+            </div>
+            {{#if(d.default){}}
+            <div class="fn-area">
+                <i class="layui-icon ele-copy">&#xe60a;</i>
+                <i class="layui-icon ele-del">&#xe640;</i>
+            </div>
+            {{#}}}
+        </div>
+    </script>
+    <script type="text/html" id="multiselect">
+        <div class="new-line" editor="{{d.type}}">
+            <!--多项选择-->
+            <div class="layui-form-item">
+                <div class="layui-row layui-col-md12 text-left field-name">
+                    {{d.name}}
+                    {{#if(d.value.verify.required){}}
+                    <span style='color:red'>*</span>
+                    {{#}}}
+                    {{#if(d.value.verify.min.checked&&d.value.verify.max.checked){}}
+                    [请选择{{d.value.verify.min.val}}-{{d.value.verify.max.val}}个选项]
+                    {{#}else{}}
+                    {{d.value.verify.min.checked?'[至少选择'+d.value.verify.min.value+'个选项]':''}}
+                    {{d.value.verify.max.checked?'[至多选择'+d.value.verify.max.value+'个选项]':''}}
+                    {{#}}}
+                </div>
+                <div class="layui-row layui-col-md12 text-left field-des">
+                    {{d.des}}
+                </div>
+                <div class="layui-row layui-col-md12 text-left">
+                    {{#layui.each(d.value.checkboxs,function(i){}}
+                    {{#var item = d.value.checkboxs[i]}}
+                    <input type="checkbox" {{d.default?'disabled':''}} name="{{d.name}}_{{item.value}}"
+                    value="{{item.value}}"
+                    title="{{item.value}}"
+                    {{item.checked?'checked':''}}>
+                    <br/>
+                    {{#});}}
+                </div>
+            </div>
+            {{#if(d.default){}}
+            <div class="fn-area">
+                <i class="layui-icon ele-copy">&#xe60a;</i>
+                <i class="layui-icon ele-del">&#xe640;</i>
+            </div>
+            {{#}}}
+        </div>
+    </script>
+    <script type="text/html" id="singlepic">
+        <div class="new-line" editor="{{d.type}}">
+            <!--图片单选-->
+            <div class="layui-form-item">
+                <div class="layui-row layui-col-md12 text-left field-name">
+                    {{d.name}}
+                    {{#if(d.value.verify.required){}}
+                    <span style='color:red'>*</span>
+                    {{#}}}
+                </div>
+                <div class="layui-row layui-col-md12 text-left field-des">
+                    {{d.des}}
+                </div>
+                <!--有图片就把上面一段隐藏-->
+                <div class="layui-row layui-col-md12 text-left">
+                    {{#var len=0;}}
+                    {{#for(var k in d.value.images) len++;}}
+                    {{#if(len==0){}}
+                    <div class="layui-row layui-col-md12 text-left field-desc">
+                        <p>请在右侧面板添加图片</p>
+                    </div>
+                    {{#}else{}}
+                    {{#layui.each(d.value.images,function(i){}}
+                    <div class="layui-col-md3 redioimg">
+                        <label class="radio" style="display: block;">
+                            <div class="image-center"><img
+                                    src="{{d.value.images[i].imgPath}}">
+                            </div>
+                            <div class="text-wrapper">
+                                <div class="radio-button-wrapper">
+                                    <input type="radio" {{d.default?'disabled':''}} name="{{d.name}}"
+                                    {{d.value.checked==d.value.images[i].imgName?'checked':''}}
+                                    value="{{d.value.images[i].imgName}}"
+                                    title="{{d.value.images[i].imgName}}">
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                    {{#});}}
+                    {{#}}}
+                </div>
+            </div>
+            {{#if(d.default){}}
+            <div class="fn-area">
+                <i class="layui-icon ele-copy">&#xe60a;</i>
+                <i class="layui-icon ele-del">&#xe640;</i>
+            </div>
+            {{#}}}
+        </div></script>
+    <script type="text/html" id="multipic">
+        <div class="new-line" editor="{{d.type}}">
+            <!--图片多选-->
+            <div class="layui-form-item">
+                <div class="layui-row layui-col-md12 text-left field-name">
+                    {{d.name}}
+                    {{#if(d.value.verify.required){}}
+                    <span style='color:red'>*</span>
+                    {{#}}}
+                    {{#if(d.value.verify.min.checked&&d.value.verify.max.checked){}}
+                    [请选择{{d.value.verify.min.val}}-{{d.value.verify.max.val}}个选项]
+                    {{#}else{}}
+                    {{d.value.verify.min.checked?'[至少选择'+d.value.verify.min.value+'个选项]':''}}
+                    {{d.value.verify.max.checked?'[至多选择'+d.value.verify.max.value+'个选项]':''}}
+                    {{#}}}
+                </div>
+                <div class="layui-row layui-col-md12 text-left field-des">
+                    {{d.des}}
+                </div>
+
+                <div class="layui-row layui-col-md12 text-left">
+                    {{#var len=0;}}
+                    {{#for(var k in d.value.images) len++;}}
+                    {{#if(len==0){}}
+                    <div class="layui-row layui-col-md12 text-left field-desc">
+                        <p>请在右侧面板添加图片</p>
+                    </div>
+                    {{#}else{}}
+                    {{#layui.each(d.value.images,function(i){}}
+                    <div class="layui-col-md3 redioimg">
+                        <label class="checkbox" style="display: block;">
+                            <div class="image-center"><img
+                                    src="{{d.value.images[i].imgPath}}">
+                            </div>
+                            <div class="text-wrapper">
+                                <div class="checkbox-button-wrapper">
+                                    <input type="checkbox" {{d.default?'disabled':''}}
+                                    name="{{d.name}}_{{d.value.images[i].imgName}}"
+                                    {{d.value.images[i].checked?'checked':''}}
+                                    value="{{d.value.images[i].imgName}}"
+                                    title="{{d.value.images[i].imgName}}">
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                    {{#});}}
+                    {{#}}}
+                </div>
+            </div>
+            {{#if(d.default){}}
+            <div class="fn-area">
+                <i class="layui-icon ele-copy">&#xe60a;</i>
+                <i class="layui-icon ele-del">&#xe640;</i>
+            </div>
+            {{#}}}
+        </div>
+    </script>
+    <script type="text/html" id="singlemat">
+        <div class="new-line" editor="{{d.type}}">
+            <!--矩阵单选-->
+            <div class="layui-form-item">
+                <div class="layui-row layui-col-md12 text-left field-name">
+                    {{d.name}}
+                    {{#if(d.value.verify.required){}}
+                    <span style='color:red'>*</span>
+                    {{#}}}
+                </div>
+                <div class="layui-row layui-col-md12 text-left field-des">
+                    {{d.des}}
+                </div>
+
+                <div class="gtable">
+                    <table class="layui-table">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            {{#layui.each(d.value.selects,function(i){}}
+                            <th>{{d.value.selects[i]}}</th>
+                            {{#});}}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#layui.each(d.value.titles,function(i){}}
+                        {{#var title = d.value.titles[i]}}
+                        <tr>
+                            <td>{{title.value}}</td>
+                            {{#layui.each(title.selects,function(j){}}
+                            {{#var select=title.selects[j]}}
+                            <td class="layui-input-block">
+                                <input type="radio" {{d.default?'disabled':''}}
+                                {{d.value.checked==select?'checked':''}}
+                                name="{{d.name+'_'+i}}"
+                                value="{{title.value+':'+select}}"
+                                />
+                            </td>
+                            {{#});}}
+                        </tr>
+                        {{#});}}
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+            {{#if(d.default){}}
+            <div class="fn-area">
+                <i class="layui-icon ele-copy">&#xe60a;</i>
+                <i class="layui-icon ele-del">&#xe640;</i>
+            </div>
+            {{#}}}
+        </div></script>
+    <script type="text/html" id="mattext">
+        <div class="new-line" editor="{{d.type}}">
+            <!--矩阵填空-->
+            <div class="layui-form-item">
+                <div class="layui-row layui-col-md12 text-left field-name">
+                    {{d.name}}
+                    {{#if(d.value.verify.required){}}
+                    <span style='color:red'>*</span>
+                    {{#}}}
+                </div>
+                <div class="layui-row layui-col-md12 text-left field-des">
+                    {{d.des}}
+                </div>
+                <div class="gtable">
+                    <table class="layui-table">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            {{#layui.each(d.value.selects,function(i){}}
+                            <th>{{d.value.selects[i]}}</th>
+                            {{#});}}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#layui.each(d.value.titles,function(i,title){}}
+                        <tr>
+                            <td>{{d.value.titles[i].value}}</td>
+                            {{#layui.each(d.value.titles[i].selects,function(j){}}
+                            <td>
+                                <input type="text" class="layui-input" {{d.default?'readonly':''}}
+                                lay-verify="{{d.value.verify.required?'required':''+d.value.verify.number.checked?'|number':''}}"
+                                tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
+                                name="{{d.name+'_'+d.value.titles[i].value+'_'+d.value.titles[i].selects[j]+'_'+i+'_'+j}}"
+                                />
+                            </td>
+                            {{#});}}
+                        </tr>
+                        {{#});}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {{#if(d.default){}}
+            <div class="fn-area">
+                <i class="layui-icon ele-copy">&#xe60a;</i>
+                <i class="layui-icon ele-del">&#xe640;</i>
+            </div>
+            {{#}}}
+        </div></script>
+    <script type="text/html" id="numberfield">
+        <div class="new-line" editor="{{d.type}}">
+            <!--123数字-->
+            <div class="layui-form-item">
+                <div class="layui-row layui-col-md12 text-left field-name">
+                    {{d.name}}
+                    {{#if(d.value.verify.required){}}
+                    <span style='color:red'>*</span>
+                    {{#}}}
+                </div>
+                <div class="layui-row layui-col-md12 text-left field-des">
+                    {{d.des}}
+                </div>
+                <div class="layui-inline layui-col-md12">
+                    <div class="layui-input-inline">
+                        <input type="text" name="{{d.name}}" {{d.default?'readonly':''}}
+                        lay-verify="{{'number'+d.value.verify.required?'|required':''}}"
+                        tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
+                        value="{{d.value.value}}"
+                        class="layui-input">
+                    </div>
+                </div>
+            </div>
+            {{#if(d.default){}}
+            <div class="fn-area">
+                <i class="layui-icon ele-copy">&#xe60a;</i>
+                <i class="layui-icon ele-del">&#xe640;</i>
+            </div>
+            {{#}}}
+        </div>
+    </script>
+    <script type="text/html" id="timepicker">
+        <div class="new-line" editor="{{d.type}}">
+            <!--时间-->
+            <div class="layui-form-item">
+                <div class="layui-row layui-col-md12 text-left field-name">
+                    {{d.name}}
+                    {{#if(d.value.verify.required){}}
+                    <span style='color:red'>*</span>
+                    {{#}}}
+                </div>
+                <div class="layui-row layui-col-md12 text-left field-des">
+                    {{d.des}}
+                </div>
+                <div class="layui-inline layui-row layui-col-md4">
+                    <select name="{{d.name}}_0" {{d.default?'disabled':''}}
+                    lay-verify="{{d.value.verify.required?'required':''}}"
+                    tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}">
+                    <option value="">时</option>
+                    {{#for(var i=0;i<24;i++){}}
+                    {{#if(i<10) i='0'+i;}}
+                    <option value="{{i}}" {{d.value.hour==i?'selected':''}}>{{i}}</option>
+                    {{#}}}
+                    </select>
+                </div>
+                <div class="layui-inline layui-row layui-col-md4">
+                    <select name="{{d.name}}_1" {{d.default?'disabled':''}}
+                    lay-verify="{{d.value.verify.required?'required':''}}"
+                    tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}">
+                    <option value="">分</option>
+                    {{#for(var i=0;i<60;i++){}}
+                    {{#if(i<10) i='0'+i;}}
+                    <option value="{{i}}" {{d.value.minute==i?'selected':''}}>{{i}}</option>
+                    {{#}}}
+                    </select>
+                </div>
+            </div>
+            {{#if(d.default){}}
+            <div class="fn-area">
+                <i class="layui-icon ele-copy">&#xe60a;</i>
+                <i class="layui-icon ele-del">&#xe640;</i>
+            </div>
+            {{#}}}
+        </div>
+    </script>
+    <script type="text/html" id="datepicker">
+        <div class="new-line" editor="{{d.type}}">
+            <!--日期-->
+            <div class="layui-form-item">
+                <div class="layui-row layui-col-md12 text-left field-name">
+                    {{d.name}}
+                    {{#if(d.value.verify.required){}}
+                    <span style='color:red'>*</span>
+                    {{#}}}
+                    {{#if(d.value.verify.start.checked&&d.value.verify.end.checked){}}
+                    （请选择[{{d.value.verify.start.value}}-{{d.value.verify.end.value}}]之间的日期）
+                    {{#}else{}}
+                    {{d.value.verify.start.checked?'(请选择'+d.value.verify.start.value+'之后的日期)':''}}
+                    {{d.value.verify.end.checked?'(请选择'+d.value.verify.end.value+'之前的日期)':''}}
+                    {{#}}}
+                </div>
+                <div class="layui-row layui-col-md12 text-left field-des">
+                    {{d.des}}
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <input type="text" {{d.default?'readonly':''}} name="{{d.name}}"
+                    lay-verify="{{(d.value.verify.required?'required':'')+(d.value.verify.start.checked?'|start':'')+(d.value.verify.end.checked?'|end':'')}}"
+                    start="{{d.value.verify.start.checked?d.value.verify.start.value:''}}"
+                    end="{{d.value.verify.end.checked?d.value.verify.end.value:''}}"
+                    tips="{{d.value.verify.msg.checked?d.value.verify.msg.value:''}}"
+                    value="{{d.value.default.value}}"
+                    class="layui-input" placeholder="yyyy-mm-dd">
+                </div>
+            </div>
+            {{#if(d.default){}}
+            <div class="fn-area">
+                <i class="layui-icon ele-copy">&#xe60a;</i>
+                <i class="layui-icon ele-del">&#xe640;</i>
+            </div>
+            {{#}}}
+        </div>
+    </script>
+    <script type="text/html" id="dropselect">
+        <div class="new-line" editor="{{d.type}}">
+            <!--下拉框-->
+            <div class="layui-form-item">
+                <div class="layui-row layui-col-md12 text-left field-name">
+                    {{d.name}}
+                    {{#if(d.value.verify.required){}}
+                    <span style='color:red'>*</span>
+                    {{#}}}
+                </div>
+                <div class="layui-row layui-col-md12 text-left field-des">
+                    {{d.des}}
+                </div>
+                <div class="layui-inline layui-row layui-col-md4">
+                    <select name="{{d.name}}" {{d.default?'disabled':''}} lay-verify="{{d.value.verify}}">
+                    <option value="">{{d.value.defaultslt}}</option>
+                    {{#layui.each(d.value.selects,function(i){}}
+                    <option value="{{d.value.selects[i]}}"
+                            {{d.value.checked==d.value.selects[i]?'disabled':''}}>
+                        {{d.value.selects[i]}}
+                    </option>
+                    {{#});}}
+                    </select>
+                </div>
+            </div>
+            {{#if(d.default){}}
+            <div class="fn-area">
+                <i class="layui-icon ele-copy">&#xe60a;</i>
+                <i class="layui-icon ele-del">&#xe640;</i>
+            </div>
+            {{#}}}
+        </div>
+    </script>
+    <script type="text/html" id="desfield">
+        <div class="new-line" editor="{{d.type}}">
+            <!--描述-->
+            <div class="layui-form-item">
+                <div class="layui-row layui-col-md12 text-left field-name">
+                    {{d.name}}
+                </div>
+                <div class="layui-row layui-col-md12 text-left field-des">
+                    {{d.des}}
+                </div>
+            </div>
+            {{#if(d.default){}}
+            <div class="fn-area">
+                <i class="layui-icon ele-copy">&#xe60a;</i>
+                <i class="layui-icon ele-del">&#xe640;</i>
+            </div>
+            {{#}}}
+        </div>
+    </script>
+    <script type="text/html" id="urlfield">
+        <div class="new-line" editor="{{d.type}}">
+            <!--网址-->
+            <div class="layui-form-item">
+                <div class="layui-row layui-col-md12 text-left field-name">
+                    {{d.name}}
+                    {{#if(d.value.verify.required){}}
+                    <span style='color:red'>*</span>
+                    {{#}}}
+                </div>
+                <div class="layui-row layui-col-md12 text-left field-des">
+                    {{d.des}}
+                </div>
+                <div class="layui-row layui-col-md12">
+                    <label class="layui-form-label labelwidth">
+                        <i class="layui-icon">&#xe64c;</i>
+                    </label>
+
+                    <div class="layui-input-block">
+                        <input type="text" name="{{d.name}}" {{d.default?'readonly':''}}
+                        lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
+                        class="layui-input">
+                    </div>
+                </div>
+            </div>
+            {{#if(d.default){}}
+            <div class="fn-area">
+                <i class="layui-icon ele-copy">&#xe60a;</i>
+                <i class="layui-icon ele-del">&#xe640;</i>
+            </div>
+            {{#}}}
+        </div>
+    </script>
+    <script type="text/html" id="markfield">
+        <div class="new-line" editor="{{d.type}}">
+            <!--评分-->
+            <div class="layui-form-item">
+                <div class="layui-row layui-col-md12 text-left field-name">
+                    {{d.name}}
+                    {{#if(d.value.verify.required){}}
+                    <span style='color:red'>*</span>
+                    {{#}}}
+                </div>
+                <div class="layui-row layui-col-md12 text-left field-des">
+                    <div class="spingfen">
+                        {{#for(var i=0;i<d.value.fullscore;i++){}}
+                        <i class="layui-icon score">&#xe658;</i>
+                        {{#}}}
+                    </div>
+                    <input  name="{{d.name}}" type="hidden"/>
+                </div>
+            </div>
+            {{#if(d.default){}}
+            <div class="fn-area">
+                <i class="layui-icon ele-copy">&#xe60a;</i>
+                <i class="layui-icon ele-del">&#xe640;</i>
+            </div>
+            {{#}}}
+        </div>
+    </script>
+    <script type="text/html" id="multiselected">
+        <div class="new-line" editor="{{d.type}}">
+            <!--两级下拉框-->
+            <div class="layui-form-item">
+                <div class="layui-row layui-col-md12 text-left field-name">
+                    {{d.name}}
+                    {{#if(d.value.verify.required){}}
+                    <span style='color:red'>*</span>
+                    {{#}}}
+                </div>
+                <div class="layui-row layui-col-md12 text-left field-des">
+                    {{d.des}}
+                </div>
+                <div class="layui-inline layui-row layui-col-md4">
+                    <select name="{{d.name}}_0" lay-filter="fselect" {{d.default?'disabled':''}}
+                    lay-verify="d.value.verify">
+                    <option value="">{{d.value.select.fdefault}}</option>
+                    {{#layui.each(d.value.selects,function(i){}}
+                    {{#var select = d.value.selects[i]}}
+                    <option value="{{select.value}}">{{select.value}}</option>
+                    {{#});}}
+                    </select>
+                </div>
+                <div class="layui-inline layui-row layui-col-md4">
+                    <select name="{{d.name}}_1" class="sselect" {{d.default?'disabled':''}} lay-verify="d.value.verify">
+                    <option value="">{{d.value.select.sdefault}}</option>
+                    </select>
+                </div>
+            </div>
+            {{#if(d.default){}}
+            <div class="fn-area">
+                <i class="layui-icon ele-copy">&#xe60a;</i>
+                <i class="layui-icon ele-del">&#xe640;</i>
+            </div>
+            {{#}}}
+        </div>
+    </script>
+    <script type="text/html" id="uploadfile">
+        <div class="new-line" editor="{{d.type}}">
+            <!--上传文件-->
+            <div class="layui-form-item">
+                <div class="layui-row layui-col-md12 text-left field-name">
+                    {{d.name}}
+                    {{#if(d.value.verify.required){}}
+                    <span style='color:red'>*</span>
+                    {{#}}}
+                </div>
+                <div class="layui-row layui-col-md12 text-left field-des">
+                    {{d.des}}
+                </div>
+                <div class="layui-row layui-col-md12 layui-inline upbox">
+                    <i class="layui-icon">&#xe681;</i>
+                    <p>
+                        请选择或拖拽上传文件{{d.value.fileCount!='1'?'（最多'+d.value.fileCount+'个）':''}}，限制在每个{{d.value.fileSize}}M以内。 </p>
+                </div>
+            </div>
+            {{#if(d.default){}}
+            <div class="fn-area">
+                <i class="layui-icon ele-copy">&#xe60a;</i>
+                <i class="layui-icon ele-del">&#xe640;</i>
+            </div>
+            {{#}}}
+        </div>
+    </script>
+</div>
+</body>
+</html>
