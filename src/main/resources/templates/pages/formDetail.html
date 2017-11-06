@@ -509,7 +509,20 @@
             this.value = JSON.parse(this.value);
             laytpl($('#' + this.type).html()).render(this, function (html) {
                 $html = $(html);
-
+                switch (this.type) {
+                    case "address":
+                        break;
+                    case "location":
+                        break;
+                    case "multiselected":
+                        break;
+                    case "markfield":
+                        break;
+                    case "datepicker":
+                        break;
+                    case "uploadfile":
+                        break;
+                }
                 $('#formContainer').append($html);
             });
         });
@@ -580,7 +593,7 @@
             var value = {};
             layui.each(props, function () {
                 var name = this.name, type = this.type;
-                var inputs = $('#' + elemId + ' :*[name^="' + name + '"]');
+                var inputs = $('#' + elemId + ' :input[name^="' + name + '"]');
                 if (inputs.length == 1) value[name] = inputs[0].value;
                 else {
                     var values = [], d = {}, names;
@@ -725,22 +738,34 @@
                         break;
                     case 'address':
                         var addresses = data[name].split(" ");
-
+                        inputs = $form.find(':input[name="' + name + '"');
+                        form.select($(inputs[0]), addresses[0]);
+                        form.select($(inputs[1]), addresses[1]);
+                        form.select($(inputs[2]), addresses[2]);
+                        inputs[3].value = addresses[3];
                         break;
                     case 'timepicker':
                         var times = data[name].split(':');
-                        inputs= $form.find('select[name="'+name+'"');
-                        form.select();
+                        inputs = $form.find('select[name="' + name + '"');
+                        form.select($(inputs[0]), times[0]);
+                        form.select($(inputs[1]), times[1]);
                         break;
                     case 'multiselected':
                         var selects = data[name].split('-');
+                        inputs = $form.find('select[name="' + name + '"');
+                        form.select($(inputs[0]), selects[0]);
+                        form.select($(inputs[1]), selects[1]);
                         break;
                     case 'markfield':
+                        inputs = $form.find('input[name="' + name + '"');
+                        inputs[0].value = data[name];
+                        $(inputs[0]).prev().children().get(parseInt(data[name])).click();
                         break;
                     case 'dropselect':
+                        form.select($form.find('select[name="' + name + '"'), data[name]);
                         break;
                     case 'location':
-                        break;
+//                        setLocation(data[name]);
                     default:
                         $form.find('input[name="' + name + '"]')[0].value = data[name];
                 }
