@@ -409,6 +409,43 @@
         </div>
     </div>
 </nav>
+
+<form class="lay-hide layui-form layui-form-item" id="editData">
+    <input type="hidden" name="id"/>
+    <!--<input type="submit" lay-submit lay-filter="editData" value="提交"/>-->
+    <div class="layui-row">
+        <div class="layui-col-xs8">
+            <div class="grid-demo">
+                <!--表单放这-->
+                <section class="formEditorView">
+                    <div class="form-container">
+                    </div>
+                </section>
+            </div>
+        </div>
+        <div class="layui-col-xs4">
+            <div class="grid-demo grid-demo-bg2 ">提交人：<span class="other" name="author"></span></div>
+            <div class="grid-demo grid-demo-bg2 ">提交时间：<span class="other" name="createTime"></span></div>
+            <div class="grid-demo grid-demo-bg2 ">修改人：<span class="other" name="lastModifyPerson"></span></div>
+            <div class="grid-demo grid-demo-bg2 ">修改时间：<span class="other" name="lastModifyTime"></span></div>
+            <div class="grid-demo grid-demo-bg2 ">浏览器：<span class="other" name="browser"></span></div>
+            <div class="grid-demo grid-demo-bg2 ">操作系统：<span class="other" name="os"></span></div>
+            <div class="grid-demo grid-demo-bg2 ">IP：<span class="other" name="submitIP"></span></div>
+        </div>
+    </div>
+</form>
+<form class="lay-hide layui-form layui-form-item" id="addData">
+    <!--<input type="submit" lay-submit lay-filter="addData" value="提交" style="display: none;"/>-->
+    <div class="layui-row">
+        <div class="grid-demo">
+            <!--表单放这-->
+            <section class="formEditorView">
+                <div class="form-container">
+                </div>
+            </section>
+        </div>
+    </div>
+</form>
 <div class="lay-hide layui-form layui-form-item" id="showCol">
 </div>
 <script id="showCols" type="text/html">
@@ -440,10 +477,6 @@
         tempform.lastModifyTime = new Date(tempform.lastModifyTime).Format('yyyy-MM-dd HH:mm:ss');
         formData.push(tempform);
     }
-    //    field: 'username',
-    //            title: '用户名',
-    //            width: 120,
-    //            sort: true
     var prop;
     for (var i = 0; i < props.length; i++) {
         prop = {};
