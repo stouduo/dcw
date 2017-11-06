@@ -90,23 +90,24 @@ public class FormServiceImpl implements FormService {
         Form form = formDetailVO.getForm();
         Date now = new Date();
         List<FormProperty> formProperties = formDetailVO.getFormProperties();
-        if (form == null || StringUtils.isEmpty(form.getId())) {
-            form = new Form();
+        if (StringUtils.isEmpty(form.getId())) {
             form.setSubmitCountLimited(1);
             form.setSubmitPrivilege(Const.PEOPLE_OF_NONE);
             form.setCollectFlag(true);
             form.setResultShow(Const.PEOPLE_OF_NONE);
             form.setAuthor(SecurityUtil.getUsername());
             form.setCreateTime(now);
-            form = formRepository.save(form);
-            for (FormProperty formProperty : formProperties) {
-                formProperty.setForm(form.getId());
-                formProperty.setReultShow(true);
-            }
         } else {
-            form = formRepository.findOne(form.getId());
-            form.setLastModifyTime(now);
-            formRepository.save(form);
+            Form oldForm = formRepository.findOne(form.getId());
+            oldForm.setTitle(form.getTitle());
+            oldForm.setDes(form.getDes());
+            form = oldForm;
+        }
+        form.setLastModifyTime(now);
+        form = formRepository.save(form);
+        for (FormProperty formProperty : formProperties) {
+            formProperty.setForm(form.getId());
+            formProperty.setResultShow(true);
         }
         formPropertyRepository.save(formProperties);
     }
@@ -119,7 +120,7 @@ public class FormServiceImpl implements FormService {
         List<FormProperty> formProperties = formPropertyRepository.findAllByForm(formId);
         String showProperties = "";
         for (FormProperty formproperty : formProperties) {
-            if (formproperty.getReultShow()) showProperties += formproperty.getName() + ",";
+            if (formproperty.getResultShow()) showProperties += formproperty.getName() + ",";
         }
         Page<FormValue> page = formValueRepository.findByContent(formId, "", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse("1970-01-01 00:00:00"), new Date(), new PageRequest(curPage, pageSize, Sort.Direction.DESC, "creatTime"));
         List<FormValue> formValues = page.getContent();

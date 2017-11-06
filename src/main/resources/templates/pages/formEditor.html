@@ -242,19 +242,33 @@
                         <div class="layui-col-md8">
                             <section class="formEditorView">
                                 <div class="form-container">
-                                    <form action="" method="post" class="layui-form">
+                                    <form class="layui-form" id="form">
                                         <div class="banner">
                                             <img th:src="@{/images/20160703224347_e39266@hixlarge.png}"
                                                  style="width: 100%;"/>
                                         </div>
-                                        <div class="layui-form-item new-line">
-                                            <!--<div class="layui-input-block">-->
-                                            <input type="text" name="title" required lay-verify="required"
-                                                   placeholder="表单名" autocomplete="off" class="layui-input">
-                                            <!--</div>-->
+                                        <div th:if="${formDetail!=null}">
+                                            <div class="layui-form-item new-line">
+                                                <!--<div class="layui-input-block">-->
+                                                <input type="text" id="formTitle" required
+                                                       th:value="${formDetail.form.title}"
+                                                       placeholder="表单名" autocomplete="off" class="layui-input">
+                                                <!--</div>-->
+                                            </div>
+                                            <div class="layui-form-item new-line">
+                                                <textarea id="briefText" th:text="${formDetail.form.des}"></textarea>
+                                            </div>
                                         </div>
-                                        <div class="layui-form-item new-line">
-                                            <textarea name="" rows="" cols="" id="briefText"></textarea>
+                                        <div th:if="${formDetail==null}">
+                                            <div class="layui-form-item new-line">
+                                                <!--<div class="layui-input-block">-->
+                                                <input type="text" id="formTitle" required
+                                                       placeholder="表单名" autocomplete="off" class="layui-input">
+                                                <!--</div>-->
+                                            </div>
+                                            <div class="layui-form-item new-line">
+                                                <textarea id="briefText"></textarea>
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
@@ -266,7 +280,7 @@
                                     <ul class="layui-tab-title">
                                         <li class="layui-this">添加字段</li>
                                         <li id="editorTab">编辑字段</li>
-                                        <li>表单样式</li>
+                                        <!--<li>表单样式</li>-->
                                     </ul>
                                     <div class="layui-tab-content">
                                         <div class="layui-tab-item layui-show">
@@ -543,7 +557,9 @@
             </div>
             <!--有图片就把上面一段隐藏-->
             <div class="layui-row layui-col-md12 text-left">
-                {{#if(d.value.images.length==0){}}
+                {{#var len=0;}}
+                {{#for(var k in d.value.images) len++;}}
+                {{#if(len==0){}}
                 <div class="layui-row layui-col-md12 text-left field-desc">
                     <p>请在右侧面板添加图片</p>
                 </div>
@@ -557,7 +573,7 @@
                         <div class="text-wrapper">
                             <div class="radio-button-wrapper">
                                 <input type="radio" {{d.default?'disabled':''}} name="{{d.name}}"
-                                {{d.value.images[i].checked?'checked':''}}
+                                {{d.value.checked==d.value.images[i].imgName?'checked':''}}
                                 value="{{d.value.images[i].imgName}}"
                                 title="{{d.value.images[i].imgName}}">
                             </div>
@@ -621,14 +637,14 @@
                 {{#}}}
             </div>
         </div>
+        {{#if(d.default){}}
+        <div class="fn-area">
+            <i class="layui-icon ele-copy">&#xe60a;</i>
+            <i class="layui-icon ele-del">&#xe640;</i>
+        </div>
+        {{#}}}
     </div>
-    {{#if(d.default){}}
-    <div class="fn-area">
-        <i class="layui-icon ele-copy">&#xe60a;</i>
-        <i class="layui-icon ele-del">&#xe640;</i>
-    </div>
-    {{#}}}
-    </div></script>
+</script>
 <script type="text/html" id="singlemat">
     <div class="new-line" editor="{{d.type}}">
         <!--矩阵单选-->
@@ -806,10 +822,10 @@
                 {{d.name}}
                 {{d.value.verify.required?"*":""}}
                 {{#if(d.value.verify.start.checked&&d.value.verify.end.checked){}}
-                [请选择{{d.value.verify.start.value}}-{{d.value.verify.end.value}}之间的日期]
+                （请选择[{{d.value.verify.start.value}}-{{d.value.verify.end.value}}]之间的日期）
                 {{#}else{}}
-                {{d.value.verify.start.checked?'[请选择'+d.value.verify.start.value+'之后的日期]':''}}
-                {{d.value.verify.start.checked?'[请选择'+d.value.verify.start.value+'之后的日期]':''}}
+                {{d.value.verify.start.checked?'(请选择'+d.value.verify.start.value+'之后的日期)':''}}
+                {{d.value.verify.end.checked?'(请选择'+d.value.verify.end.value+'之前的日期)':''}}
                 {{#}}}
             </div>
             <div class="layui-row layui-col-md12 text-left field-des">
@@ -821,7 +837,7 @@
                 <input type="text" readonly="{{d.default?'readonly':''}}" name="{{d.name}}"
                        lay-verify="{{(d.value.verify.required?'required':'')+(d.value.verify.start.checked?'|start':'')+(d.value.verify.end.checked?'|end':'')}}"
                        start="{{d.value.verify.start.checked?d.value.verify.start.value:''}}"
-                       end="{{d.value.verify.start.checked?d.value.verify.end.value:''}}"
+                       end="{{d.value.verify.end.checked?d.value.verify.end.value:''}}"
                        tips="{{d.value.verify.msg.checked?d.value.verify.msg.value:''}}"
                        value="{{d.value.default.value}}"
                        class="layui-input" placeholder="yyyy-mm-dd">
@@ -1358,12 +1374,15 @@
                     <input type="checkbox" name="prop[value][images][{{i}}][checked]" value="{{i}}"
                            {{item.checked==item.imgName?'checked':''}}
                            lay-skin="primary" title="默认选择" class="checked">
-                    <img src="{{item.imgPath}}"/> <input type="hidden" name="prop[value][images][{{i}}][imgPath]" id=""
-                                                         value="{{item.imgPath}}"
-                                                         placeholder="选项"/><input class="select" type="text"
-                                                                                  name="prop[value][images][{{i}}][imgName]"
-                                                                                  value="{{item.imgName}}"
-                                                                                  placeholder="选项"/>
+                    <img src="{{item.imgPath}}" style="width: 30px;height: 30px;"/> <input type="hidden"
+                                                                                           name="prop[value][images][{{i}}][imgPath]"
+                                                                                           id=""
+                                                                                           value="{{item.imgPath}}"
+                                                                                           placeholder="选项"/><input
+                            class="select" type="text"
+                            name="prop[value][images][{{i}}][imgName]"
+                            value="{{item.imgName}}"
+                            placeholder="选项"/>
                     <i class="layui-icon delImg">&#xe640;</i>
                 </p>
                 {{#});}}
@@ -1384,7 +1403,7 @@
                 提示<i class="layui-icon">&#xe60b;</i>
             </div>
             <div class="layui-col-md12">
-                <textarea name="prop[desc]">{{d.desc}}</textarea>
+                <textarea name="prop[des]">{{d.des}}</textarea>
             </div>
         </div>
         <!--手风琴组件-->
@@ -1453,13 +1472,16 @@
                     <input type="radio" name="prop[value][checked]" value="{{item.imgName}}"
                            {{d.value.checked==item.imgName?'checked':''}}"
                            lay-skin="primary" title="默认选择" class="checked">
-                    <img src="{{item.imgPath}}"/> <input type="hidden" name="prop[value][images][{{i}}][imgPath]" id=""
-                                                         value="{{item.imgPath}}"
-                                                         placeholder="选项"/><input type="text"
-                                                                                  name="prop[value][images][{{i}}][imgName]"
-                                                                                  class="select"
-                                                                                  value="{{item.imgName}}"
-                                                                                  placeholder="选项"/>
+                    <img src="{{item.imgPath}}" style="width: 30px;height: 30px;"/> <input type="hidden"
+                                                                                           name="prop[value][images][{{i}}][imgPath]"
+                                                                                           id=""
+                                                                                           value="{{item.imgPath}}"
+                                                                                           placeholder="选项"/><input
+                            type="text"
+                            name="prop[value][images][{{i}}][imgName]"
+                            class="select"
+                            value="{{item.imgName}}"
+                            placeholder="选项"/>
                     <i class="layui-icon delImg">&#xe640;</i>
                 </p>
                 {{#});}}
@@ -1541,21 +1563,25 @@
                 </div>
 
                 <div class="layui-col-md6">
-                    <input type="text" class="layui-input" value="{{d.value.default.val}}"
+                    <input type="text" class="lay-hide" value="{{d.value.default.val}}"
                            name="prop[value][default][val]"
+                           id="default">
+                    <input type="text" class="layui-input {{d.value.default.type=='0'?'':'lay-hide'}}"
+                           value="{{d.value.default.val}}"
+                           to="default"
                            id="0"
                            placeholder="yyyy-MM-dd">
-                    <div id="2" class="lay-hide ">
+                    <div id="2" class="{{d.value.default.type=='2'?'':'lay-hide'}}">
                         <div class="layui-col-md8"><input type="text" value="{{d.value.default.val}}"
-                                                          name="prop[value][default][val]"
-                                                          class="layui-input"
+                                                          to="default"
+                                                          class="layui-input date"
                         ></div>
                         天
                     </div>
-                    <div id="3" class="lay-hide ">
+                    <div id="3" class="{{d.value.default.type=='3'?'':'lay-hide'}}">
                         <div class="layui-col-md8"><input type="text" value="{{d.value.default.val}}"
-                                                          name="prop[value][default][val]"
-                                                          class="layui-input"
+                                                          to="default"
+                                                          class="layui-input date"
                         ></div>
                         天
                     </div>
@@ -1600,22 +1626,26 @@
                                 </div>
 
                                 <div class="layui-col-md6">
-                                    <input type="text" class="layui-input" value="{{d.value.verify.start.val}}"
-                                           name="prop[value][verify][start][val]" id="0"
+                                    <input type="text" class="lay-hide" value="{{d.value.verify.start.val}}"
+                                           name="prop[value][verify][start][val]" id="start">
+                                    <input type="text"
+                                           class="layui-input {{d.value.verify.start.type=='0'?'':'lay-hide'}}"
+                                           value="{{d.value.verify.start.val}}"
+                                           to="start" id="0"
                                            placeholder="yyyy-MM-dd">
-                                    <div id="2" class="lay-hide ">
+                                    <div id="2" class="{{d.value.verify.start.type=='2'?'':'lay-hide'}}">
                                         <div class="layui-col-md8"><input type="text"
                                                                           value="{{d.value.verify.start.val}}"
-                                                                          name="prop[value][verify][start][val]"
-                                                                          class="layui-input"
+                                                                          to="start"
+                                                                          class="layui-input date"
                                         ></div>
                                         天
                                     </div>
-                                    <div id="3" class="lay-hide ">
+                                    <div id="3" class="{{d.value.verify.start.type=='3'?'':'lay-hide'}} ">
                                         <div class="layui-col-md8"><input type="text"
                                                                           value="{{d.value.verify.start.val}}"
-                                                                          name="prop[value][verify][start][val]"
-                                                                          class="layui-input"
+                                                                          to="start"
+                                                                          class="layui-input date"
                                         ></div>
                                         天
                                     </div>
@@ -1638,21 +1668,24 @@
 
                                     </select>
                                 </div>
-
                                 <div class="layui-col-md6">
-                                    <input type="text" class="layui-input" name="prop[value][verify][end][val]" id="0"
+                                    <input type="text" class="lay-hide" name="prop[value][verify][end][val]"
+                                           value="{{d.value.verify.end.val}}" id="end"/>
+                                    <input type="text"
+                                           class="layui-input {{d.value.verify.end.type=='0'?'':'lay-hide'}}" id="0"
+                                           to="end"
                                            placeholder="yyyy-MM-dd" value="{{d.value.verify.end.val}}">
-                                    <div id="2" class="lay-hide layui-row">
-                                        <div class="layui-col-md8"><input type="text" value="{{d.value.verify.end.val}}"
-                                                                          name="prop[value][verify][end][val]"
-                                                                          class="layui-input"
+                                    <div id="2" class="{{d.value.verify.end.type=='2'?'':'lay-hide'}} layui-row">
+                                        <div class="layui-col-md8"><input type="text" to="end"
+                                                                          value="{{d.value.verify.end.val}}"
+                                                                          class="layui-input date"
                                         ></div>
                                         天
                                     </div>
-                                    <div id="3" class="lay-hide layui-row">
-                                        <div class="layui-col-md8"><input type="text" value="{{d.value.verify.end.val}}"
-                                                                          name="prop[value][verify][end][val]"
-                                                                          class="layui-input layui-col-md5"
+                                    <div id="3" class="{{d.value.verify.end.type=='3'?'':'lay-hide'}} layui-row">
+                                        <div class="layui-col-md8"><input type="text" to="end"
+                                                                          value="{{d.value.verify.end.val}}"
+                                                                          class="layui-input date"
                                         ></div>
                                         天
                                     </div>
@@ -2087,7 +2120,7 @@
                 最大文件数<i class="layui-icon">&#xe60b;</i>
             </div>
             <div class="layui-row ">
-                <select name="prop[value][fileCount]" lay-verify="required">
+                <select name="prop[value][fileCount]">
                     <option value="1" {{d.value.fileCount=='1'?'selected':''}}>1</option>
                     <option value="2" {{d.value.fileCount=='2'?'selected':''}}>2</option>
                     <option value="3" {{d.value.fileCount=='3'?'selected':''}}>3</option>
@@ -2419,16 +2452,20 @@
 
 <script type="text/html" id="img">
     <p><i class="layui-icon">&#xe624;</i>
-        <input type="{{d.type}}" name="prop[value][images][{{d.i}}][checked]" {{d.checked==d.imgName?'checked':''}}
+        {{#if(d.type=='checkbox'){}}
+        <input type="checkbox" name="prop[value][images][{{d.i}}][checked]"
                value="{{d.imgName}}" lay-skin="primary" title="默认选择" class="checked">
+        {{#}else{}}
+        <input type="radio" name="prop[value][checked]"
+               value="{{d.imgName}}" lay-skin="primary" title="默认选择" class="checked">
+        {{#}}}
         <img src="{{d.imgPath}}" style="width: 30px;height: 30px;"/>
         <input type="hidden" name="prop[value][images][{{d.i}}][imgPath]"
-               value="{{d.imgPath}}"
-               placeholder="选项"/><input type="text"
-                                        name="prop[value][images][{{d.i}}][imgName]"
-                                        class="select"
-                                        value="{{d.imgName}}"
-                                        placeholder="选项"/>
+               value="{{d.imgPath}}"/><input type="text"
+                                             name="prop[value][images][{{d.i}}][imgName]"
+                                             class="select"
+                                             value="{{d.imgName}}"
+                                             placeholder="选项"/>
         <i class="layui-icon delImg">&#xe640;</i>
     </p>
 </script>
@@ -2436,6 +2473,14 @@
 <script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/Util.js}" type="text/javascript" charset="utf-8"></script>
+<script th:inline="javascript">
+    var formId = [[${formDetail} == null ? '' : ${formDetail.form.id}]
+    ]
+    ;
+    var formProperties = [[${formDetail} == null ? '' : ${formDetail.formProperties}]
+    ]
+    ;
+</script>
 <script type="text/javascript">
     var defaultProps = {
         singletext: {
@@ -2508,8 +2553,7 @@
                                 checked: false, val:
                                 ''
                             }
-                    }
-                    ,
+                    },
 //                images: [{checked: '选项1', imgPath: '/images/a23.png', imgName: '选项1'}, {
 //                    checked: '',
 //                    imgPath: '/images/a23.png',
@@ -2518,7 +2562,8 @@
 //                    checked: '',
 //                    imgPath: '/images/a23.png',
 //                    imgName: '选项1'
-//                }]
+//                }],
+                checked: '',
                 images: {}
             },
             name: '',
@@ -2822,10 +2867,9 @@
                     }
                     ,
                     fileCount: '1',
-                    fileType:
-                        '',
-                    fileSize:
-                        '15',
+                    fileType: 'file',
+                    fileSize: '15',
+                    fileExts: ''
                 }
             ,
             name: '',
@@ -2833,6 +2877,7 @@
                 ''
         }
     }
+    var index = 1;
     layui.use(['element', 'layedit', 'form', 'laytpl', 'upload', 'laydate'], function () {
         var element = layui.element;
         var layedit = layui.layedit;
@@ -2877,6 +2922,8 @@
             var imgPath = $(parentNode).find('img').attr('src');
             parentNode && parentNode.remove();
             $.get('/formValue/delImg', {imgPath: imgPath});
+        }).on('change', '.date', function () {
+            $('#' + $(this).attr('to')).val($(this).val());
         });
         form.on('select(fileTypeslt)', function (data) {
             var fileTypeslt = $(data.elem).val();
@@ -2905,7 +2952,12 @@
                 thisProp && $template && laytpl($template.html()).render(thisProp, function (html) {
                     $editor.html(html);
                     $editor.find('input[placeholder="yyyy-MM-dd"]').each(function (i, elem) {
-                        laydate.render({elem: elem});
+                        laydate.render({
+                            elem: elem,
+                            done: function (value, date, endDate) {
+                                $('#' + $(elem).attr('to')).val(value);
+                            }
+                        });
                     });
                     layedit.setContent(layedit.build($editor.find('textarea')[0], editOptions), thisProp.des);
                     form.render();
@@ -2934,7 +2986,10 @@
             if (!ele) {
                 alert('发生错误');
             } else {
-                $(ele).data('prop', $.extend(true, {}, $(this.parentNode.parentNode).data('prop')));
+                var prop = $.extend(true, {}, $(this.parentNode.parentNode).data('prop'));
+                delete prop.id;
+                prop.name = prop.name.replace(/[0-9]+/, index);
+                $(ele).data('prop', prop);
                 var $curElem = $('.active-line');
                 $curElem.removeClass('active-line');
                 $curElem.after($(ele));
@@ -2942,17 +2997,32 @@
         }).on('click', '.ele-del', function (e) {
             e.preventDefault();
             var new_line = this.parentNode.parentNode;
+            var prop = $(new_line).data('prop');
+            if (prop.type == 'singlepic' || prop.type == 'multipic') {
+                layui.each(prop.value.images, function (i) {
+                    $.get('/formValue/delImg', {imgPath: prop.value.images[i].imgPath});
+                });
+            }
             $(new_line).removeData('prop');
             var pre_new_line = $(new_line).prev()[0];
             if (pre_new_line) $(pre_new_line).click();
             (this.parentNode && new_line && new_line.remove());
         });
-
-        layedit.build('briefText', {
+        formProperties && layui.each(formProperties, function () {
+            var _this = this;
+            _this.default = true;
+            _this.value = JSON.parse(_this.value);
+            laytpl($('#' + _this.type).html()).render(_this, function (html) {
+                var $html = $(html);
+                $html.data('prop', _this);
+                $form.append($html);
+                form.render();
+            });
+        });
+        var formDes = layedit.build('briefText', {
             height: 150,
             tool: editOptions.tool
         }); //建立编辑器
-        var index = 1;
         $('.add-field .grid-demo').click(function () {
             var tplId = $(this).attr('templateName');
             var defaultProp = $.extend(false, {}, defaultProps[tplId], {
@@ -2974,7 +3044,8 @@
         form.on('submit(saveProp)', function (data) {
             var $thisElem = $('.active-line');
             var type = $thisElem.attr('editor');
-            var prop = {value: {verify: {required: false}}, default: true, type: type};
+            if (!$thisElem.length || !type) return false;
+            var prop = {value: {verify: {required: false}}, default: true, type: type, id: $thisElem.data('prop').id};
             prop.value.verify = $.extend(true, {}, defaultProps[type].value.verify);
             var field, name, k;
             for (var key in data.field) {
@@ -3002,10 +3073,10 @@
                             this.value = today.Format('yyyy-MM-dd');
                             break;
                         case '2':
-                            this.value = today.setDate(today.getDate() - parseInt(this.val)).Format('yyyy-MM-dd');
+                            this.value = new Date(today.setDate(today.getDate() - parseInt(this.val))).Format('yyyy-MM-dd');
                             break;
                         case'3':
-                            this.value = today.setDate(today.getDate() + parseInt(this.val)).Format('yyyy-MM-dd');
+                            this.value = new Date(today.setDate(today.getDate() + parseInt(this.val))).Format('yyyy-MM-dd');
                             break;
                     }
                 });
@@ -3026,7 +3097,44 @@
                 field = eval(name);
                 if (!field) eval(name + '={}');
             }
-        }
+        };
+
+        $('#saveForm').on('click', function () {
+            var props = [], index, prop, form = {}, formDetail = {};
+            form.id = formId;
+            form.title = $('#formTitle').val();
+            if (!form.title) {
+                layer.msg("请填写表单名称", {
+                    icon: 5
+                    , shift: 6
+                });
+                return false;
+            }
+            form.des = layedit.getContent(formDes);
+            $('#form').find('.new-line').each(function () {
+                index = $(this).index();
+                prop = $(this).data('prop');
+                if (prop) {
+                    delete prop.default;
+                    prop.index = index;
+                    prop.value = JSON.stringify(prop.value);
+                    props.push(prop);
+                }
+            });
+            formDetail.form = form;
+            formDetail.formProperties = props;
+            $.ajax({
+                contentType: "application/json",
+                dataType: 'json',
+                type: "post",
+                url: '/form/edit',
+                data: JSON.stringify(formDetail),
+                success: function (data) {
+                    layer.msg('提交成功');
+                    window.location.href = '/form/desktop';
+                }
+            });
+        });
     });
 </script>
 

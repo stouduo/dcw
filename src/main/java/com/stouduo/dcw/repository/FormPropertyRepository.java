@@ -8,7 +8,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface FormPropertyRepository extends CrudRepository<FormProperty, String> {
-    List<FormProperty> findAllByForm(String form);
+    @Query("select fp from FormProperty fp where fp.form=:form order by fp.index asc")
+    List<FormProperty> findAllByForm(@Param("form")String form);
 
     @Query("select fp.name from FormProperty fp where fp.form=:form")
     List<String> findByForm(@Param("form") String formId);

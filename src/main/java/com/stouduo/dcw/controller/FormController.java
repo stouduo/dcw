@@ -11,6 +11,7 @@ import com.stouduo.dcw.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.NumberUtils;
@@ -81,9 +82,10 @@ public class FormController extends BaseController {
 
     @Log("修改表单")
     @PostMapping("/edit")
-    public String edit(FormDetailVO formDetailVO) {
+    @ResponseBody
+    public RestResult edit(@RequestBody FormDetailVO formDetailVO) {
         formService.edit(formDetailVO);
-        return "/index";
+        return restSuccess("提交成功");
     }
 
     @GetMapping("/view/{id}")
@@ -100,7 +102,7 @@ public class FormController extends BaseController {
     public String viewResult(@PathVariable("id") String formId, Model model, int curPage, int pageSize) {
         ResultVO resultVO = null;
         try {
-            resultVO = formService.getResult(formId, curPage-1, pageSize);
+            resultVO = formService.getResult(formId, curPage - 1, pageSize);
         } catch (Exception e) {
             e.printStackTrace();
         }

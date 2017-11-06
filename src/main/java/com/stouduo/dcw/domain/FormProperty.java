@@ -14,7 +14,17 @@ public class FormProperty implements Serializable {
     private String form;
     private String name;
     private String des;
-    private boolean reultShow;
+    private String index;
+    private boolean resultShow;
+
+    @Column(name = "showindex", length = 10)
+    public String getIndex() {
+        return index;
+    }
+
+    public void setIndex(String index) {
+        this.index = index;
+    }
 
     @Column(name = "name")
     public String getName() {
@@ -35,12 +45,12 @@ public class FormProperty implements Serializable {
     }
 
     @Column(name = "resultshow")
-    public boolean getReultShow() {
-        return reultShow;
+    public boolean getResultShow() {
+        return resultShow;
     }
 
-    public void setReultShow(boolean reultShow) {
-        this.reultShow = reultShow;
+    public void setResultShow(boolean resultShow) {
+        this.resultShow = resultShow;
     }
 
     @Id
