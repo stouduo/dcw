@@ -436,12 +436,12 @@
             </div>
             <div class="layui-row layui-col-md6">
                 <input type="text" name="{{d.name}}" {{d.default?'readonly':''}}
-                       lay-verify="{{(d.value.verify.required?'required':'')+(d.value.verify.min.checked?'|minlen':'')+(d.value.verify.max.checked?'|maxlen':'')}}"
-                       minlen="{{d.value.verify.min.checked?d.value.verify.min.val:''}}"
-                       maxlen="{{d.value.verify.max.checked?d.value.verify.max.val:''}}"
-                       tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
-                       value="{{d.value.value}}"
-                       class="layui-input">
+                lay-verify="{{(d.value.verify.required?'required':'')+(d.value.verify.min.checked?'|minlen':'')+(d.value.verify.max.checked?'|maxlen':'')}}"
+                minlen="{{d.value.verify.min.checked?d.value.verify.min.val:''}}"
+                maxlen="{{d.value.verify.max.checked?d.value.verify.max.val:''}}"
+                tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
+                value="{{d.value.value}}"
+                class="layui-input">
             </div>
         </div>
         {{#if(d.default){}}
@@ -467,10 +467,10 @@
             </div>
             <div class="layui-row layui-col-md12">
                 <textarea class="layui-textarea" {{d.default?'readonly':''}} name="{{d.name}}"
-                          lay-verify="{{(d.value.verify.required?'required':'')+(d.value.verify.min.checked?'|minlen':'')+(d.value.verify.max.checked?'|maxlen':'')}}"
-                          minlen="{{d.value.verify.min.val}}"
-                          maxlen="{{d.value.verify.max.val}}"
-                          tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
+                lay-verify="{{(d.value.verify.required?'required':'')+(d.value.verify.min.checked?'|minlen':'')+(d.value.verify.max.checked?'|maxlen':'')}}"
+                minlen="{{d.value.verify.min.val}}"
+                maxlen="{{d.value.verify.max.val}}"
+                tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
                 >{{d.value.value}}</textarea>
             </div>
         </div>
@@ -740,9 +740,9 @@
                         {{#layui.each(d.value.titles[i].selects,function(j){}}
                         <td>
                             <input type="text" class="layui-input" {{d.default?'readonly':''}}
-                                   lay-verify="{{d.value.verify.required?'required':''+d.value.verify.number.checked?'|number':''}}"
-                                   tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
-                                   name="{{d.name+'_'+d.value.titles[i].value+'_'+d.value.titles[i].selects[j]+'_'+i+'_'+j}}"
+                            lay-verify="{{d.value.verify.required?'required':''+d.value.verify.number.checked?'|number':''}}"
+                            tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
+                            name="{{d.name+'_'+d.value.titles[i].value+'_'+d.value.titles[i].selects[j]+'_'+i+'_'+j}}"
                             />
                         </td>
                         {{#});}}
@@ -775,10 +775,10 @@
             <div class="layui-inline layui-col-md12">
                 <div class="layui-input-inline">
                     <input type="text" name="{{d.name}}" {{d.default?'readonly':''}}
-                           lay-verify="{{'number'+d.value.verify.required?'|required':''}}"
-                           tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
-                           value="{{d.value.value}}"
-                           class="layui-input">
+                    lay-verify="{{'number'+d.value.verify.required?'|required':''}}"
+                    tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
+                    value="{{d.value.value}}"
+                    class="layui-input">
                 </div>
             </div>
         </div>
@@ -857,12 +857,12 @@
         <div class="layui-form-item">
             <div class="layui-input-block">
                 <input type="text" {{d.default?'readonly':''}} name="{{d.name}}"
-                       lay-verify="{{(d.value.verify.required?'required':'')+(d.value.verify.start.checked?'|start':'')+(d.value.verify.end.checked?'|end':'')}}"
-                       start="{{d.value.verify.start.checked?d.value.verify.start.value:''}}"
-                       end="{{d.value.verify.end.checked?d.value.verify.end.value:''}}"
-                       tips="{{d.value.verify.msg.checked?d.value.verify.msg.value:''}}"
-                       value="{{d.value.default.value}}"
-                       class="layui-input" placeholder="yyyy-mm-dd">
+                lay-verify="{{(d.value.verify.required?'required':'')+(d.value.verify.start.checked?'|start':'')+(d.value.verify.end.checked?'|end':'')}}"
+                start="{{d.value.verify.start.checked?d.value.verify.start.value:''}}"
+                end="{{d.value.verify.end.checked?d.value.verify.end.value:''}}"
+                tips="{{d.value.verify.msg.checked?d.value.verify.msg.value:''}}"
+                value="{{d.value.default.value}}"
+                class="layui-input" placeholder="yyyy-mm-dd">
             </div>
         </div>
         {{#if(d.default){}}
@@ -945,8 +945,8 @@
 
                 <div class="layui-input-block">
                     <input type="text" name="{{d.name}}" {{d.default?'readonly':''}}
-                           lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
-                           class="layui-input">
+                    lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
+                    class="layui-input">
                 </div>
             </div>
         </div>
@@ -970,7 +970,9 @@
             </div>
             <div class="layui-row layui-col-md12 text-left field-des">
                 <div class="spingfen">
-                    {{#for(var i=0;i<d.value.fullscore;i++){}}
+                    {{#for(var i=0;i
+                    <d.value.fullscore
+                            ;i++){}}
                     <i class="layui-icon">&#xe658;</i>
                     {{#}}}
                 </div>
@@ -2420,7 +2422,7 @@
                     {{#layui.each(fselect.seconds,function(j){}}
                     {{#var sselect=fselect.seconds[j]}}
                     <div class="layui-col-md-offset1 layui-col-md11"><i class="layui-icon">&#xe624;</i>
-                        <input type="text" name="prop[value][selects][{{i}}][{{j}}][seconds]" value="{{sselect}}"
+                        <input type="text" name="prop[value][selects][{{i}}][seconds][{{j}}]" value="{{sselect}}"
                                placeholder="二级选项"/>
                         <i class="layui-icon addselect">&#xe654;</i>
                         <i class="layui-icon delselect">&#xe640;</i>
@@ -2504,9 +2506,11 @@
 <script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/Util.js}" type="text/javascript" charset="utf-8"></script>
 <script th:inline="javascript">
-    var formId = [[${formDetail} == null ? '' : ${formDetail.form.id}]]
+    var formId = [[${formDetail} == null ? '' : ${formDetail.form.id}]
+    ]
     ;
-    var formProperties = [[${formDetail} == null ? '' : ${formDetail.formProperties}]]
+    var formProperties = [[${formDetail} == null ? '' : ${formDetail.formProperties}]
+    ]
     ;
 </script>
 <script type="text/javascript">
@@ -2859,21 +2863,14 @@
                 {
                     verify: {
                         required: false,
-                        msg:
-                            {
-                                checked: false, val:
-                                ''
-                            }
-                    }
-                    ,
+                        msg: {checked: false, val: ''}
+                    },
                     select: {
-                        fdefault: '请选择', sdefault:
-                            '请选择'
-                    }
-                    ,
+                        fdefault: '请选择', sdefault: '请选择'
+                    },
                     selects: {
-                        1: {value: '一级选项', seconds: ['二级选项', '二级选项']},
-                        2: {value: '一级选项', seconds: ['二级选项', '二级选项']}
+                        1: {value: '一级选项', seconds: {1: '二级选项', 2: '二级选项'}},
+                        2: {value: '一级选项', seconds: {1: '二级选项', 2: '二级选项'}}
                     }
                 }
             ,

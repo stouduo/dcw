@@ -620,7 +620,7 @@
         </div>
     </script>
     <script type="text/html" id="uploadfile">
-        <div class="new-line" editor="{{d.type}}">
+        <div class="new-line {{d.name}}" editor="{{d.type}}">
             <!--上传文件-->
             <div class="layui-form-item">
                 <div class="layui-row layui-col-md12 text-left field-name">
@@ -636,6 +636,22 @@
                     <i class="layui-icon">&#xe681;</i>
                     <p>
                         请选择或拖拽上传文件{{d.value.fileCount!='1'?'（最多'+d.value.fileCount+'个）':''}}，限制在每个{{d.value.fileSize}}M以内。 </p>
+                </div>
+                <input type="hidden" name="{{d.name}}" lay-verify="{{d.value.verify.required?'required':''}}">
+                <div class="layui-upload  lay-hide">
+                    <div class="layui-upload-list">
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <th>文件名</th>
+                                <th>大小</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody class="uploadList"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             {{#if(d.default){}}

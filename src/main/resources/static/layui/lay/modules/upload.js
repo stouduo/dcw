@@ -342,9 +342,8 @@ layui.define('layer' , function(exports){
     that.fileLength = 0;
     for(var file in that.chooseFiles) that.fileLength++;
 
-    if(!!options.fileCount&&that.fileLength>options.fileCount)
+    if(!!options.fileCount&&that.fileLength>parseInt(options.fileCount))
         return that.msg('文件个数不能超过'+options.fileCount+'个');
-
 
     //检验文件大小
     if(options.size > 0 && !(device.ie && device.ie < 10)){

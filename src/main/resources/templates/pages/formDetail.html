@@ -498,29 +498,127 @@
 
 <script type="text/javascript">
     var del;
-    layui.use(['table', 'layer', 'element', 'form'], function () {
+    layui.use(['table', 'layer', 'element', 'form', 'upload'], function () {
         var table = layui.table;
         var element = layui.element;
         var layer = layui.layer;
         var form = layui.form;
         var laytpl = layui.laytpl;
+        var upload = layui.upload;
         var $html;
         props && layui.each(props, function () {
             this.value = JSON.parse(this.value);
             laytpl($('#' + this.type).html()).render(this, function (html) {
                 $html = $(html);
                 switch (this.type) {
-                    case "address":
-                        break;
                     case "location":
+                        map
                         break;
                     case "multiselected":
+                        var select = {
+                            fdefault: {
+                                value: prop.value.select.fdefault,
+                                seconds: {sdefault: prop.value.select.sdefault}
+                            }
+                        };
+                        var template = '<option value="VALUE">VALUE</option>';
+                        var html = '';
+                        layui.each(select, function (key) {
+                            html += template.replace('VALUE', select[key]);
+                        });
+                        html = '';
+                        form.on('select(fselect)', function (data) {
+                            layui.each(select, function (key) {
+                                if (select[key].value == data.value) select = select[key].seconds;
+                            });
+                            layui.each(select, function (key) {
+                                html += template.replace('VALUE', select[key]);
+                            });
+                            $html.find('select')[1].innerHTML = html;
+                        });
                         break;
                     case "markfield":
+                        $html.find('.score').on('click', function () {
+                            var score = $(this).index() + 1;
+                            layui.each($(this).prevAll().push(this), function () {
+                                $(this).css('color', 'yellow');
+                            });
+                            $html.find('input').val(score);
+                        });
                         break;
                     case "datepicker":
+                        laydate.render({
+                            elem: $html.find('input[placeholder=""]'),
+                        });
                         break;
                     case "uploadfile":
+                        var $uploadList = $html.find('.uploadList')
+                            , $uploadElem = $html.find('.upbox')
+                            , $upload = $html.find('.layui-upload')
+                            , uploadListIns = upload.render({
+                            elem: $uploadElem
+                            , url: '/formValue/uploadImg'
+                            , accept: prop.value.fileType
+                            , exts: prop.value.fileExts
+                            , fileCount: prop.value.fileCount
+                            , size: parseInt(prop.value.fileSize) * 1024
+                            , multiple: true
+                            , auto: true
+                            , before: function () {
+                                $uploadElem.hide();
+                                $upload.show();
+                            }
+                            , choose: function (obj) {
+                                var files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                                //读取本地文件
+                                obj.preview(function (index, file, result) {
+                                    var tr = $(['<tr id="upload-' + index + '">'
+                                        , '<td>' + file.name + '</td>'
+                                        , '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>'
+                                        , '<td>等待上传</td>'
+                                        , '<td>'
+                                        , '<button class="layui-btn layui-btn-mini demo-reload layui-hide">重传</button>'
+                                        , '<button class="layui-btn layui-btn-mini layui-btn-danger demo-delete">删除</button>'
+                                        , '</td>'
+                                        , '</tr>'].join(''));
+
+                                    //单个重传
+                                    tr.find('.demo-reload').on('click', function () {
+                                        obj.upload(index, file);
+                                    });
+
+                                    //删除
+                                    tr.find('.demo-delete').on('click', function () {
+                                        delete files[index]; //删除对应的文件
+                                        tr.remove();
+                                        var imgPath = tr.attr('filePath');
+                                        imgPath && $.get('/formValue/delImg', {imgPath: imgPath});
+                                        if ($uploadList.find('tr').length == 0) {
+                                            $uploadElem.show();
+                                            $upload.hide();
+                                        }
+                                    });
+                                    $uploadList.append(tr);
+                                });
+                            }
+                            , done: function (res, index, upload) {
+                                if (res.code == 0) { //上传成功
+                                    var tr = $uploadList.find('tr#upload-' + index)
+                                        , tds = tr.children();
+                                    tr.attr('filePath', res.data);
+                                    tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                                    tds.eq(3).html(''); //清空操作
+                                    return;
+                                }
+                                this.error(index, upload);
+                            }
+                            , error: function (index, upload) {
+                                var tr = $uploadList.find('tr#upload-' + index)
+                                    , tds = tr.children();
+                                tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                                tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+                            }
+                        });
                         break;
                 }
                 $('#formContainer').append($html);
@@ -560,8 +658,7 @@
         form.on('select(edit)', function (data) {
             $.post('/form/editForm', $('#editForm').serialize(), function (data) {
                 layer.msg(data.msg, {time: 3000});
-            })
-
+            });
         });
         form.on('switch(edit)', function (data) {
             $.post('/form/editForm', $('#editForm').serialize(), function (data) {
@@ -736,6 +833,29 @@
                             inputs = $form.find('input[name^="' + name + '"]').val(this.substring(1, this.length - 1));
                         });
                         break;
+                    case 'uploadfile':
+                        var $tr = $(['<tr id="upload-' + key + '">'
+                            , '<td>' + key + '</td>'
+                            , '<td></td>'
+                            , '<td></td>'
+                            , '<td>'
+                            , '<button class="layui-btn layui-btn-mini layui-btn-danger demo-delete">删除</button>'
+                            , '</td>'
+                            , '</tr>'].join(''))
+                            , $uploadList = $form.find('.' + name + ' .uplaodList')
+                            , $uploadElem = $form.find('.' + name + ' .upbox');
+                        layui.each(data[name], function (key) {
+                            $form.find('.' + name + ' .uploadList').on('click', '.demo-delete', function () {
+                                $tr.remove();
+                                $.get('/formValue/delImg', {imgPath: data[name][key]});
+                                if ($uploadList.find('tr').length == 0) {
+                                    $uploadElem.show();
+                                    $uploadList.hide();
+                                }
+                            }).append($tr);
+                        });
+                        $form.find('input[name="' + name + '"]').val(JSON.stringify(data[name]));
+                        break;
                     case 'address':
                         var addresses = data[name].split(" ");
                         inputs = $form.find(':input[name="' + name + '"');
@@ -880,6 +1000,7 @@
             });
 
         }());
-    });
+    })
+    ;
 </script>
 </html>
