@@ -457,6 +457,17 @@
         </ul>
     </div>
 </script>
+<script id="filesInTable" type="text/html">
+    <div class="layui-form-item" pane="">
+        <ul class="layui-input-block showtips">
+            {{#layui.each(d,function(i,prop){}}
+            <li><input type="checkbox" class="prop" lay-skin="primary" title="{{prop.title}}"
+                       checked="{{!prop.show}}">
+            </li>
+            {{#});}}
+        </ul>
+    </div>
+</script>
 <div th:include="/pages/templates::templates"></div>
 </body>
 <script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
@@ -475,14 +486,19 @@
         tempform.lastModifyTime = new Date(tempform.lastModifyTime).Format('yyyy-MM-dd HH:mm:ss');
         formData.push(tempform);
     }
-    var prop, typeMap = {};
+    var prop;
     for (var i = 0; i < props.length; i++) {
         prop = {};
         prop.field = props[i].name;
         prop.title = props[i].name;
         prop.sort = true;
         prop.width = 'auto';
-        typeMap.prop.name = prop.type;
+        if (props[i].type == 'uploadfile') {
+            prop.dataFilter = function (content) {
+                return JSON.parse(content);
+            };
+            prop.template = '#filesInTable'
+        }
         formProp.push(prop);
     }
     formProp.push({field: 'author', title: '创建人', width: 'auto'});
@@ -512,7 +528,7 @@
                 $html = $(html);
                 switch (this.type) {
                     case "location":
-                        map
+
                         break;
                     case "multiselected":
                         var select = {
@@ -555,6 +571,7 @@
                         var $uploadList = $html.find('.uploadList')
                             , $uploadElem = $html.find('.upbox')
                             , $upload = $html.find('.layui-upload')
+                            , $input = $html.find('input')
                             , uploadListIns = upload.render({
                             elem: $uploadElem
                             , url: '/formValue/uploadImg'
@@ -597,6 +614,11 @@
                                             $uploadElem.show();
                                             $upload.hide();
                                         }
+                                        layui.each($uploadList.find('tr'), function () {
+                                            files.push($(this).children().get(0).text() + ":" + $(this).attr('filePath'));
+                                        });
+                                        $input.val("{" + files.join(',') + "}");
+                                        layui.each()
                                     });
                                     $uploadList.append(tr);
                                 });
@@ -608,6 +630,10 @@
                                     tr.attr('filePath', res.data);
                                     tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
                                     tds.eq(3).html(''); //清空操作
+                                    layui.each($uploadList.find('tr'), function () {
+                                        files.push($(this).children().get(0).text() + ":" + $(this).attr('filePath'));
+                                    });
+                                    $input.val("{" + files.join(',') + "}");
                                     return;
                                 }
                                 this.error(index, upload);
@@ -834,27 +860,34 @@
                         });
                         break;
                     case 'uploadfile':
-                        var $tr = $(['<tr id="upload-' + key + '">'
-                            , '<td>' + key + '</td>'
-                            , '<td></td>'
-                            , '<td></td>'
-                            , '<td>'
-                            , '<button class="layui-btn layui-btn-mini layui-btn-danger demo-delete">删除</button>'
-                            , '</td>'
-                            , '</tr>'].join(''))
-                            , $uploadList = $form.find('.' + name + ' .uplaodList')
-                            , $uploadElem = $form.find('.' + name + ' .upbox');
+                        var $tr, $uploadList = $form.find('.' + name + ' .uplaodList')
+                            , $uploadElem = $form.find('.' + name + ' .upbox'),
+                            $input = $form.find('input[name="' + name + '"]')
+                            , $list, files;
                         layui.each(data[name], function (key) {
+                            $tr = $(['<tr id="key" filePath="' + data[name][key] + '">'
+                                , '<td>' + key + '</td>'
+                                , '<td></td>'
+                                , '<td></td>'
+                                , '<td>'
+                                , '<button class="layui-btn layui-btn-mini layui-btn-danger demo-delete">删除</button>'
+                                , '</td>'
+                                , '</tr>'].join(''));
                             $form.find('.' + name + ' .uploadList').on('click', '.demo-delete', function () {
                                 $tr.remove();
                                 $.get('/formValue/delImg', {imgPath: data[name][key]});
-                                if ($uploadList.find('tr').length == 0) {
+                                $list = $uploadList.find('tr'), files = [];
+                                if ($list.length == 0) {
                                     $uploadElem.show();
                                     $uploadList.hide();
                                 }
+                                layui.each($list, function () {
+                                    files.push($(this).attr('id') + ":" + $(this).attr('filePath'));
+                                });
+                                $input.val("{" + files.join(',') + "}");
                             }).append($tr);
                         });
-                        $form.find('input[name="' + name + '"]').val(JSON.stringify(data[name]));
+                        $input.val(JSON.stringify(data[name]));
                         break;
                     case 'address':
                         var addresses = data[name].split(" ");
@@ -885,7 +918,7 @@
                         form.select($form.find('select[name="' + name + '"'), data[name]);
                         break;
                     case 'location':
-//                        setLocation(data[name]);
+                        setLocation(name, data[name]);
                     default:
                         $form.find('input[name="' + name + '"]')[0].value = data[name];
                 }
