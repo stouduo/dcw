@@ -448,9 +448,11 @@
 <script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/Util.js}" type="text/javascript" charset="utf-8"></script>
 <script th:inline="javascript">
-    var formId = [[${formDetail} == null ? '' : ${formDetail.form.id}]]
+    var formId = [[${formDetail} == null ? '' : ${formDetail.form.id}]
+    ]
     ;
-    var formProperties = [[${formDetail} == null ? '' : ${formDetail.formProperties}]]
+    var formProperties = [[${formDetail} == null ? '' : ${formDetail.formProperties}]
+    ]
     ;
 </script>
 <script type="text/javascript">
@@ -1131,7 +1133,7 @@
                 url: '/form/edit',
                 data: JSON.stringify(formDetail),
                 success: function (data) {
-                    layer.msg('提交成功');
+                    layer.msg('提交成功', {time: 3000});
                     window.location.href = '/form/desktop';
                 }
             });
