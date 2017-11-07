@@ -411,22 +411,22 @@ layui.define('layer', function (exports) {
             var tips = '', value = othis.val(), attrTips = othis.attr('tips');
             othis.removeClass(DANGER);
             layui.each(ver, function (_, thisVer) {
-                var isFn = typeof verify[thisVer] === 'function', msg;
                 if (verify[thisVer]) {
-                    if (isFn) {
-                        (msg = verify[thisVer](value, item)) && (tips = attrTips || msg);
+                    var msg;
+                    if (typeof verify[thisVer] === 'function') (msg = verify[thisVer](value, item)) && (tips = attrTips || msg);
+                    else (!verify[thisVer][0].test(value)) && ( tips = attrTips || verify[thisVer][1]);
+                    if (tips) {
+                        layer.msg(tips, {
+                            icon: 5
+                            , shift: 6
+                        });
+                        //非移动设备自动定位焦点
+                        if (!device.android && !device.ios) {
+                            item.focus();
+                        }
+                        othis.addClass(DANGER);
+                        return stop = true;
                     }
-                    if (!verify[thisVer][0].test(value)) tips = attrTips || verify[thisVer][1];
-                    layer.msg(tips, {
-                        icon: 5
-                        , shift: 6
-                    });
-                    //非移动设备自动定位焦点
-                    if (!device.android && !device.ios) {
-                        item.focus();
-                    }
-                    othis.addClass(DANGER);
-                    return stop = true;
                 }
             });
             if (stop) return stop;
@@ -464,28 +464,42 @@ layui.define('layer', function (exports) {
 
     form.verify({
         minlen: function (value, item) {
-
+            var val = parseInt($(item).attr('minlen'))
+            if (value.length < val)
+                return '请至少输入' + val + '个字符';
         },
         maxlen: function (value, item) {
-
+            var val = parseInt($(item).attr('maxlen'))
+            if (value.length > val)
+                return '请至多输入' + val + '个字符';
         },
         min: function (value, item) {
-
+            var val = parseInt($(item).attr('min'))
+            if (parseInt(value) < val)
+                return '请输入不小于' + val + '的数字';
         },
         max: function (value, item) {
-
+            var val = parseInt($(item).attr('max'))
+            if (parseInt(value) > val)
+                return '请输入不大于' + val + '的数字';
         },
         start: function (value, item) {
-
+            if (value < $(item).attr('start'))
+                return '请输入' + value + '之后的日期';
         },
         end: function (value, item) {
-
+            if (value > $(item).attr('end'))
+                return '请输入' + value + '之前的日期';
         },
         less: function (value, item) {
-
+            var clen = $('input[name="' + $(item).attr('name') + '"]').length;
+            if (clen > parseInt($(item).attr('less')))
+                return '请至少选择' + clen + '项';
         },
         most: function (value, item) {
-
+            var clen = $('input[name="' + $(item).attr('name') + '"]').length;
+            if (clen < parseInt($(item).attr('most')))
+                return '请至多选择' + clen + '项';
         }
     });
 
