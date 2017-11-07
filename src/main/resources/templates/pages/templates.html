@@ -675,25 +675,57 @@
                     {{d.des}}
                 </div>
                 <div class="layui-inline layui-row layui-col-md3">
-                    <select name="{{d.name}}" lay-verify="required" lay-filter="province"
+                    <select name="{{d.name}}" lay-verify="{{d.value.verify.required?'required':''}}"
+                            tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}" lay-filter="province"
                             class="province">
                         <option value=" ">省/自治区/直辖市</option>
                     </select>
                 </div>
                 <div class="layui-inline layui-row layui-col-md3">
-                    <select name="{{d.name}}" lay-verify="required" lay-filter="city" class="city">
+                    <select name="{{d.name}}" lay-verify="{{d.value.verify.required?'required':''}}"
+                            tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}" lay-filter="city"
+                            class="city">
                         <option value=" ">市</option>
                     </select>
                 </div>
                 <div class="layui-inline layui-row layui-col-md3">
-                    <select name="{{d.name}}" lay-verify="required" lay-filter="block" class="block">
+                    <select name="{{d.name}}" lay-verify="{{d.value.verify.required?'required':''}}"
+                            tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}" lay-filter="block"
+                            class="block">
                         <option value=" ">区/县</option>
                     </select>
                 </div>
                 <div class="layui-row layui-col-md12">
-                    <input type="text" name="{{d.name}}" lay-verify="required"
+                    <input type="text" name="{{d.name}}" lay-verify="{{d.value.verify.required?'required':''}}"
+                           tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
                            class="layui-input"
                            placeholder="请输入详细地址"/>
+                </div>
+            </div>
+        </div>
+    </script>
+    <script type="text/html" id="location">
+        <div class="new-line">
+            <div class="layui-form-item">
+                <div class="layui-row layui-col-md12 text-left field-name">
+                    {{d.name}}
+                    {{#if(d.value.verify.required){}}
+                    <span style='color:red'>*</span>
+                    {{#}}}
+                </div>
+                <div class="layui-row layui-col-md12 text-left field-des">
+                    {{d.des}}
+                </div>
+                <div class="layui-row layui-col-md6" style="text-align: left;margin-bottom: 10px;">
+                    <input type="button" onclick="myLoc('{{d.name}}')"
+                           class="layui-btn layui-btn-normal" value=" &#xe604;获取位置"/>
+                </div>
+                <div id="map1" class="layui-col-md12" style="height: 200px;"></div>
+                <div class="layui-row layui-col-md12">
+                    <input type="text" class="layui-input" lay-verify="{{d.value.verify.required?'required':''}}"
+                           tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
+                           placeholder="点击按钮自动获取"
+                           name="{{d.name}}"/>
                 </div>
             </div>
         </div>
