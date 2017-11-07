@@ -357,9 +357,19 @@
                                                         <i class="layui-icon">&#xe6b2;</i>&nbsp;&nbsp;描述
                                                     </div>
                                                 </div>
+                                                <!--<div class="layui-col-md6 fied-item">-->
+                                                <!--<div class="grid-demo layui-bg-gray" templateName="pagination">-->
+                                                <!--<i class="layui-icon">&#xe705;</i>&nbsp;&nbsp;分页-->
+                                                <!--</div>-->
+                                                <!--</div>-->
                                                 <div class="layui-col-md6 fied-item">
-                                                    <div class="grid-demo layui-bg-gray" templateName="pagination">
-                                                        <i class="layui-icon">&#xe705;</i>&nbsp;&nbsp;分页
+                                                    <div class="grid-demo layui-bg-gray" templateName="address">
+                                                        <i class="layui-icon">&#xe62a;</i>&nbsp;&nbsp;地址
+                                                    </div>
+                                                </div>
+                                                <div class="layui-col-md6 fied-item">
+                                                    <div class="grid-demo layui-bg-gray" templateName="location">
+                                                        <i class="layui-icon">&#xe715;</i>&nbsp;&nbsp;地理位置
                                                     </div>
                                                 </div>
 
@@ -448,11 +458,9 @@
 <script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/Util.js}" type="text/javascript" charset="utf-8"></script>
 <script th:inline="javascript">
-    var formId = [[${formDetail} == null ? '' : ${formDetail.form.id}]
-    ]
+    var formId = [[${formDetail} == null ? '' : ${formDetail.form.id}]]
     ;
-    var formProperties = [[${formDetail} == null ? '' : ${formDetail.formProperties}]
-    ]
+    var formProperties = [[${formDetail} == null ? '' : ${formDetail.formProperties}]]
     ;
 </script>
 <script type="text/javascript">
@@ -776,7 +784,7 @@
                 ''
         },
         address: {
-            type: 'urlfield',
+            type: 'address',
             value:
                 {
                     verify: {
@@ -794,7 +802,7 @@
                 ''
         },
         location: {
-            type: 'urlfield',
+            type: 'location',
             value:
                 {
                     verify: {

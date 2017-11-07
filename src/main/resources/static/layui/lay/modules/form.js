@@ -412,7 +412,7 @@ layui.define('layer', function(exports){
             layui.each(ver, function (_, thisVer) {
                 var isFn = typeof verify[thisVer] === 'function';
                 if(verify[thisVer]){
-                    if(isFn)tips =attrTips|| verify[thisVer](value, item);
+                    if(isFn)tips = verify[thisVer](value, item)|| attrTips;
                     if(!verify[thisVer][0].test(value)) tips = attrTips||verify[thisVer][1];
                     layer.msg(tips, {
                         icon: 5
@@ -458,6 +458,33 @@ layui.define('layer', function(exports){
   ,dom = $(document), win = $(window);
 
   form.render();
+
+  form.verify({
+      minlen:function (value,item) {
+
+      },
+      maxlen:function (value,item) {
+
+      },
+      min:function (value,item) {
+
+      },
+      max:function (value,item) {
+
+      },
+      start:function (value,item) {
+
+      },
+      end:function (value,item) {
+
+      },
+      less:function (value,item) {
+
+      },
+      most:function (value,item) {
+
+      }
+  });
 
   //表单reset重置渲染
   dom.on('reset', ELEM, function(){

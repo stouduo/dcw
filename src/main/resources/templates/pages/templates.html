@@ -122,6 +122,7 @@
                     <input type="checkbox" {{d.default?'disabled':''}} name="{{d.name}}"
                     value="{{item.value}}"
                     title="{{item.value}}"
+                    lay-verify="{{(d.value.verify.min.checked?'less':'')+(d.value.verify.max.checked?'|most':'')}}"
                     tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
                     {{item.checked?'checked':''}}>
                     <br/>
@@ -226,6 +227,7 @@
                                     name="{{d.name}}"
                                     tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
                                     {{d.value.images[i].checked?'checked':''}}
+                                    lay-verify="{{(d.value.verify.min.checked?'less':'')+(d.value.verify.max.checked?'|most':'')}}"
                                     value="{{d.value.images[i].imgName}}"
                                     title="{{d.value.images[i].imgName}}">
                                 </div>
@@ -717,16 +719,20 @@
                     {{d.des}}
                 </div>
                 <div class="layui-row layui-col-md6" style="text-align: left;margin-bottom: 10px;">
-                    <input type="button" onclick="myLoc('{{d.name}}')"
-                           class="layui-btn layui-btn-normal" value=" &#xe604;获取位置"/>
+                    <button {{d.default?'disabled':''}} onclick="myLoc('{{d.name}}')"
+                    class="layui-btn layui-btn-normal">
+                    <i class="layui-icon">&#xe604;</i>获取位置</button>
                 </div>
-                <div id="map1" class="layui-col-md12" style="height: 200px;"></div>
+                {{#if(!d.default){}}
+                <div id="{{d.name}}" class="layui-col-md12" style="height: 200px;"></div>
                 <div class="layui-row layui-col-md12">
-                    <input type="text" class="layui-input" lay-verify="{{d.value.verify.required?'required':''}}"
-                           tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
-                           placeholder="点击按钮自动获取"
-                           name="{{d.name}}"/>
+                    <input type="text" class="layui-input" {{d.default?'readonly':''}}
+                    lay-verify="{{d.value.verify.required?'required':''}}"
+                    tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
+                    placeholder="点击按钮自动获取"
+                    name="{{d.name}}"/>
                 </div>
+                {{#}}}
             </div>
         </div>
     </script>

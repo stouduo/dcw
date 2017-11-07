@@ -458,14 +458,14 @@
     </div>
 </script>
 <script id="filesInTable" type="text/html">
-    <div class="layui-form-item" pane="">
-        <ul class="layui-input-block showtips">
-            {{#layui.each(d,function(i,prop){}}
-            <li><input type="checkbox" class="prop" lay-skin="primary" title="{{prop.title}}"
-                       checked="{{!prop.show}}">
-            </li>
-            {{#});}}
-        </ul>
+    <div class="layui-form-item">
+        {{#layui.each(d,function(key){}}
+        {{#if(/jpg|png|gif|bmp|jpeg$/i.test(d[key].substring(d[key].lastIndexOf('.'),d[key].length)){}}
+        <img src="{{d[key]}}" width="20px;" height="20px;" title="{{key}}"/>
+        {{#else{}}
+        <span>{{key+" "}}</span>
+        {{#}}}
+        {{#});}}
     </div>
 </script>
 <div th:include="/pages/templates::templates"></div>
@@ -473,7 +473,40 @@
 <script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/Util.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
+<script src="http://api.map.baidu.com/api?v=2.0&ak=mfZGQrMfwBXfdLgIQaaFH0cS1kBKu11p"
+        type="text/javascript"></script>
+<script type="text/javascript">
+    var maps = {}, geolocation = new BMap.Geolocation(), geoc = new BMap.Geocoder();
 
+    function setLocation(map, getLocation) {
+        geoc.getPoint(getLocation, function (point) {
+            if (point) {
+                maps[map].map.clearOverlays();
+                maps[map].map.centerAndZoom(point, 16);
+                maps[map].map.addOverlay(new BMap.Marker(point));
+            } else {
+                alert("您选择地址没有解析到结果!");
+            }
+        });
+    }
+
+    function myLoc(map) {
+        geolocation.getCurrentPosition(function (r) {
+            if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                var pt = r.point;
+                geoc.getLocation(pt, function (result) {
+                    if (result) {
+                        maps[map].map.clearOverlays();
+                        maps[map].map.centerAndZoom(pt, 16);
+                        maps[map].map.addOverlay(new BMap.Marker(pt));
+                        var addComp = result.addressComponents;
+                        maps[map].elem.val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+                    }
+                });
+            }
+        });
+    }
+</script>
 <script th:inline="javascript">
     var data = [[${formDetail.formValues}]], formData = [];
     var props = [[${formDetail.formProperties}]], formProp = [], cols = [];
@@ -508,7 +541,6 @@
     formProp.push({field: 'browser', title: '浏览器', width: 'auto'});
     formProp.push({field: 'os', title: '操作系统', width: 'auto'});
     formProp.push({field: 'submitIP', title: 'IP', width: 'auto'});
-
     cols.push(formProp);
 </script>
 
@@ -528,7 +560,21 @@
                 $html = $(html);
                 switch (this.type) {
                     case "location":
-
+                        var map = new BMap.Map(name);
+                        map.centerAndZoom(new BMap.Point(121.491, 31.233), 11);
+                        map.enableScrollWheelZoom(true); //缩放
+                        maps[name] = {map: map, elem: $html.find('input[name="' + name + '"')};
+                        setTimeout(function () {
+                            map.enableDragging(); //两秒后开启拖拽
+                        }, 2000);
+                        map.addEventListener("click", function (e) {
+                            var pt = e.point;
+                            geoc.getLocation(pt, function (rs) {
+                                var addComp = rs.addressComponents;
+                                maps[name].elem.val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+                            });
+                        });
+                        myLoc(name);
                         break;
                     case "multiselected":
                         var select = {
