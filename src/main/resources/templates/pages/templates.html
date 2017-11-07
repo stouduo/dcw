@@ -17,7 +17,7 @@
                     {{d.des}}
                 </div>
                 <div class="layui-row layui-col-md6">
-                    <input type="text" name="{{d.name}}" {{d.default?'readonly':''}}
+                    <input type="text" name="{{d.name+'_'+d.id}}" {{d.default?'readonly':''}}
                     lay-verify="{{(d.value.verify.required?'required':'')+(d.value.verify.min.checked?'|minlen':'')+(d.value.verify.max.checked?'|maxlen':'')}}"
                     minlen="{{d.value.verify.min.checked?d.value.verify.min.val:''}}"
                     maxlen="{{d.value.verify.max.checked?d.value.verify.max.val:''}}"
@@ -48,7 +48,7 @@
                     {{d.des}}
                 </div>
                 <div class="layui-row layui-col-md12">
-                    <textarea class="layui-textarea" {{d.default?'readonly':''}} name="{{d.name}}"
+                    <textarea class="layui-textarea" {{d.default?'readonly':''}} name="{{d.name+'_'+d.id}}"
                     lay-verify="{{(d.value.verify.required?'required':'')+(d.value.verify.min.checked?'|minlen':'')+(d.value.verify.max.checked?'|maxlen':'')}}"
                     minlen="{{d.value.verify.min.val}}"
                     maxlen="{{d.value.verify.max.val}}"
@@ -81,7 +81,7 @@
 
                     {{#layui.each(d.value.radios,function(i){}}
                     {{#var item = d.value.radios[i]}}
-                    <input type="radio" {{d.default?'disabled':''}} name="{{d.name}}" value="{{item}}"
+                    <input type="radio" {{d.default?'disabled':''}} name="{{d.name+'_'+d.id}}" value="{{item}}"
                     title="{{item}}"
                     tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
                     {{item.checked?'checked':''}}>
@@ -119,7 +119,7 @@
                 <div class="layui-row layui-col-md12 text-left">
                     {{#layui.each(d.value.checkboxs,function(i){}}
                     {{#var item = d.value.checkboxs[i]}}
-                    <input type="checkbox" {{d.default?'disabled':''}} name="{{d.name}}"
+                    <input type="checkbox" {{d.default?'disabled':''}} name="{{d.name+'_'+d.id}}"
                     value="{{item.value}}"
                     title="{{item.value}}"
                     less="{{d.value.verify.min.checked?'d.value.verify.min.value':''}}
@@ -169,7 +169,7 @@
                             </div>
                             <div class="text-wrapper">
                                 <div class="radio-button-wrapper">
-                                    <input type="radio" {{d.default?'disabled':''}} name="{{d.name}}"
+                                    <input type="radio" {{d.default?'disabled':''}} name="{{d.name+'_'+d.id}}"
                                     {{d.value.checked==d.value.images[i].imgName?'checked':''}}
                                     value="{{d.value.images[i].imgName}}"
                                     tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
@@ -226,7 +226,7 @@
                             <div class="text-wrapper">
                                 <div class="checkbox-button-wrapper">
                                     <input type="checkbox" {{d.default?'disabled':''}}
-                                    name="{{d.name}}"
+                                    name="{{d.name+'_'+d.id}}"
                                     tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
                                     {{d.value.images[i].checked?'checked':''}}
                                     less="{{d.value.verify.min.checked?'d.value.verify.min.value':''}}
@@ -284,7 +284,7 @@
                             <td class="layui-input-block">
                                 <input type="radio" {{d.default?'disabled':''}}
                                 {{d.value.checked==select?'checked':''}}
-                                name="{{d.name+'_'+i}}"
+                                name="{{d.name+'_'+d.id+'_'+i}}"
                                 tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
                                 value="{{title.value+':'+select}}"
                                 />
@@ -368,7 +368,7 @@
                 </div>
                 <div class="layui-inline layui-col-md12">
                     <div class="layui-input-inline">
-                        <input type="number" name="{{d.name}}" {{d.default?'readonly':''}}
+                        <input type="number" name="{{d.name+'_'+d.id}}" {{d.default?'readonly':''}}
                         lay-verify="{{'number'+d.value.verify.required?'|required':''}}"
                         tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
                         value="{{d.value.value}}"
@@ -398,7 +398,7 @@
                     {{d.des}}
                 </div>
                 <div class="layui-inline layui-row layui-col-md4">
-                    <select name="{{d.name}}" {{d.default?'disabled':''}}
+                    <select name="{{d.name+'_'+d.id}}" {{d.default?'disabled':''}}
                     lay-verify="{{d.value.verify.required?'required':''}}"
                     tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}">
                     <option value="">时</option>
@@ -409,7 +409,7 @@
                     </select>
                 </div>
                 <div class="layui-inline layui-row layui-col-md4">
-                    <select name="{{d.name}}" {{d.default?'disabled':''}}
+                    <select name="{{d.name+'_'+d.id}}" {{d.default?'disabled':''}}
                     lay-verify="{{d.value.verify.required?'required':''}}"
                     tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}">
                     <option value="">分</option>
@@ -447,10 +447,8 @@
                 <div class="layui-row layui-col-md12 text-left field-des">
                     {{d.des}}
                 </div>
-            </div>
-            <div class="layui-form-item">
-                <div class="layui-input-block">
-                    <input type="text" {{d.default?'readonly':''}} name="{{d.name}}"
+                <div class="layui-row layui-col-md6">
+                    <input type="text" {{d.default?'readonly':''}} name="{{d.name+'_'+d.id}}"
                     lay-verify="{{(d.value.verify.required?'required':'')+(d.value.verify.start.checked?'|start':'')+(d.value.verify.end.checked?'|end':'')}}"
                     start="{{d.value.verify.start.checked?d.value.verify.start.value:''}}"
                     end="{{d.value.verify.end.checked?d.value.verify.end.value:''}}"
@@ -481,7 +479,7 @@
                     {{d.des}}
                 </div>
                 <div class="layui-inline layui-row layui-col-md4">
-                    <select name="{{d.name}}" {{d.default?'disabled':''}}
+                    <select name="{{d.name+'_'+d.id}}" {{d.default?'disabled':''}}
                     lay-verify="{{d.value.verify.required?'required':''}}"
                     tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}">
                     <option value="">{{d.value.defaultslt}}</option>
@@ -540,7 +538,7 @@
                     </label>
 
                     <div class="layui-input-block">
-                        <input type="text" name="{{d.name}}" {{d.default?'readonly':''}}
+                        <input type="text" name="{{d.name+'_'+d.id}}" {{d.default?'readonly':''}}
                         lay-verify="{{d.value.verify.required?'required':''}}"
                         tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
                         value="{{d.value.value}}"
@@ -574,7 +572,7 @@
                         <i class="layui-icon score">&#xe658;</i>
                         {{#}}}
                     </div>
-                    <input name="{{d.name}}" type="hidden"/>
+                    <input name="{{d.name+'_'+d.id}}" type="hidden"/>
                 </div>
             </div>
             {{#if(d.default){}}
@@ -599,7 +597,7 @@
                     {{d.des}}
                 </div>
                 <div class="layui-inline layui-row layui-col-md4">
-                    <select name="{{d.name}}" lay-filter="fselect" {{d.default?'disabled':''}}
+                    <select name="{{d.name+'_'+d.id}}" lay-filter="fselect" {{d.default?'disabled':''}}
                     lay-verify="{{d.value.verify.required?'required':''}}"
                     tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}">
                     <option value="">{{d.value.select.fdefault}}</option>
@@ -610,7 +608,7 @@
                     </select>
                 </div>
                 <div class="layui-inline layui-row layui-col-md4">
-                    <select name="{{d.name}}" class="sselect" {{d.default?'disabled':''}}
+                    <select name="{{d.name+'_'+d.id}}" class="sselect" {{d.default?'disabled':''}}
                     lay-verify="{{d.value.verify.required?'required':''}}"
                     tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}">
                     <option value="">{{d.value.select.sdefault}}</option>
@@ -643,7 +641,7 @@
                     <p>
                         请选择或拖拽上传文件{{d.value.fileCount!='1'?'（最多'+d.value.fileCount+'个）':''}}，限制在每个{{d.value.fileSize}}M以内。 </p>
                 </div>
-                <input type="hidden" name="{{d.name}}" lay-verify="{{d.value.verify.required?'required':''}}">
+                <input type="hidden" name="{{d.name+'_'+d.id}}" lay-verify="{{d.value.verify.required?'required':''}}">
                 <div class="layui-upload  lay-hide">
                     <div class="layui-upload-list">
                         <table class="layui-table">
@@ -681,7 +679,7 @@
                     {{d.des}}
                 </div>
                 <div class="layui-inline layui-row layui-col-md3">
-                    <select name="{{d.name}}" {{d.default?
+                    <select name="{{d.name+'_'+d.id}}" {{d.default?
                     'disabled':''}} lay-verify="{{d.value.verify.required?'required':''}}"
                     tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}" lay-filter="province"
                     class="province">
@@ -689,7 +687,7 @@
                     </select>
                 </div>
                 <div class="layui-inline layui-row layui-col-md3">
-                    <select name="{{d.name}}" {{d.default?
+                    <select name="{{d.name+'_'+d.id}}" {{d.default?
                     'disabled':''}} lay-verify="{{d.value.verify.required?'required':''}}"
                     tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}" lay-filter="city"
                     class="city">
@@ -697,7 +695,7 @@
                     </select>
                 </div>
                 <div class="layui-inline layui-row layui-col-md3">
-                    <select name="{{d.name}}" {{d.default?
+                    <select name="{{d.name+'_'+d.id}}" {{d.default?
                     'disabled':''}} lay-verify="{{d.value.verify.required?'required':''}}"
                     tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}" lay-filter="block"
                     class="block">
@@ -705,7 +703,7 @@
                     </select>
                 </div>
                 <div class="layui-row layui-col-md12">
-                    <input type="text" name="{{d.name}}" lay-verify="{{d.value.verify.required?'required':''}}"
+                    <input type="text" name="{{d.name+'_'+d.id}}" lay-verify="{{d.value.verify.required?'required':''}}"
                            tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
                            class="layui-input"
                            {{d.default?
@@ -713,6 +711,12 @@
                     placeholder="请输入详细地址"/>
                 </div>
             </div>
+            {{#if(d.default){}}
+            <div class="fn-area">
+                <i class="layui-icon ele-copy">&#xe60a;</i>
+                <i class="layui-icon ele-del">&#xe640;</i>
+            </div>
+            {{#}}}
         </div>
     </script>
     <script type="text/html" id="location">
@@ -728,22 +732,28 @@
                     {{d.des}}
                 </div>
                 <div class="layui-row layui-col-md6" style="text-align: left;margin-bottom: 10px;">
-                    <button {{d.default?
-                    'disabled':''}} onclick="myLoc('{{d.name}}')"
+                    <a {{d.default?
+                    'disabled':''}} onclick="myLoc('{{d.name+'_'+d.id}}')"
                     class="layui-btn layui-btn-normal">
-                    <i class="layui-icon">&#xe604;</i>获取位置</button>
+                    <i class="layui-icon">&#xe604;</i>获取位置</a>
                 </div>
                 {{#if(!d.default){}}
-                <div id="{{d.name}}" class="layui-col-md12" style="height: 200px;"></div>
+                <div id="{{d.name+'_'+d.id}}" class="layui-col-md12 location" style="height: 200px;"></div>
                 <div class="layui-row layui-col-md12">
                     <input type="text" class="layui-input" {{d.default?'readonly':''}}
                     lay-verify="{{d.value.verify.required?'required':''}}"
                     tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
                     placeholder="点击按钮自动获取"
-                    name="{{d.name}}"/>
+                    name="{{d.name+'_'+d.id}}"/>
                 </div>
                 {{#}}}
             </div>
+            {{#if(d.default){}}
+            <div class="fn-area">
+                <i class="layui-icon ele-copy">&#xe60a;</i>
+                <i class="layui-icon ele-del">&#xe640;</i>
+            </div>
+            {{#}}}
         </div>
     </script>
 </div>

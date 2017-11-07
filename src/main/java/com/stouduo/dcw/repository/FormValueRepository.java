@@ -37,6 +37,6 @@ public interface FormValueRepository extends PagingAndSortingRepository<FormValu
     long findSubmitCount(@Param("author") String username, @Param("submitIP") String ipAddress);
 
     @Modifying
-    @Query("update FormValue f set f.del=true where f.id=:id")
-    void delFormValues(@Param("id") String id);
+    @Query("update FormValue f set f.del=true where f.form=:form")
+    void delFormValues(@Param("form") String id);
 }

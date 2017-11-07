@@ -508,7 +508,7 @@
     }
 </script>
 <script th:inline="javascript">
-    var data = [[${formDetail.formValues}]], formData = [];
+    var data = [[${formDetail.formValues}]], formData = [], formId = [[${formDetail.form.id}]];
     var props = [[${formDetail.formProperties}]], formProp = [], cols = [];
     var value, tempform;
     for (var i = 0; i < data.length; i++) {
@@ -546,36 +546,21 @@
 
 <script type="text/javascript">
     var del;
-    layui.use(['table', 'layer', 'element', 'form', 'upload'], function () {
+    layui.use(['table', 'layer', 'element', 'form', 'upload', 'laydate'], function () {
         var table = layui.table;
         var element = layui.element;
         var layer = layui.layer;
         var form = layui.form;
         var laytpl = layui.laytpl;
         var upload = layui.upload;
-        var $html;
-        props && layui.each(props, function () {
-            this.value = JSON.parse(this.value);
-            laytpl($('#' + this.type).html()).render(this, function (html) {
+        var laydate = layui.laydate;
+        var $html, name;
+        props && layui.each(props, function (i, prop) {
+            name = prop.name + '_' + prop.id;
+            prop.value = JSON.parse(prop.value);
+            laytpl($('#' + prop.type).html()).render(prop, function (html) {
                 $html = $(html);
-                switch (this.type) {
-                    case "location":
-                        var map = new BMap.Map(name);
-                        map.centerAndZoom(new BMap.Point(121.491, 31.233), 11);
-                        map.enableScrollWheelZoom(true); //缩放
-                        maps[name] = {map: map, elem: $html.find('input[name="' + name + '"')};
-                        setTimeout(function () {
-                            map.enableDragging(); //两秒后开启拖拽
-                        }, 2000);
-                        map.addEventListener("click", function (e) {
-                            var pt = e.point;
-                            geoc.getLocation(pt, function (rs) {
-                                var addComp = rs.addressComponents;
-                                maps[name].elem.val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
-                            });
-                        });
-                        myLoc(name);
-                        break;
+                switch (prop.type) {
                     case "multiselected":
                         var select = {
                             fdefault: {
@@ -610,7 +595,7 @@
                         break;
                     case "datepicker":
                         laydate.render({
-                            elem: $html.find('input[placeholder=""]'),
+                            elem: $html.find('input[name="' + name + '"]')[0]
                         });
                         break;
                     case "uploadfile":
@@ -759,14 +744,14 @@
         function addData(elemId) {
             if (form.executeVerify($('#' + elemId)))
                 return false;
-            var value = {};
-            layui.each(props, function () {
-                var name = this.name, type = this.type;
-                var inputs = $('#' + elemId + ' :input[name^="' + name + '"]');
-                if (inputs.length == 1) value[name] = inputs[0].value;
+            var value = {}, key, name, type, inputs, values, d, names;
+            layui.each(props, function (i, prop) {
+                key = prop.name, name = prop.name + '_' + prop.id, type = prop.type;
+                inputs = $('#' + elemId + ' :input[name^="' + name + '"]');
+                if (inputs.length == 1) value[key] = inputs[0].value;
                 else {
-                    var values = [], d = {}, names;
-                    layui.each(inputs, function () {
+                    values = [], d = {}, names;
+                    layui.each(type == 'singlemat' ? inputs.find(':checked') : inputs, function () {
                         if (type == 'mattxt') {
                             names = this.name.split("\_");
                             !names[1] && (names[1] = {});
@@ -790,7 +775,7 @@
                             default:
                                 split = ',';
                         }
-                        value[name] = values.join(split);
+                        value[key] = values.join(split);
                     } else {
                         var val = '';
                         layui.each(d, function (i) {
@@ -800,7 +785,7 @@
                             });
                             val = val.substring(0, val.length - 1) + "),";
                         });
-                        value[name] = val.substring(0, val.length - 1);
+                        value[key] = val.substring(0, val.length - 1);
                     }
                 }
             });
@@ -885,23 +870,23 @@
 
         table.on('col(formValue)', function (data) {
             resetForm('editData');
-            layui.each(props, function () {
-                var name = this.name, type = this.type, $form = $('#editData');
+            layui.each(props, function (i, prop) {
+                var key = prop.name, name = prop.name + '_' + prop.id, type = prop.type, $form = $('#formContainer');
                 var inputs;
                 switch (type) {
                     case 'singleselect':
                     case 'singlepic':
-                        $form.find('input[name="' + name + '"][value="' + data[name] + '"').attr('checked', true);
+                        $form.find('input[name="' + name + '"][value="' + data[key] + '"').attr('checked', true);
                         break;
                     case 'multiselect':
                     case 'multipic':
                     case 'singlemat':
-                        layui.each(data[name].split(','), function () {
-                            inputs = $form.find('input[name^="' + name + '"][value="' + data[name] + '"').attr('checked', true);
+                        layui.each(data[key].split(','), function () {
+                            inputs = $form.find('input[name^="' + name + '"][value="' + data[key] + '"').attr('checked', true);
                         });
                         break;
                     case 'mattext':
-                        layui.each(data[name].match(/:(?!\()(.*?)[,|)]/), function () {
+                        layui.each(data[key].match(/:(?!\()(.*?)[,|)]/), function () {
                             inputs = $form.find('input[name^="' + name + '"]').val(this.substring(1, this.length - 1));
                         });
                         break;
@@ -910,8 +895,8 @@
                             , $uploadElem = $form.find('.' + name + ' .upbox'),
                             $input = $form.find('input[name="' + name + '"]')
                             , $list, files;
-                        layui.each(data[name], function (key) {
-                            $tr = $(['<tr id="key" filePath="' + data[name][key] + '">'
+                        layui.each(data[key], function (key) {
+                            $tr = $(['<tr id="key" filePath="' + data[key][key] + '">'
                                 , '<td>' + key + '</td>'
                                 , '<td></td>'
                                 , '<td></td>'
@@ -921,7 +906,7 @@
                                 , '</tr>'].join(''));
                             $form.find('.' + name + ' .uploadList').on('click', '.demo-delete', function () {
                                 $tr.remove();
-                                $.get('/formValue/delImg', {imgPath: data[name][key]});
+                                $.get('/formValue/delImg', {imgPath: data[key][key]});
                                 $list = $uploadList.find('tr'), files = [];
                                 if ($list.length == 0) {
                                     $uploadElem.show();
@@ -933,10 +918,10 @@
                                 $input.val("{" + files.join(',') + "}");
                             }).append($tr);
                         });
-                        $input.val(JSON.stringify(data[name]));
+                        $input.val(JSON.stringify(data[key]));
                         break;
                     case 'address':
-                        var addresses = data[name].split(" ");
+                        var addresses = data[key].split(" ");
                         inputs = $form.find(':input[name="' + name + '"');
                         form.select($(inputs[0]), addresses[0]);
                         form.select($(inputs[1]), addresses[1]);
@@ -944,29 +929,29 @@
                         inputs[3].value = addresses[3];
                         break;
                     case 'timepicker':
-                        var times = data[name].split(':');
+                        var times = data[key].split(':');
                         inputs = $form.find('select[name="' + name + '"');
                         form.select($(inputs[0]), times[0]);
                         form.select($(inputs[1]), times[1]);
                         break;
                     case 'multiselected':
-                        var selects = data[name].split('-');
+                        var selects = data[key].split('-');
                         inputs = $form.find('select[name="' + name + '"');
                         form.select($(inputs[0]), selects[0]);
                         form.select($(inputs[1]), selects[1]);
                         break;
                     case 'markfield':
                         inputs = $form.find('input[name="' + name + '"');
-                        inputs[0].value = data[name];
-                        $(inputs[0]).prev().children().get(parseInt(data[name])).click();
+                        inputs[0].value = data[key];
+                        $(inputs[0]).prev().children().get(parseInt(data[key])).click();
                         break;
                     case 'dropselect':
-                        form.select($form.find('select[name="' + name + '"'), data[name]);
+                        form.select($form.find('select[name="' + name + '"'), data[key]);
                         break;
                     case 'location':
-                        setLocation(name, data[name]);
+                        setLocation(prop.id, data[key]);
                     default:
-                        $form.find('input[name="' + name + '"]')[0].value = data[name];
+                        $form.find('input[name="' + name + '"]')[0].value = data[key];
                 }
             });
             $('#editData .other').each(function (i, elem) {
@@ -1077,9 +1062,26 @@
                 });
                 init();
             });
-
+            var map, name;
+            $('.location').each(function () {
+                name = $(this).attr('id');
+                map = new BMap.Map(name);
+                map.centerAndZoom(new BMap.Point(121.491, 31.233), 11);
+                map.enableScrollWheelZoom(true); //缩放
+                maps[name] = {map: map, elem: $('#formContainer').find('input[name="' + name + '"]')};
+                setTimeout(function () {
+                    map.enableDragging(); //两秒后开启拖拽
+                }, 2000);
+                map.addEventListener("click", function (e) {
+                    var pt = e.point, name = $(this.Va).attr('id');
+                    geoc.getLocation(pt, function (rs) {
+                        var addComp = rs.addressComponents;
+                        $('#formContainer').find('input[name="' + name + '"]').val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+                    });
+                });
+                myLoc(name);
+            });
         }());
-    })
-    ;
+    });
 </script>
 </html>
