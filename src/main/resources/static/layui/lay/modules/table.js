@@ -402,7 +402,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
               if(item3.toolbar){
                 return laytpl($(item3.toolbar).html()||'').render(item1);
               }
-              return item3.templet ? laytpl($(item3.templet).html() || String(content)).render(item1) : content;
+              return item3.templet ? laytpl($(item3.templet).html() || String(content)).render(typeof content == 'object'?content:item1) : content;
             }()
           ,'</div></td>'].join('');
 
@@ -799,7 +799,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
         if(!e.isCheckBox){
             var index = $(this).index();
             layui.event.call(this,MOD_NAME,'col('+filter+')',{
-                data:table.cache[index]
+                data:table.cache[that.key][index]
             });
         }
     });

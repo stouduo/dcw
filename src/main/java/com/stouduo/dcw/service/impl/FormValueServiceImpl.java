@@ -41,15 +41,19 @@ public class FormValueServiceImpl implements FormValueService {
     @Override
     public void save(FormValue formValue) {
         Date now = new Date();
-        formValue.setLastModifyTime(now);
         if (StringUtils.isEmpty(formValue.getId())) {
             formValue.setCreateTime(now);
             formValue.setAuthor(SecurityUtil.getUsername());
+            String[] clientMsg = ControllerUtil.getUserAgent();
+            formValue.setBrowser(clientMsg[0]);
+            formValue.setOs(clientMsg[1]);
+            formValue.setSubmitIP(ControllerUtil.getIpAddress());
+        } else {
+            String value = formValue.getValue();
+            formValue = formValueRepository.findOne(formValue.getId());
+            formValue.setValue(value);
         }
-        String[] clientMsg = ControllerUtil.getUserAgent();
-        formValue.setBrowser(clientMsg[0]);
-        formValue.setOs(clientMsg[1]);
-        formValue.setSubmitIP(ControllerUtil.getIpAddress());
+        formValue.setLastModifyTime(now);
         formValue.setLastModifyPerson(SecurityUtil.getUsername());
         formValueRepository.save(formValue);
     }
@@ -78,7 +82,7 @@ public class FormValueServiceImpl implements FormValueService {
             formValueMap.put("browser", formValue.getBrowser());
             formValueMap.put("os", formValue.getOs());
             formValueMap.put("submitIP", formValue.getSubmitIP());
-            formValueMap.put("id",formValue.getId());
+            formValueMap.put("id", formValue.getId());
             formValueMap.putAll((Map<String, String>) JSON.parse(formValue.getValue()));
             formValuesMap.add(formValueMap);
         }

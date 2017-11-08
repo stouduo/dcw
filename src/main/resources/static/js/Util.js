@@ -27,13 +27,24 @@ function parseParam(param, key) {
     return paramStr.substr(1);
 };
 
-DCW = {
-    singlemat: {
-        encoder: function () {
-
+$.fn.serializeObject = function () {
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function () {
+        if (o[this.name]) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
         }
-    },
-    mattext: {},
-    multiselected: {},
-    uploadfile: {}
-}
+    });
+    return o;
+};
+$.fn.resetForm = function () {
+    this[0].reset();
+    this.find(':checked').removeAttr("checked");
+    this.find(':selected').removeAttr('selected');
+    return this;
+};

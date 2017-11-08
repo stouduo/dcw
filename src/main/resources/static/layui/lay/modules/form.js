@@ -479,27 +479,29 @@ layui.define('layer', function (exports) {
                 return '请输入不小于' + val + '的数字';
         },
         max: function (value, item) {
-            var val = parseInt($(item).attr('max'))
+            var val = parseInt($(item).attr('max'));
             if (parseInt(value) > val)
                 return '请输入不大于' + val + '的数字';
         },
         start: function (value, item) {
-            if (value < $(item).attr('start'))
-                return '请输入' + value + '之后的日期';
+            var val = $(item).attr('start')
+            if (value < val)
+                return '请输入' + val + '之后的日期';
         },
         end: function (value, item) {
-            if (value > $(item).attr('end'))
-                return '请输入' + value + '之前的日期';
+            var val = $(item).attr('end')
+            if (value > val)
+                return '请输入' + val + '之前的日期';
         },
         less: function (value, item) {
-            var clen = $('input[name="' + $(item).attr('name') + '"]').length;
-            if (clen > parseInt($(item).attr('less')))
-                return '请至少选择' + clen + '项';
+            var clen = $('input[name="' + $(item).attr('name') + '"]:checked').length, less = $(item).attr('less')
+            if (clen < parseInt(less))
+                return '请至少选择' + less + '项';
         },
         most: function (value, item) {
-            var clen = $('input[name="' + $(item).attr('name') + '"]').length;
-            if (clen < parseInt($(item).attr('most')))
-                return '请至多选择' + clen + '项';
+            var clen = $('input[name="' + $(item).attr('name') + '"]:checked').length, most = $(item).attr('most');
+            if (clen > parseInt(most))
+                return '请至多选择' + most + '项';
         }
     });
 
