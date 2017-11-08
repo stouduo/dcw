@@ -14,15 +14,15 @@ public class FormProperty implements Serializable {
     private String form;
     private String name;
     private String des;
-    private String index;
+    private int index;
     private boolean resultShow;
 
     @Column(name = "showindex", length = 10)
-    public String getIndex() {
+    public int getIndex() {
         return index;
     }
 
-    public void setIndex(String index) {
+    public void setIndex(int index) {
         this.index = index;
     }
 

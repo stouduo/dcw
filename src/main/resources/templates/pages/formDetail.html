@@ -540,6 +540,7 @@
             prop.value = JSON.parse(prop.value);
             laytpl($('#' + prop.type).html()).render(prop, function (html) {
                 $html = $(html);
+                $('#formContainer').append($html);
                 switch (prop.type) {
                     case "multiselected":
                         var select = {}, s;
@@ -595,14 +596,11 @@
                             , url: '/formValue/uploadImg'
                             , accept: prop.value.fileType
                             , exts: prop.value.fileExts
+                            , bindAction: '#uploadAction'
                             , fileCount: prop.value.fileCount
                             , size: parseInt(prop.value.fileSize) * 1024
                             , multiple: true
-                            , auto: true
-                            , before: function () {
-                                $uploadElem.hide();
-                                $upload.show();
-                            }
+                            , auto: false
                             , choose: function (obj) {
                                 var files = obj.pushFile(); //将每次选择的文件追加到文件队列
                                 //读取本地文件
@@ -639,15 +637,18 @@
                                         layui.each()
                                     });
                                     $uploadList.append(tr);
+                                    $uploadElem.hide();
+                                    $upload.show();
                                 });
                             }
                             , done: function (res, index, upload) {
                                 if (res.code == 0) { //上传成功
                                     var tr = $uploadList.find('tr#upload-' + index)
                                         , tds = tr.children();
-                                    tr.attr('filePath', res.data);
+                                    tr.attr('filePath', res.data.imgPath);
                                     tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
                                     tds.eq(3).html(''); //清空操作
+                                    var files = [];
                                     layui.each($uploadList.find('tr'), function () {
                                         files.push($(this).children().get(0).text() + ":" + $(this).attr('filePath'));
                                     });
@@ -665,7 +666,6 @@
                         });
                         break;
                 }
-                $('#formContainer').append($html);
             });
         });
 
@@ -909,7 +909,7 @@
                             break;
                         case 'address':
                             var addresses = record[name].split(" ");
-                            inputs = $form.find(':input[name="' + name + '"');
+                            inputs = $form.find(':input[name="' + name + '"]');
                             form.select($(inputs[0]), addresses[0]);
                             form.select($(inputs[1]), addresses[1]);
                             form.select($(inputs[2]), addresses[2]);

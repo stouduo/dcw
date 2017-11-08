@@ -458,10 +458,8 @@
 <script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/Util.js}" type="text/javascript" charset="utf-8"></script>
 <script th:inline="javascript">
-    var formId = [[${formDetail} == null ? '' : ${formDetail.form.id}]]
-    ;
-    var formProperties = [[${formDetail} == null ? '' : ${formDetail.formProperties}]]
-    ;
+    var formId = [[${formDetail} == null ? '' : ${formDetail.form.id}]];
+    var formProperties = [[${formDetail} == null ? '' : ${formDetail.formProperties}]];
 </script>
 <script type="text/javascript">
     var defaultProps = {
@@ -833,7 +831,7 @@
                     }
                     ,
                     fullscore: '3',
-                    icon:'&#xe658;',
+                    icon: '&#xe658;',
                     icons:
                         {1: '&#xe6c6;', 2: '&#xe650;', 3: '&#xe658;'}
                 }
@@ -1057,6 +1055,7 @@
             if (!$thisElem.length || !type) return false;
             var prop = {value: {verify: {required: false}}, default: true, type: type, id: $thisElem.data('prop').id};
             prop.value.verify = $.extend(true, {}, defaultProps[type].value.verify);
+            if (type == 'markfield') prop.value.icons = $.extend(true, {}, defaultProps[type].value.icons);
             var field, name, k;
             for (var key in data.field) {
                 k = key;
@@ -1139,11 +1138,13 @@
                 type: "post",
                 url: '/form/edit',
                 data: JSON.stringify(formDetail),
+                async: false,
                 success: function (data) {
                     layer.msg('提交成功', {time: 3000});
                     window.location.href = '/form/desktop';
                 }
             });
+            return false;
         });
     });
 </script>
