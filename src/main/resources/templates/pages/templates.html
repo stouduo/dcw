@@ -219,13 +219,14 @@
                     {{#}else{}}
                     {{#layui.each(d.value.images,function(i){}}
                     <div class="layui-col-md3 redioimg">
-                        <label class="checkbox" style="display: block;">
+                        <label class="checkbox" onclick="document.getElementById('{{d.id+i}}').click();"
+                               style="display: block;">
                             <div class="image-center"><img
                                     src="{{d.value.images[i].imgPath}}">
                             </div>
                             <div class="text-wrapper">
                                 <div class="checkbox-button-wrapper">
-                                    <input type="checkbox" {{d.default?'disabled':''}}
+                                    <input type="checkbox" id="{{d.id+i}}" {{d.default?'disabled':''}}
                                     name="{{d.id}}"
                                     tips="{{d.value.verify.msg.checked?d.value.verify.msg.val:''}}"
                                     {{d.value.images[i].checked?'checked':''}}
@@ -1866,14 +1867,12 @@
                 </div>
                 <div class="layui-row ">
                     <div class="layui-col-md6">
-                        <select name="prop[value][icon]">
-                            {{#layui.each(d.value.icons,function(i){}}
-                            {{#var icon = d.value.icons[i]}}
-                            <option value="{{icon}}" {{d.value.icon==icon?'selected':''}}>
-                                <i class="layui-icon">{{icon}}</i>
-                            </option>
-                            {{#});}}
-                        </select>
+                        <input name="prop[value][icon]" type="hidden" id="icon">
+                        {{#layui.each(d.value.icons,function(i){}}
+                        {{#var icon = d.value.icons[i]}}
+                        <i class="layui-icon" onclick="document.getElementById('icon').value=this.innerHTML;"
+                           >{{icon}}</i>
+                        {{#});}}
                     </div>
                 </div>
             </div>
