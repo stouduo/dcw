@@ -626,7 +626,7 @@
         </div>
     </script>
     <script type="text/html" id="uploadfile">
-        <div class="new-line {{d.name}}" editor="{{d.type}}">
+        <div class="new-line {{d.id}}" editor="{{d.type}}">
             <!--上传文件-->
             <div class="layui-form-item">
                 <div class="layui-row layui-col-md12 text-left field-name">
@@ -658,7 +658,7 @@
                             <tbody class="uploadList"></tbody>
                         </table>
                     </div>
-                    <button type="button" class="layui-btn" id="uploadAction">开始上传</button>
+                    <!--<button type="button" class="layui-btn" id="uploadAction">开始上传</button>-->
                 </div>
             </div>
             {{#if(d.default){}}
@@ -2364,9 +2364,9 @@
         {{#var filePath}}
         {{#layui.each(d,function(key){}}
         {{#filePath=d[key].toString();}}
-        <a href="filePath">
+        <a href="{{filePath}}">
             {{#if(/jpg|png|gif|bmp|jpeg$/i.test(filePath.substring(filePath.lastIndexOf('.'),filePath.length))){}}
-            <img src="filePath" width="20px;" height="20px;" title="{{key}}"/>
+            <img src="{{filePath}}" width="30px;" height="30px;"/>
             {{#}else{}}
             <span>{{key+" "}}</span>
             {{#}}}

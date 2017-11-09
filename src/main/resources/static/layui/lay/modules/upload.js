@@ -244,7 +244,7 @@ layui.define('layer' , function(exports){
       }
       typeof options.done === 'function' && options.done(res, index || 0, function(files){
         that.upload(files);
-      });
+      },options.elem);
     }
 
     //统一网络异常回调
@@ -283,6 +283,7 @@ layui.define('layer' , function(exports){
         });
         return that.files;
       }
+      ,elem:options.elem
     }
 
     //提交上传

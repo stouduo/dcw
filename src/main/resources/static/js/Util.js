@@ -46,5 +46,7 @@ $.fn.resetForm = function () {
     this[0].reset();
     this.find(':checked').removeAttr("checked");
     this.find(':selected').removeAttr('selected');
+    this.find('.upbox').show();
+    this.find('.uploadList').html('').hide();
     return this;
 };

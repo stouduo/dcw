@@ -458,8 +458,10 @@
 <script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/Util.js}" type="text/javascript" charset="utf-8"></script>
 <script th:inline="javascript">
-    var formId = [[${formDetail} == null ? '' : ${formDetail.form.id}]];
-    var formProperties = [[${formDetail} == null ? '' : ${formDetail.formProperties}]];
+    var formId = [[${formDetail} == null ? '' : ${formDetail.form.id}]]
+    ;
+    var formProperties = [[${formDetail} == null ? '' : ${formDetail.formProperties}]]
+    ;
 </script>
 <script type="text/javascript">
     var defaultProps = {
@@ -473,56 +475,130 @@
                     msg: {checked: false, val: ''}
                 },
                 value: '',
-            },
-            name: '',
-            des: ''
-        },
-        multitext: {
-            type: 'multitext',
-            value: {
-                verify: {
-                    required: false,
-                    min: {checked: false, val: ''},
-                    max: {checked: false, val: ''},
-                    msg: {checked: false, val: ''}
-                },
-                value: '',
-            },
-            name: '',
-            des: ''
-        },
-        singleselect: {
-            type: 'singleselect',
-            value: {
-                verify: {required: false, msg: {checked: false, val: ''}},
-                radios: {
-                    1: '选项1',
-                    2: '选项2',
-                    3: '选项3'
-                }, checked: '选项1'
-            },
-            name: '',
-            des: ''
-        },
-        multiselect: {
-            type: 'multiselect',
-            value: {
-                verify: {
-                    required: false,
-                    msg: {checked: false, val: ''},
-                    max: {checked: false, val: ''},
-                    min: {checked: false, val: ''}
-                },
-                checkboxs: {
-                    1: {value: '选项1', checked: '选项1'}, 2: {value: '选项2', checked: ''}, 3: {
-                        value: '选项3', checked: ''
-                    }, 4: {value: '选项4', checked: ''}
-                }
+                hasDefaultVal: true
             },
             name: '',
             des:
                 ''
         },
+        multitext: {
+            type: 'multitext',
+            value:
+                {
+                    verify: {
+                        required: false,
+                        min:
+                            {
+                                checked: false, val:
+                                ''
+                            }
+                        ,
+                        max: {
+                            checked: false, val:
+                                ''
+                        }
+                        ,
+                        msg: {
+                            checked: false, val:
+                                ''
+                        }
+                    }
+                    ,
+                    value: '',
+                    hasDefaultVal: true
+                }
+            ,
+            name: '',
+            des:
+                ''
+        }
+        ,
+        singleselect: {
+            type: 'singleselect',
+            value:
+                {
+                    verify: {
+                        required: false, msg:
+                            {
+                                checked: false, val:
+                                ''
+                            }
+                    }
+                    ,
+                    radios: {
+                        1:
+                            '选项1',
+                        2:
+                            '选项2',
+                        3:
+                            '选项3'
+                    }
+                    ,
+                    checked: '选项1',
+                    hasDefaultVal: true
+                }
+            ,
+            name: '',
+            des:
+                ''
+        }
+        ,
+        multiselect: {
+            type: 'multiselect',
+            value:
+                {
+                    verify: {
+                        required: false,
+                        msg:
+                            {
+                                checked: false, val:
+                                ''
+                            }
+                        ,
+                        max: {
+                            checked: false, val:
+                                ''
+                        }
+                        ,
+                        min: {
+                            checked: false, val:
+                                ''
+                        }
+                    }
+                    ,
+                    checkboxs: {
+                        1:
+                            {
+                                value: '选项1', checked:
+                                '选项1'
+                            }
+                        ,
+                        2:
+                            {
+                                value: '选项2', checked:
+                                ''
+                            }
+                        ,
+                        3:
+                            {
+                                value: '选项3', checked:
+                                ''
+                            }
+                        ,
+                        4:
+                            {
+                                value: '选项4', checked:
+                                ''
+                            }
+                    },
+                    hasDefaultVal: true
+                }
+            ,
+            name: '',
+            des:
+                ''
+        }
+        ,
         singlepic: {
             type: 'singlepic',
             value:
@@ -533,7 +609,8 @@
                                 checked: false, val:
                                 ''
                             }
-                    },
+                    }
+                    ,
 //                images: [{checked: '选项1', imgPath: '/images/a23.png', imgName: '选项1'}, {
 //                    checked: '',
 //                    imgPath: '/images/a23.png',
@@ -544,11 +621,16 @@
 //                    imgName: '选项1'
 //                }],
                 checked: '',
-                images: {}
-            },
+                images:
+                    {},
+                hasDefaultVal: true
+            }
+            ,
             name: '',
-            des: ''
-        },
+            des:
+                ''
+        }
+        ,
         multipic: {
             type: 'multipic',
             value:
@@ -584,11 +666,15 @@
 //                        imgPath: '/images/a23.png',
 //                        imgName: '选项1'
 //                    }]
-                images: {}
-            },
+                images: {},
+                hasDefaultVal: true
+            }
+            ,
             name: '',
-            des: ''
-        },
+            des:
+                ''
+        }
+        ,
         singlemat: {
             type: 'singlemat',
             value:
@@ -602,68 +688,137 @@
                     }
                     ,
                     titles: {
-                        1: {
-                            value: '題目1',
-                            selects: {
-                                1: '项目1',
-                                2: '项目2',
-                                3: '项目3'
-                            },
-                        },
-                        2: {
-                            value: '題目2',
-                            selects: {
-                                1: '项目1',
-                                2: '项目2',
-                                3: '项目3'
-                            },
-                        },
-                        3: {
-                            value: '題目3',
-                            selects: {
-                                1: '项目1',
-                                2: '项目2',
-                                3: '项目3'
-                            },
-                        }
-                    },
+                        1:
+                            {
+                                value: '題目1',
+                                selects:
+                                    {
+                                        1:
+                                            '项目1',
+                                        2:
+                                            '项目2',
+                                        3:
+                                            '项目3'
+                                    }
+                                ,
+                            }
+                        ,
+                        2:
+                            {
+                                value: '題目2',
+                                selects:
+                                    {
+                                        1:
+                                            '项目1',
+                                        2:
+                                            '项目2',
+                                        3:
+                                            '项目3'
+                                    }
+                                ,
+                            }
+                        ,
+                        3:
+                            {
+                                value: '題目3',
+                                selects:
+                                    {
+                                        1:
+                                            '项目1',
+                                        2:
+                                            '项目2',
+                                        3:
+                                            '项目3'
+                                    }
+                                ,
+                            }
+                    }
+                    ,
                     selects: {
-                        1: '项目1',
-                        2: '项目2',
-                        3: '项目3'
-                    },
-                    checked: '项目1'
+                        1:
+                            '项目1',
+                        2:
+                            '项目2',
+                        3:
+                            '项目3'
+                    }
+                    ,
+                    checked: '项目1',
+                    hasDefaultVal: true
                 }
-            , name: '',
-            des: ''
-        },
+            ,
+            name: '',
+            des:
+                ''
+        }
+        ,
         mattext: {
             type: 'mattext',
             value:
                 {
                     verify: {
-                        required: false, msg: {checked: false, val: ''},
-                        number: {checked: false}
-                    },
-                    titles: {
-                        1: {
-                            value: '題目',
-                            selects: {1: '项目', 2: '项目', 3: '项目'}
-                        },
-                        2: {
-                            value: '題目',
-                            selects: {1: '项目', 2: '项目', 3: '项目'}
-                        },
-                        3: {
-                            value: '題目',
-                            selects: {1: '项目', 2: '项目', 3: '项目'}
+                        required: false, msg:
+                            {
+                                checked: false, val:
+                                ''
+                            }
+                        ,
+                        number: {
+                            checked: false
                         }
-                    },
-                    selects: {1: '项目', 2: '项目', 3: '项目'}
-                },
+                    }
+                    ,
+                    titles: {
+                        1:
+                            {
+                                value: '題目',
+                                selects:
+                                    {
+                                        1:
+                                            '项目', 2:
+                                        '项目', 3:
+                                        '项目'
+                                    }
+                            }
+                        ,
+                        2:
+                            {
+                                value: '題目',
+                                selects:
+                                    {
+                                        1:
+                                            '项目', 2:
+                                        '项目', 3:
+                                        '项目'
+                                    }
+                            }
+                        ,
+                        3:
+                            {
+                                value: '題目',
+                                selects:
+                                    {
+                                        1:
+                                            '项目', 2:
+                                        '项目', 3:
+                                        '项目'
+                                    }
+                            }
+                    }
+                    ,
+                    selects: {
+                        1:
+                            '项目', 2:
+                            '项目', 3:
+                            '项目'
+                    }
+                }
+            ,
             name: '',
-            des: ''
-        },
+            des:
+                ''
+        }
+        ,
         numberfield: {
             type: 'numberfield',
             value:
@@ -688,12 +843,14 @@
                     }
                     ,
                     value: '',
+                    hasDefaultVal: true
                 }
             ,
             name: '',
             des:
                 ''
-        },
+        }
+        ,
         timepicker: {
             type: 'timepicker',
             value:
@@ -710,28 +867,53 @@
                     hour: '',
                     minute:
                         '',
+                    hasDefaultVal: true
                 }
             ,
             name: '',
             des:
                 ''
-        },
+        }
+        ,
         datepicker: {
             type: 'datepicker',
-            value: {
-                verify: {
-                    required: false,
-                    start: {type: '0', value: '', val: ''},
-                    end: {type: '0', value: '', val: ''},
-                    msg: {checked: false, val: ''}
-                },
-                default: {type: '0', value: '', val: ''},
-            }
+            value:
+                {
+                    verify: {
+                        required: false,
+                        start:
+                            {
+                                type: '0', value:
+                                '', val:
+                                ''
+                            }
+                        ,
+                        end: {
+                            type: '0', value:
+                                '', val:
+                                ''
+                        }
+                        ,
+                        msg: {
+                            checked: false, val:
+                                ''
+                        }
+                    }
+                    ,
+                    default:
+                        {
+                            type: '0', value:
+                            '', val:
+                            ''
+                        }
+                    , hasDefaultVal: true
+                }
             ,
             name: '',
             des:
                 ''
-        },
+        }
+        ,
         dropselect: {
             type: 'dropselect',
             value:
@@ -743,24 +925,33 @@
                                 checked: false, val:
                                 ''
                             }
-                    },
-                    selects: {1: '选项', 2: '选项'},
+                    }
+                    ,
+                    selects: {
+                        1:
+                            '选项', 2:
+                            '选项'
+                    }
+                    ,
                     checked: '选项',
                     defaultslt:
                         '请选择',
                     value:
-                        ''
+                        '',
+                    hasDefaultVal: true
                 }
             ,
             name: '',
             des:
                 ''
-        },
+        }
+        ,
         desfield: {
             type: 'desfield', name:
                 '', des:
                 ''
-        },
+        }
+        ,
         urlfield: {
             type: 'urlfield',
             value:
@@ -775,12 +966,14 @@
                     }
                     ,
                     value: '',
+                    hasDefaultVal: true
                 }
             ,
             name: '',
             des:
                 ''
-        },
+        }
+        ,
         address: {
             type: 'address',
             value:
@@ -798,7 +991,8 @@
             name: '',
             des:
                 ''
-        },
+        }
+        ,
         location: {
             type: 'location',
             value:
@@ -816,7 +1010,8 @@
             name: '',
             des:
                 ''
-        },
+        }
+        ,
         markfield: {
             type: 'markfield',
             value:
@@ -831,40 +1026,72 @@
                     }
                     ,
                     fullscore: '3',
-                    icon: '&#xe658;',
+                    icon:
+                        '&#xe658;',
                     icons:
-                        {1: '&#xe6c6;', 2: '&#xe650;', 3: '&#xe658;'}
+                        {
+                            1:
+                                '&#xe6c6;', 2:
+                            '&#xe650;', 3:
+                            '&#xe658;'
+                        }
                 }
             ,
             name: '',
             des:
                 ''
-        },
+        }
+        ,
         multiselected: {
             type: 'multiselected',
             value:
-                {
+                {hasDefaultVal: true,
                     verify: {
                         required: false,
-                        msg: {checked: false, val: ''}
-                    },
+                        msg:
+                            {
+                                checked: false, val:
+                                ''
+                            }
+                    }
+                    ,
                     select: {
-                        fdefault: '请选择', sdefault: '请选择'
-                    },
+                        fdefault: '请选择', sdefault:
+                            '请选择'
+                    }
+                    ,
                     selects: {
-                        1: {value: '一级选项', seconds: {1: '二级选项', 2: '二级选项'}},
-                        2: {value: '一级选项', seconds: {1: '二级选项', 2: '二级选项'}}
+                        1:
+                            {
+                                value: '一级选项', seconds:
+                                {
+                                    1:
+                                        '二级选项', 2:
+                                    '二级选项'
+                                }
+                            }
+                        ,
+                        2:
+                            {
+                                value: '一级选项', seconds:
+                                {
+                                    1:
+                                        '二级选项', 2:
+                                    '二级选项'
+                                }
+                            }
                     }
                 }
             ,
             name: '',
             des:
                 ''
-        },
+        }
+        ,
         uploadfile: {
             type: 'uploadfile',
             value:
-                {
+                {hasDefaultVal: true,
                     verify: {
                         required: false,
                         msg:
@@ -875,9 +1102,12 @@
                     }
                     ,
                     fileCount: '1',
-                    fileType: 'file',
-                    fileSize: '15',
-                    fileExts: ''
+                    fileType:
+                        'file',
+                    fileSize:
+                        '15',
+                    fileExts:
+                        ''
                 }
             ,
             name: '',
@@ -1055,6 +1285,7 @@
             if (!$thisElem.length || !type) return false;
             var prop = {value: {verify: {required: false}}, default: true, type: type, id: $thisElem.data('prop').id};
             prop.value.verify = $.extend(true, {}, defaultProps[type].value.verify);
+            prop.value.hasDefaultVal = defaultProps[type].value.hasDefaultVal;
             if (type == 'markfield') prop.value.icons = $.extend(true, {}, defaultProps[type].value.icons);
             var field, name, k;
             for (var key in data.field) {
