@@ -53,10 +53,10 @@ public class FormValueController extends BaseController {
     }
 
     @PostMapping("/submit")
-    public String submit(FormValue formValue, Model model) {
-
+    @ResponseBody
+    public RestResult<FormValue> submit(FormValue formValue) {
         formValueService.save(formValue);
-        return success("感谢您的提交！", model);
+        return restSuccess("提交成功，感谢您的填写！");
     }
 
     @GetMapping("/formDatas")
