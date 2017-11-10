@@ -99,7 +99,7 @@ public class FormValueController extends BaseController {
                 return restError(suffixErrorMsg);
             formValueService.importExcel(file, formId);
         } catch (Exception e) {
-            return restError("导入失败");
+            return restError(e.getMessage());
         }
         return restSuccess("导入成功");
     }

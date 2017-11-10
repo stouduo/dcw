@@ -228,6 +228,17 @@
             <li><a th:href="@{'/form/edit/'+${formDetail.form.id}}">编辑</a></li>
             <li class="layui-this">数据</li>
         </ul>
+        <div class="layui-form-item gform">
+            <div class="formright">
+                <label class="layui-form-label">发布表单</label>
+                <input type="text" id="myForm" th:value="@{'~/form/view/'+${formDetail.form.id}}"
+                       class="border-gray"/>
+                <i class="layui-icon"
+                   onclick="document.getElementById('myForm').select();document.execCommand('Copy');">&#xe64c;</i>
+                <a th:href="@{'/form/view/'+${formDetail.form.id}}" target="_blank"><i class="layui-icon">
+                    &#xe641;</i></a>
+            </div>
+        </div>
         <div class="layui-tab-content">
             <!--数据内容-->
             <div class="layui-tab-item layui-show">
@@ -244,7 +255,9 @@
                                 </span><i class="layui-icon">&#xe654;</i>
                                 <a href="javascript:add();">添加</a>
                                 </span>
-                                <span><i class="layui-icon">&#xe63c;</i><a href="javascript:importExcel();">从excel添加<i class="layui-icon" title="导入文件不要出现重复列，复合类型的字段请保持和表格数据一样的格式">&#xe60b;</i></a></span>
+                                <span><i class="layui-icon">&#xe63c;</i><a href="javascript:importExcel();">从excel添加<i
+                                        class="layui-icon"
+                                        title="导入文件不要出现重复列，复合类型的字段请保持和表格数据一样的格式">&#xe60b;</i></a></span>
                                 <span><i class="layui-icon">&#xe654;</i><a href="javascript:del();">删除</a></span>
                             </div>
                         </div>
@@ -270,10 +283,12 @@
                         </div>
                         <div class="layui-col-md1">
                             <div class="grid-demo grid-demo-bg1">
-                                <select onchange="outport()">
-                                    <option value="1">导出所有列</option>
-                                    <option value="2">仅导出显示列</option>
-                                </select>
+                                <div class="layui-form layui-form-item">
+                                    <select lay-filter="outport">
+                                        <option value="all">导出所有</option>
+                                        <option value="part">导出显示列</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -417,7 +432,7 @@
 <script th:src="@{/js/dropzone.min.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/Util.js}" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-    var search, del, outport, importExcel, add, showCol, showDatePicker;
+    var search, del, importExcel, add, showCol, showDatePicker;
     Dropzone.autoDiscover = false;
     layui.use(['table', 'element', 'layer', 'upload', 'laytpl', 'form', 'laydate'], function () {
         var table = layui.table;
@@ -494,19 +509,6 @@
                 search();
             });
         };
-        outport = function (all) {
-            var params = {};
-            params.content = $('#searchContent').val();
-            params.startTime = '';
-            params.endTime = '';
-            params.formId = formId;
-            if (!!all) {
-                params.curPgae = formData.config.index;
-                params.pageSize = formData.config.limit;
-            }
-            window.open('/formValue/outport?' + parseParam(params));
-            layer.msg('导出成功', {time: 3000});
-        };
         $("#excel").dropzone({
             url: "/formValue/import?formId=" + formId,
             addRemoveLinks: true,
@@ -517,8 +519,12 @@
             paramName: 'excel',
             acceptedFiles: ".xls,.xlsx",
             init: function () {
-                this.on("success", function (file) {
-                    layer.msg(file.name + "导入成功", {time: 3000});
+                this.on("success", function (file,data) {
+                    if(data.code==0){
+                        layer.msg(data.msg, {time: 3000});
+                    }else{
+                        layer.msg(file.name + "导入成功", {time: 3000});
+                    }
                 });
             }
         });
@@ -537,13 +543,13 @@
                 }
             });
         };
-        form.on('select(outport)',function (data) {
+        form.on('select(outport)', function (data) {
             var params = {};
             params.content = $('#searchContent').val();
             params.startTime = '';
             params.endTime = '';
             params.formId = formId;
-            if (data.value!='all') {
+            if (data.value != 'all') {
                 params.curPage = formData.config.index;
                 params.pageSize = formData.config.limit;
             }
@@ -923,7 +929,7 @@
                 shadeClose: true, //点击遮罩关闭层
                 area: ['800px', '520px'],
                 content: $addData,
-                btn: ['确定', '取消', '提交并再填一份'],
+                btn: ['确定', '取消'],
                 btnAlign: 'l', //按钮排列 左对齐
                 yes: function (index, layero) { //或者使用btn1
                     if (addData()) {
@@ -931,14 +937,13 @@
                         $form.hide();
                     }
                 },
-                cancel: function (index) { //或者使用btn2
+                btn2: function (index) { //或者使用btn2
                     layer.close(index);
                     $form.hide();
                 },
-                btn3: function (index, layero) {
-                    if (addData('addData')) {
-                        buildForm();
-                    }
+                cancel: function (index) { //或者使用btn2
+                    layer.close(index);
+                    $form.hide();
                 }
             });
         };

@@ -944,7 +944,7 @@
                 shadeClose: true, //点击遮罩关闭层
                 area: ['800px', '520px'],
                 content: $addData,
-                btn: ['确定', '取消', '提交并再填一份'],
+                btn: ['确定', '取消'],
                 btnAlign: 'l', //按钮排列 左对齐
                 yes: function (index, layero) { //或者使用btn1
                     if (addData()) {
@@ -952,15 +952,20 @@
                         $form.hide();
                     }
                 },
+                btn2:function (index) { //或者使用btn2
+                    layer.close(index);
+                    $form.hide();
+                },
                 cancel: function (index) { //或者使用btn2
                     layer.close(index);
                     $form.hide();
                 },
-                btn3: function (index, layero) {
-                    if (addData('addData')) {
-                        buildForm();
-                    }
-                }
+//                btn3: function (index, layero) {
+//                    if (addData()) {
+//                        buildForm();
+//                    }
+//                    return false;
+//                }
             });
         });
 
