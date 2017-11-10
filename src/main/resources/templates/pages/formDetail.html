@@ -227,6 +227,16 @@
             <li><a th:href="@{'/form/edit/'+${formDetail.form.id}}">编辑</a></li>
             <li><a th:href="@{'/formValue/myFormData/'+${formDetail.form.id}}">数据</a></li>
         </ul>
+        <div class="layui-form-item gform">
+            <div class="formright">
+                <label class="layui-form-label">发布表单</label>
+                <input type="text" id="myForm" th:value="@{'http://weimijiekuan.com/form/view/'+${formDetail.form.id}}"
+                       class="border-gray"/>
+                <i class="layui-icon" onclick="$('#myForm')[0].select();document.execCommand('Copy');">&#xe64c;</i>
+                <a th:href="@{'/form/view/'+${formDetail.form.id}}" target="_blank"><i class="layui-icon">
+                    &#xe641;</i></a>
+            </div>
+        </div>
         <div class="layui-tab-content">
             <!--概述内容-->
             <div class="layui-tab-item layui-show">
