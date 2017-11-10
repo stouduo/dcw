@@ -94,8 +94,8 @@ public class FormController extends BaseController {
         if (formDetailVO == null) {
             return error("找不到资源！", model);
         }
-        model.addAttribute("form", formDetailVO);
-        return "view";
+        model.addAttribute("formDetail", formDetailVO);
+        return "pages/view";
     }
 
     @GetMapping("/result/{id}")
