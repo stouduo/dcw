@@ -111,7 +111,7 @@ public class FormValueServiceImpl implements FormValueService {
         fieldNames.add("浏览器");
         fieldNames.add("操作系统");
         fieldNames.add("操作IP");
-        ExcelUtil.listToExcel(formValues, "Sheet1", fieldNames, form.getTitle());
+        ExcelUtil.listToExcel(response,formValues, "Sheet1", fieldNames, form.getTitle());
     }
 
     @Override
