@@ -419,7 +419,7 @@
 <script type="text/javascript">
     var search, del, outport, importExcel, add, showCol, showDatePicker;
     Dropzone.autoDiscover = false;
-    layui.use(['table', 'element', 'layer', 'upload','laytpl', 'form', 'laydate'], function () {
+    layui.use(['table', 'element', 'layer', 'upload', 'laytpl', 'form', 'laydate'], function () {
         var table = layui.table;
         var element = layui.element;
         var layer = layui.layer;
@@ -704,7 +704,7 @@
             var $elem;
             props && layui.each(props, function (i, prop) {
                     name = prop.id;
-                    $elem = $form.find('div[editor="' + prop.type + '"]');
+                    $elem = $formContainer.find('div.' + name);
                     if (prop.value.hasDefaultVal)
                         laytpl($('#' + prop.type).html()).render(prop, function (html) {
                             $html = $(html);

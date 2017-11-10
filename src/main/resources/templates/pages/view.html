@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>DCW</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/layui/css/layui.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/gaishu.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/shuju.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/formStyle.css}"/>
+</head>
+
+<body>
+<div class="layui-row">
+    <div class="layui-col-md3 layui-col-xs3" style="height: 1px;">
+        <!--这个元素是占位的-->
+    </div>
+    <div class="layui-col-xs6 layui-col-md6">
+        <div class="grid-demo">
+            <!--表单放这-->
+            <!--<section class="formEditorView">-->
+            <div class="form-container">
+                <form action="" id="view" method="post" class="layui-form">
+                    <div class="banner">
+                        <img th:src="@{/images/20160703224347_e39266@hixlarge.png}" style="width: 100%;"/>
+                    </div>
+                    <div class="layui-form-item new-line">
+                        <!--<div class="layui-input-block">-->
+                        <h1 th:text="${formDetail.form.title}"></h1>
+                        <!--</div>-->
+                    </div>
+                    <div id="formContainer">
+
+                    </div>
+                    <div class="new-line">
+                        <!--多项选择-->
+                        <div class="layui-form-item">
+                            <div class="layui-row layui-col-md12 text-left">
+                                <input type="submit" class="layui-btn layui-input-inline" lay-submit lay-filter="submit"
+                                       value="提交"/>
+                                <input type="reset" class="layui-btn layui-input-inline" value="重置"/>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="layui-col-md3 layui-col-xs3">
+                </div>
+            </div>
+            <!--</section>-->
+        </div>
+    </div>
+</div>
+<div th:include="/pages/templates::templates"></div>
+<script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/js/Util.js}" type="text/javascript" charset="utf-8"></script>
+<script src="http://api.map.baidu.com/api?v=2.0&ak=mfZGQrMfwBXfdLgIQaaFH0cS1kBKu11p"
+        type="text/javascript"></script>
+<script type="text/javascript">
+    var maps = {}, geolocation = new BMap.Geolocation(), geoc = new BMap.Geocoder();
+
+    function setLocation(map, getLocation) {
+        geoc.getPoint(getLocation, function (point) {
+            if (point) {
+                maps[map].map.clearOverlays();
+                maps[map].map.centerAndZoom(point, 16);
+                maps[map].map.addOverlay(new BMap.Marker(point));
+            } else {
+                alert("您选择地址没有解析到结果!");
+            }
+        });
+    }
+
+    function myLoc(map) {
+        geolocation.getCurrentPosition(function (r) {
+            if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                var pt = r.point;
+                geoc.getLocation(pt, function (result) {
+                    if (result) {
+                        maps[map].map.clearOverlays();
+                        maps[map].map.centerAndZoom(pt, 16);
+                        maps[map].map.addOverlay(new BMap.Marker(pt));
+                        var addComp = result.addressComponents;
+                        maps[map].elem.val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+                    }
+                });
+            }
+        });
+    }
+</script>
+<script th:inline="javascript">
+    var formId = [[${formDetail.form.id}]];
+</script>
+<script type="text/javascript">
+    layui.use(['table', 'layer', 'element', 'form', 'upload', 'laydate'], function () {
+        var element = layui.element;
+        var layer = layui.layer;
+        var form = layui.form;
+        var laytpl = layui.laytpl;
+        var upload = layui.upload;
+        var laydate = layui.laydate;
+        var $html, name, $formContainer = $('#formContainer'), $form = $('#view');
+        props && layui.each(props, function (i, prop) {
+                name = prop.id;
+                prop.value = JSON.parse(prop.value);
+                laytpl($('#' + prop.type).html()).render(prop, function (html) {
+                    $html = $(html);
+                    $formContainer.append($html);
+                    switch (prop.type) {
+                        case "multiselected":
+                            var select = {}, s;
+                            select[prop.value.select.fdefault] = [prop.value.select.sdefault];
+                            layui.each(prop.value.selects, function (i) {
+                                s = prop.value.selects[i];
+                                select[s.value] = [];
+                                layui.each(s.seconds, function (j) {
+                                    select[s.value].push(s.seconds[j]);
+                                });
+                            });
+                            $html.find('.fselect').data('seconds', select);
+                            form.on('select(fselect)', function (data) {
+                                var $elem = $(data.elem)
+                                var seconds = $elem.data('seconds');
+                                var template = '<option value="VALUE">VALUE</option>', html = '';
+                                layui.each(seconds[data.value], function () {
+                                    html += template.replace('VALUE', this).replace('VALUE', this);
+                                });
+                                $(data.elem).parent().next().find('.sselect').html(html);
+                                form.render('select');
+                            });
+                            break;
+                        case"markfield":
+                            $html.find('.score').on('click', function () {
+                                var score = $(this).index() + 1, fullScore = $(this.parentNode).children();
+                                layui.each(fullScore, function () {
+                                    if ($(this).index() < score)
+                                        $(this).css('color', '#FFAC21');
+                                    else $(this).removeAttr('style');
+                                });
+                                $(this.parentNode).next('input').val(score);
+                            });
+                            break;
+                        case"datepicker":
+                            laydate.render({
+                                elem: $html.find('input[name="' + name + '"]')[0]
+                            });
+                            break;
+                        case"uploadfile":
+                            var uploadListIns = upload.render({
+                                elem: $html.find('.upbox')
+                                , url: '/formValue/uploadImg'
+                                , accept: prop.value.fileType
+                                , exts: prop.value.fileExts
+                                , fileCount: prop.value.fileCount
+                                , size: parseInt(prop.value.fileSize) * 1024
+                                , multiple: true
+                                , auto: true
+                                , before: function (obj) {
+                                    var files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                                    //读取本地文件
+                                    obj.preview(function (index, file, result) {
+                                        var tr = $(['<tr id="upload-' + index + '">'
+                                            , '<td>' + file.name + '</td>'
+                                            , '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>'
+                                            , '<td>等待上传</td>'
+                                            , '<td>'
+                                            , '<button class="layui-btn layui-btn-mini demo-reload layui-hide">重传</button>'
+                                            , '<button class="layui-btn layui-btn-mini layui-btn-danger demo-delete">删除</button>'
+                                            , '</td>'
+                                            , '</tr>'].join(''));
+                                        var $html = obj.elem.parents('.new-line')
+                                            , $uploadList = $html.find('.uploadList')
+                                            , $uploadElem = $html.find('.upbox')
+                                            , $upload = $html.find('.layui-upload')
+                                            , $input = $html.find('input[type="hidden"]');
+                                        //单个重传
+                                        tr.find('.demo-reload').on('click', function () {
+                                            obj.upload(index, file);
+                                        });
+
+                                        //删除
+                                        tr.find('.demo-delete').on('click', function () {
+                                            delete files[index]; //删除对应的文件
+                                            tr.remove();
+                                            var imgPath = tr.attr('filePath');
+                                            imgPath && $.get('/formValue/delImg', {imgPath: imgPath});
+                                            if ($uploadList.find('tr').length == 0) {
+                                                $uploadElem.show();
+                                                $upload.hide();
+                                            }
+                                            layui.each($uploadList.find('tr'), function () {
+                                                files.push('"' + $(this).children().get(0).innerHTML + "\":\"" + $(this).attr('filePath')) + '"';
+                                            });
+                                            $input.val("{" + files.join(',') + "}");
+                                        });
+                                        $uploadList.append(tr);
+                                        $uploadElem.hide();
+                                        $upload.show();
+                                        $uploadList.show();
+                                    });
+                                }
+                                , done: function (res, index, upload, elem) {
+                                    if (res.code == 0) { //上传成功
+                                        var $html = elem.parents('.new-line')
+                                            , $uploadList = $html.find('.uploadList')
+                                            , $input = $html.find('input[type="hidden"]')
+                                            , tr = $uploadList.find('tr#upload-' + index)
+                                            , tds = tr.children();
+                                        tr.attr('filePath', res.data.imgPath);
+                                        tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                                        // tds.eq(3).html(''); //清空操作
+                                        tds.eq(3).find('.demo-reload').hide();
+                                        var files = [];
+                                        layui.each($uploadList.find('tr'), function () {
+                                            files.push('"' + $(this).children().get(0).innerHTML + "\":\"" + $(this).attr('filePath') + '"');
+                                        });
+                                        $input.val("{" + files.join(',') + "}");
+                                        return;
+                                    }
+                                    this.error(index, upload);
+                                }
+                                , error: function (index, upload) {
+                                    var tr = $uploadList.find('tr#upload-' + index)
+                                        , tds = tr.children();
+                                    tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                                    tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+                                }
+                            });
+                            break;
+                    }
+                });
+            }
+        );
+        form.render();
+        var rebuildForm = function () {
+            $form.resetForm();
+            var $elem;
+            props && layui.each(props, function (i, prop) {
+                    name = prop.id;
+                    $elem = $formContainer.find('div.' + name);
+                    if (prop.value.hasDefaultVal)
+                        laytpl($('#' + prop.type).html()).render(prop, function (html) {
+                            $html = $(html);
+                            $elem.replaceWith($html);
+                            switch (prop.type) {
+                                case "multiselected":
+                                    var select = {}, s;
+                                    select[prop.value.select.fdefault] = [prop.value.select.sdefault];
+                                    layui.each(prop.value.selects, function (i) {
+                                        s = prop.value.selects[i];
+                                        select[s.value] = [];
+                                        layui.each(s.seconds, function (j) {
+                                            select[s.value].push(s.seconds[j]);
+                                        });
+                                    });
+                                    $html.find('.fselect').data('seconds', select);
+                                    form.on('select(fselect)', function (data) {
+                                        var $elem = $(data.elem)
+                                        var seconds = $elem.data('seconds');
+                                        var template = '<option value="VALUE">VALUE</option>', html = '';
+                                        layui.each(seconds[data.value], function () {
+                                            html += template.replace('VALUE', this).replace('VALUE', this);
+                                        });
+                                        $(data.elem).parent().next().find('.sselect').html(html);
+                                        form.render('select');
+                                    });
+                                    break;
+                                case"markfield":
+                                    $html.find('.score').on('click', function () {
+                                        var score = $(this).index() + 1, fullScore = $(this.parentNode).children();
+                                        layui.each(fullScore, function () {
+                                            if ($(this).index() < score)
+                                                $(this).css('color', '#FFAC21');
+                                            else $(this).removeAttr('style');
+                                        });
+                                        $(this.parentNode).next('input').val(score);
+                                    });
+                                    break;
+                                case"datepicker":
+                                    laydate.render({
+                                        elem: $html.find('input[name="' + name + '"]')[0]
+                                    });
+                                    break;
+                                case"uploadfile":
+                                    var uploadListIns = upload.render({
+                                        elem: $html.find('.upbox')
+                                        , url: '/formValue/uploadImg'
+                                        , accept: prop.value.fileType
+                                        , exts: prop.value.fileExts
+                                        , fileCount: prop.value.fileCount
+                                        , size: parseInt(prop.value.fileSize) * 1024
+                                        , multiple: true
+                                        , auto: true
+                                        , before: function (obj) {
+                                            var files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                                            //读取本地文件
+                                            obj.preview(function (index, file, result) {
+                                                var tr = $(['<tr id="upload-' + index + '">'
+                                                    , '<td>' + file.name + '</td>'
+                                                    , '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>'
+                                                    , '<td>等待上传</td>'
+                                                    , '<td>'
+                                                    , '<button class="layui-btn layui-btn-mini demo-reload layui-hide">重传</button>'
+                                                    , '<button class="layui-btn layui-btn-mini layui-btn-danger demo-delete">删除</button>'
+                                                    , '</td>'
+                                                    , '</tr>'].join(''));
+                                                var $html = obj.elem.parents('.new-line')
+                                                    , $uploadList = $html.find('.uploadList')
+                                                    , $uploadElem = $html.find('.upbox')
+                                                    , $upload = $html.find('.layui-upload')
+                                                    , $input = $html.find('input[type="hidden"]');
+                                                //单个重传
+                                                tr.find('.demo-reload').on('click', function () {
+                                                    obj.upload(index, file);
+                                                });
+
+                                                //删除
+                                                tr.find('.demo-delete').on('click', function () {
+                                                    delete files[index]; //删除对应的文件
+                                                    tr.remove();
+                                                    var imgPath = tr.attr('filePath');
+                                                    imgPath && $.get('/formValue/delImg', {imgPath: imgPath});
+                                                    if ($uploadList.find('tr').length == 0) {
+                                                        $uploadElem.show();
+                                                        $upload.hide();
+                                                    }
+                                                    layui.each($uploadList.find('tr'), function () {
+                                                        files.push('"' + $(this).children().get(0).innerHTML + "\":\"" + $(this).attr('filePath')) + '"';
+                                                    });
+                                                    $input.val("{" + files.join(',') + "}");
+                                                });
+                                                $uploadList.append(tr);
+                                                $uploadElem.hide();
+                                                $upload.show();
+                                            });
+                                        }
+                                        , done: function (res, index, upload, elem) {
+                                            if (res.code == 0) { //上传成功
+                                                var $html = elem.parents('.new-line')
+                                                    , $uploadList = $html.find('.uploadList')
+                                                    , $input = $html.find('input[type="hidden"]')
+                                                    , tr = $uploadList.find('tr#upload-' + index)
+                                                    , tds = tr.children();
+                                                tr.attr('filePath', res.data.imgPath);
+                                                tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                                                // tds.eq(3).html(''); //清空操作
+                                                tds.eq(3).find('.demo-reload').hide();
+                                                var files = [];
+                                                layui.each($uploadList.find('tr'), function () {
+                                                    files.push('"' + $(this).children().get(0).innerHTML + "\":\"" + $(this).attr('filePath') + '"');
+                                                });
+                                                $input.val("{" + files.join(',') + "}");
+                                                return;
+                                            }
+                                            this.error(index, upload);
+                                        }
+                                        , error: function (index, upload) {
+                                            var tr = $uploadList.find('tr#upload-' + index)
+                                                , tds = tr.children();
+                                            tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                                            tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+                                        }
+                                    });
+                                    break;
+                            }
+                        });
+                }
+            );
+            form.render();
+        };
+
+        form.on('submit(submit)', function () {
+            var name, type, d = {}, names;
+            var params = $form.serializeObject();
+            layui.each(props, function (i, prop) {
+                    name = prop.id, type = prop.type;
+                    switch (type) {
+                        case 'timepicker':
+                            params[name] = params[name] && params[name].join(':');
+                            break;
+                        case 'singlemat':
+                            params[name] = [];
+                            layui.each(params, function (key) {
+                                if (key != name && key.indexOf(name) != -1) {
+                                    params[name].push(params[key]);
+                                    delete params[key];
+                                }
+                            });
+                            params[name] = params[name] && params[name].join(',');
+                            break;
+                        case 'mattext':
+                            layui.each(params, function (key) {
+                                names = key.split('\_');
+                                if (names.length == 3) {
+                                    !d[names[1]] && (d[names[1]] = {});
+                                    d[names[1]][names[2]] = params[key];
+                                    delete params[key];
+                                }
+                            });
+                            var val = '';
+                            layui.each(d, function (i) {
+                                val += i.split("-")[0] + ":(";
+                                layui.each(d[i], function (j) {
+                                    val += j.split("-")[0] + ":" + d[i][j] + ',';
+                                });
+                                val = val.substring(0, val.length - 1) + "),";
+                            });
+                            params[name] = val.substring(0, val.length - 1);
+                            break;
+                        case 'multiselected':
+                            params[name] = params[name] && params[name].join('-');
+                            break;
+                        case 'address':
+                            params[name] = params[name] && params[name].join(' ');
+                            break;
+                        default:
+                            if (params[name] && params[name].push)
+                                params[name] = params[name].join(',');
+                    }
+                }
+            );
+            $.post('/formValue/save', {value: JSON.stringify(params), id: id, form: formId}, function (data) {
+                layer.msg(data.msg, {time: 3000});
+                if (data.code == 1)
+                    rebuildForm();
+            });
+            return false;
+        });
+    });
+</script>

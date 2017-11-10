@@ -4,7 +4,7 @@
 <body>
 <div th:fragment="templates">
     <script type="text/html" id="singletext">
-        <div class="new-line" editor="{{d.type}}">
+        <div class="new-line {{d.id}}" editor="{{d.type}}">
             <!--单行文字-->
             <div class="layui-form-item">
                 <div class="layui-row layui-col-md12 text-left field-name">
@@ -35,7 +35,7 @@
         </div>
     </script>
     <script type="text/html" id="multitext">
-        <div class="new-line" editor="{{d.type}}">
+        <div class="new-line {{d.id}}" editor="{{d.type}}">
             <!--多行文字-->
             <div class="layui-form-item">
                 <div class="layui-row layui-col-md12 text-left field-name">
@@ -65,7 +65,7 @@
         </div>
     </script>
     <script type="text/html" id="singleselect">
-        <div class="new-line" editor="{{d.type}}">
+        <div class="new-line {{d.id}}" editor="{{d.type}}">
             <!--单项选择-->
             <div class="layui-form-item">
                 <div class="layui-row layui-col-md12 text-left field-name">
@@ -98,7 +98,7 @@
         </div>
     </script>
     <script type="text/html" id="multiselect">
-        <div class="new-line" editor="{{d.type}}">
+        <div class="new-line {{d.id}}" editor="{{d.type}}">
             <!--多项选择-->
             <div class="layui-form-item">
                 <div class="layui-row layui-col-md12 text-left field-name">
@@ -140,7 +140,7 @@
         </div>
     </script>
     <script type="text/html" id="singlepic">
-        <div class="new-line" editor="{{d.type}}">
+        <div class="new-line {{d.id}}" editor="{{d.type}}">
             <!--图片单选-->
             <div class="layui-form-item">
                 <div class="layui-row layui-col-md12 text-left field-name">
@@ -190,7 +190,7 @@
             {{#}}}
         </div></script>
     <script type="text/html" id="multipic">
-        <div class="new-line" editor="{{d.type}}">
+        <div class="new-line {{d.id}}" editor="{{d.type}}">
             <!--图片多选-->
             <div class="layui-form-item">
                 <div class="layui-row layui-col-md12 text-left field-name">
@@ -252,7 +252,7 @@
         </div>
     </script>
     <script type="text/html" id="singlemat">
-        <div class="new-line" editor="{{d.type}}">
+        <div class="new-line {{d.id}}" editor="{{d.type}}">
             <!--矩阵单选-->
             <div class="layui-form-item">
                 <div class="layui-row layui-col-md12 text-left field-name">
@@ -306,7 +306,7 @@
             {{#}}}
         </div></script>
     <script type="text/html" id="mattext">
-        <div class="new-line" editor="{{d.type}}">
+        <div class="new-line {{d.id}}" editor="{{d.type}}">
             <!--矩阵填空-->
             <div class="layui-form-item">
                 <div class="layui-row layui-col-md12 text-left field-name">
@@ -355,7 +355,7 @@
             {{#}}}
         </div></script>
     <script type="text/html" id="numberfield">
-        <div class="new-line" editor="{{d.type}}">
+        <div class="new-line {{d.id}}" editor="{{d.type}}">
             <!--123数字-->
             <div class="layui-form-item">
                 <div class="layui-row layui-col-md12 text-left field-name">
@@ -388,7 +388,7 @@
         </div>
     </script>
     <script type="text/html" id="timepicker">
-        <div class="new-line" editor="{{d.type}}">
+        <div class="new-line {{d.id}}" editor="{{d.type}}">
             <!--时间-->
             <div class="layui-form-item">
                 <div class="layui-row layui-col-md12 text-left field-name">
@@ -432,7 +432,7 @@
         </div>
     </script>
     <script type="text/html" id="datepicker">
-        <div class="new-line" editor="{{d.type}}">
+        <div class="new-line {{d.id}}" editor="{{d.type}}">
             <!--日期-->
             <div class="layui-form-item">
                 <div class="layui-row layui-col-md12 text-left field-name">
@@ -469,7 +469,7 @@
         </div>
     </script>
     <script type="text/html" id="dropselect">
-        <div class="new-line" editor="{{d.type}}">
+        <div class="new-line {{d.id}}" editor="{{d.type}}">
             <!--下拉框-->
             <div class="layui-form-item">
                 <div class="layui-row layui-col-md12 text-left field-name">
@@ -504,7 +504,7 @@
         </div>
     </script>
     <script type="text/html" id="desfield">
-        <div class="new-line" editor="{{d.type}}">
+        <div class="new-line {{d.id}}" editor="{{d.type}}">
             <!--描述-->
             <div class="layui-form-item">
                 <div class="layui-row layui-col-md12 text-left field-name">
@@ -523,7 +523,7 @@
         </div>
     </script>
     <script type="text/html" id="urlfield">
-        <div class="new-line" editor="{{d.type}}">
+        <div class="new-line {{d.id}}" editor="{{d.type}}">
             <!--网址-->
             <div class="layui-form-item">
                 <div class="layui-row layui-col-md12 text-left field-name">
@@ -558,7 +558,7 @@
         </div>
     </script>
     <script type="text/html" id="markfield">
-        <div class="new-line" editor="{{d.type}}">
+        <div class="new-line {{d.id}}" editor="{{d.type}}">
             <!--评分-->
             <div class="layui-form-item">
                 <div class="layui-row layui-col-md12 text-left field-name">
@@ -587,7 +587,7 @@
         </div>
     </script>
     <script type="text/html" id="multiselected">
-        <div class="new-line" editor="{{d.type}}">
+        <div class="new-line {{d.id}}" editor="{{d.type}}">
             <!--两级下拉框-->
             <div class="layui-form-item">
                 <div class="layui-row layui-col-md12 text-left field-name">
@@ -671,7 +671,7 @@
         </div>
     </script>
     <script type="text/html" id="address">
-        <div class="new-line" editor="{{d.type}}">
+        <div class="new-line {{d.id}}" editor="{{d.type}}">
             <div class="layui-form-item">
                 <div class="layui-row layui-col-md12 text-left field-name">
                     {{d.name}}
@@ -724,7 +724,7 @@
         </div>
     </script>
     <script type="text/html" id="location">
-        <div class="new-line" editor="{{d.type}}">
+        <div class="new-line {{d.id}}" editor="{{d.type}}">
             <div class="layui-form-item">
                 <div class="layui-row layui-col-md12 text-left field-name">
                     {{d.name}}
