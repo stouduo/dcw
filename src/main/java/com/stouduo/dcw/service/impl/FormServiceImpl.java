@@ -147,6 +147,7 @@ public class FormServiceImpl implements FormService {
     }
 
     @Override
+    @Transactional(readOnly = false)
     public void editForm(Form form) throws Exception {
         Form temp = formRepository.findOne(form.getId());
         Field[] fields = Form.class.getDeclaredFields();

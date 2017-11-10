@@ -2349,9 +2349,11 @@
         <div class="layui-form-item" pane="">
             <ul class="layui-input-block showtips">
                 {{#layui.each(d,function(i,prop){}}
+                {{#if(prop.field&&prop.field!='id'){}}
                 <li><input type="checkbox" class="prop" lay-skin="primary" title="{{prop.title}}"
                            checked="{{!prop.show}}">
                 </li>
+                {{#}}}
                 {{#});}}
             </ul>
         </div>
