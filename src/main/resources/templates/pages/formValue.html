@@ -537,6 +537,19 @@
                 }
             });
         };
+        form.on('select(outport)',function (data) {
+            var params = {};
+            params.content = $('#searchContent').val();
+            params.startTime = '';
+            params.endTime = '';
+            params.formId = formId;
+            if (data.value!='all') {
+                params.curPage = formData.config.index;
+                params.pageSize = formData.config.limit;
+            }
+            window.open('/formValue/outport?' + parseParam(params));
+            layer.msg('导出成功', {time: 3000});
+        });
         laytpl(showCols.innerHTML).render(formProp, function (html) {
             $('#showCol').html(html);
             form.render();
