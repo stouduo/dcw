@@ -1,0 +1,191 @@
+@charset "utf-8";
+.clearfix:after {
+	content: '';
+	clear: both;
+	display: block;
+}
+
+a {
+	text-decoration: none;
+}
+
+.text-left {
+	text-align: left;
+}
+
+.field-name {
+	height: 35px;
+	line-height: 35px;
+	font-size: larger;
+	overflow: auto;
+}
+
+.field-desc {
+	height: 25px;
+	line-height: 25px;
+	font-weight: lighter;
+	font-size: x-small;
+	overflow: hidden;
+}
+
+header {
+	background-color: #393D49;
+}
+
+.msg {
+	width: 60px;
+	height: 35px;
+	border-radius: 3px;
+	background-color: #333745;
+	position: absolute;
+	top: 23px;
+	right: 5px;
+	display: none;
+}
+
+.msg p {
+	width: 100%;
+	line-height: 35px;
+	text-align: center;
+	color: #fff;
+	border-radius: 5px;
+	position: relative;
+	top: 0;
+	left: 0;
+}
+
+.msg .up-trangle {
+	display: block;
+	width: 0;
+	height: 0;
+	border: 8px solid #333745;
+	transform: rotateZ(45deg);
+	position: absolute;
+	top: -4px;
+	right: 15px;
+}
+
+.container {
+	box-sizing: border-box;
+	width: 960px;
+	padding: 0 7px;
+	margin: auto;
+}
+
+nav .container {
+	margin: 10px auto;
+	margin-bottom: 0;
+}
+
+.formEditorView {
+	height: 600px;
+	overflow: auto;
+	text-align: center;
+}
+
+form .banner {
+	margin-bottom: 10px;
+	border: 1px solid #ccc;
+}
+
+form .layui-form-item {
+	width: 85%;
+	margin: auto;
+	margin-bottom: 10px;
+	border: 1px solid #ccc;
+}
+
+form .layui-input {
+	border: 1px solid #5FB878;
+}
+
+.add-field .fied-item div {
+	padding-left: 20px;
+	text-align: left;
+	height: 35px;
+	line-height: 35px;
+	overflow: hidden;
+	color: #000000;
+	transition: all 0.2s;
+}
+
+.add-field .fied-item div:hover {
+	cursor: pointer;
+	color: #009AFF !important;
+}
+
+.form-container {
+	width: 90%;
+	padding-bottom: 50px;
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+}
+
+form .layui-form-item {
+	border: none !important;
+}
+
+.add-field .layui-this {
+	background-color: #009AFF !important;
+	color: #fff !important;
+}
+
+form .new-line:hover {
+	cursor: pointer;
+}
+
+.formEditorView .active-line {
+	background-color: #F2FAFF;
+	border: 1px dashed #1E9FFF;
+	border-left: none;
+	border-right: none;
+	border-radius: 5px;
+}
+
+form .new-line {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	position: relative;
+	top: 0;
+	left: 0;
+}
+
+.fn-area {
+	position: absolute;
+	bottom: -10px;
+	right: 100px;
+	background-color: #fff;
+	display: none;
+}
+
+.fn-area .ele-copy,
+.fn-area .ele-del {
+	width: 30px;
+	height: 30px;
+	border-radius: 2px;
+}
+
+.fn-area .ele-copy:hover,
+.fn-area .ele-del:hover {
+	background-color: #D84C29;
+	cursor: pointer;
+}
+
+.formEditorView .active-line .fn-area {
+	display: block;
+}
+
+.active-line .layui-form-item input,
+.active-line .layui-form-item textarea,
+.active-line .layui-form-item select {
+	border-color: #9F9F9F;
+}
+
+.setting-row .pull-left {
+	line-height: 30px !important;
+}
+
+.setting-row input {
+	margin-bottom: 0;
+}
