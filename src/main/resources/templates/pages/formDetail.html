@@ -232,7 +232,7 @@
                 <label class="layui-form-label">发布表单</label>
                 <input type="text" id="myForm" th:value="@{'http://weimijiekuan.com/form/view/'+${formDetail.form.id}}"
                        class="border-gray"/>
-                <i class="layui-icon" onclick="$('#myForm')[0].select();document.execCommand('Copy');">&#xe64c;</i>
+                <i class="layui-icon" onclick="document.getElementById('myForm').select();document.execCommand('Copy');">&#xe64c;</i>
                 <a th:href="@{'/form/view/'+${formDetail.form.id}}" target="_blank"><i class="layui-icon">
                     &#xe641;</i></a>
             </div>
