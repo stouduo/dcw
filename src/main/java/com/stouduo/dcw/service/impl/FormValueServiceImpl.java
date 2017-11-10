@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.util.StringUtils;
 
+import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -94,7 +95,7 @@ public class FormValueServiceImpl implements FormValueService {
     }
 
     @Override
-    public void outport(String formId, String content, String startTime, Date endTime, int asc, int pageSize, int curPage) throws Exception {
+    public void outport(HttpServletResponse response, String formId, String content, String startTime, Date endTime, int asc, int pageSize, int curPage) throws Exception {
         Form form = formRepository.findOne(formId);
         List<FormValue> formValues;
         if (curPage != -1) {
