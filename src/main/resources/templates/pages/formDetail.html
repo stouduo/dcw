@@ -585,11 +585,9 @@
                                 , url: '/formValue/uploadImg'
                                 , accept: prop.value.fileType
                                 , exts: prop.value.fileExts
-//                            , bindAction: '#uploadAction'
                                 , fileCount: prop.value.fileCount
                                 , size: parseInt(prop.value.fileSize) * 1024
                                 , multiple: true
-//                            , auto: false
                                 , auto: true
                                 , before: function (obj) {
                                     var files = obj.pushFile(); //将每次选择的文件追加到文件队列
@@ -723,11 +721,9 @@
                                         , url: '/formValue/uploadImg'
                                         , accept: prop.value.fileType
                                         , exts: prop.value.fileExts
-//                            , bindAction: '#uploadAction'
                                         , fileCount: prop.value.fileCount
                                         , size: parseInt(prop.value.fileSize) * 1024
                                         , multiple: true
-//                            , auto: false
                                         , auto: true
                                         , before: function (obj) {
                                             var files = obj.pushFile(); //将每次选择的文件追加到文件队列

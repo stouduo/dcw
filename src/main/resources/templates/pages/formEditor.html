@@ -1027,14 +1027,15 @@
                     ,
                     fullscore: '3',
                     icon:
-                        '&#xe658;',
+                        '',
                     icons:
                         {
                             1:
-                                '&#xe6c6;', 2:
-                            '&#xe650;', 3:
-                            '&#xe658;'
+                                '', 2:
+                            '', 3:
+                            ''
                         }
+                    , hasDefaultVal: true
                 }
             ,
             name: '',
@@ -1045,7 +1046,8 @@
         multiselected: {
             type: 'multiselected',
             value:
-                {hasDefaultVal: true,
+                {
+                    hasDefaultVal: true,
                     verify: {
                         required: false,
                         msg:
@@ -1091,7 +1093,8 @@
         uploadfile: {
             type: 'uploadfile',
             value:
-                {hasDefaultVal: true,
+                {
+                    hasDefaultVal: true,
                     verify: {
                         required: false,
                         msg:
@@ -1149,6 +1152,7 @@
                 }
             });
             $(parentNode).after(elem);
+
             form.render('radio');
             form.render('checkbox');
         }).on('click', '.delselect', function () {
@@ -1162,6 +1166,13 @@
             $.get('/formValue/delImg', {imgPath: imgPath});
         }).on('change', '.date', function () {
             $('#' + $(this).attr('to')).val($(this).val());
+        }).on('click', '.markicon', function () {
+            var icon = $(this).index() - 1;
+            $('.markicon').each(function (i) {
+                if (i == icon) this.style.color = '#FFAC21';
+                else $(this).removeAttr('style');
+            });
+            $('#icon').val(icon + 1);
         });
         form.on('select(fileTypeslt)', function (data) {
             var fileTypeslt = $(data.elem).val();

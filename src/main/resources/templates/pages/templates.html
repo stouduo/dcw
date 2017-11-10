@@ -572,7 +572,7 @@
                         {{#for(var i=0;i
                         <d.value.fullscore
                                 ;i++){}}
-                        <i class="layui-icon score">{{d.value.icon}}</i>
+                        <i class="layui-icon score">{{d.value.icons[d.value.icon]}}</i>
                         {{#}}}
                     </div>
                     <input name="{{d.id}}" type="hidden"/>
@@ -1867,11 +1867,10 @@
                 </div>
                 <div class="layui-row ">
                     <div class="layui-col-md6">
-                        <input name="prop[value][icon]" type="hidden" id="icon">
+                        <input name="prop[value][icon]" value="{{d.value.icon}}" type="hidden" id="icon">
                         {{#layui.each(d.value.icons,function(i){}}
-                        {{#var icon = d.value.icons[i]}}
-                        <i class="layui-icon" onclick="document.getElementById('icon').value=this.innerHTML;"
-                           >{{icon}}</i>
+                        {{#var color = d.value.icon==i?'color:#FFCA21':'';}}
+                        <i class="layui-icon markicon" style="{{color}}">{{d.value.icons[i]}}</i>
                         {{#});}}
                     </div>
                 </div>

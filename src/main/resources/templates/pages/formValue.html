@@ -287,12 +287,44 @@
         </div>
     </div>
 </nav>
-
+<div class="lay-hide layui-form-item" id="editData">
+    <!--<input type="submit" lay-submit lay-filter="editData" value="提交"/>-->
+    <div class="layui-row">
+        <div class="layui-col-xs8">
+            <div class="grid-demo">
+                <!--表单放这-->
+                <section class="formEditorView">
+                </section>
+            </div>
+        </div>
+        <div class="layui-col-xs4">
+            <div class="grid-demo grid-demo-bg2 ">提交人：<span class="other" name="author"></span></div>
+            <div class="grid-demo grid-demo-bg2 ">提交时间：<span class="other" name="createTime"></span></div>
+            <div class="grid-demo grid-demo-bg2 ">修改人：<span class="other" name="lastModifyPerson"></span></div>
+            <div class="grid-demo grid-demo-bg2 ">修改时间：<span class="other" name="lastModifyTime"></span></div>
+            <div class="grid-demo grid-demo-bg2 ">浏览器：<span class="other" name="browser"></span></div>
+            <div class="grid-demo grid-demo-bg2 ">操作系统：<span class="other" name="os"></span></div>
+            <div class="grid-demo grid-demo-bg2 ">IP：<span class="other" name="submitIP"></span></div>
+        </div>
+    </div>
+</div>
+<div class="lay-hide layui-form-item" id="addData">
+    <!--<input type="submit" lay-submit lay-filter="addData" value="提交" style="display: none;"/>-->
+    <div class="layui-row">
+        <div class="grid-demo">
+            <!--表单放这-->
+            <section class="formEditorView">
+            </section>
+        </div>
+    </div>
+</div>
+<form class="lay-hide layui-form  form-container" id="formContainer">
+</form>
 <div class="lay-hide layui-form layui-form-item" id="showCol">
 </div>
-
-<form class="lay-hide layui-form layui-form-item" id="addData">
-</form>
+<div th:include="/pages/templates::showCols"></div>
+<div th:include="/pages/templates::filesInTable"></div>
+<div th:include="/pages/templates::templates"></div>
 
 <!-- Change /upload-target to your upload address -->
 <div id="excel" class="lay-hide dropzone" style=" border: 2px dashed #0087F7;
@@ -311,634 +343,44 @@
         <input type="text" class="layui-input" id="datetime" placeholder=" - ">
     </div>
 </div>
-<script id="showCols" type="text/html">
-    <div class="layui-form-item" pane="">
-        <ul class="layui-input-block showtips">
-            {{#layui.each(d,function(i,prop){}}
-            {{#if(prop.field&&prop.field!='id'){}}
-            <li><input type="checkbox" class="prop" lay-skin="primary" title="{{prop.title}}"
-                       checked="{{!prop.show}}">
-            </li>
-            {{#}}}
-            {{#});}}
-        </ul>
-    </div>
-</script>
-
-<script type="text/html" id="singletext">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--单行文字-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')!=-1){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <div class="layui-row layui-col-md6">
-                {{#if(d.default){}}
-                <div type="text" class="layui-input"></div>
-                {{#}else{}}
-                <input type="text" name="{{d.name}}" lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
-                       class="layui-input">
-                {{#}}}
-            </div>
-        </div>
-        {{#if(d.default){}}
-        <div class="fn-area">
-            <i class="layui-icon ele-copy">&#xe60a;</i>
-            <i class="layui-icon ele-del">&#xe640;</i>
-        </div>
-        {{#}}}
-    </div>
-</script>
-<script type="text/html" id="multitext">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--多行文字-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <div class="layui-row layui-col-md12">
-                {{#if(d.default){}}
-                <div type="text" class="layui-textarea"></div>
-                {{#}else{}}
-                <textarea class="layui-textarea" name="{{d.name}}" lay-verify="{{d.value.verify}}"
-                          value="{{d.value.value}}"></textarea>
-                {{#}}}
-            </div>
-        </div>
-        <div class="fn-area">
-            <i class="layui-icon ele-copy">&#xe60a;</i>
-            <i class="layui-icon ele-del">&#xe640;</i>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="singleselect">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--单项选择-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left">
-
-                {{#layui.each(d.value.radios,function(i,item){}}
-                {{#if(d.default){}}
-                <div class="layui-unselect layui-form-radio"><i class="layui-anim layui-icon"></i><span>{{item}}</span>
-                </div>
-                </br>
-                {{#}else{}}
-                <input type="radio" name="{{item.name}}" value="{{item.value}}" title="{{item.value}}"
-                       checked="{{item.checked}}">
-                <br/>
-                {{#}}}
-                {{#});}}
-            </div>
-        </div>
-        <div class="fn-area">
-            <i class="layui-icon ele-copy">&#xe60a;</i>
-            <i class="layui-icon ele-del">&#xe640;</i>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="multiselect">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--多项选择-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left">
-
-                {{#layui.each(d.value.checkboxs,function(i,item){}}
-                {{#if(d.default){}}
-                <div class="layui-unselect layui-form-checkbox " lay-skin=""><span>{{item}}</span><i class="layui-icon"></i>
-                </div>
-                <br/>
-                {{#}else{}}
-                <input type="checkbox" name="{{item.name}}" value="{{item.value}}" title="{{item.value}}"
-                       checked="{{item.checked}}">
-                <br/>
-                {{#}}}
-                {{#});}}
-            </div>
-        </div>
-        <div class="fn-area">
-            <i class="layui-icon ele-copy">&#xe60a;</i>
-            <i class="layui-icon ele-del">&#xe640;</i>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="singlepic">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--图片单选-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <!--有图片就把上面一段隐藏-->
-            <div class="layui-row layui-col-md12 text-left">
-
-                {{#layui.each(d.value.images,function(i,item){}}
-                {{#if(d.default){}}
-                <div class="layui-col-md3 redioimg">
-                    <label class="radio" style="display: block;">
-                        <div class="image-center"><img
-                                src="{{item.imgPath}}">
-                        </div>
-                        <div class="text-wrapper">
-                            <div class="layui-unselect layui-form-radio"><i
-                                    class="layui-anim layui-icon"></i><span>{{item.title}}</span></div>
-                        </div>
-                    </label>
-                </div>
-                {{#}else{}}
-                <div class="layui-col-md3 redioimg">
-                    <label class="radio" style="display: block;">
-                        <div class="image-center"><img
-                                src="{{item.imgPath}}">
-                        </div>
-                        <div class="text-wrapper">
-                            <div class="radio-button-wrapper">
-                                <input type="radio" name="{{item.name}}"
-                                       value="{{item.value}}"
-                                       title="{{item.title}}">
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                {{#}}}
-                {{#});}}
-            </div>
-        </div>
-    </div></script>
-<script type="text/html" id="multipic">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--图片多选-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-
-            <div class="layui-row layui-col-md12 text-left">
-
-                {{#layui.each(d.value.images,function(i,item){}}
-                {{#if(d.default){}}
-                <div class="layui-col-md3 redioimg">
-                    <label class="checkbox" style="display: block;">
-                        <div class="image-center"><img
-                                src="{{item.imgPath}}">
-                        </div>
-                        <div class="text-wrapper">
-                            <div class="checkbox-button-wrapper">
-                                <input type="checkbox" name="field[choices]"
-                                       value="1" title="{{item.title}}">
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                {{#}else{}}
-                <div class="layui-col-md3 redioimg">
-                    <label class="checkbox" style="display: block;">
-                        <div class="image-center"><img
-                                src="{{item.imgPath}}">
-                        </div>
-                        <div class="text-wrapper">
-                            <div class="checkbox-button-wrapper">
-                                <input type="checkbox" name="{{item.name}}"
-                                       value="{{item.value}}"
-                                       title="{{item.title}}">
-                            </div>
-                        </div>
-                    </label>
-                </div>
-                {{#}}}
-                {{#});}}
-            </div>
-        </div>
-    </div>
-    </div></script>
-<script type="text/html" id="singlemat">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--矩阵单选-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-
-            <div class="gtable">
-                <table class="layui-table">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        {{#layui.each(d.value.table.thead.ths,function(i,th){}}
-                        <th>{{th.title}}</th>
-                        {{#});}}
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {{#layui.each(d.value.table.tbody.trs,function(i,tr){}}
-                    <tr>
-                        <td>{{tr.title}}</td>
-                        {{#layui.each(tr.tds,function(i,td){}}
-                        <td>
-                            {{#if(d.default){}}
-                            <div class="layui-unselect layui-form-radio"><i
-                                    class="layui-anim layui-icon"></i><span>{{td.title}}</span>
-                            </div>
-                            {{#}else{}}
-                            <input type="radio" name="{{td.name}}" value="{{td.value}}" title="{{td.title}}">
-                            {{#}}}
-                        </td>
-                        {{#});}}
-                    </tr>
-                    {{#});}}
-                    </tbody>
-
-                </table>
-            </div>
-        </div>
-    </div></script>
-<script type="text/html" id="mattext">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--矩阵填空-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <div class="gtable">
-                <table class="layui-table">
-                    <thead>
-                    <tr>
-                        <th></th>
-                        {{#layui.each(d.value.table.thead.ths,function(i,th){}}
-                        <th>{{th.title}}</th>
-                        {{#});}}
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {{#layui.each(d.value.table.tbody.trs,function(i,tr){}}
-                    <tr>
-                        <td>{{tr.title}}</td>
-                        {{#layui.each(tr.tds,function(i,td){}}
-                        <td>
-                            {{#if(d.default){}}
-                            <div type="text" class="layui-input"></div>
-                            {{#}else{}}
-                            <input type="text" name="{{td.name}}" value="{{td.value}}" title="{{td.title}}">
-                            {{#}}}
-                        </td>
-                        {{#});}}
-                    </tr>
-                    {{#});}}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div></script>
-<script type="text/html" id="numberfield">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--123数字-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <div class="layui-inline layui-col-md12">
-                <div class="layui-input-inline">
-                    {{#if(d.default){}}
-                    <div type="text" class="layui-input"></div>
-                    {{#}else{}}
-                    <input type="text" name="{{d.name}}" lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
-                           class="layui-input">
-                    {{#}}}
-                </div>
-            </div>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="timepicker">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--时间-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <div class="layui-inline layui-row layui-col-md4">
-                {{#if(!d.default){}}
-                <select name="{{d.name}}" lay-verify="d.value.verify">
-                    <option value="">时</option>
-                    {{#for(var i=0;i<24;i++){}}
-                    {{#if(i<10) i='0'+i;}}
-                    <option value="{{i}}">{{i}}</option>
-                    {{#}}}
-                </select>
-                {{#}else{}}
-                <div class="layui-unselect layui-form-select">
-                    <div class="layui-select-title"><input type="text" placeholder="时" value="" readonly=""
-                                                           class="layui-input layui-unselect"><i class="layui-edge"></i>
-                    </div>
-                    <dl class="layui-anim layui-anim-upbit" style="">
-                        <dd lay-value="" class="layui-select-tips">时</dd>
-                    </dl>
-                </div>
-                {{#}}}
-            </div>
-            <div class="layui-inline layui-row layui-col-md4">
-                {{#if(!d.default){}}
-                <select name="{{d.name}}" lay-verify="d.value.verify">
-                    <option value="">分</option>
-                    {{#for(var i=0;i<60;i++){}}
-                    {{#if(i<10) i='0'+i;}}
-                    <option value="{{i}}">{{i}}</option>
-                    {{#}}}
-                </select>
-                {{#}else{}}
-                <div class="layui-unselect layui-form-select layui-form-selected">
-                    <div class="layui-select-title"><input type="text" placeholder="分" value="" readonly=""
-                                                           class="layui-input layui-unselect"><i class="layui-edge"></i>
-                    </div>
-                    <dl class="layui-anim layui-anim-upbit" style="">
-                        <dd lay-value="" class="layui-select-tips">分</dd>
-                    </dl>
-                </div>
-                {{#}}}
-            </div>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="datepicker">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--日期-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <label class="layui-form-label labelwidth">
-                <i class="layui-icon">&#xe637;</i>
-            </label>
-
-            <div class="layui-input-block">
-                {{#if(d.default){}}
-                <div type="text" class="layui-input"></div>
-                {{#}else{}}
-                <input type="text" name="{{d.name}}" lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
-                       class="layui-input">
-                {{#}}}
-            </div>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="dropselect">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--下拉框-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <div class="layui-inline layui-row layui-col-md4">
-                {{#if(!d.default){}}
-                <select name="{{d.name}}" lay-verify="{{d.value.verify}}">
-                    <option value="">请选择</option>
-                    {{#layui.each(d.value.options,function(i,option){}}
-                    <option value="{{option.value}}">{{option.name}}</option>
-                    {{#});}}
-                </select>
-                {{#}else{}}
-                <div class="layui-select-title"><input type="text" placeholder="请选择" value=""
-                                                       class="layui-input layui-unselect"><i class="layui-edge"></i>
-                </div>
-                {{#}}}
-            </div>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="descfield">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--描述-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="urlfield">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--网址-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <div class="layui-row layui-col-md12">
-                <label class="layui-form-label labelwidth">
-                    <i class="layui-icon">&#xe64c;</i>
-                </label>
-
-                <div class="layui-input-block">
-                    {{#if(d.default){}}
-                    <div type="text" class="layui-input"></div>
-                    {{#}else{}}
-                    <input type="text" name="{{d.name}}" lay-verify="{{d.value.verify}}" value="{{d.value.value}}"
-                           class="layui-input">
-                    {{#}}}
-                </div>
-            </div>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="markfield">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--评分-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                <div class="spingfen">
-                    {{#if(d.default){}}
-                    {{#layui.each(d.value.score,function(i,item){}}
-                    <i class="layui-icon">&#xe658;</i>
-                    {{#});}}
-                    {{#layui.each(d.value.fullscore-d.value.score,function(i,item){}}
-                    <i class="layui-icon">&#xe658;</i>
-                    {{#});}}
-
-                    {{#}else{}}
-                    <i class="layui-icon">&#xe658;</i><i
-                        class="layui-icon">&#xe658;</i> <i class="layui-icon">&#xe658;</i>
-                    {{#}}}
-                </div>
-
-            </div>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="multiselected">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--两级下拉框-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <div class="layui-inline layui-row layui-col-md4">
-                {{#if(!d.default){}}
-                <select name="{{d.name}}" lay-verify="d.value.verify">
-                    <option value="">{{d.value.fdefault}}</option>
-                    {{#layui.each(d.value.fOptoins,function(i,fOption){}}
-                    <option value="{{fOption.value}}">{{fOption.name}}</option>
-                    {{#});}}
-                </select>
-                {{#}else{}}
-                <div class="layui-unselect layui-form-select">
-                    <div class="layui-select-title"><input type="text" placeholder="时" value="" readonly=""
-                                                           class="layui-input layui-unselect"><i class="layui-edge"></i>
-                    </div>
-                    <dl class="layui-anim layui-anim-upbit" style="">
-                        <dd lay-value="" class="layui-select-tips">请选择</dd>
-                    </dl>
-                </div>
-                {{#}}}
-            </div>
-            <div class="layui-inline layui-row layui-col-md4">
-                {{#if(!d.default){}}
-                <select name="{{d.name}}" lay-verify="d.value.verify">
-                    <option value="">{{d.value.sdefault}}</option>
-                    {{#layui.each(d.value.sOptoins,function(i,sOption){}}
-                    <option value="{{sOption.value}}">{{sOption.name}}</option>
-                    {{#});}}
-                </select>
-                {{#}else{}}
-                <div class="layui-unselect layui-form-select layui-form-selected">
-                    <div class="layui-select-title"><input type="text" placeholder="分" value="" readonly=""
-                                                           class="layui-input layui-unselect"><i class="layui-edge"></i>
-                    </div>
-                    <dl class="layui-anim layui-anim-upbit" style="">
-                        <dd lay-value="" class="layui-select-tips">请选择</dd>
-                    </dl>
-                </div>
-                {{#}}}
-            </div>
-        </div>
-    </div>
-</script>
-<script type="text/html" id="uploadfile">
-    <div class="new-line" id="{{d.index}}" editor="{{d.editor}}">
-        <!--上传文件-->
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-md12 text-left field-name">
-                {{d.name}}
-                {{#if(d.value.verify.indexOf('required')){}}
-                *
-                {{#}}}
-            </div>
-            <div class="layui-row layui-col-md12 text-left field-desc">
-                {{d.des}}
-            </div>
-            <div class="layui-row layui-col-md12 layui-inline upbox">
-                <i class="layui-icon">&#xe681;</i>
-                {{#if(d.default){}}
-                <p>请选择或拖拽上传文件，20MB以内。 </p>
-                {{#}else{}}
-                <p>{{d.value.filetype}}，{{d.value.filecount}},{{d.value.filesize}}。 </p>
-                {{#}}}
-            </div>
-        </div>
-    </div>
-</script>
-
 </body>
 <script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
+<script th:src="@{/js/Util.js}" type="text/javascript" charset="utf-8"></script>
+<script src="http://api.map.baidu.com/api?v=2.0&ak=mfZGQrMfwBXfdLgIQaaFH0cS1kBKu11p"
+        type="text/javascript"></script>
+<script type="text/javascript">
+    var maps = {}, geolocation = new BMap.Geolocation(), geoc = new BMap.Geocoder();
+
+    function setLocation(map, getLocation) {
+        geoc.getPoint(getLocation, function (point) {
+            if (point) {
+                maps[map].map.clearOverlays();
+                maps[map].map.centerAndZoom(point, 16);
+                maps[map].map.addOverlay(new BMap.Marker(point));
+            } else {
+                alert("您选择地址没有解析到结果!");
+            }
+        });
+    }
+
+    function myLoc(map) {
+        geolocation.getCurrentPosition(function (r) {
+            if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                var pt = r.point;
+                geoc.getLocation(pt, function (result) {
+                    if (result) {
+                        maps[map].map.clearOverlays();
+                        maps[map].map.centerAndZoom(pt, 16);
+                        maps[map].map.addOverlay(new BMap.Marker(pt));
+                        var addComp = result.addressComponents;
+                        maps[map].elem.val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+                    }
+                });
+            }
+        });
+    }
+</script>
 <script th:inline="javascript">
     var formId = [[${formDetail.form.id}]];
     var props = [[${formDetail.formProperties}]], formProp = [], cols = [];
@@ -951,6 +393,12 @@
         prop.title = props[i].name;
         prop.sort = true;
         prop.width = 'auto';
+        if (props[i].type == 'uploadfile') {
+            prop.dataFilter = function (content) {
+                return content ? JSON.parse(content) : {};
+            };
+            prop.templet = '#filesInTable'
+        }
         formProp.push(prop);
     }
     formProp.push({field: 'author', title: '创建人', width: 'auto'});
@@ -971,12 +419,13 @@
 <script type="text/javascript">
     var search, del, outport, importExcel, add, showCol, showDatePicker;
     Dropzone.autoDiscover = false;
-    layui.use(['table', 'element', 'layer', 'laytpl', 'form', 'laydate'], function () {
+    layui.use(['table', 'element', 'layer', 'upload','laytpl', 'form', 'laydate'], function () {
         var table = layui.table;
         var element = layui.element;
         var layer = layui.layer;
         var laytpl = layui.laytpl;
         var form = layui.form;
+        var upload = layui.upload;
         var laydate = layui.laydate;
         //展示已知数据
         var formData = table.render({
@@ -1058,45 +507,6 @@
             window.open('/formValue/outport?' + parseParam(params));
             layer.msg('导出成功', {time: 3000});
         };
-        add = function () {
-            layer.open({
-                type: 1,
-                title: '添加数据',
-                maxmin: true,
-                shadeClose: true, //点击遮罩关闭层
-                area: ['800px', '520px'],
-                content: $('#addData'),
-                btn: ['确定', '取消', '提交并再填一份'],
-                btnAlign: 'l', //按钮排列 左对齐
-                yes: function (index, layero) { //或者使用btn1
-                    addData();
-                    layer.close(index);
-                    $('#addData').reset();
-                },
-                cancel: function (index) { //或者使用btn2
-                    layer.close(index);
-                },
-                btn3: function (index, layero) {
-                    addData();
-                    $('#addData').reset();
-                }
-            });
-        }
-
-        function addData() {
-            var keys, value = $('#addData').serialize();
-            for (var key in value) {
-                keys = key.split("_");
-                if (keys.length > 1) {
-                    value[keys[0]] += value[key] + " ";
-                    delete value[key];
-                }
-            }
-            $.post('/formValue/save', {value: value}, function (data) {
-                layer.msg(data.msg, {time: 3000});
-            });
-        }
-
         $("#excel").dropzone({
             url: "/formValue/import?formId=" + formId,
             addRemoveLinks: true,
@@ -1155,39 +565,613 @@
                 },
             });
         }
-        table.on('col(formValue)', function (data) {
-            for (var i = 0; i < props.length; i++) {
-                props[i].value = JSON.parse(props[i]);
 
-                laytpl($('#' + props[i].type).html()).render(props[i], function (html) {
-                    $('#editData').append(html);
+        var $html, name, $form = $('#formContainer').html('<input type="hidden" name="id"/>');
+        props && layui.each(props, function (i, prop) {
+                name = prop.id;
+                prop.value = JSON.parse(prop.value);
+                laytpl($('#' + prop.type).html()).render(prop, function (html) {
+                    $html = $(html);
+                    $form.append($html);
+                    switch (prop.type) {
+                        case "multiselected":
+                            var select = {}, s;
+                            select[prop.value.select.fdefault] = [prop.value.select.sdefault];
+                            layui.each(prop.value.selects, function (i) {
+                                s = prop.value.selects[i];
+                                select[s.value] = [];
+                                layui.each(s.seconds, function (j) {
+                                    select[s.value].push(s.seconds[j]);
+                                });
+                            });
+                            $html.find('.fselect').data('seconds', select);
+                            form.on('select(fselect)', function (data) {
+                                var $elem = $(data.elem)
+                                var seconds = $elem.data('seconds');
+                                var template = '<option value="VALUE">VALUE</option>', html = '';
+                                layui.each(seconds[data.value], function () {
+                                    html += template.replace('VALUE', this).replace('VALUE', this);
+                                });
+                                $(data.elem).parent().next().find('.sselect').html(html);
+                                form.render('select');
+                            });
+                            break;
+                        case"markfield":
+                            $html.find('.score').on('click', function () {
+                                var score = $(this).index() + 1, fullScore = $(this.parentNode).children();
+                                layui.each(fullScore, function () {
+                                    if ($(this).index() < score)
+                                        $(this).css('color', '#FFAC21');
+                                    else $(this).removeAttr('style');
+                                });
+                                $(this.parentNode).next('input').val(score);
+                            });
+                            break;
+                        case"datepicker":
+                            laydate.render({
+                                elem: $html.find('input[name="' + name + '"]')[0]
+                            });
+                            break;
+                        case"uploadfile":
+                            var uploadListIns = upload.render({
+                                elem: $html.find('.upbox')
+                                , url: '/formValue/uploadImg'
+                                , accept: prop.value.fileType
+                                , exts: prop.value.fileExts
+                                , fileCount: prop.value.fileCount
+                                , size: parseInt(prop.value.fileSize) * 1024
+                                , multiple: true
+                                , auto: true
+                                , before: function (obj) {
+                                    var files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                                    //读取本地文件
+                                    obj.preview(function (index, file, result) {
+                                        var tr = $(['<tr id="upload-' + index + '">'
+                                            , '<td>' + file.name + '</td>'
+                                            , '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>'
+                                            , '<td>等待上传</td>'
+                                            , '<td>'
+                                            , '<button class="layui-btn layui-btn-mini demo-reload layui-hide">重传</button>'
+                                            , '<button class="layui-btn layui-btn-mini layui-btn-danger demo-delete">删除</button>'
+                                            , '</td>'
+                                            , '</tr>'].join(''));
+                                        var $html = obj.elem.parents('.new-line')
+                                            , $uploadList = $html.find('.uploadList')
+                                            , $uploadElem = $html.find('.upbox')
+                                            , $upload = $html.find('.layui-upload')
+                                            , $input = $html.find('input[type="hidden"]');
+                                        //单个重传
+                                        tr.find('.demo-reload').on('click', function () {
+                                            obj.upload(index, file);
+                                        });
+
+                                        //删除
+                                        tr.find('.demo-delete').on('click', function () {
+                                            delete files[index]; //删除对应的文件
+                                            tr.remove();
+                                            var imgPath = tr.attr('filePath');
+                                            imgPath && $.get('/formValue/delImg', {imgPath: imgPath});
+                                            if ($uploadList.find('tr').length == 0) {
+                                                $uploadElem.show();
+                                                $upload.hide();
+                                            }
+                                            layui.each($uploadList.find('tr'), function () {
+                                                files.push('"' + $(this).children().get(0).innerHTML + "\":\"" + $(this).attr('filePath')) + '"';
+                                            });
+                                            $input.val("{" + files.join(',') + "}");
+                                        });
+                                        $uploadList.append(tr);
+                                        $uploadElem.hide();
+                                        $upload.show();
+                                        $uploadList.show();
+                                    });
+                                }
+                                , done: function (res, index, upload, elem) {
+                                    if (res.code == 0) { //上传成功
+                                        var $html = elem.parents('.new-line')
+                                            , $uploadList = $html.find('.uploadList')
+                                            , $input = $html.find('input[type="hidden"]')
+                                            , tr = $uploadList.find('tr#upload-' + index)
+                                            , tds = tr.children();
+                                        tr.attr('filePath', res.data.imgPath);
+                                        tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                                        // tds.eq(3).html(''); //清空操作
+                                        tds.eq(3).find('.demo-reload').hide();
+                                        var files = [];
+                                        layui.each($uploadList.find('tr'), function () {
+                                            files.push('"' + $(this).children().get(0).innerHTML + "\":\"" + $(this).attr('filePath') + '"');
+                                        });
+                                        $input.val("{" + files.join(',') + "}");
+                                        return;
+                                    }
+                                    this.error(index, upload);
+                                }
+                                , error: function (index, upload) {
+                                    var tr = $uploadList.find('tr#upload-' + index)
+                                        , tds = tr.children();
+                                    tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                                    tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+                                }
+                            });
+                            break;
+                    }
                 });
             }
+        );
+        form.render();
+        var rebuildForm = function () {
+            $form.resetForm();
+            var $elem;
+            props && layui.each(props, function (i, prop) {
+                    name = prop.id;
+                    $elem = $form.find('div[editor="' + prop.type + '"]');
+                    if (prop.value.hasDefaultVal)
+                        laytpl($('#' + prop.type).html()).render(prop, function (html) {
+                            $html = $(html);
+                            $elem.replaceWith($html);
+                            switch (prop.type) {
+                                case "multiselected":
+                                    var select = {}, s;
+                                    select[prop.value.select.fdefault] = [prop.value.select.sdefault];
+                                    layui.each(prop.value.selects, function (i) {
+                                        s = prop.value.selects[i];
+                                        select[s.value] = [];
+                                        layui.each(s.seconds, function (j) {
+                                            select[s.value].push(s.seconds[j]);
+                                        });
+                                    });
+                                    $html.find('.fselect').data('seconds', select);
+                                    form.on('select(fselect)', function (data) {
+                                        var $elem = $(data.elem)
+                                        var seconds = $elem.data('seconds');
+                                        var template = '<option value="VALUE">VALUE</option>', html = '';
+                                        layui.each(seconds[data.value], function () {
+                                            html += template.replace('VALUE', this).replace('VALUE', this);
+                                        });
+                                        $(data.elem).parent().next().find('.sselect').html(html);
+                                        form.render('select');
+                                    });
+                                    break;
+                                case"markfield":
+                                    $html.find('.score').on('click', function () {
+                                        var score = $(this).index() + 1, fullScore = $(this.parentNode).children();
+                                        layui.each(fullScore, function () {
+                                            if ($(this).index() < score)
+                                                $(this).css('color', '#FFAC21');
+                                            else $(this).removeAttr('style');
+                                        });
+                                        $(this.parentNode).next('input').val(score);
+                                    });
+                                    break;
+                                case"datepicker":
+                                    laydate.render({
+                                        elem: $html.find('input[name="' + name + '"]')[0]
+                                    });
+                                    break;
+                                case"uploadfile":
+                                    var uploadListIns = upload.render({
+                                        elem: $html.find('.upbox')
+                                        , url: '/formValue/uploadImg'
+                                        , accept: prop.value.fileType
+                                        , exts: prop.value.fileExts
+                                        , fileCount: prop.value.fileCount
+                                        , size: parseInt(prop.value.fileSize) * 1024
+                                        , multiple: true
+                                        , auto: true
+                                        , before: function (obj) {
+                                            var files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                                            //读取本地文件
+                                            obj.preview(function (index, file, result) {
+                                                var tr = $(['<tr id="upload-' + index + '">'
+                                                    , '<td>' + file.name + '</td>'
+                                                    , '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>'
+                                                    , '<td>等待上传</td>'
+                                                    , '<td>'
+                                                    , '<button class="layui-btn layui-btn-mini demo-reload layui-hide">重传</button>'
+                                                    , '<button class="layui-btn layui-btn-mini layui-btn-danger demo-delete">删除</button>'
+                                                    , '</td>'
+                                                    , '</tr>'].join(''));
+                                                var $html = obj.elem.parents('.new-line')
+                                                    , $uploadList = $html.find('.uploadList')
+                                                    , $uploadElem = $html.find('.upbox')
+                                                    , $upload = $html.find('.layui-upload')
+                                                    , $input = $html.find('input[type="hidden"]');
+                                                //单个重传
+                                                tr.find('.demo-reload').on('click', function () {
+                                                    obj.upload(index, file);
+                                                });
+
+                                                //删除
+                                                tr.find('.demo-delete').on('click', function () {
+                                                    delete files[index]; //删除对应的文件
+                                                    tr.remove();
+                                                    var imgPath = tr.attr('filePath');
+                                                    imgPath && $.get('/formValue/delImg', {imgPath: imgPath});
+                                                    if ($uploadList.find('tr').length == 0) {
+                                                        $uploadElem.show();
+                                                        $upload.hide();
+                                                    }
+                                                    layui.each($uploadList.find('tr'), function () {
+                                                        files.push('"' + $(this).children().get(0).innerHTML + "\":\"" + $(this).attr('filePath')) + '"';
+                                                    });
+                                                    $input.val("{" + files.join(',') + "}");
+                                                });
+                                                $uploadList.append(tr);
+                                                $uploadElem.hide();
+                                                $upload.show();
+                                            });
+                                        }
+                                        , done: function (res, index, upload, elem) {
+                                            if (res.code == 0) { //上传成功
+                                                var $html = elem.parents('.new-line')
+                                                    , $uploadList = $html.find('.uploadList')
+                                                    , $input = $html.find('input[type="hidden"]')
+                                                    , tr = $uploadList.find('tr#upload-' + index)
+                                                    , tds = tr.children();
+                                                tr.attr('filePath', res.data.imgPath);
+                                                tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+                                                // tds.eq(3).html(''); //清空操作
+                                                tds.eq(3).find('.demo-reload').hide();
+                                                var files = [];
+                                                layui.each($uploadList.find('tr'), function () {
+                                                    files.push('"' + $(this).children().get(0).innerHTML + "\":\"" + $(this).attr('filePath') + '"');
+                                                });
+                                                $input.val("{" + files.join(',') + "}");
+                                                return;
+                                            }
+                                            this.error(index, upload);
+                                        }
+                                        , error: function (index, upload) {
+                                            var tr = $uploadList.find('tr#upload-' + index)
+                                                , tds = tr.children();
+                                            tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                                            tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+                                        }
+                                    });
+                                    break;
+                            }
+                        });
+                }
+            );
+            form.render();
+        };
+
+        function addData() {
+            if (form.executeVerify($form))
+                return false;
+            var name, type, d = {}, names;
+            var params = $form.serializeObject();
+            layui.each(props, function (i, prop) {
+                    name = prop.id, type = prop.type;
+                    switch (type) {
+                        case 'timepicker':
+                            params[name] = params[name] && params[name].join(':');
+                            break;
+                        case 'singlemat':
+                            params[name] = [];
+                            layui.each(params, function (key) {
+                                if (key != name && key.indexOf(name) != -1) {
+                                    params[name].push(params[key]);
+                                    delete params[key];
+                                }
+                            });
+                            params[name] = params[name] && params[name].join(',');
+                            break;
+                        case 'mattext':
+                            layui.each(params, function (key) {
+                                names = key.split('\_');
+                                if (names.length == 3) {
+                                    !d[names[1]] && (d[names[1]] = {});
+                                    d[names[1]][names[2]] = params[key];
+                                    delete params[key];
+                                }
+                            });
+                            var val = '';
+                            layui.each(d, function (i) {
+                                val += i.split("-")[0] + ":(";
+                                layui.each(d[i], function (j) {
+                                    val += j.split("-")[0] + ":" + d[i][j] + ',';
+                                });
+                                val = val.substring(0, val.length - 1) + "),";
+                            });
+                            params[name] = val.substring(0, val.length - 1);
+                            break;
+                        case 'multiselected':
+                            params[name] = params[name] && params[name].join('-');
+                            break;
+                        case 'address':
+                            params[name] = params[name] && params[name].join(' ');
+                            break;
+                        default:
+                            if (params[name] && params[name].push)
+                                params[name] = params[name].join(',');
+                    }
+                }
+            );
+            var id = params.id;
+            delete params.id;
+            $.post('/formValue/save', {value: JSON.stringify(params), id: id, form: formId}, function (data) {
+                layer.msg(data.msg, {time: 3000});
+                window.location.reload();
+            });
+            return true;
+        }
+
+        //添加数据
+        add = function () {
+            var $addData = $('#addData');
+            rebuildForm();
+            $addData.find('section').append($form);
+            $form.show();
+            layer.open({
+                type: 1,
+                title: '添加数据',
+                maxmin: true,
+                shadeClose: true, //点击遮罩关闭层
+                area: ['800px', '520px'],
+                content: $addData,
+                btn: ['确定', '取消', '提交并再填一份'],
+                btnAlign: 'l', //按钮排列 左对齐
+                yes: function (index, layero) { //或者使用btn1
+                    if (addData()) {
+                        layer.close(index);
+                        $form.hide();
+                    }
+                },
+                cancel: function (index) { //或者使用btn2
+                    layer.close(index);
+                    $form.hide();
+                },
+                btn3: function (index, layero) {
+                    if (addData('addData')) {
+                        buildForm();
+                    }
+                }
+            });
+        };
+        table.on('col(formValue)', function (record) {
+            $form.resetForm();
+            var name, type, inputs;
+            record = record.data;
+            $form.find('input[name="id"]').val(record.id);
+            layui.each(props, function (i, prop) {
+                name = prop.id;
+                type = prop.type;
+                if (record[name])
+                    switch (type) {
+                        case 'singleselect':
+                        case 'singlepic':
+                            $form.find('input[name="' + name + '"][value="' + record[name] + '"]').attr('checked', true);
+                            break;
+                        case 'multiselect':
+                        case 'multipic':
+                        case 'singlemat':
+                            layui.each(record[name].split(','), function () {
+                                $form.find('input[name^="' + name + '"][value="' + this + '"]').attr('checked', true);
+                            });
+                            break;
+                        case 'mattext':
+                            inputs = $form.find('input[name^="' + name + '"]');
+                            layui.each(record[name].match(/:(?!\()(.*?)[,|)]/g), function (i) {
+                                inputs[i].value = this.substring(1, this.length - 1);
+                            });
+                            break;
+                        case 'uploadfile':
+                            var $tr, $uploadList = $form.find('.' + name).find('.uploadList')
+                                , $uploadElem = $form.find('.' + name).find('.upbox')
+                                , $upload = $form.find('.layui-upload')
+                                , $input = $form.find('input[name="' + name + '"]')
+                                , $list, files, file = JSON.parse(record[name]);
+                            layui.each(file, function (key) {
+                                $tr = $(['<tr id="' + key + '" filePath="' + file[key] + '">'
+                                    , '<td>' + key + '</td>'
+                                    , '<td></td>'
+                                    , '<td><span style="color:limegreen">已保存</span></td>'
+                                    , '<td>'
+                                    , '<button class="layui-btn layui-btn-mini layui-btn-danger demo-delete">删除</button>'
+                                    , '</td>'
+                                    , '</tr>'].join(''));
+                                $tr.on('click', '.demo-delete', function () {
+                                    var $tr = $(this).parents('tr')
+                                        , $uploadList = $tr.parent()
+                                        , $html = $uploadList.parents('.new-line')
+                                        , $input = $html.find('input[type="hidden"]')
+                                        , $upload = $html.find('.layui-upload');
+                                    $tr.remove();
+                                    $.get('/formValue/delImg', {imgPath: file[key]});
+                                    $list = $uploadList.find('tr'), files = {};
+                                    if ($list.length == 0) {
+                                        $uploadElem.show();
+                                        $upload.hide();
+                                    }
+                                    layui.each($list, function () {
+                                        files[$(this).attr('id')] = $(this).attr('filePath');
+                                    });
+                                    $input.val(JSON.stringify(files));
+                                });
+                                $uploadList.append($tr);
+                            });
+                            $input.val(record[name]);
+                            $list = $uploadList.find('tr');
+                            if ($list.length != 0) {
+                                $uploadElem.hide();
+                                $upload.show();
+                                $uploadList.show();
+                            }
+                            break;
+                        case 'address':
+                            var addresses = record[name].split(" ");
+                            inputs = $form.find(':input[name="' + name + '"]');
+                            form.select($(inputs[0]), addresses[0]);
+                            form.select($(inputs[1]), addresses[1]);
+                            form.select($(inputs[2]), addresses[2]);
+                            inputs[3].value = addresses[3];
+                            break;
+                        case 'timepicker':
+                            var times = record[name].split(':');
+                            inputs = $form.find(':input[name="' + name + '"]');
+                            form.select($(inputs[0]), times[0]);
+                            form.select($(inputs[1]), times[1]);
+                            break;
+                        case 'multiselected':
+                            var selects = record[name].split('-');
+                            inputs = $form.find(':input[name="' + name + '"]');
+                            form.select($(inputs[0]), selects[0]);
+                            form.select($(inputs[1]), selects[1]);
+                            break;
+                        case 'markfield':
+                            inputs = $form.find('input[name="' + name + '"]');
+                            inputs[0].value = record[name];
+                            $(inputs[0]).prev().children().get(parseInt(record[name]) - 1).click();
+                            break;
+                        case 'dropselect':
+                            form.select($form.find(':input[name="' + name + '"]'), record[name]);
+                            break;
+                        case 'location':
+                            setLocation(prop.id, record[name]);
+                        default:
+                            $form.find('input[name="' + name + '"]')[0].value = record[name];
+                    }
+            });
+            $('#editData .other').each(function (i, elem) {
+                $(elem).text(record[$(elem).attr('name')])
+            });
+            var $editData = $('#editData');
+            $editData.find('section').append($form);
+            form.render();
+            $form.show();
             layer.open({
                 type: 1,
                 title: '数据详情',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
                 area: ['800px', '520px'],
-                content: '需要修改的数据，暂时没有页面',
+                content: $editData,
                 btn: ['修改', '删除'],
                 btnAlign: 'l', //按钮排列 左对齐
                 yes: function (index, layero) { //或者使用btn1
-                    //按钮【按钮一】的回调
+                    if (addData('editData')) {
+                        layer.close(index);
+                        $form.hide();
+                    }
                 },
-                cancel: function (index) { //或者使用btn2
-                    //按钮【按钮二】的回调
+                btn2: function (index) { //或者使用btn2
+                    $.get('/formValue/del', {ids: record.id}).done(function (data) {
+                        layer.close(index);
+                        $form.hide();
+                        layer.msg(data.msg, {time: 3000});
+                    });
                 }
             });
         });
         (function () {
-            for (var i = 0; i < props.length; i++) {
-                props[i].value = JSON.parse(props[i]);
-                laytpl($('#' + props[i].type).html()).render(props[i], function (html) {
-                    $('#addData').append(html);
+            $.getJSON('/js/address.json', function (address) {
+                var province, city, block;
+                var $province = $(".province");
+                var getProvinceList = function () {
+                    var list = [];
+                    for (var i = 0, l = address.length; i < l; i++) {
+                        if ('0' == address[i].parentId) {
+                            list.push($.extend({}, address[i]));
+                        }
+                    }
+                    return list;
+                };
+                /**
+                 * 获取下一级地址目录
+                 * @param nowDistrictAreaName 当前地区的名字
+                 */
+                var getNextDistrictList = function (nowDistrictAreaName) {
+                    var list = [], id = '';
+                    for (var i = 0, l = address.length; i < l; i++) {
+                        if (address[i].areaName === nowDistrictAreaName) {
+                            id = address[i].areaCode;
+                        }
+                    }
+                    for (var i = 0, l = address.length; i < l; i++) {
+                        if (id === address[i].parentId) {
+                            list.push($.extend({}, address[i]));
+                        }
+                    }
+                    return list;
+                };
+                /***
+                 * 根据获取的下一级目录列表生成select
+                 * @param addressList
+                 * @param defaultText
+                 * @returns {string}
+                 */
+                var createOptions = function (addressList, defaultText) {
+                    var template = '<option value="q_MyValue">q_MyText</option>';
+                    var html = '<option value="" >' + (defaultText || "--请选择--") + '</option>';
+                    for (var i = 0, l = addressList.length; i < l; i++) {
+                        html += template.replace("q_MyValue", addressList[i].areaName).replace("q_MyText", addressList[i].areaName);
+                    }
+                    return html;
+                }
+                var selectHandler = function (data, level) {
+                    window.data = data;
+                    var areaName = data.value;
+                    var list = getNextDistrictList(areaName);
+                    var html = "";
+                    var $select = $(data.elem).parent().next();
+                    if (!level || level == 0) {
+                        html = createOptions(list, "市");
+                        $select.next().find(".block").html("<option value=''>市区/县</option>");
+                        $select = $select.find(".city");
+                    } else {
+                        html = createOptions(list, "市区/县");
+                        $select = $select.find(".block");
+                    }
+                    $select.html(html);
+                    form.render();
+                };
+
+                var init = function () {
+                    var list = getProvinceList();
+                    var html = createOptions(list, "省/自治区/直辖市");
+                    $province.html(html);
+                    form.render();
+                };
+                form.on('select(province)', function (data) {
+                    province = data.value;
+                    selectHandler(data, 0);
                 });
-            }
-        })();
+                form.on('select(city)', function (data) {
+                    city = data.value;
+                    selectHandler(data, 1);
+                });
+                form.on('select(block)', function (data) {
+                    block = data.value;
+                });
+                init();
+            });
+            var map, name, elem;
+            $('.location').each(function () {
+                name = $(this).attr('id');
+                map = new BMap.Map(name);
+                map.centerAndZoom(new BMap.Point(121.491, 31.233), 11);
+                map.enableScrollWheelZoom(true); //缩放
+                elem = $('#formContainer').find('input[name="' + name + '"]');
+                maps[name] = {
+                    map: map,
+                    elem: elem,
+                    container: elem.parents('.new-line')
+                };
+                setTimeout(function () {
+                    map.enableDragging(); //两秒后开启拖拽
+                }, 2000);
+                map.addEventListener("click", function (e) {
+                    var pt = e.point, name = $(this.Va).attr('id');
+                    geoc.getLocation(pt, function (rs) {
+                        var addComp = rs.addressComponents;
+                        $('#formContainer').find('input[name="' + name + '"]').val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+                    });
+                });
+                myLoc(name);
+            });
+        }());
+
     });
 </script>
 </html>
