@@ -244,7 +244,7 @@
                                 </span><i class="layui-icon">&#xe654;</i>
                                 <a href="javascript:add();">添加</a>
                                 </span>
-                                <span><i class="layui-icon">&#xe63c;</i><a href="javascript:importExcel();">从excel添加</a></span>
+                                <span><i class="layui-icon">&#xe63c;</i><a href="javascript:importExcel();">从excel添加<i class="layui-icon" title="导入文件不要出现重复列，复合类型的字段请保持和表格数据一样的格式">&#xe60b;</i></a></span>
                                 <span><i class="layui-icon">&#xe654;</i><a href="javascript:del();">删除</a></span>
                             </div>
                         </div>
@@ -385,7 +385,7 @@
     var formId = [[${formDetail.form.id}]];
     var props = [[${formDetail.formProperties}]], formProp = [], cols = [];
     var today = [[${today}]] == '1';
-    formProp.push({checkbox: true})
+    formProp.push({checkbox: true});
     var prop;
     for (var i = 0; i < props.length; i++) {
         prop = {};
@@ -704,7 +704,7 @@
             var $elem;
             props && layui.each(props, function (i, prop) {
                     name = prop.id;
-                    $elem = $formContainer.find('div.' + name);
+                    $elem = $form.find('div.' + name);
                     if (prop.value.hasDefaultVal)
                         laytpl($('#' + prop.type).html()).render(prop, function (html) {
                             $html = $(html);

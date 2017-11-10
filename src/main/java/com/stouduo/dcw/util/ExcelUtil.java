@@ -1,6 +1,7 @@
 package com.stouduo.dcw.util;
 
 import com.alibaba.fastjson.JSON;
+import com.stouduo.dcw.domain.FormProperty;
 import com.stouduo.dcw.domain.FormValue;
 import jxl.Cell;
 import jxl.Sheet;
@@ -9,6 +10,7 @@ import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import org.springframework.util.ResourceUtils;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
@@ -16,8 +18,11 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ExcelUtil {
 
@@ -37,6 +42,7 @@ public class ExcelUtil {
             List<FormValue> list,
             String sheetName,
             List<String> fieldNames,
+            List<FormProperty> formProperties,
             int sheetSize,
             OutputStream out
     ) throws ExcelException {
@@ -64,7 +70,7 @@ public class ExcelUtil {
                 //如果只有一个工作表的情况
                 if (1 == sheetNum) {
                     WritableSheet sheet = wwb.createSheet(sheetName, i);
-                    fillSheet(sheet, list, fieldNames, 0, list.size() - 1);
+                    fillSheet(sheet, list, fieldNames, formProperties, 0, list.size() - 1);
 
                     //有多个工作表的情况
                 } else {
@@ -74,7 +80,7 @@ public class ExcelUtil {
                     int firstIndex = i * sheetSize;
                     int lastIndex = (i + 1) * sheetSize - 1 > list.size() - 1 ? list.size() - 1 : (i + 1) * sheetSize - 1;
                     //填充工作表
-                    fillSheet(sheet, list, fieldNames, firstIndex, lastIndex);
+                    fillSheet(sheet, list, fieldNames, formProperties, firstIndex, lastIndex);
                 }
             }
 
@@ -102,16 +108,16 @@ public class ExcelUtil {
      * @MethodName : listToExcel
      * @Description : 导出Excel（可以导出到本地文件系统，也可以导出到浏览器，工作表大小为2003支持的最大值）
      */
-    public static void listToExcel(
-            List<FormValue> list,
-            String sheetName,
-            List<String> fieldNames,
-            OutputStream out
-    ) throws ExcelException {
-
-        listToExcel(list, sheetName, fieldNames, 65535, out);
-
-    }
+//    public static void listToExcel(
+//            List<FormValue> list,
+//            String sheetName,
+//            List<String> fieldNames,
+//            OutputStream out
+//    ) throws ExcelException {
+//
+//        listToExcel(list, sheetName, fieldNames, 65535, out);
+//
+//    }
 
 
     /**
@@ -125,24 +131,23 @@ public class ExcelUtil {
             List<FormValue> list,
             String formName,
             List<String> fieldNames,
+            List<FormProperty> formProperties,
             String sheetName,
-            int sheetSize
-
+            int sheetSize,
+            HttpServletResponse response
     ) throws ExcelException {
-        HttpServletResponse response = ControllerUtil.getCurrentResponse();
-        //设置默认文件名为当前时间：年月日时分秒
-        String fileName = formName + "_" + new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()).toString();
-
-        //设置response头信息
-        response.reset();
-        response.setContentType("application/octet-stream");        //改成输出excel文件
-        response.setHeader("Content-disposition", "attachment; filename=" + fileName + ".xls");
-        response.setHeader("content-type", "application/octet-stream");
         //创建工作簿并发送到浏览器
         try {
+            //设置默认文件名为当前时间：年月日时分秒
+            String fileName = formName + "_" + new SimpleDateFormat("yyyyMMddhhmmss").format(new Date()).toString();
 
+            //设置response头信息
+            response.reset();
+            response.setContentType("application/vnd.ms-excel");        //改成输出excel文件
+            response.setHeader("content-disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8") + ".xls");
+            response.setHeader("content-type", "application/vnd.ms-excel");
             OutputStream out = response.getOutputStream();
-            listToExcel(list, sheetName, fieldNames, sheetSize, out);
+            listToExcel(list, sheetName, fieldNames, formProperties, sheetSize, out);
             out.flush();
             out.close();
         } catch (Exception e) {
@@ -170,10 +175,12 @@ public class ExcelUtil {
             List<FormValue> list,
             String sheetName,
             List<String> fieldNames,
-            String formName
+            List<FormProperty> formProperties,
+            String formName,
+            HttpServletResponse response
     ) throws ExcelException {
 
-        listToExcel(list, formName, fieldNames, sheetName, 65535);
+        listToExcel(list, formName, fieldNames, formProperties, sheetName, 65535, response);
     }
 
     /**
@@ -194,6 +201,132 @@ public class ExcelUtil {
             String formId
     ) throws ExcelException, FileNotFoundException {
         return excelToList(new FileInputStream(ResourceUtils.getFile("classpath:" + excelPath)), sheetName, fieldNames, uniqueFields, formId);
+    }
+
+    public static List<FormValue> excel2List(InputStream in, String sheetName, List<FormProperty> formProperties, String[] uniqueFields, String formId, String propLimited) throws ExcelException {
+        //定义要返回的list
+        List<FormValue> resultList = new ArrayList<>();
+        try {
+            //根据Excel数据源创建WorkBook
+            Workbook wb = Workbook.getWorkbook(in);
+            //获取工作表
+            Sheet sheet = wb.getSheet(sheetName);
+            //获取工作表的有效行数
+            int realRows = 0;
+            for (int i = 0; i < sheet.getRows(); i++) {
+                int nullCols = 0;
+                for (int j = 0; j < sheet.getColumns(); j++) {
+                    Cell currentCell = sheet.getCell(j, i);
+                    if (currentCell == null || "".equals(currentCell.getContents().toString())) {
+                        nullCols++;
+                    }
+                }
+                if (nullCols == sheet.getColumns()) {
+                    break;
+                } else {
+                    realRows++;
+                }
+            }
+            //如果Excel中没有数据则提示错误
+            if (realRows <= 1) {
+                throw new ExcelException("Excel文件中没有任何数据");
+            }
+            Cell[] firstRow = sheet.getRow(0);
+            String[] excelFieldNames = new String[firstRow.length];
+            //获取Excel中的列名
+            for (int i = 0; i < firstRow.length; i++) {
+                excelFieldNames[i] = firstRow[i].getContents().toString().trim();
+            }
+            Map<String, FormProperty> fieldMap = new HashMap<>();
+            //判断需要的字段在Excel中是否都存在
+            for (FormProperty prop : formProperties) {
+                fieldMap.put(prop.getName(), prop);
+            }
+            if (fieldMap.size() < formProperties.size())
+                throw new ExcelException("表格中存在重复的列名");
+            //将列名和列号放入Map中,这样通过列名就可以拿到列号
+            LinkedHashMap<String, Integer> colMap = new LinkedHashMap<>();
+            for (int i = 0; i < excelFieldNames.length; i++) {
+                colMap.put(excelFieldNames[i], firstRow[i].getColumn());
+            }
+            if (uniqueFields != null) {
+                Cell[][] uniqueCells = new Cell[uniqueFields.length][];
+                for (int i = 0; i < uniqueFields.length; i++) {
+                    int col = colMap.get(uniqueFields[i]);
+                    uniqueCells[i] = sheet.getColumn(col);
+                }
+                //2.从指定列中寻找重复行
+                for (int i = 1; i < realRows; i++) {
+                    int nullCols = 0;
+                    for (int j = 0; j < uniqueFields.length; j++) {
+                        String currentContent = uniqueCells[j][i].getContents();
+                        Cell sameCell = sheet.findCell(currentContent,
+                                uniqueCells[j][i].getColumn(),
+                                uniqueCells[j][i].getRow() + 1,
+                                uniqueCells[j][i].getColumn(),
+                                uniqueCells[j][realRows - 1].getRow(),
+                                true);
+                        if (sameCell != null) {
+                            nullCols++;
+                        }
+                    }
+                    if (nullCols == uniqueFields.length) {
+                        throw new ExcelException("Excel中有重复行，请检查");
+                    }
+                }
+            }
+            FormValue formValue;
+            Map<String, String> values = new HashMap<>();
+            String fieldValue;
+            String[] clientMsg = ControllerUtil.getUserAgent();
+            //将sheet转换为list
+            String ip = ControllerUtil.getIpAddress();
+            String username = SecurityUtil.getUsername();
+            Date now = new Date();
+            Cell author, creatTime, os, lastModifyPerson, browser, submitIP, lastModifyTime;
+            for (int i = 1; i < realRows; i++) {
+                //新建要转换的对象
+                formValue = new FormValue();
+                //给对象中的字段赋值
+                for (Map.Entry<String, FormProperty> entry : fieldMap.entrySet()) {
+                    //根据中文字段名获取列号
+                    //获取当前单元格中的内容
+                    if (propLimited.indexOf(entry.getValue().getType()) == -1) {
+                        fieldValue = sheet.getCell(colMap.get(entry.getKey()), i).getContents().trim();
+                        values.put(entry.getValue().getId(), fieldValue);
+                    }
+                }
+                author = sheet.getCell(colMap.get("提交人"), i);
+                creatTime = sheet.getCell(colMap.get("提交时间"), i);
+                os = sheet.getCell(colMap.get("操作系统"), i);
+                browser = sheet.getCell(colMap.get("浏览器"), i);
+                lastModifyPerson = sheet.getCell(colMap.get("修改人"), i);
+                lastModifyTime = sheet.getCell(colMap.get("修改时间"), i);
+                submitIP = sheet.getCell(colMap.get("IP"), i);
+                formValue.setOs(os != null ? os.getContents().trim() : clientMsg[1]);
+                formValue.setSubmitIP(submitIP != null ? submitIP.getContents().trim() : ip);
+                formValue.setBrowser(browser != null ? browser.getContents().trim() : clientMsg[0]);
+                formValue.setAuthor(author != null ? author.getContents().trim() : username);
+                formValue.setLastModifyPerson(lastModifyPerson != null ? lastModifyPerson.getContents().trim() : username);
+                formValue.setLastModifyTime(creatTime != null ? sdf.parse(creatTime.getContents()) : now);
+                formValue.setCreateTime(lastModifyTime != null ? sdf.parse(lastModifyTime.getContents()) : now);
+                formValue.setForm(formId);
+                formValue.setValue(JSON.toJSON(values).toString());
+                values.clear();
+                resultList.add(formValue);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            //如果是ExcelException，则直接抛出
+            if (e instanceof ExcelException) {
+                throw (ExcelException) e;
+                //否则将其它异常包装成ExcelException再抛出
+            } else {
+                e.printStackTrace();
+                throw new ExcelException("导入Excel失败");
+            }
+        }
+        return resultList;
     }
 
     public static List<FormValue> excelToList(InputStream in, String sheetName, List<String> fieldNames, String[] uniqueFields, String formId) throws ExcelException {
@@ -303,6 +436,7 @@ public class ExcelUtil {
             String ip = ControllerUtil.getIpAddress();
             String username = SecurityUtil.getUsername();
             Date now = new Date();
+            Cell author, creatTime, os, lastModifyPerson, browser, submitIP, lastModifyTime;
             for (int i = 1; i < realRows; i++) {
                 //新建要转换的对象
                 formValue = new FormValue();
@@ -310,18 +444,25 @@ public class ExcelUtil {
                 for (String fieldName : fieldNames) {
                     //根据中文字段名获取列号
                     //获取当前单元格中的内容
-                    fieldValue = sheet.getCell(colMap.get(fieldName), i).getContents().toString().trim();
+                    fieldValue = sheet.getCell(colMap.get(fieldName), i).getContents().trim();
                     values.put(fieldName, fieldValue);
                     //给对象赋值
                     // setFieldValueByName(enNormalName, content, entity);
                 }
-                 formValue.setOs(clientMsg[1]);
-                formValue.setSubmitIP(ip);
-                formValue.setBrowser(clientMsg[0]);
-                formValue.setAuthor(username);
-                formValue.setLastModifyPerson(username);
-                formValue.setLastModifyTime(now);
-                formValue.setCreateTime(now);
+                author = sheet.getCell(colMap.get("提交人"), i);
+                creatTime = sheet.getCell(colMap.get("提交时间"), i);
+                os = sheet.getCell(colMap.get("操作系统"), i);
+                browser = sheet.getCell(colMap.get("浏览器"), i);
+                lastModifyPerson = sheet.getCell(colMap.get("修改人"), i);
+                lastModifyTime = sheet.getCell(colMap.get("修改时间"), i);
+                submitIP = sheet.getCell(colMap.get("IP"), i);
+                formValue.setOs(os != null ? os.getContents().trim() : clientMsg[1]);
+                formValue.setSubmitIP(submitIP != null ? submitIP.getContents().trim() : ip);
+                formValue.setBrowser(browser != null ? browser.getContents().trim() : clientMsg[0]);
+                formValue.setAuthor(author != null ? author.getContents().trim() : username);
+                formValue.setLastModifyPerson(lastModifyPerson != null ? lastModifyPerson.getContents().trim() : username);
+                formValue.setLastModifyTime(creatTime != null ? sdf.parse(creatTime.getContents()) : now);
+                formValue.setCreateTime(lastModifyTime != null ? sdf.parse(lastModifyTime.getContents()) : now);
                 formValue.setForm(formId);
                 formValue.setValue(JSON.toJSON(values).toString());
                 values.clear();
@@ -342,8 +483,7 @@ public class ExcelUtil {
         return resultList;
     }
 
-
-
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     /*<-------------------------辅助的私有方法----------------------------------------------->*/
 
     /**
@@ -509,6 +649,7 @@ public class ExcelUtil {
             WritableSheet sheet,
             List<FormValue> list,
             List<String> fieldNames,
+            List<FormProperty> formProperties,
             int firstIndex,
             int lastIndex
     ) throws Exception {
@@ -518,13 +659,29 @@ public class ExcelUtil {
         }
         //填充内容
         int rowNo = 1;
-        int c = 0;
+        int c;
+        String feildVal, group, val;
+        Map<String, String> value;
+        Pattern pattern = Pattern.compile("[{|,]\"(.*?)\":");
+        Matcher m;
         for (int index = firstIndex; index <= lastIndex; index++) {
             //获取单个对象
             FormValue item = list.get(index);
             c = 0;
-            for (Map.Entry<String, String> entry : ((Map<String, String>) JSON.parse(item.getValue())).entrySet()) {
-                sheet.addCell(new Label(c++, rowNo, entry.getValue()));
+            value = (Map<String, String>) JSON.parse(item.getValue());
+            for (FormProperty prop : formProperties) {
+                feildVal = value.get(prop.getId());
+                if (prop.getType().equals("uploadfile")) {
+                    m = pattern.matcher(feildVal);
+                    val = "";
+                    while (m.find()) {
+                        group = m.group();
+                        val += group.substring(2, group.length() - 2)+",";
+                    }
+                    if (!StringUtils.isEmpty(val))
+                        feildVal = val.substring(0, val.length() - 1);
+                }
+                sheet.addCell(new Label(c++, rowNo, feildVal));
             }
             sheet.addCell(new Label(c++, rowNo, item.getAuthor()));
             sheet.addCell(new Label(c++, rowNo, item.getLastModifyPerson()));
@@ -532,7 +689,15 @@ public class ExcelUtil {
             sheet.addCell(new Label(c++, rowNo, item.getLastModifyTime() == null ? "" : sdf.format(item.getLastModifyTime())));
             sheet.addCell(new Label(c++, rowNo, item.getBrowser()));
             sheet.addCell(new Label(c++, rowNo, item.getOs()));
-            sheet.addCell(new Label(c, rowNo++, item.getSubmitIP()));
+            sheet.addCell(new Label(c, rowNo, item.getSubmitIP()));
+//            value.put("提交人", item.getAuthor());
+//            value.put("修改人", item.getLastModifyPerson());
+//            value.put("提交时间", item.getCreateTime() == null ? "" : sdf.format(item.getCreateTime()));
+//            value.put("修改时间", item.getLastModifyTime() == null ? "" : sdf.format(item.getLastModifyTime()));
+//            value.put("浏览器", item.getBrowser());
+//            value.put("操作系统", item.getOs());
+//            value.put("IP", item.getSubmitIP());
+            rowNo++;
         }
 
         //设置自动列宽

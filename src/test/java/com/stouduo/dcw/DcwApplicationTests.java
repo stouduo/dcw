@@ -15,6 +15,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @WebAppConfiguration
@@ -60,5 +63,13 @@ public class DcwApplicationTests {
 
     @Test
     public void testEmail() {
+    }
+
+    public static void main(String[] args) {
+        Pattern pattern = Pattern.compile("[{|,]\"(.*?)\":");
+        Matcher m = pattern.matcher("{\"account.png\":\"/uploadfiles/2017-11-09/account.png\",\"account.png\":\"/uploadfiles/2017-11-09/account.png\",\"account.png\":\"/uploadfiles/2017-11-09/account.png\"}");
+        while (m.find()) {
+            System.out.println(m.group());
+        }
     }
 }

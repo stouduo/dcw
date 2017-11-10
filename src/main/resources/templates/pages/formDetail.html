@@ -681,7 +681,7 @@
             var $elem;
             props && layui.each(props, function (i, prop) {
                     name = prop.id;
-                $elem = $formContainer.find('div.'+name);
+                $elem = $form.find('div.'+name);
                     if (prop.value.hasDefaultVal)
                         laytpl($('#' + prop.type).html()).render(prop, function (html) {
                             $html = $(html);

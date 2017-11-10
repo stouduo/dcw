@@ -2,6 +2,7 @@ package com.stouduo.dcw.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.stouduo.dcw.domain.Form;
+import com.stouduo.dcw.domain.FormProperty;
 import com.stouduo.dcw.domain.FormValue;
 import com.stouduo.dcw.repository.FormPropertyRepository;
 import com.stouduo.dcw.repository.FormRepository;
@@ -14,6 +15,7 @@ import com.stouduo.dcw.util.SecurityUtil;
 import com.stouduo.dcw.vo.FormDetailVO;
 import com.stouduo.dcw.vo.FormValueRestVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -38,6 +40,8 @@ public class FormValueServiceImpl implements FormValueService {
     private FormRepository formRepository;
     @Autowired
     private FormPropertyRepository formPropertyRepository;
+    @Value("${import.prop.limited:uploadfeild}")
+    private String importPropLimited;
 
     @Override
     public void save(FormValue formValue) {
@@ -99,24 +103,29 @@ public class FormValueServiceImpl implements FormValueService {
         Form form = formRepository.findOne(formId);
         List<FormValue> formValues;
         if (curPage != -1) {
-            formValues = formValueRepository.findByContent(formId, content, sdf.parse(startTime), endTime, new PageRequest(curPage, pageSize, asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createtime")).getContent();
+            formValues = formValueRepository.findByContent(formId, content, sdf.parse(startTime), endTime, new PageRequest(curPage, pageSize, asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createTime")).getContent();
         } else {
             formValues = formValueRepository.findByContent(formId, content, sdf.parse(startTime), endTime, new Sort(asc == 1 ? Sort.Direction.ASC : Sort.Direction.DESC, "createTime"));
         }
-        List<String> fieldNames = formPropertyRepository.findByForm(formId);
-        fieldNames.add("表单创建人");
-        fieldNames.add("表单最后修改人");
-        fieldNames.add("表单创建时间");
-        fieldNames.add("表单最后修改时间");
+        List<FormProperty> formProperties = formPropertyRepository.findByForm(formId);
+        List<String> fieldNames = new ArrayList<>();
+        for (FormProperty property : formProperties) {
+            fieldNames.add(property.getName());
+        }
+        fieldNames.add("提交人");
+        fieldNames.add("修改人");
+        fieldNames.add("提交时间");
+        fieldNames.add("修改时间");
         fieldNames.add("浏览器");
         fieldNames.add("操作系统");
-        fieldNames.add("操作IP");
-        ExcelUtil.listToExcel(response,formValues, "Sheet1", fieldNames, form.getTitle());
+        fieldNames.add("IP");
+        ExcelUtil.listToExcel(formValues, "Sheet1", fieldNames, formProperties, form.getTitle(), response);
     }
 
     @Override
     public void importExcel(MultipartFile file, String formId) throws Exception {
-        List<FormValue> results = ExcelUtil.excelToList(file.getInputStream(), "Sheet1", formPropertyRepository.findByForm(formId), null, formId);
+//        List<FormValue> results = ExcelUtil.excelToList(file.getInputStream(), "Sheet1", formPropertyRepository.findByForm(formId), null, formId);
+        List<FormValue> results = ExcelUtil.excel2List(file.getInputStream(), "Sheet1", formPropertyRepository.findByForm(formId), null, formId, importPropLimited);
         formValueRepository.save(results);
     }
 
