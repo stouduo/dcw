@@ -420,7 +420,7 @@
                     }
                 }
             );
-            $.post('/formValue/save', {value: JSON.stringify(params), id: id, form: formId}, function (data) {
+            $.post('/formValue/submit', {value: JSON.stringify(params), form: formId}, function (data) {
                 layer.msg(data.msg, {time: 3000});
                 if (data.code == 1)
                     rebuildForm();
