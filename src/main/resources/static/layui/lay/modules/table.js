@@ -69,6 +69,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
       ,'{{# layui.each(d.data.cols, function(i1, item1){ }}'
         ,'<tr>'
         ,'{{# layui.each(item1, function(i2, item2){ }}'
+        ,'{{# item2.draggable=d.data.draggable}}'
         ,'{{# if(item2.show==undefined||item2.show){ }}'
           ,'{{# if(item2.fixed && item2.fixed !== "right"){ left = true; } }}'
           ,'{{# if(item2.fixed === "right"){ right = true; } }}'
@@ -86,7 +87,7 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
           ,'{{# } else if(item2.space){ }}'
             ,'<th data-field="{{ item2.field||i2 }}" {{#if(item2.colspan){}} colspan="{{item2.colspan}}"{{#} if(item2.rowspan){}} rowspan="{{item2.rowspan}}"{{#}}} unresize="true"><div class="layui-table-cell laytable-cell-space"></div></th>'
           ,'{{# } else { }}'
-            ,'<th data-field="{{ item2.field||i2 }}" {{#if(item2.colspan){}} colspan="{{item2.colspan}}"{{#} if(item2.rowspan){}} rowspan="{{item2.rowspan}}"{{#}}} {{# if(item2.unresize){ }}unresize="true"{{# } }}>'
+            ,'<th data-field="{{ item2.field||i2 }}" {{#if(item2.draggable){}} draggable="true"{{#}}} {{#if(item2.colspan){}} colspan="{{item2.colspan}}"{{#} if(item2.rowspan){}} rowspan="{{item2.rowspan}}"{{#}}} {{# if(item2.unresize){ }}unresize="true"{{# } }}>'
               ,'{{# if(item2.colspan > 1){ }}'
                 ,'<div class="layui-table-cell laytable-cell-group" {{#if(item2.align){}}align="{{item2.align}}"{{#}}}>'
                   ,'<span>{{item2.title||""}}</span>'
@@ -708,7 +709,26 @@ layui.define(['laytpl', 'laypage', 'layer', 'form'], function(exports){
           dict.ruleWidth = parseFloat(item.style.width);
         });
       }
+    }).on('dragstart',function (e) {
+        e = e.originalEvent;
+        e.dataTransfer.effectAllowed = "move";
+        e.dataTransfer.setData("dragIndex", $(e.target).index());
+        e.dataTransfer.setDragImage(e.target, 0, 0);
+    }).on('dragend',function (e) {
+        e = e.originalEvent;
+        e.dataTransfer.clearData("dragIndex");
+        return false
+    }).on('dragover',function (e) {
+        e.preventDefault();
+    }).on('drop dragdrop',function (e) {
+        var $dropElem = e.target.localName!='th'?$(e.target).parents('th'):$(e.target);
+        var dragIndex = e.originalEvent.dataTransfer.getData('dragIndex'),dropIndex = $dropElem.index();
+        var props = config.cols[0],dragProp = $.extend(true,{},props[dragIndex]);
+        props[dragIndex] = props[dropIndex];
+        props[dropIndex] = dragProp;
+        table.render(config);
     });
+
     //拖拽中
     _DOC.on('mousemove', function(e){
       if(dict.resizeStart){

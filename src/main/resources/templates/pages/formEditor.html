@@ -109,7 +109,7 @@
         border: 1px solid #5FB878;
     }
 
-    .add-field .fied-item div {
+    .add-field .field-item div {
         padding-left: 20px;
         text-align: left;
         height: 35px;
@@ -119,7 +119,7 @@
         transition: all 0.2s;
     }
 
-    .add-field .fied-item div:hover {
+    .add-field .field-item div:hover {
         cursor: pointer;
         color: #009AFF !important;
     }
@@ -240,7 +240,8 @@
                 <label class="layui-form-label">发布表单</label>
                 <input type="text" id="myForm" th:value="@{'~/form/view/'+${formDetail.form.id}}"
                        class="border-gray"/>
-                <i class="layui-icon" onclick="document.getElementById('myForm').select();document.execCommand('Copy');">&#xe64c;</i>
+                <i class="layui-icon"
+                   onclick="document.getElementById('myForm').select();document.execCommand('Copy');">&#xe64c;</i>
                 <a th:href="@{'/form/view/'+${formDetail.form.id}}" target="_blank"><i class="layui-icon">
                     &#xe641;</i></a>
             </div>
@@ -296,110 +297,110 @@
                                         <div class="layui-tab-item layui-show">
 
                                             <div class="layui-row layui-col-space10">
-                                                <div class="layui-col-md6 fied-item">
+                                                <div class="layui-col-md6 field-item" draggable="true">
                                                     <div class="grid-demo layui-bg-gray" templateName="singletext">
                                                         <i class="layui-icon">&#xe642;</i>&nbsp;&nbsp;单行文字
                                                     </div>
                                                 </div>
-                                                <div class="layui-col-md6 fied-item">
+                                                <div class="layui-col-md6 field-item" draggable="true">
                                                     <div class="grid-demo layui-bg-gray" templateName="multitext">
                                                         <i class="layui-icon">&#xe63c;</i>&nbsp;&nbsp;多行文字
                                                     </div>
                                                 </div>
 
-                                                <div class="layui-col-md6 fied-item">
+                                                <div class="layui-col-md6 field-item" draggable="true">
                                                     <div class="grid-demo layui-bg-gray" templateName="singleselect">
                                                         <i class="layui-icon">&#xe643;</i>&nbsp;&nbsp;单项选择
                                                     </div>
                                                 </div>
-                                                <div class="layui-col-md6 fied-item">
+                                                <div class="layui-col-md6 field-item" draggable="true">
                                                     <div class="grid-demo layui-bg-gray" templateName="multiselect">
                                                         <i class="layui-icon">&#xe618;</i>&nbsp;&nbsp;多项选择
                                                     </div>
                                                 </div>
 
-                                                <div class="layui-col-md6 fied-item">
+                                                <div class="layui-col-md6 field-item" draggable="true">
                                                     <div class="grid-demo layui-bg-gray" templateName="singlepic">
                                                         <i class="layui-icon">&#xe64a;</i>&nbsp;&nbsp; 图片单选
                                                     </div>
                                                 </div>
-                                                <div class="layui-col-md6 fied-item">
+                                                <div class="layui-col-md6 field-item" draggable="true">
                                                     <div class="grid-demo layui-bg-gray" templateName="multipic">
                                                         <i class="layui-icon">&#xe634;</i>&nbsp;&nbsp;图片多选
                                                     </div>
                                                 </div>
 
-                                                <div class="layui-col-md6 fied-item">
+                                                <div class="layui-col-md6 field-item" draggable="true">
                                                     <div class="grid-demo layui-bg-gray" templateName="singlemat">
                                                         <i class="layui-icon">&#xe62d;</i>&nbsp;&nbsp;矩阵单选
                                                     </div>
                                                 </div>
-                                                <div class="layui-col-md6 fied-item">
+                                                <div class="layui-col-md6 field-item" draggable="true">
                                                     <div class="grid-demo layui-bg-gray" templateName="mattext">
                                                         <i class="layui-icon">&#xe62a;</i>&nbsp;&nbsp; 矩阵填空
                                                     </div>
                                                 </div>
 
-                                                <div class="layui-col-md6 fied-item">
+                                                <div class="layui-col-md6 field-item" draggable="true">
                                                     <div class="grid-demo layui-bg-gray" templateName="numberfield">
                                                         <i class="layui-icon" style="font-size: xx-small;">123</i>&nbsp;&nbsp;数字
                                                     </div>
                                                 </div>
-                                                <div class="layui-col-md6 fied-item">
+                                                <div class="layui-col-md6 field-item" draggable="true">
                                                     <div class="grid-demo layui-bg-gray" templateName="timepicker">
                                                         <i class="layui-icon">&#xe60e;</i>&nbsp;&nbsp;时间
                                                     </div>
                                                 </div>
 
-                                                <div class="layui-col-md6 fied-item">
+                                                <div class="layui-col-md6 field-item" draggable="true">
                                                     <div class="grid-demo layui-bg-gray" templateName="datepicker">
                                                         <i class="layui-icon">&#xe637;</i>&nbsp;&nbsp;日期
                                                     </div>
                                                 </div>
-                                                <div class="layui-col-md6 fied-item">
+                                                <div class="layui-col-md6 field-item" draggable="true">
                                                     <div class="grid-demo layui-bg-gray" templateName="dropselect">
                                                         <i class="layui-icon">&#xe61a;</i>&nbsp;&nbsp;下拉框
                                                     </div>
                                                 </div>
 
-                                                <div class="layui-col-md6 fied-item">
+                                                <div class="layui-col-md6 field-item" draggable="true">
                                                     <div class="grid-demo layui-bg-gray" templateName="desfield">
                                                         <i class="layui-icon">&#xe6b2;</i>&nbsp;&nbsp;描述
                                                     </div>
                                                 </div>
-                                                <!--<div class="layui-col-md6 fied-item">-->
+                                                <!--<div class="layui-col-md6 field-item" draggable="true">-->
                                                 <!--<div class="grid-demo layui-bg-gray" templateName="pagination">-->
                                                 <!--<i class="layui-icon">&#xe705;</i>&nbsp;&nbsp;分页-->
                                                 <!--</div>-->
                                                 <!--</div>-->
-                                                <div class="layui-col-md6 fied-item">
+                                                <div class="layui-col-md6 field-item" draggable="true">
                                                     <div class="grid-demo layui-bg-gray" templateName="address">
                                                         <i class="layui-icon">&#xe62a;</i>&nbsp;&nbsp;地址
                                                     </div>
                                                 </div>
-                                                <div class="layui-col-md6 fied-item">
+                                                <div class="layui-col-md6 field-item" draggable="true">
                                                     <div class="grid-demo layui-bg-gray" templateName="location">
                                                         <i class="layui-icon">&#xe715;</i>&nbsp;&nbsp;地理位置
                                                     </div>
                                                 </div>
 
-                                                <div class="layui-col-md6 fied-item">
+                                                <div class="layui-col-md6 field-item" draggable="true">
                                                     <div class="grid-demo layui-bg-gray" templateName="urlfield">
                                                         <i class="layui-icon">&#xe64c;</i>&nbsp;&nbsp;网址
                                                     </div>
                                                 </div>
-                                                <div class="layui-col-md6 fied-item">
+                                                <div class="layui-col-md6 field-item" draggable="true">
                                                     <div class="grid-demo layui-bg-gray" templateName="markfield">
                                                         <i class="layui-icon">&#xe606;</i>&nbsp;&nbsp;评分
                                                     </div>
                                                 </div>
 
-                                                <div class="layui-col-md6 fied-item">
+                                                <div class="layui-col-md6 field-item" draggable="true">
                                                     <div class="grid-demo layui-bg-gray" templateName="multiselected">
                                                         <i class="layui-icon">&#xe65a;</i>&nbsp;&nbsp;两级下拉框
                                                     </div>
                                                 </div>
-                                                <div class="layui-col-md6 fied-item">
+                                                <div class="layui-col-md6 field-item" draggable="true">
                                                     <div class="grid-demo layui-bg-gray" templateName="uploadfile">
                                                         <i class="layui-icon">&#xe624;</i>&nbsp;&nbsp;上传文件
                                                     </div>
@@ -621,11 +622,11 @@
                             }
                     }
                     ,
-                checked: '',
-                images:
-                    {},
-                hasDefaultVal: true
-            }
+                    checked: '',
+                    images:
+                        {},
+                    hasDefaultVal: true
+                }
             ,
             name: '',
             des:
@@ -655,9 +656,9 @@
                         }
                     }
                     ,
-                images: {},
-                hasDefaultVal: true
-            }
+                    images: {},
+                    hasDefaultVal: true
+                }
             ,
             name: '',
             des:
@@ -1016,7 +1017,7 @@
                     ,
                     fullscore: '3',
                     icon:
-                        '',
+                        '1',
                     icons:
                         {
                             1:
@@ -1377,6 +1378,63 @@
             });
             return false;
         });
+
+        var dragElem;
+        var dragStart = function (e) {
+            e = e.originalEvent;
+            e.dataTransfer.effectAllowed = "move";
+            e.dataTransfer.setData("text", e.target.outerHTML);
+            e.dataTransfer.setDragImage(e.target, 0, 0);
+            dragElem = e.target;
+//            if ($(dragElem).hasClass('prop-item')) {
+//                dragElem.remove();
+//            }
+            return true;
+        }, dragEnd = function (e) {
+            e = e.originalEvent;
+            e.dataTransfer.clearData("text");
+            dragElem = null;
+            return false
+        };
+        $('.field-item').on('dragstart', dragStart)
+            .on('dragend', dragEnd);
+
+        $form.on('dragstart','.prop-item', dragStart)
+            .on('dragend', '.prop-item',dragEnd)
+            .on('dragover','.prop-item',function (e) {
+                e.preventDefault();
+            })
+            .on('drop dragdrop','.prop-item', function (e) {
+                var $elem = $(e.target);
+                $elem = $elem.hasClass('new-line')?$elem:$elem.parents('.new-line');
+                var $dragElem = $(dragElem);
+                if ($dragElem.hasClass('prop-item')) {
+                    var drag = $dragElem.clone(),drop =$elem.clone();
+                    drag.data('prop',$dragElem.data('prop'));
+                    drop.data('prop',$elem.data('prop'));
+                    $elem.replaceWith(drag);
+                    $dragElem.replaceWith(drop);
+                    form.render();
+                } else {
+                    var tplId = $dragElem.children('div').attr('templateName');
+                    var defaultProp = $.extend(false, {}, defaultProps[tplId], {
+                        name: '未命名' + index++,
+                        des: '描述',
+                        default: true
+                    });
+                    //可以为每一个配置都设置一个默认的配置对象，需要先定义。
+                    laytpl($('#' + tplId).html()).render(defaultProp, function (html) {
+                        var $html = $(html);
+                        $html.data('prop', defaultProp);
+                        $('.new-line').removeClass('active-line');
+                        $html.addClass('active-line');
+                        $elem.before($html);
+                        form.render();
+                    });
+                }
+                return false;
+            });
+
     });
 </script>
 
