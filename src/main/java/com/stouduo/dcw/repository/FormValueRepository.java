@@ -39,4 +39,7 @@ public interface FormValueRepository extends PagingAndSortingRepository<FormValu
     @Modifying
     @Query("update FormValue f set f.del=true where f.form=:form")
     void delFormValues(@Param("form") String id);
+
+    @Query("select fv from FormValue fv where fv.form=:form and fv.del=false")
+    Page<FormValue> findAllByForm(@Param("form") String formId, Pageable page);
 }
