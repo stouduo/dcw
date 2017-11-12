@@ -1,24 +1,29 @@
 package com.stouduo.dcw.util;
 
+import com.alibaba.fastjson.JSON;
 import com.stouduo.dcw.domain.Form;
 import com.stouduo.dcw.domain.FormLog;
 import com.stouduo.dcw.domain.FormProperty;
+import com.stouduo.dcw.domain.FormValue;
 import com.stouduo.dcw.repository.FormLogRepository;
 import com.stouduo.dcw.repository.FormPropertyRepository;
 import com.stouduo.dcw.repository.FormValueRepository;
 import com.stouduo.dcw.service.FormService;
+import com.stouduo.dcw.service.FormValueService;
 import com.stouduo.dcw.vo.FormDetailVO;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Component
 @Aspect
@@ -36,38 +41,64 @@ public class LogAspect {
     public void log() {
     }
 
-    @After("log()")
+    @Before("log()")
     @Transactional
-    public void after(JoinPoint jp) {
+    public void before(JoinPoint jp) {
         FormDetailVO formDetailVO = (FormDetailVO) jp.getArgs()[0];
         Form form = formDetailVO.getForm();
         if (!StringUtils.isEmpty(form.getId())) {
             FormDetailVO oldFormDetailVO = formService.getForm(form.getId());
             List<FormProperty> newFormProperties = formDetailVO.getFormProperties();
             List<FormProperty> oldFormProperties = oldFormDetailVO.getFormProperties();
-            if (newFormProperties.size() == oldFormProperties.size()) return;
-            List<FormProperty> formProperties;
+            List<FormProperty> newProps = new ArrayList<>();
+            for (FormProperty formProperty : newFormProperties) {
+                if (StringUtils.isEmpty(formProperty.getId()))
+                    newProps.add(formProperty);
+            }
+            newFormProperties.removeAll(newProps);
+            if (newProps.size() == 0 && newFormProperties.size() == oldFormProperties.size()) return;
+            String newStr = "";
+            if (newProps.size() > 0) {
+                newStr = "新增";
+                for (FormProperty property : newProps) {
+                    newStr += "\"" + property.getName() + "\"，";
+                }
+                newStr = newStr.substring(0, newStr.length() - 1) + "字段";
+            }
+
             FormLog formLog = new FormLog();
-            String opt = "";
-            if (newFormProperties.size() > oldFormProperties.size()) {
-                newFormProperties.removeAll(oldFormProperties);
-                opt = "新增";
-                formProperties = newFormProperties;
-            } else {
-                oldFormProperties.removeAll(newFormProperties);
-                formProperties = oldFormProperties;
-                formPropertyRepository.delete(formProperties);
-                opt = "刪除";
+            String delStr = "";
+            oldFormProperties.removeAll(newFormProperties);
+            formPropertyRepository.delete(oldFormProperties);
+            delFormVals(form.getId(), oldFormProperties);
+            delStr = "刪除";
+            for (FormProperty formProperty : oldFormProperties) {
+                delStr += "\"" + formProperty.getName() + "\"，";
             }
-            for (FormProperty formProperty : formProperties) {
-                opt += "\"" + formProperty.getName() + "\"，";
-            }
-            opt = opt.substring(0, opt.length() - 1) + "字段，影响" + formValueRepository.findCountByForm(form.getId()) + "行数据";
+            delStr = delStr.substring(0, delStr.length() - 1) + "字段";
             formLog.setForm(form.getId());
             formLog.setUser(SecurityUtil.getUsername());
-            formLog.setOperate(opt);
+            formLog.setOperate(newStr + delStr + "，影响" + formValueRepository.findCountByForm(form.getId()) + "行数据");
             formLog.setOptTime(new Date());
             formLogRepository.save(formLog);
         }
+    }
+
+    private void delFormVals(String formId, List<FormProperty> need2DelProps) {
+        int index = 0;
+        Page<FormValue> formValPages;
+        Map<String, String> vals;
+        do {
+            formValPages = formValueRepository.findAllByForm(formId, new PageRequest(index, 50));
+            for (FormValue formValue : formValPages.getContent()) {
+                vals = (Map<String, String>) JSON.parse(formValue.getValue());
+                for (FormProperty formProperty : need2DelProps) {
+                    vals.remove(formProperty.getId());
+                }
+                formValue.setValue(JSON.toJSONString(vals));
+                formValueRepository.save(formValue);
+            }
+            index++;
+        } while (formValPages.hasNext());
     }
 }
