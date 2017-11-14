@@ -9,10 +9,8 @@ import com.stouduo.dcw.repository.FormLogRepository;
 import com.stouduo.dcw.repository.FormPropertyRepository;
 import com.stouduo.dcw.repository.FormValueRepository;
 import com.stouduo.dcw.service.FormService;
-import com.stouduo.dcw.service.FormValueService;
 import com.stouduo.dcw.vo.FormDetailVO;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -23,7 +21,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @Component
 @Aspect
@@ -48,7 +49,8 @@ public class LogAspect {
         Form form = formDetailVO.getForm();
         if (!StringUtils.isEmpty(form.getId())) {
             FormDetailVO oldFormDetailVO = formService.getForm(form.getId());
-            List<FormProperty> newFormProperties = formDetailVO.getFormProperties();
+            List<FormProperty> newFormProperties = new ArrayList<>();
+            newFormProperties.addAll(formDetailVO.getFormProperties());
             List<FormProperty> oldFormProperties = oldFormDetailVO.getFormProperties();
             List<FormProperty> newProps = new ArrayList<>();
             for (FormProperty formProperty : newFormProperties) {
@@ -75,7 +77,7 @@ public class LogAspect {
             for (FormProperty formProperty : oldFormProperties) {
                 delStr += "\"" + formProperty.getName() + "\"，";
             }
-            delStr = delStr.substring(0, delStr.length() - 1) + "字段";
+            delStr = delStr.length()==2?"":delStr.substring(0, delStr.length() - 1) + "字段";
             formLog.setForm(form.getId());
             formLog.setUser(SecurityUtil.getUsername());
             formLog.setOperate(newStr + delStr + "，影响" + formValueRepository.findCountByForm(form.getId()) + "行数据");

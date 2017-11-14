@@ -1,6 +1,7 @@
 package com.stouduo.dcw.util;
 
 import com.alibaba.fastjson.JSON;
+import com.stouduo.dcw.domain.Const;
 import com.stouduo.dcw.domain.FormProperty;
 import com.stouduo.dcw.domain.FormValue;
 import jxl.Cell;
@@ -671,7 +672,7 @@ public class ExcelUtil {
             value = (Map<String, String>) JSON.parse(item.getValue());
             for (FormProperty prop : formProperties) {
                 feildVal = value.get(prop.getId());
-                if (prop.getType().equals("uploadfile")) {
+                if (Const.FORMPROPERTY_IMPORT_TYPE_LIMITED.contains(prop.getType())) {
                     m = pattern.matcher(feildVal);
                     val = "";
                     while (m.find()) {

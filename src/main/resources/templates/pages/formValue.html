@@ -88,14 +88,9 @@
         }
 
         .formEditorView {
-            height: 600px;
+            height: 585px;
             overflow: auto;
             text-align: center;
-        }
-
-        form .banner {
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
         }
 
         form .layui-form-item {
@@ -105,51 +100,16 @@
             border: 1px solid #ccc;
         }
 
+        .layui-input{
+            height: 30px;
+        }
+
         form .layui-input {
             border: 1px solid #5FB878;
         }
 
-        .add-field .fied-item div {
-            padding-left: 20px;
-            text-align: left;
-            height: 35px;
-            line-height: 35px;
-            overflow: hidden;
-            color: #000000;
-            transition: all 0.2s;
-        }
-
-        .add-field .fied-item div:hover {
-            cursor: pointer;
-            color: #009AFF !important;
-        }
-
-        .form-container {
-            width: 90%;
-            padding-bottom: 50px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-        }
-
         form .layui-form-item {
             border: none !important;
-        }
-
-        .add-field .layui-this {
-            background-color: #009AFF !important;
-            color: #fff !important;
-        }
-
-        form .new-line:hover {
-            cursor: pointer;
-        }
-
-        .formEditorView .active-line {
-            background-color: #F2FAFF;
-            border: 1px dashed #1E9FFF;
-            border-left: none;
-            border-right: none;
-            border-radius: 5px;
         }
 
         form .new-line {
@@ -159,37 +119,6 @@
             position: relative;
             top: 0;
             left: 0;
-        }
-
-        .fn-area {
-            position: absolute;
-            bottom: -10px;
-            right: 100px;
-            background-color: #fff;
-            display: none;
-        }
-
-        .fn-area .ele-copy,
-        .fn-area .ele-del {
-            width: 30px;
-            height: 30px;
-            border-radius: 2px;
-        }
-
-        .fn-area .ele-copy:hover,
-        .fn-area .ele-del:hover {
-            background-color: #D84C29;
-            cursor: pointer;
-        }
-
-        .formEditorView .active-line .fn-area {
-            display: block;
-        }
-
-        .active-line .layui-form-item input,
-        .active-line .layui-form-item textarea,
-        .active-line .layui-form-item select {
-            border-color: #9F9F9F;
         }
 
         .setting-row .pull-left {
@@ -244,7 +173,7 @@
             <div class="layui-tab-item layui-show">
                 <div class="shuju">
                     <!--表格头部菜单-->
-                    <div class="layui-row shu-menu layui-col-md12">
+                    <div class="layui-row shu-menu layui-col-md8">
                         <div class="layui-col-md1">
                             <div class="grid-demo grid-demo-bg1" style="cursor: pointer;"><i class="layui-icon"
                                                                                              onclick="search()">&#x1002;</i>
@@ -266,14 +195,14 @@
                         <!--<a href="#">发送短信&amp;邮件</a>-->
                         <!--</div>-->
                         <!--</div>-->
-                        <div class="layui-col-md2">
+                        <div class="layui-col-md3">
                             <div class="grid-demo grid-demo-bg1">
                                 <input type="text" name="content" id="searchContent"/>
                                 <button class="layui-btn layui-btn-mini" onclick="search()"><i class="layui-icon">
                                     &#xe615;</i></button>
                             </div>
                         </div>
-                        <div class="layui-col-md1">
+                        <div class="layui-col-md2">
                             <div class="grid-demo grid-demo-bg1">
                                 <i class="layui-icon" style="cursor: pointer" title="按提交日期筛选"
                                    onclick="showDatePicker()">&#xe60e;</i>
@@ -281,7 +210,7 @@
                                 <i class="layui-icon" style="cursor: pointer" onclick="showCol()" title="显示或隐藏各列数据">&#xe647;</i>
                             </div>
                         </div>
-                        <div class="layui-col-md1">
+                        <div class="layui-col-md2">
                             <div class="grid-demo grid-demo-bg1">
                                 <div class="layui-form layui-form-item">
                                     <select lay-filter="outport">
@@ -362,40 +291,6 @@
 <script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/Util.js}" type="text/javascript" charset="utf-8"></script>
-<script src="http://api.map.baidu.com/api?v=2.0&ak=mfZGQrMfwBXfdLgIQaaFH0cS1kBKu11p"
-        type="text/javascript"></script>
-<script type="text/javascript">
-    var maps = {}, geolocation = new BMap.Geolocation(), geoc = new BMap.Geocoder();
-
-    function setLocation(map, getLocation) {
-        geoc.getPoint(getLocation, function (point) {
-            if (point) {
-                maps[map].map.clearOverlays();
-                maps[map].map.centerAndZoom(point, 16);
-                maps[map].map.addOverlay(new BMap.Marker(point));
-            } else {
-                alert("您选择地址没有解析到结果!");
-            }
-        });
-    }
-
-    function myLoc(map) {
-        geolocation.getCurrentPosition(function (r) {
-            if (this.getStatus() == BMAP_STATUS_SUCCESS) {
-                var pt = r.point;
-                geoc.getLocation(pt, function (result) {
-                    if (result) {
-                        maps[map].map.clearOverlays();
-                        maps[map].map.centerAndZoom(pt, 16);
-                        maps[map].map.addOverlay(new BMap.Marker(pt));
-                        var addComp = result.addressComponents;
-                        maps[map].elem.val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
-                    }
-                });
-            }
-        });
-    }
-</script>
 <script th:inline="javascript">
     var formId = [[${formDetail.form.id}]];
     var props = [[${formDetail.formProperties}]], formProp = [], cols = [];
@@ -432,6 +327,7 @@
 <script th:src="@{/js/dropzone.min.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/Util.js}" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
+    var maps = {}, geolocation,geoc ,setLocation,myLoc;
     var search, del, importExcel, add, showCol, showDatePicker;
     Dropzone.autoDiscover = false;
     layui.use(['table', 'element', 'layer', 'upload', 'laytpl', 'form', 'laydate'], function () {
@@ -928,7 +824,7 @@
                 title: '添加数据',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
-                area: ['800px', '520px'],
+                area: ['860px', '700px'],
                 content: $addData,
                 btn: ['确定', '取消'],
                 btnAlign: 'l', //按钮排列 左对齐
@@ -1064,7 +960,7 @@
                 title: '数据详情',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
-                area: ['800px', '520px'],
+                area: ['860px', '700px'],
                 content: $editData,
                 btn: ['修改', '删除'],
                 btnAlign: 'l', //按钮排列 左对齐
@@ -1084,111 +980,145 @@
             });
         });
         (function () {
-            $.getJSON('/js/address.json', function (address) {
-                var province, city, block;
-                var $province = $(".province");
-                var getProvinceList = function () {
-                    var list = [];
-                    for (var i = 0, l = address.length; i < l; i++) {
-                        if ('0' == address[i].parentId) {
-                            list.push($.extend({}, address[i]));
+            (function () {
+                $(".province").length && $.getJSON('/js/address.json', function (address) {
+                    var province, city, block;
+                    var $province = $(".province");
+                    var getProvinceList = function () {
+                        var list = [];
+                        for (var i = 0, l = address.length; i < l; i++) {
+                            if ('0' == address[i].parentId) {
+                                list.push($.extend({}, address[i]));
+                            }
                         }
-                    }
-                    return list;
-                };
-                /**
-                 * 获取下一级地址目录
-                 * @param nowDistrictAreaName 当前地区的名字
-                 */
-                var getNextDistrictList = function (nowDistrictAreaName) {
-                    var list = [], id = '';
-                    for (var i = 0, l = address.length; i < l; i++) {
-                        if (address[i].areaName === nowDistrictAreaName) {
-                            id = address[i].areaCode;
+                        return list;
+                    };
+                    /**
+                     * 获取下一级地址目录
+                     * @param nowDistrictAreaName 当前地区的名字
+                     */
+                    var getNextDistrictList = function (nowDistrictAreaName) {
+                        var list = [], id = '';
+                        for (var i = 0, l = address.length; i < l; i++) {
+                            if (address[i].areaName === nowDistrictAreaName) {
+                                id = address[i].areaCode;
+                            }
                         }
-                    }
-                    for (var i = 0, l = address.length; i < l; i++) {
-                        if (id === address[i].parentId) {
-                            list.push($.extend({}, address[i]));
+                        for (var i = 0, l = address.length; i < l; i++) {
+                            if (id === address[i].parentId) {
+                                list.push($.extend({}, address[i]));
+                            }
                         }
+                        return list;
+                    };
+                    /***
+                     * 根据获取的下一级目录列表生成select
+                     * @param addressList
+                     * @param defaultText
+                     * @returns {string}
+                     */
+                    var createOptions = function (addressList, defaultText) {
+                        var template = '<option value="q_MyValue">q_MyText</option>';
+                        var html = '<option value="" >' + (defaultText || "--请选择--") + '</option>';
+                        for (var i = 0, l = addressList.length; i < l; i++) {
+                            html += template.replace("q_MyValue", addressList[i].areaName).replace("q_MyText", addressList[i].areaName);
+                        }
+                        return html;
                     }
-                    return list;
-                };
-                /***
-                 * 根据获取的下一级目录列表生成select
-                 * @param addressList
-                 * @param defaultText
-                 * @returns {string}
-                 */
-                var createOptions = function (addressList, defaultText) {
-                    var template = '<option value="q_MyValue">q_MyText</option>';
-                    var html = '<option value="" >' + (defaultText || "--请选择--") + '</option>';
-                    for (var i = 0, l = addressList.length; i < l; i++) {
-                        html += template.replace("q_MyValue", addressList[i].areaName).replace("q_MyText", addressList[i].areaName);
-                    }
-                    return html;
-                }
-                var selectHandler = function (data, level) {
-                    window.data = data;
-                    var areaName = data.value;
-                    var list = getNextDistrictList(areaName);
-                    var html = "";
-                    var $select = $(data.elem).parent().next();
-                    if (!level || level == 0) {
-                        html = createOptions(list, "市");
-                        $select.next().find(".block").html("<option value=''>市区/县</option>");
-                        $select = $select.find(".city");
-                    } else {
-                        html = createOptions(list, "市区/县");
-                        $select = $select.find(".block");
-                    }
-                    $select.html(html);
-                    form.render();
-                };
+                    var selectHandler = function (data, level) {
+                        window.data = data;
+                        var areaName = data.value;
+                        var list = getNextDistrictList(areaName);
+                        var html = "";
+                        var $select = $(data.elem).parent().next();
+                        if (!level || level == 0) {
+                            html = createOptions(list, "市");
+                            $select.next().find(".block").html("<option value=''>市区/县</option>");
+                            $select = $select.find(".city");
+                        } else {
+                            html = createOptions(list, "市区/县");
+                            $select = $select.find(".block");
+                        }
+                        $select.html(html);
+                        form.render();
+                    };
 
-                var init = function () {
-                    var list = getProvinceList();
-                    var html = createOptions(list, "省/自治区/直辖市");
-                    $province.html(html);
-                    form.render();
-                };
-                form.on('select(province)', function (data) {
-                    province = data.value;
-                    selectHandler(data, 0);
+                    var init = function () {
+                        var list = getProvinceList();
+                        var html = createOptions(list, "省/自治区/直辖市");
+                        $province.html(html);
+                        form.render();
+                    };
+                    form.on('select(province)', function (data) {
+                        province = data.value;
+                        selectHandler(data, 0);
+                    });
+                    form.on('select(city)', function (data) {
+                        city = data.value;
+                        selectHandler(data, 1);
+                    });
+                    form.on('select(block)', function (data) {
+                        block = data.value;
+                    });
+                    init();
                 });
-                form.on('select(city)', function (data) {
-                    city = data.value;
-                    selectHandler(data, 1);
-                });
-                form.on('select(block)', function (data) {
-                    block = data.value;
-                });
-                init();
-            });
-            var map, name, elem;
-            $('.location').each(function () {
-                name = $(this).attr('id');
-                map = new BMap.Map(name);
-                map.centerAndZoom(new BMap.Point(121.491, 31.233), 11);
-                map.enableScrollWheelZoom(true); //缩放
-                elem = $('#formContainer').find('input[name="' + name + '"]');
-                maps[name] = {
-                    map: map,
-                    elem: elem,
-                    container: elem.parents('.new-line')
-                };
-                setTimeout(function () {
-                    map.enableDragging(); //两秒后开启拖拽
-                }, 2000);
-                map.addEventListener("click", function (e) {
-                    var pt = e.point, name = $(this.Va).attr('id');
-                    geoc.getLocation(pt, function (rs) {
-                        var addComp = rs.addressComponents;
-                        $('#formContainer').find('input[name="' + name + '"]').val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+                $('.location').length && $.getScript('http://api.map.baidu.com/getscript?v=2.0&ak=RYnRcuE36wXyOBTAv9S9gZiim33KaYM7&services=&t='+(new Date).getTime()).done(function () {
+                    geolocation = new BMap.Geolocation();
+                    geoc = new BMap.Geocoder();
+                    setLocation = function (map, getLocation) {
+                        geoc.getPoint(getLocation, function (point) {
+                            if (point) {
+                                maps[map].map.clearOverlays();
+                                maps[map].map.centerAndZoom(point, 16);
+                                maps[map].map.addOverlay(new BMap.Marker(point));
+                            } else {
+                                alert("您选择地址没有解析到结果!");
+                            }
+                        });
+                    }
+                    myLoc = function (map) {
+                        geolocation.getCurrentPosition(function (r) {
+                            if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                                var pt = r.point;
+                                geoc.getLocation(pt, function (result) {
+                                    if (result) {
+                                        maps[map].map.clearOverlays();
+                                        maps[map].map.centerAndZoom(pt, 16);
+                                        maps[map].map.addOverlay(new BMap.Marker(pt));
+                                        var addComp = result.addressComponents;
+                                        maps[map].elem.val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+                                    }
+                                });
+                            }
+                        });
+                    }
+
+                    var map, name, elem;
+                    $('.location').each(function () {
+                        name = $(this).attr('id');
+                        map = new BMap.Map(name);
+                        map.centerAndZoom(new BMap.Point(121.491, 31.233), 11);
+                        map.enableScrollWheelZoom(true); //缩放
+                        elem = $('#formContainer').find('input[name="' + name + '"]');
+                        maps[name] = {
+                            map: map,
+                            elem: elem,
+                            container: elem.parents('.new-line')
+                        };
+                        setTimeout(function () {
+                            map.enableDragging(); //两秒后开启拖拽
+                        }, 2000);
+                        map.addEventListener("click", function (e) {
+                            var pt = e.point, name = $(this.Va).attr('id');
+                            geoc.getLocation(pt, function (rs) {
+                                var addComp = rs.addressComponents;
+                                $('#formContainer').find('input[name="' + name + '"]').val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+                            });
+                        });
+                        myLoc(name);
                     });
                 });
-                myLoc(name);
-            });
+            }());
         }());
 
     });

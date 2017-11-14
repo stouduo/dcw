@@ -8,6 +8,9 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/gaishu.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/shuju.css}"/>
     <style type="text/css">
+        .layui-input{
+            height: 30px;
+        }
         .clearfix:after {
             content: '';
             clear: both;
@@ -87,14 +90,9 @@
         }
 
         .formEditorView {
-            height: 600px;
+            height: 585px;
             overflow: auto;
             text-align: center;
-        }
-
-        form .banner {
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
         }
 
         form .layui-form-item {
@@ -105,50 +103,11 @@
         }
 
         form .layui-input {
-            border-color: 1px solid #5FB878;
-        }
-
-        .add-field .fied-item div {
-            padding-left: 20px;
-            text-align: left;
-            height: 35px;
-            line-height: 35px;
-            overflow: hidden;
-            color: #000000;
-            transition: all 0.2s;
-        }
-
-        .add-field .fied-item div:hover {
-            cursor: pointer;
-            color: #009AFF !important;
-        }
-
-        .form-container {
-            width: 90%;
-            padding-bottom: 50px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
+            border: 1px solid #5FB878;
         }
 
         form .layui-form-item {
             border: none !important;
-        }
-
-        .add-field .layui-this {
-            background-color: #009AFF !important;
-            color: #fff !important;
-        }
-
-        form .new-line:hover {
-            cursor: pointer;
-        }
-
-        .formEditorView .active-line {
-            background-color: #F2FAFF;
-            border: 1px dashed #1E9FFF;
-            border-left: none;
-            border-right: none;
-            border-radius: 5px;
         }
 
         form .new-line {
@@ -158,37 +117,6 @@
             position: relative;
             top: 0;
             left: 0;
-        }
-
-        .fn-area {
-            position: absolute;
-            bottom: -10px;
-            right: 100px;
-            background-color: #fff;
-            display: none;
-        }
-
-        .fn-area .ele-copy,
-        .fn-area .ele-del {
-            width: 30px;
-            height: 30px;
-            border-radius: 2px;
-        }
-
-        .fn-area .ele-copy:hover,
-        .fn-area .ele-del:hover {
-            background-color: #D84C29;
-            cursor: pointer;
-        }
-
-        .formEditorView .active-line .fn-area {
-            display: block;
-        }
-
-        .active-line .layui-form-item input,
-        .active-line .layui-form-item textarea,
-        .active-line .layui-form-item select {
-            border-color: #9F9F9F;
         }
 
         .setting-row .pull-left {
@@ -232,7 +160,8 @@
                 <label class="layui-form-label">发布表单</label>
                 <input type="text" id="myForm" th:value="@{'~/form/view/'+${formDetail.form.id}}"
                        class="border-gray"/>
-                <i class="layui-icon" onclick="document.getElementById('myForm').select();document.execCommand('Copy');">&#xe64c;</i>
+                <i class="layui-icon"
+                   onclick="document.getElementById('myForm').select();document.execCommand('Copy');">&#xe64c;</i>
                 <a th:href="@{'/form/view/'+${formDetail.form.id}}" target="_blank"><i class="layui-icon">
                     &#xe641;</i></a>
             </div>
@@ -298,11 +227,11 @@
                                     <div class="layui-col-md4 layui-col-md-offset4">
                                         <div class="select">
                                             <select name="submitPrivilege" lay-filter="edit">
-                                                <option th:selected="${formDetail.form.submitPrivilege=='PEOPER_OF_ALL'}"
-                                                        value="PEOPER_OF_ALL">所有人
+                                                <option th:selected="${formDetail.form.submitPrivilege=='PEOPLE_OF_ALL'}"
+                                                        value="PEOPLE_OF_ALL">所有人
                                                 </option>
-                                                <option th:selected="${formDetail.form.submitPrivilege=='PEOPER_OF_NONE'}"
-                                                        value="PEOPER_OF_NONE">不公开
+                                                <option th:selected="${formDetail.form.submitPrivilege=='PEOPLE_OF_NONE'}"
+                                                        value="PEOPLE_OF_NONE">不公开
                                                 </option>
                                             </select>
                                         </div>
@@ -326,11 +255,11 @@
                                     <div class="layui-col-md4 layui-col-md-offset4">
                                         <div class="select">
                                             <select name="resultShow" lay-filter="edit">
-                                                <option th:selected="${formDetail.form.submitPrivilege=='PEOPER_OF_ALL'}"
-                                                        value="PEOPER_OF_ALL">公开
+                                                <option th:selected="${formDetail.form.submitPrivilege=='PEOPLE_OF_ALL'}"
+                                                        value="PEOPLE_OF_ALL">公开
                                                 </option>
-                                                <option th:selected="${formDetail.form.submitPrivilege=='PEOPER_OF_NONE'}"
-                                                        value="PEOPER_OF_NONE">私密
+                                                <option th:selected="${formDetail.form.submitPrivilege=='PEOPLE_OF_NONE'}"
+                                                        value="PEOPLE_OF_NONE">私密
                                                 </option>
                                             </select>
                                         </div>
@@ -462,40 +391,6 @@
 <script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/Util.js}" type="text/javascript" charset="utf-8"></script>
-<script src="http://api.map.baidu.com/api?v=2.0&ak=mfZGQrMfwBXfdLgIQaaFH0cS1kBKu11p"
-        type="text/javascript"></script>
-<script type="text/javascript">
-    var maps = {}, geolocation = new BMap.Geolocation(), geoc = new BMap.Geocoder();
-
-    function setLocation(map, getLocation) {
-        geoc.getPoint(getLocation, function (point) {
-            if (point) {
-                maps[map].map.clearOverlays();
-                maps[map].map.centerAndZoom(point, 16);
-                maps[map].map.addOverlay(new BMap.Marker(point));
-            } else {
-                alert("您选择地址没有解析到结果!");
-            }
-        });
-    }
-
-    function myLoc(map) {
-        geolocation.getCurrentPosition(function (r) {
-            if (this.getStatus() == BMAP_STATUS_SUCCESS) {
-                var pt = r.point;
-                geoc.getLocation(pt, function (result) {
-                    if (result) {
-                        maps[map].map.clearOverlays();
-                        maps[map].map.centerAndZoom(pt, 16);
-                        maps[map].map.addOverlay(new BMap.Marker(pt));
-                        var addComp = result.addressComponents;
-                        maps[map].elem.val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
-                    }
-                });
-            }
-        });
-    }
-</script>
 <script th:inline="javascript">
     var data = [[${formDetail.formValues}]], formData = [], formId = [[${formDetail.form.id}]];
     var props = [[${formDetail.formProperties}]], formProp = [], cols = [];
@@ -534,6 +429,7 @@
 </script>
 
 <script type="text/javascript">
+    var maps = {}, geolocation, geoc, setLocation, myLoc;
     var del;
     layui.use(['table', 'layer', 'element', 'form', 'upload', 'laydate'], function () {
         var table = layui.table;
@@ -681,7 +577,7 @@
             var $elem;
             props && layui.each(props, function (i, prop) {
                     name = prop.id;
-                $elem = $form.find('div.'+name);
+                    $elem = $form.find('div.' + name);
                     if (prop.value.hasDefaultVal)
                         laytpl($('#' + prop.type).html()).render(prop, function (html) {
                             $html = $(html);
@@ -868,7 +764,7 @@
             skin: 'row', //表格风格
             even: true,
             height: 290,
-            draggable:true
+            draggable: true
         });
 
         function addData() {
@@ -943,7 +839,7 @@
                 title: '添加数据',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
-                area: ['800px', '520px'],
+                area: ['860px', '700px'],
                 content: $addData,
                 btn: ['确定', '取消'],
                 btnAlign: 'l', //按钮排列 左对齐
@@ -953,7 +849,7 @@
                         $form.hide();
                     }
                 },
-                btn2:function (index) { //或者使用btn2
+                btn2: function (index) { //或者使用btn2
                     layer.close(index);
                     $form.hide();
                 },
@@ -1115,7 +1011,7 @@
                 title: '数据详情',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
-                area: ['800px', '520px'],
+                area: ['860px', '700px'],
                 content: $editData,
                 btn: ['修改', '删除'],
                 btnAlign: 'l', //按钮排列 左对齐
@@ -1135,7 +1031,7 @@
             });
         });
         (function () {
-            $.getJSON('/js/address.json', function (address) {
+            $(".province").length && $.getJSON('/js/address.json', function (address) {
                 var province, city, block;
                 var $province = $(".province");
                 var getProvinceList = function () {
@@ -1216,29 +1112,61 @@
                 });
                 init();
             });
-            var map, name, elem;
-            $('.location').each(function () {
-                name = $(this).attr('id');
-                map = new BMap.Map(name);
-                map.centerAndZoom(new BMap.Point(121.491, 31.233), 11);
-                map.enableScrollWheelZoom(true); //缩放
-                elem = $('#formContainer').find('input[name="' + name + '"]');
-                maps[name] = {
-                    map: map,
-                    elem: elem,
-                    container: elem.parents('.new-line')
-                };
-                setTimeout(function () {
-                    map.enableDragging(); //两秒后开启拖拽
-                }, 2000);
-                map.addEventListener("click", function (e) {
-                    var pt = e.point, name = $(this.Va).attr('id');
-                    geoc.getLocation(pt, function (rs) {
-                        var addComp = rs.addressComponents;
-                        $('#formContainer').find('input[name="' + name + '"]').val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+            $('.location').length && $.getScript('http://api.map.baidu.com/getscript?v=2.0&ak=RYnRcuE36wXyOBTAv9S9gZiim33KaYM7&services=&t='+(new Date).getTime()).done(function () {
+                geolocation = new BMap.Geolocation();
+                geoc = new BMap.Geocoder();
+                setLocation = function (map, getLocation) {
+                    geoc.getPoint(getLocation, function (point) {
+                        if (point) {
+                            maps[map].map.clearOverlays();
+                            maps[map].map.centerAndZoom(point, 16);
+                            maps[map].map.addOverlay(new BMap.Marker(point));
+                        } else {
+                            alert("您选择地址没有解析到结果!");
+                        }
                     });
+                }
+                myLoc = function (map) {
+                    geolocation.getCurrentPosition(function (r) {
+                        if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                            var pt = r.point;
+                            geoc.getLocation(pt, function (result) {
+                                if (result) {
+                                    maps[map].map.clearOverlays();
+                                    maps[map].map.centerAndZoom(pt, 16);
+                                    maps[map].map.addOverlay(new BMap.Marker(pt));
+                                    var addComp = result.addressComponents;
+                                    maps[map].elem.val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+                                }
+                            });
+                        }
+                    });
+                }
+
+                var map, name, elem;
+                $('.location').each(function () {
+                    name = $(this).attr('id');
+                    map = new BMap.Map(name);
+                    map.centerAndZoom(new BMap.Point(121.491, 31.233), 11);
+                    map.enableScrollWheelZoom(true); //缩放
+                    elem = $('#formContainer').find('input[name="' + name + '"]');
+                    maps[name] = {
+                        map: map,
+                        elem: elem,
+                        container: elem.parents('.new-line')
+                    };
+                    setTimeout(function () {
+                        map.enableDragging(); //两秒后开启拖拽
+                    }, 2000);
+                    map.addEventListener("click", function (e) {
+                        var pt = e.point, name = $(this.Va).attr('id');
+                        geoc.getLocation(pt, function (rs) {
+                            var addComp = rs.addressComponents;
+                            $('#formContainer').find('input[name="' + name + '"]').val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+                        });
+                    });
+                    myLoc(name);
                 });
-                myLoc(name);
             });
         }());
     })

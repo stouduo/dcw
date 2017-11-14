@@ -94,7 +94,9 @@ form .layui-form-item {
 	margin-bottom: 10px;
 	border: 1px solid #ccc;
 }
-
+.layui-input{
+	height: 34px;
+}
 form .layui-input {
 	border: 1px solid #5FB878;
 }
@@ -115,7 +117,7 @@ form .layui-input {
 }
 
 .form-container {
-	width: 90%;
+	/*width: 90%;*/
 	padding-bottom: 50px;
 	margin-bottom: 20px;
 	border: 1px solid #ccc;

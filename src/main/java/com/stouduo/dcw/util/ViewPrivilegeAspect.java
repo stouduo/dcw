@@ -29,15 +29,21 @@ public class ViewPrivilegeAspect {
         Object[] args = pjp.getArgs();
         Form form = formRepository.findOne((String) args[0]);
         Model model = (Model) args[1];
+        if (form.getAuthor().equals(SecurityUtil.getUsername()))
+            return pjp.proceed();
         if (methodName.equals("viewForm")) {
-            if (form.getSubmitPrivilege().equals(Const.PEOPLE_OF_ALL) || form.getAuthor().equals(SecurityUtil.getUsername())) {
+            if (!form.getCollectFlag()) {
+                model.addAttribute("error", "对不起，保单已停止收集数据！");
+                return "msg";
+            }
+            if (form.getSubmitPrivilege().equals(Const.PEOPLE_OF_ALL)) {
                 return pjp.proceed();
             } else {
                 model.addAttribute("error", "对不起，该表单不公开！");
                 return "msg";
             }
         } else {
-            if (form.getResultShow().equals(Const.PEOPLE_OF_ALL) || form.getAuthor().equals(SecurityUtil.getUsername())) {
+            if (form.getResultShow().equals(Const.PEOPLE_OF_ALL)) {
                 return pjp.proceed();
             } else {
                 model.addAttribute("error", "对不起，该结果不公开！");

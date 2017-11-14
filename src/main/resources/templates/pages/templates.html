@@ -488,7 +488,7 @@
                     <option value="">{{d.value.defaultslt}}</option>
                     {{#layui.each(d.value.selects,function(i){}}
                     <option value="{{d.value.selects[i]}}"
-                            {{d.value.checked==d.value.selects[i]?'disabled':''}}>
+                            {{d.value.checked==d.value.selects[i]?'selected':''}}>
                         {{d.value.selects[i]}}
                     </option>
                     {{#});}}

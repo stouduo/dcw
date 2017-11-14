@@ -12,10 +12,7 @@
 
 <body>
 <div class="layui-row">
-    <div class="layui-col-md3 layui-col-xs3" style="height: 1px;">
-        <!--这个元素是占位的-->
-    </div>
-    <div class="layui-col-xs6 layui-col-md6">
+    <div class="layui-col-md-offset3 layui-col-xs-offset3 layui-col-xs6 layui-col-md6">
         <div class="grid-demo">
             <!--表单放这-->
             <!--<section class="formEditorView">-->
@@ -54,45 +51,12 @@
 <script th:src="@{/layui/layui.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/jquery-3.2.1.min.js}" type="text/javascript" charset="utf-8"></script>
 <script th:src="@{/js/Util.js}" type="text/javascript" charset="utf-8"></script>
-<script src="http://api.map.baidu.com/api?v=2.0&ak=mfZGQrMfwBXfdLgIQaaFH0cS1kBKu11p"
-        type="text/javascript"></script>
-<script type="text/javascript">
-    var maps = {}, geolocation = new BMap.Geolocation(), geoc = new BMap.Geocoder();
-
-    function setLocation(map, getLocation) {
-        geoc.getPoint(getLocation, function (point) {
-            if (point) {
-                maps[map].map.clearOverlays();
-                maps[map].map.centerAndZoom(point, 16);
-                maps[map].map.addOverlay(new BMap.Marker(point));
-            } else {
-                alert("您选择地址没有解析到结果!");
-            }
-        });
-    }
-
-    function myLoc(map) {
-        geolocation.getCurrentPosition(function (r) {
-            if (this.getStatus() == BMAP_STATUS_SUCCESS) {
-                var pt = r.point;
-                geoc.getLocation(pt, function (result) {
-                    if (result) {
-                        maps[map].map.clearOverlays();
-                        maps[map].map.centerAndZoom(pt, 16);
-                        maps[map].map.addOverlay(new BMap.Marker(pt));
-                        var addComp = result.addressComponents;
-                        maps[map].elem.val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
-                    }
-                });
-            }
-        });
-    }
-</script>
 <script th:inline="javascript">
     var formId = [[${formDetail.form.id}]];
     var props = [[${formDetail.formProperties}]];
 </script>
 <script type="text/javascript">
+    var maps = {}, geolocation, geoc ,setLocation,myLoc;
     layui.use(['table', 'layer', 'element', 'form', 'upload', 'laydate'], function () {
         var element = layui.element;
         var layer = layui.layer;
@@ -509,29 +473,61 @@
                 });
                 init();
             });
-            var map, name, elem;
-            $('.location').each(function () {
-                name = $(this).attr('id');
-                map = new BMap.Map(name);
-                map.centerAndZoom(new BMap.Point(121.491, 31.233), 11);
-                map.enableScrollWheelZoom(true); //缩放
-                elem = $('#formContainer').find('input[name="' + name + '"]');
-                maps[name] = {
-                    map: map,
-                    elem: elem,
-                    container: elem.parents('.new-line')
-                };
-                setTimeout(function () {
-                    map.enableDragging(); //两秒后开启拖拽
-                }, 2000);
-                map.addEventListener("click", function (e) {
-                    var pt = e.point, name = $(this.Va).attr('id');
-                    geoc.getLocation(pt, function (rs) {
-                        var addComp = rs.addressComponents;
-                        $('#formContainer').find('input[name="' + name + '"]').val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+            $('.location').length && $.getScript('http://api.map.baidu.com/getscript?v=2.0&ak=RYnRcuE36wXyOBTAv9S9gZiim33KaYM7&services=&t='+(new Date).getTime()).done(function () {
+                geolocation = new BMap.Geolocation();
+                geoc = new BMap.Geocoder();
+                setLocation = function (map, getLocation) {
+                    geoc.getPoint(getLocation, function (point) {
+                        if (point) {
+                            maps[map].map.clearOverlays();
+                            maps[map].map.centerAndZoom(point, 16);
+                            maps[map].map.addOverlay(new BMap.Marker(point));
+                        } else {
+                            alert("您选择地址没有解析到结果!");
+                        }
                     });
+                }
+                myLoc = function (map) {
+                    geolocation.getCurrentPosition(function (r) {
+                        if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                            var pt = r.point;
+                            geoc.getLocation(pt, function (result) {
+                                if (result) {
+                                    maps[map].map.clearOverlays();
+                                    maps[map].map.centerAndZoom(pt, 16);
+                                    maps[map].map.addOverlay(new BMap.Marker(pt));
+                                    var addComp = result.addressComponents;
+                                    maps[map].elem.val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+                                }
+                            });
+                        }
+                    });
+                }
+
+                var map, name, elem;
+                $('.location').each(function () {
+                    name = $(this).attr('id');
+                    map = new BMap.Map(name);
+                    map.centerAndZoom(new BMap.Point(121.491, 31.233), 11);
+                    map.enableScrollWheelZoom(true); //缩放
+                    elem = $('#formContainer').find('input[name="' + name + '"]');
+                    maps[name] = {
+                        map: map,
+                        elem: elem,
+                        container: elem.parents('.new-line')
+                    };
+                    setTimeout(function () {
+                        map.enableDragging(); //两秒后开启拖拽
+                    }, 2000);
+                    map.addEventListener("click", function (e) {
+                        var pt = e.point, name = $(this.Va).attr('id');
+                        geoc.getLocation(pt, function (rs) {
+                            var addComp = rs.addressComponents;
+                            $('#formContainer').find('input[name="' + name + '"]').val(addComp.province + addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+                        });
+                    });
+                    myLoc(name);
                 });
-                myLoc(name);
             });
         }());
     });
