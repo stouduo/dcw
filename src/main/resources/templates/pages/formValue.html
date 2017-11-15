@@ -488,7 +488,7 @@
             });
         }
 
-        var $html, name, $form = $('#formContainer').html('<input type="hidden" name="id"/>');
+        var $html, name, $form = $('#formContainer');
         props && layui.each(props, function (i, prop) {
                 name = prop.id;
                 prop.value = JSON.parse(prop.value);
