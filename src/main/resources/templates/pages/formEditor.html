@@ -9,9 +9,10 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/shuju.css}"/>
 </head>
 <style type="text/css">
-    .layui-input{
+    .layui-input {
         height: 30px;
     }
+
     .clearfix:after {
         content: '';
         clear: both;
@@ -290,17 +291,48 @@
                             </section>
                         </div>
                         <div class="layui-col-md4">
-                            <section class="add-field" >
+                            <section class="add-field">
                                 <div class="layui-tab layui-tab-card">
                                     <ul class="layui-tab-title">
                                         <li class="layui-this">添加字段</li>
                                         <li id="editorTab">编辑字段</li>
                                         <!--<li>表单样式</li>-->
                                     </ul>
-                                    <div class="layui-tab-content"  >
+                                    <div class="layui-tab-content">
                                         <div class="layui-tab-item layui-show">
 
                                             <div class="layui-row layui-col-space10">
+                                                <div class="layui-col-md6 field-item" draggable="true">
+                                                    <div class="grid-demo layui-bg-gray" templateName="tel">
+                                                        <i class="layui-icon">&#xe63b;</i>&nbsp;&nbsp;手机号
+                                                    </div>
+                                                </div>
+                                                <div class="layui-col-md6 field-item" draggable="true">
+                                                    <div class="grid-demo layui-bg-gray" templateName="phone">
+                                                        <i class="layui-icon">&#xe63a;</i>&nbsp;&nbsp;固定电话
+                                                    </div>
+                                                </div>
+
+                                                <div class="layui-col-md6 field-item" draggable="true">
+                                                    <div class="grid-demo layui-bg-gray" templateName="identity">
+                                                        <i class="layui-icon">&#xe612;</i>&nbsp;&nbsp;身份证
+                                                    </div>
+                                                </div>
+                                                <div class="layui-col-md6 field-item" draggable="true">
+                                                    <div class="grid-demo layui-bg-gray" templateName="email">
+                                                        <i class="layui-icon">&#xe606;</i>&nbsp;&nbsp;邮箱
+                                                    </div>
+                                                </div>
+                                                <div class="layui-col-md6 field-item" draggable="true">
+                                                    <div class="grid-demo layui-bg-gray" templateName="address">
+                                                        <i class="layui-icon">&#xe62a;</i>&nbsp;&nbsp;地址
+                                                    </div>
+                                                </div>
+                                                <div class="layui-col-md6 field-item" draggable="true">
+                                                    <div class="grid-demo layui-bg-gray" templateName="location">
+                                                        <i class="layui-icon">&#xe715;</i>&nbsp;&nbsp;地理位置
+                                                    </div>
+                                                </div>
                                                 <div class="layui-col-md6 field-item" draggable="true">
                                                     <div class="grid-demo layui-bg-gray" templateName="singletext">
                                                         <i class="layui-icon">&#xe642;</i>&nbsp;&nbsp;单行文字
@@ -377,16 +409,6 @@
                                                 <!--<i class="layui-icon">&#xe705;</i>&nbsp;&nbsp;分页-->
                                                 <!--</div>-->
                                                 <!--</div>-->
-                                                <div class="layui-col-md6 field-item" draggable="true">
-                                                    <div class="grid-demo layui-bg-gray" templateName="address">
-                                                        <i class="layui-icon">&#xe62a;</i>&nbsp;&nbsp;地址
-                                                    </div>
-                                                </div>
-                                                <div class="layui-col-md6 field-item" draggable="true">
-                                                    <div class="grid-demo layui-bg-gray" templateName="location">
-                                                        <i class="layui-icon">&#xe715;</i>&nbsp;&nbsp;地理位置
-                                                    </div>
-                                                </div>
 
                                                 <div class="layui-col-md6 field-item" draggable="true">
                                                     <div class="grid-demo layui-bg-gray" templateName="urlfield">
@@ -415,7 +437,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="layui-tab-item" >
+                                        <div class="layui-tab-item">
                                             <form class="layui-form">
                                                 <div id="editor"></div>
                                                 <!--内容2 控制器-->
@@ -423,7 +445,7 @@
                                                 <div class="layui-form-item leftfoot-btn">
                                                     <div class="layui-input-block">
                                                         <button class="layui-btn" lay-submit type="submit"
-                                                                lay-filter="saveProp">
+                                                                lay-filter="saveProp" id="saveProp">
                                                             保存字段
                                                         </button>
                                                         <button class="layui-btn layui-btn-normal" id="saveForm">提交表单
@@ -1006,6 +1028,82 @@
                 ''
         }
         ,
+        tel: {
+            type: 'tel',
+            value:
+                {
+                    verify: {
+                        required: false,
+                        msg:
+                            {
+                                checked: false, val:
+                                ''
+                            }
+                    }
+                }
+            ,
+            name: '',
+            des:
+                ''
+        }
+        ,
+        phone: {
+            type: 'phone',
+            value:
+                {
+                    verify: {
+                        required: false,
+                        msg:
+                            {
+                                checked: false, val:
+                                ''
+                            }
+                    }
+                }
+            ,
+            name: '',
+            des:
+                ''
+        }
+        ,
+        email: {
+            type: 'email',
+            value:
+                {
+                    verify: {
+                        required: false,
+                        msg:
+                            {
+                                checked: false, val:
+                                ''
+                            }
+                    }
+                }
+            ,
+            name: '',
+            des:
+                ''
+        }
+        ,
+        identity: {
+            type: 'identity',
+            value:
+                {
+                    verify: {
+                        required: false,
+                        msg:
+                            {
+                                checked: false, val:
+                                ''
+                            }
+                    }
+                }
+            ,
+            name: '',
+            des:
+                ''
+        }
+        ,
         markfield: {
             type: 'markfield',
             value:
@@ -1146,7 +1244,6 @@
                 }
             });
             $(parentNode).after(elem);
-
             form.render('radio');
             form.render('checkbox');
         }).on('click', '.delselect', function () {
@@ -1159,6 +1256,7 @@
             parentNode && parentNode.remove();
             parentNode = null;
             $.get('/formValue/delImg', {imgPath: imgPath});
+            $('#saveProp').click();
         }).on('change', '.date', function () {
             $('#' + $(this).attr('to')).val($(this).val());
         }).on('click', '.markicon', function () {
@@ -1168,7 +1266,22 @@
                 else $(this).removeAttr('style');
             });
             $('#icon').val(icon + 1);
-        }).on('blur','');
+            $('#saveProp').click();
+        }).on('blur', 'input', function () {
+            if (!$(this).prop('readonly'))
+                $('#saveProp').click();
+        });
+
+        form.on('radio(save)', function () {
+            $('#saveProp').click();
+        });
+        form.on('checkbox(save)', function () {
+            $('#saveProp').click();
+        });
+        form.on('select(save)', function () {
+            $('#saveProp').click();
+        });
+
         form.on('select(fileTypeslt)', function (data) {
             var fileTypeslt = $(data.elem).val();
             var $file = $('#file');
@@ -1178,12 +1291,14 @@
                 $file.hide();
                 $file.find('input').val('');
             }
+            $('#saveProp').click();
         });
         form.on('select(dateslt)', function (data) {
             var $elem = $(data.elem.parentNode.nextSibling.nextSibling);
             $elem.children().hide();
             $elem.find('input').val('');
             $elem.find('#' + data.value).show();
+            if (data.value == '1') $('#saveProp').click();
         });
         var $form = $('.formEditorView>div>form').on('click', '.new-line', function (e) {
             if (!e.isDefaultPrevented()) {
@@ -1200,9 +1315,13 @@
                             elem: elem,
                             done: function (value, date, endDate) {
                                 $('#' + $(elem).attr('to')).val(value);
+                                $('#saveProp').click();
                             }
                         });
                     });
+                    editOptions.change = function (html) {
+                        $('#saveProp').click();
+                    };
                     layedit.setContent(layedit.build($editor.find('textarea')[0], editOptions), thisProp.des);
                     form.render();
                     $('#editorTab').click();
@@ -1221,6 +1340,7 @@
                             $('#imgs').append(html)
                         });
                         form.render();
+                        $('#saveProp').click();
                     }
                 });
             }

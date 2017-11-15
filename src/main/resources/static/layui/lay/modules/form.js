@@ -24,7 +24,7 @@ layui.define('layer', function (exports) {
                         /[\S]+/
                         , '必填项不能为空'
                     ]
-                    , phone: [
+                    , tel: [
                         /^1\d{10}$/
                         , '请输入正确的手机号'
                     ]
@@ -46,6 +46,10 @@ layui.define('layer', function (exports) {
                     , identity: [
                         /(^\d{15}$)|(^\d{17}(x|X|\d)$)/
                         , '请输入正确的身份证号'
+                    ],
+                    phone:[
+                        /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/
+                        ,'请输入正确的电话号码'
                     ]
                 }
             };

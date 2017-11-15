@@ -207,6 +207,7 @@ layui.define(['layer', 'form'], function(exports){
       }
     }).on('keyup',function () {
         textArea.value = body.html();
+        set.change&&set.change(textArea.value);
     });
 
     //给textarea同步内容

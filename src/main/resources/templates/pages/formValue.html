@@ -262,7 +262,13 @@
         </div>
     </div>
 </div>
-<form class="lay-hide layui-form  form-container" id="formContainer">
+<form class="lay-hide layui-form layui-row form-container" id="formContainer">
+    <input type="hidden" name="id"/>
+    <div class="layui-row">
+        <div class="layui-col-xs6 col0" ></div>
+        <div class="layui-col-xs6 col1" ></div>
+    </div>
+
 </form>
 <div class="lay-hide layui-form layui-form-item" id="showCol">
 </div>
@@ -488,7 +494,7 @@
                 prop.value = JSON.parse(prop.value);
                 laytpl($('#' + prop.type).html()).render(prop, function (html) {
                     $html = $(html);
-                    $form.append($html);
+                    $form.find('.col'+i%2).append($html);
                     switch (prop.type) {
                         case "multiselected":
                             var select = {}, s;
@@ -824,7 +830,7 @@
                 title: '添加数据',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
-                area: ['860px', '700px'],
+                area: ['1060px', '650px'],
                 content: $addData,
                 btn: ['确定', '取消'],
                 btnAlign: 'l', //按钮排列 左对齐
@@ -960,7 +966,7 @@
                 title: '数据详情',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
-                area: ['860px', '700px'],
+                area: ['1060px', '650px'],
                 content: $editData,
                 btn: ['修改', '删除'],
                 btnAlign: 'l', //按钮排列 左对齐

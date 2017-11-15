@@ -352,14 +352,14 @@
 <div class="lay-hide layui-form-item" id="editData">
     <!--<input type="submit" lay-submit lay-filter="editData" value="提交"/>-->
     <div class="layui-row">
-        <div class="layui-col-xs8">
+        <div class="layui-col-xs10">
             <div class="grid-demo">
                 <!--表单放这-->
                 <section class="formEditorView">
                 </section>
             </div>
         </div>
-        <div class="layui-col-xs4">
+        <div class="layui-col-xs2">
             <div class="grid-demo grid-demo-bg2 ">提交人：<span class="other" name="author"></span></div>
             <div class="grid-demo grid-demo-bg2 ">提交时间：<span class="other" name="createTime"></span></div>
             <div class="grid-demo grid-demo-bg2 ">修改人：<span class="other" name="lastModifyPerson"></span></div>
@@ -376,11 +376,18 @@
         <div class="grid-demo">
             <!--表单放这-->
             <section class="formEditorView">
+
             </section>
         </div>
     </div>
 </div>
-<form class="lay-hide layui-form  form-container" id="formContainer">
+<form class="lay-hide layui-form layui-row form-container" id="formContainer">
+    <input type="hidden" name="id"/>
+    <div class="layui-row">
+        <div class="layui-col-xs6 col0" ></div>
+        <div class="layui-col-xs6 col1" ></div>
+    </div>
+
 </form>
 <div class="lay-hide layui-form layui-form-item" id="showCol">
 </div>
@@ -439,13 +446,13 @@
         var laytpl = layui.laytpl;
         var upload = layui.upload;
         var laydate = layui.laydate;
-        var $html, name, $form = $('#formContainer').html('<input type="hidden" name="id"/>');
+        var $html, name, $form = $('#formContainer');
         props && layui.each(props, function (i, prop) {
                 name = prop.id;
                 prop.value = JSON.parse(prop.value);
                 laytpl($('#' + prop.type).html()).render(prop, function (html) {
                     $html = $(html);
-                    $form.append($html);
+                    $form.find('.col'+i%2).append($html);
                     switch (prop.type) {
                         case "multiselected":
                             var select = {}, s;
@@ -839,7 +846,7 @@
                 title: '添加数据',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
-                area: ['860px', '700px'],
+                area: ['1060px', '650px'],
                 content: $addData,
                 btn: ['确定', '取消'],
                 btnAlign: 'l', //按钮排列 左对齐
@@ -1011,7 +1018,7 @@
                 title: '数据详情',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
-                area: ['860px', '700px'],
+                area: ['1060px', '650px'],
                 content: $editData,
                 btn: ['修改', '删除'],
                 btnAlign: 'l', //按钮排列 左对齐
