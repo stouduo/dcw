@@ -345,6 +345,7 @@
         var upload = layui.upload;
         var laydate = layui.laydate;
         //展示已知数据
+        var todayStr = new Date().Format('yyyy-MM-dd ');
         var formData = table.render({
             elem: '#q-data-table',
             url: '/formValue/formDatas',
@@ -352,8 +353,8 @@
             cols: cols,
             where: {
                 formId: formId,
-                startTime: today ? new Date().Format('yyyy-MM-dd HH:mm:ss') : '',
-                endTime: today ? new Date().Format('yyyy-MM-dd HH:mm:ss') : ''
+                startTime: today ? (todayStr+"00:00:00") : '',
+                endTime: today ? (todayStr+"23:59:59") : ''
             },
             method: 'get',
             request: {

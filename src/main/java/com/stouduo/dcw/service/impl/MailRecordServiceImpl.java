@@ -1,11 +1,16 @@
 package com.stouduo.dcw.service.impl;
 
 import com.stouduo.dcw.domain.MailRecord;
+import com.stouduo.dcw.events.MailEvent;
+import com.stouduo.dcw.events.MailEventObj;
 import com.stouduo.dcw.repository.MailRecordRepository;
 import com.stouduo.dcw.service.MailRecordService;
 import com.stouduo.dcw.service.MailService;
 import com.stouduo.dcw.util.MD5Util;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,11 +20,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class MailRecordServiceImpl implements MailRecordService {
+public class MailRecordServiceImpl implements MailRecordService{
     @Autowired
     private MailRecordRepository mailRecordRepository;
     @Autowired
     private MailService mailService;
+    @Autowired
+    private ApplicationContext context;
 
     @Override
     @Transactional
@@ -39,7 +46,12 @@ public class MailRecordServiceImpl implements MailRecordService {
         mailRecord.setEmail(email);
         mailRecord.setToken(model.get("token").toString());
         mailRecord.setInvalid(false);
-        mailService.sendTemplateMail(email, tplPath, model);
+        MailEventObj obj = new MailEventObj();
+        obj.setEmail(email);
+        obj.setModel(model);
+        obj.setTplPath(tplPath);
+        context.publishEvent(new MailEvent(obj));
+//        mailService.sendTemplateMail(email, tplPath, model);
         return mailRecordRepository.save(mailRecord);
     }
 
@@ -56,4 +68,5 @@ public class MailRecordServiceImpl implements MailRecordService {
         mailRecordRepository.save(record);
         return record != null && !invalid && gc.getTime().before(record.getCreateTime());
     }
+
 }

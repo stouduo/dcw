@@ -9,4 +9,6 @@ public interface SMSService {
     Object[] sendSms(String tel) throws ClientException, Exception;
 
     int sendSMS(String tel) throws Exception;
+
+    void send(int code ,String tel)throws Exception;
 }
