@@ -49,6 +49,9 @@ public class UserController extends BaseController {
 
     @PostMapping("/signup/info")
     public String getEmail(HttpSession session, String captchaCode, String username, Model model) {
+        session.removeAttribute("email");
+        session.removeAttribute("code");
+        session.removeAttribute("tel");
         try {
             String captcha = (String) session.getAttribute("captcha");
             if (StringUtils.isEmpty(captchaCode) || !captcha.equals(captchaCode)) {
