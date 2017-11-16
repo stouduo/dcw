@@ -42,4 +42,7 @@ public interface FormValueRepository extends PagingAndSortingRepository<FormValu
 
     @Query("select fv from FormValue fv where fv.form=:form and fv.del=false")
     Page<FormValue> findAllByForm(@Param("form") String formId, Pageable page);
+
+    @Query("select count(id) from FormValue fv where fv.submitIP=:submitIP and del=false")
+    long findSubmitCount(@Param("submitIP") String ipAddress);
 }
