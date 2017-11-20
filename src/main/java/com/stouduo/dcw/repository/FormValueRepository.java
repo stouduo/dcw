@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 public interface FormValueRepository extends PagingAndSortingRepository<FormValue, String> {
-    @Query(nativeQuery = true, value = "SELECT * FROM formvalue fv WHERE fv.form=:form AND del=FALSE LIMIT 30")
+    @Query(nativeQuery = true, value = "SELECT * FROM formvalue fv WHERE fv.form=:form AND del=FALSE order by fv.createTime desc LIMIT 30")
     List<FormValue> findRecentByForm(@Param("form") String form);
 
     @Query("select count(id) from FormValue where form=:form and del=false")

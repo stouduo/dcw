@@ -38,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
 //                .antMatchers("/**").permitAll()
                 .antMatchers("/layui/**","/css/**", "/js/**","/images/**").permitAll()
-                .antMatchers("/tosignup","/register","/user/captcha","/form/view/**", "/form/result/**", "/user/signup/**", "/user/active").permitAll()
+                .antMatchers("/tosignup","/register","/formValue/submit","/user/captcha","/form/view/**", "/form/result/**", "/user/signup/**", "/user/active").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").successForwardUrl("/user/loginSuccess").failureUrl("/login?error").permitAll()
 //                .and().rememberMe().rememberMeParameter("rememberMe").tokenValiditySeconds(60 * 60 * 24 * 7).rememberMeCookieName("dcw")
