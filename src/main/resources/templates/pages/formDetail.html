@@ -8,9 +8,10 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/gaishu.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/css/shuju.css}"/>
     <style type="text/css">
-        .layui-input{
+        .layui-input {
             height: 30px;
         }
+
         .clearfix:after {
             content: '';
             clear: both;
@@ -352,14 +353,14 @@
 <div class="lay-hide layui-form-item" id="editData">
     <!--<input type="submit" lay-submit lay-filter="editData" value="提交"/>-->
     <div class="layui-row">
-        <div class="layui-col-xs10">
+        <div class="layui-col-xs8">
             <div class="grid-demo">
                 <!--表单放这-->
                 <section class="formEditorView">
                 </section>
             </div>
         </div>
-        <div class="layui-col-xs2">
+        <div class="layui-col-xs4">
             <div class="grid-demo grid-demo-bg2 ">提交人：<span class="other" name="author"></span></div>
             <div class="grid-demo grid-demo-bg2 ">提交时间：<span class="other" name="createTime"></span></div>
             <div class="grid-demo grid-demo-bg2 ">修改人：<span class="other" name="lastModifyPerson"></span></div>
@@ -383,11 +384,8 @@
 </div>
 <form class="lay-hide layui-form layui-row form-container" id="formContainer">
     <input type="hidden" name="id"/>
-    <div class="layui-row">
-        <div class="layui-col-xs6 col0" ></div>
-        <div class="layui-col-xs6 col1" ></div>
+    <div class="propsContent">
     </div>
-
 </form>
 <div class="lay-hide layui-form layui-form-item" id="showCol">
 </div>
@@ -452,7 +450,7 @@
                 prop.value = JSON.parse(prop.value);
                 laytpl($('#' + prop.type).html()).render(prop, function (html) {
                     $html = $(html);
-                    $form.find('.col'+i%2).append($html);
+                    $form.find('.propsContent').append($html);
                     switch (prop.type) {
                         case "multiselected":
                             var select = {}, s;
@@ -846,7 +844,7 @@
                 title: '添加数据',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
-                area: ['1060px', 'auto'],
+                area: ['860px', 'auto'],
                 content: $addData,
                 btn: ['确定', '取消'],
                 btnAlign: 'l', //按钮排列 左对齐
@@ -1018,9 +1016,9 @@
                 title: '数据详情',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
-                area: ['1060px', 'auto'],
+                area: ['860px', 'auto'],
                 content: $editData,
-                btn: ['修改', '删除'],
+                btn: ['修改', '删除', '导出数据'],
                 btnAlign: 'l', //按钮排列 左对齐
                 yes: function (index, layero) { //或者使用btn1
                     if (addData('editData')) {
@@ -1034,6 +1032,10 @@
                         $form.hide();
                         layer.msg(data.msg, {time: 3000});
                     });
+                },
+                btn3: function (index) {
+                    window.open('/formValue/outport/' + record.id+"?formId="+formId);
+                    layer.msg('导出成功', {time: 3000});
                 }
             });
         });
@@ -1119,7 +1121,7 @@
                 });
                 init();
             });
-            $('.location').length && $.getScript('http://api.map.baidu.com/getscript?v=2.0&ak=RYnRcuE36wXyOBTAv9S9gZiim33KaYM7&services=&t='+(new Date).getTime()).done(function () {
+            $('.location').length && $.getScript('http://api.map.baidu.com/getscript?v=2.0&ak=RYnRcuE36wXyOBTAv9S9gZiim33KaYM7&services=&t=' + (new Date).getTime()).done(function () {
                 geolocation = new BMap.Geolocation();
                 geoc = new BMap.Geocoder();
                 setLocation = function (map, getLocation) {

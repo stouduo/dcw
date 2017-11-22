@@ -45,4 +45,7 @@ public interface FormValueRepository extends PagingAndSortingRepository<FormValu
 
     @Query("select count(id) from FormValue fv where fv.submitIP=:submitIP and del=false")
     long findSubmitCount(@Param("submitIP") String ipAddress);
+
+    @Query("select fv from FormValue fv where fv.id=:id and fv.del=false")
+    List<FormValue> findById(@Param("id")String id);
 }

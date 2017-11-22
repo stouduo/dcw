@@ -264,9 +264,7 @@
 </div>
 <form class="lay-hide layui-form layui-row form-container" id="formContainer">
     <input type="hidden" name="id"/>
-    <div class="layui-row">
-        <div class="layui-col-xs6 col0" ></div>
-        <div class="layui-col-xs6 col1" ></div>
+    <div class="propsContent">
     </div>
 
 </form>
@@ -495,7 +493,7 @@
                 prop.value = JSON.parse(prop.value);
                 laytpl($('#' + prop.type).html()).render(prop, function (html) {
                     $html = $(html);
-                    $form.find('.col'+i%2).append($html);
+                    $form.find('.propsContent').append($html);
                     switch (prop.type) {
                         case "multiselected":
                             var select = {}, s;
@@ -831,7 +829,7 @@
                 title: '添加数据',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
-                area: ['1060px', '650px'],
+                area: ['860px', 'auto'],
                 content: $addData,
                 btn: ['确定', '取消'],
                 btnAlign: 'l', //按钮排列 左对齐
@@ -967,9 +965,9 @@
                 title: '数据详情',
                 maxmin: true,
                 shadeClose: true, //点击遮罩关闭层
-                area: ['1060px', '650px'],
+                area: ['860px', 'auto'],
                 content: $editData,
-                btn: ['修改', '删除'],
+                btn: ['修改', '删除','导出数据'],
                 btnAlign: 'l', //按钮排列 左对齐
                 yes: function (index, layero) { //或者使用btn1
                     if (addData('editData')) {
@@ -983,7 +981,12 @@
                         $form.hide();
                         layer.msg(data.msg, {time: 3000});
                     });
+                },
+                btn3: function (index) {
+                    window.open('/formValue/outport/' + record.id+"?formId="+formId);
+                    layer.msg('导出成功', {time: 3000});
                 }
+
             });
         });
         (function () {

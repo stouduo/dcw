@@ -23,4 +23,6 @@ public interface FormValueService {
     void importExcel(MultipartFile file, String formId) throws Exception;
 
     FormDetailVO myFormData(String formId);
+
+    void outportOne(HttpServletResponse response, String id,String formId) throws ExcelException;
 }

@@ -84,11 +84,22 @@ public class FormValueController extends BaseController {
     @GetMapping("/outport")
     public void outport(HttpServletResponse response, @RequestParam(defaultValue = "") String content, String formId, @RequestParam(defaultValue = "1970-01-01 00:00:00") String startTime, String endTime, @RequestParam(defaultValue = "0") int asc, @RequestParam(defaultValue = "0") int pageSize, @RequestParam(defaultValue = "0") int curPage) {
         try {
-            formValueService.outport(response,formId, content, startTime, StringUtils.isEmpty(endTime) ? new Date() : sdf.parse(endTime), asc, pageSize, curPage - 1);
+            formValueService.outport(response, formId, content, startTime, StringUtils.isEmpty(endTime) ? new Date() : sdf.parse(endTime), asc, pageSize, curPage - 1);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
+    @GetMapping("/outport/{id}")
+    public void outport(HttpServletResponse response,String formId, @PathVariable("id") String id) {
+        try {
+            formValueService.outportOne(response,id, formId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @PostMapping("/import")
     @ResponseBody

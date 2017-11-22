@@ -136,4 +136,23 @@ public class FormValueServiceImpl implements FormValueService {
         formDetailVO.setFormProperties(formPropertyRepository.findAllByForm(formId));
         return formDetailVO;
     }
+
+    @Override
+    public void outportOne(HttpServletResponse response, String id,String formId) throws ExcelException {
+        Form form = formRepository.findOne(formId);
+        List<FormValue> formValues = formValueRepository.findById(id);
+        List<FormProperty> formProperties = formPropertyRepository.findByForm(formId);
+        List<String> fieldNames = new ArrayList<>();
+        for (FormProperty property : formProperties) {
+            fieldNames.add(property.getName());
+        }
+        fieldNames.add("提交人");
+        fieldNames.add("修改人");
+        fieldNames.add("提交时间");
+        fieldNames.add("修改时间");
+        fieldNames.add("浏览器");
+        fieldNames.add("操作系统");
+        fieldNames.add("IP");
+        ExcelUtil.listToExcel(formValues, "Sheet1", fieldNames, formProperties, form.getTitle(), response);
+    }
 }
